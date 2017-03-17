@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">WallaCHANGE</string>
+
+    <!--edit profile-->
+    <string name="username_eng">Username</string>
+    <string name="city_eng">City</string>
+    <string name="products_eng">Products</string>
+    <string name="preference_eng">Preference</string>
+    <string name="rating_eng">Rating</string>
+
 </resources>
