@@ -1,0 +1,125 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.upc.pes.wallachange.FragmentAddElement">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <TableRow >
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Afegir fotografia"
+                android:textStyle="bold"
+                />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_photo_camera_black_24dp"
+                android:background="@null"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Titol de l'anunci"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                />
+        </TableRow>
+        <TableRow>
+            <EditText android:id="@+id/titolAnunci" android:layout_weight="1"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Descripcio"
+                android:textStyle="bold"
+
+                />
+        </TableRow>
+
+            <EditText
+            android:inputType="textMultiLine"
+            android:lines="8"
+            android:minLines="6"
+            android:gravity="top|left"
+            android:maxLines="10"
+            android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+            android:scrollbars="vertical"
+                android:id="@+id/descripcio"
+            />
+
+        <TableRow>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Categoria"
+                android:textStyle="bold"
+                />
+            <Spinner android:id="@+id/categoria"></Spinner>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Tipus de producte"
+                android:textStyle="bold"
+                />
+            <RadioGroup
+                android:layout_width="wrap_content"
+                >
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Producte"
+                    />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Experiencia"
+                    />
+            </RadioGroup>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Tipus d'intercanvi"
+                android:textStyle="bold"
+                />
+            <RadioGroup>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Permanent"
+                    />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Temporal"
+                    />
+            </RadioGroup>
+        </TableRow>
+        <TableRow
+            android:gravity="center">
+            <ImageButton
+                android:id="@+id/afegirElement"
+                android:src="@android:drawable/ic_input_add"
+                android:layout_gravity="center"
+                />
+        </TableRow>
+
+    </TableLayout>
+
+</FrameLayout>
