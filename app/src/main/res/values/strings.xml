@@ -4,4 +4,25 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_login">LoginActivity</string>
+
+    <!-- GLOBAL -->
+
+    <string name="lenguage_eng">eng</string>
+    <string name="lenguage_esp">esp</string>
+
+    <!-- NAVIGATION DRAWER -->
+    <string name="navigationHome_eng">eng</string>
+    <string name="navigationHome_esp">esp</string>
+    <string name="navigationLogout_eng">eng</string>
+    <string name="navigationLogout_esp">esp</string>
+
+    <!-- LOGIN ACTIVITY -->
+
+    <string name="errorIncorrectLogin_eng">Login with Twitter failure</string>
+    <string name="errorIncorrectLogin_esp">Fallo al hacer login con Twitter</string>
+    <string name="errorAuthoritedEmail_eng">Email not authorited</string>
+    <string name="errorAuthoritedEmail_esp">Email no autorizado</string>
+
+    <!-- MAIN ACTIVITY -->
+
 </resources>
