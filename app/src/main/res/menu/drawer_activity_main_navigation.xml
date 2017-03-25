@@ -8,6 +8,6 @@
             android:title="@string/navigationHome_eng" />
         <item
             android:id="@+id/navigationLogout"
-            android:title="@string/navigationLogout_esp" />
+            android:title="@string/navigationLogout_eng" />
     </group>
 </menu>

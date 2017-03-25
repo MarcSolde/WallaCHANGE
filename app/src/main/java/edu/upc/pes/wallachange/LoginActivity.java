@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +31,9 @@ import io.fabric.sdk.android.Fabric;
 
 public class LoginActivity extends AppCompatActivity {
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "6YPYzTVYffWUgukyKkaNry1Lg";
-    private static final String TWITTER_SECRET = "ea81fYjYJsa2RcqlA5H3QmZ9RKxoQZtgmg0bNdFlzVVanBOj4Q";
+    private static final String TWITTER_KEY = "TQlRNpBSUpJiaRU8DuMo5NroW";
+    private static final String TWITTER_SECRET = "E3UhAV8mcqIQITDtz73o7xIZAWbkhWH3NmoVWn5x76g1WAryN5";
 
-    private TextView loginInfo;
     private TwitterLoginButton twLoginButton;
     private LoginButton fbLoginButton;
     CallbackManager callbackManager;
@@ -63,6 +63,8 @@ public class LoginActivity extends AppCompatActivity {
         }
         else lenguage = prefLenguage;
 
+        Log.i("LOGIN","Login");
+
         twLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
         twLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
@@ -88,47 +90,39 @@ public class LoginActivity extends AppCompatActivity {
                 });
                 **/
                 //TODO: Database
+                Log.i("LOGIN","Login ok");
                 login(name);
             }
             @Override
             public void failure(TwitterException exception) {
-                //TODO: Get preferences
-                if (lenguage.equals(getString(R.string.lenguage_eng))) Toast.makeText(getApplicationContext(),R.string.errorIncorrectLogin_eng, Toast.LENGTH_LONG).show();
-                else Toast.makeText(getApplicationContext(),R.string.errorIncorrectLogin_esp, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),R.string.errorIncorrectLogin_eng, Toast.LENGTH_LONG).show();
+                login("Pepe");
             }
         });
 
-        loginInfo = (TextView)findViewById(R.id.loginInfo);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
-
         fbLoginButton = (LoginButton) findViewById(R.id.fb_login_button);
         fbLoginButton.setReadPermissions("email");
-        // If using in a fragment
-        //loginButton.setFragment(this);
 
-        // Callback registration
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                loginInfo.setText(
-                        "User ID: "
-                                + loginResult.getAccessToken().getUserId()
-                                + "\n" +
-                                "Auth Token: "
-                                + loginResult.getAccessToken().getToken()
-                );
+                //TODO:revisar getUserId devuelve nombre o id
+                String name = loginResult.getAccessToken().getUserId();
+                String token = loginResult.getAccessToken().getToken();
+                login(name);
             }
 
             @Override
             public void onCancel() {
-                loginInfo.setText("Login attempt canceled.");
+                //TODO:
             }
 
             @Override
             public void onError(FacebookException exception) {
-                loginInfo.setText("Login attempt failed.");
+                //TODO:
             }
         });
 
@@ -149,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Log.i("LOGIN","Login to Main");
         startActivity(intent);
     }
 }
