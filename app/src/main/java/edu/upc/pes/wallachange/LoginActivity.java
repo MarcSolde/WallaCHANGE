@@ -6,13 +6,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.twitter.sdk.android.Twitter;
@@ -24,6 +27,8 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+
+import org.json.JSONException;
 
 import java.util.Locale;
 
@@ -74,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                 TwitterSession session = result.data;
                 String name = session.getUserName();
                 TwitterAuthToken token = session.getAuthToken();
-                /**
+
                 TwitterAuthClient authClient = new TwitterAuthClient();
                 authClient.requestEmail(session, new Callback<String>() {
                     @Override
@@ -88,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Email not authorited", Toast.LENGTH_LONG).show();
                     }
                 });
-                **/
+
                 //TODO: Database
                 Log.i("LOGIN","Login ok");
                 login(name);
@@ -104,25 +109,27 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
 
         fbLoginButton = (LoginButton) findViewById(R.id.fb_login_button);
-        fbLoginButton.setReadPermissions("email");
+        fbLoginButton.setReadPermissions("public_profile");
 
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 //TODO:revisar getUserId devuelve nombre o id
-                String name = loginResult.getAccessToken().getUserId();
-                String token = loginResult.getAccessToken().getToken();
-                login(name);
+                //String name = accessToken.getUserId();
+                //token
+                fbLogin(loginResult.getAccessToken());
             }
 
             @Override
             public void onCancel() {
                 //TODO:
+                Toast.makeText(getApplicationContext(), "login cancelled", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onError(FacebookException exception) {
                 //TODO:
+                Toast.makeText(getApplicationContext(), "Error login", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -135,6 +142,26 @@ public class LoginActivity extends AppCompatActivity {
         // Activity that it triggered.
         twLoginButton.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void fbLogin(AccessToken accessToken){
+        new GraphRequest(
+                accessToken,
+                "/{user-id}",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        /* handle the result */
+                        try {
+                            Log.d("JSONResponse",response.getJSONArray().toString());
+                            login(response.getJSONObject().getJSONObject("data").getString("name"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        ).executeAsync();
     }
 
     private void login (String name) {
