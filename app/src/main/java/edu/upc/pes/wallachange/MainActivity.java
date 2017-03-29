@@ -99,5 +99,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

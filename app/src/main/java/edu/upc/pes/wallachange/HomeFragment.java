@@ -4,7 +4,6 @@ package edu.upc.pes.wallachange;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ public class HomeFragment extends Fragment {
         myActivity = (MainActivity) getActivity();
         myActivity.setTitle(R.string.navigationHome_eng);
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        Log.i("HOME","Create ok");
         return view;
     }
 }

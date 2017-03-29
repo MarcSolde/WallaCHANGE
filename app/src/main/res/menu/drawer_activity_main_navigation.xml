@@ -7,13 +7,13 @@
             android:id="@+id/navigationMain"
             android:title="@string/navigationHome_eng" />
         <item
-            android:id="@+id/navigationLogout"
-            android:title="@string/navigationLogout_eng" />
-        <item
             android:id="@+id/navigationNewItem"
             android:title="@string/navigationNewItem_eng" />
         <item
             android:id="@+id/navigationProfile"
             android:title="@string/navigationProfile_eng" />
+        <item
+            android:id="@+id/navigationLogout"
+            android:title="@string/navigationLogout_eng" />
     </group>
 </menu>

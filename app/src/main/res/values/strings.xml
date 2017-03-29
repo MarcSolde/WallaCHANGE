@@ -13,6 +13,7 @@
     <string name="lenguage_esp">esp</string>
 
     <!-- NAVIGATION DRAWER -->
+
     <string name="navigationHome_eng">Home</string>
     <string name="navigationNewItem_eng">New Item</string>
     <string name="navigationProfile_eng">Profile</string>
@@ -33,5 +34,8 @@
 
     <!-- MAIN ACTIVITY -->
 
+    <!-- HOME FRAGMENT -->
+
+    <string name="homeWelcome_eng">Welcome</string>
 
 </resources>
