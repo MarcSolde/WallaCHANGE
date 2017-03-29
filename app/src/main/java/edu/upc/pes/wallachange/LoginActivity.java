@@ -8,14 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.twitter.sdk.android.Twitter;
@@ -29,7 +26,9 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 import edu.upc.pes.wallachange.Twitter.CallbackTwitter;
@@ -74,11 +73,12 @@ public class LoginActivity extends AppCompatActivity {
         twLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
         twLoginButton.setCallback(new CallbackTwitter(this));
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
+        //FacebookSdk.sdkInitialize(getApplicationContext());
 
         fbLoginButton = (LoginButton) findViewById(R.id.fb_login_button);
-        fbLoginButton.setReadPermissions("public_profile");
+        fbLoginButton.setReadPermissions(Arrays.asList(
+                    "public_profile", "email", "user_birthday", "user_friends"));
+        callbackManager = CallbackManager.Factory.create();
 
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -86,7 +86,30 @@ public class LoginActivity extends AppCompatActivity {
                 //TODO:revisar getUserId devuelve nombre o id
                 //String name = accessToken.getUserId();
                 //token
-                fbLogin(loginResult.getAccessToken());
+                //fbLogin(loginResult.getAccessToken());
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Log.v("LoginActivity", response.toString());
+
+                                // Application code
+                                try{
+                                    String email = object.getString("email");
+                                    String birthday = object.getString("birthday");
+                                    String name = object.getString("name");
+                                    login(name);
+                                }catch (JSONException e){
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender,birthday");
+                request.setParameters(parameters);
+                request.executeAsync();
             }
 
             @Override
@@ -113,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void fbLogin(AccessToken accessToken){
+    /*private void fbLogin(AccessToken accessToken){
         new GraphRequest(
                 accessToken,
                 "/{user-id}",
@@ -121,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
-                        /* handle the result */
+                        // handle the result
                         try {
                             Log.d("JSONResponse",response.getJSONArray().toString());
                             login(response.getJSONObject().getJSONObject("data").getString("name"));
@@ -131,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
         ).executeAsync();
-    }
+    }*/
 
     public void login (String name) {
         Intent intent = new Intent(this,MainActivity.class);
