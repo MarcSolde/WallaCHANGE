@@ -32,6 +32,7 @@ import org.json.JSONException;
 
 import java.util.Locale;
 
+import edu.upc.pes.wallachange.Twitter.CallbackTwitter;
 import io.fabric.sdk.android.Fabric;
 
 public class LoginActivity extends AppCompatActivity {
@@ -71,39 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.i("LOGIN","Login");
 
         twLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
-        twLoginButton.setCallback(new Callback<TwitterSession>() {
-            @Override
-            public void success(Result<TwitterSession> result) {
-                // The TwitterSession is also available through:
-                // Twitter.getInstance().core.getSessionManager().getActiveSession()
-                TwitterSession session = result.data;
-                String name = session.getUserName();
-                TwitterAuthToken token = session.getAuthToken();
-
-                TwitterAuthClient authClient = new TwitterAuthClient();
-                authClient.requestEmail(session, new Callback<String>() {
-                    @Override
-                    public void success(Result<String> result) {
-                        String email = result.data;
-                        Toast.makeText(getApplicationContext(),email, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void failure(TwitterException exception) {
-                        Toast.makeText(getApplicationContext(), "Email not authorited", Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                //TODO: Database
-                Log.i("LOGIN","Login ok");
-                login(name);
-            }
-            @Override
-            public void failure(TwitterException exception) {
-                Toast.makeText(getApplicationContext(),R.string.errorIncorrectLogin_eng, Toast.LENGTH_LONG).show();
-                login("Pepe");
-            }
-        });
+        twLoginButton.setCallback(new CallbackTwitter(this));
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -164,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
         ).executeAsync();
     }
 
-    private void login (String name) {
+    public void login (String name) {
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("user",name);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

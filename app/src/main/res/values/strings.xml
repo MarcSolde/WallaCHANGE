@@ -14,6 +14,8 @@
 
     <!-- NAVIGATION DRAWER -->
     <string name="navigationHome_eng">Home</string>
+    <string name="navigationNewItem_eng">New Item</string>
+    <string name="navigationProfile_eng">Profile</string>
     <string name="navigationLogout_eng">Log out</string>
 
     <string name="navigationOpen">Open navigation drawer</string>
