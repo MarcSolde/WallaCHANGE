@@ -3,21 +3,17 @@ package edu.upc.pes.wallachange;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
-
-import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private HomeFragment homeFragment;
@@ -41,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myDrawer = (DrawerLayout) findViewById(R.id.drawerLayout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, myDrawer, myToolbar, R.string.navigationOpen, R.string.navigationClose);
-        myDrawer.setDrawerListener(toggle);
+        //myDrawer.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
