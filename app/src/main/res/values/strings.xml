@@ -6,6 +6,16 @@
     <string name="city_eng">City</string>
     <string name="products_eng">Products</string>
     <string name="preference_eng">Preference</string>
+    <string name="preferences_eng">Preferences</string>
     <string name="rating_eng">Rating</string>
+    <string name="createProfile_eng">Create</string>
+    <string name="saveProfile_eng">Save</string>
+    <string name="cancelProfile_eng">Cancel</string>
+    <string name="errorExistingPref_eng">Existing preference</string>
+    <string name="errorEmptyField_eng">This field is empty</string>
+
+
+
+
 
 </resources>
