@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private HomeFragment homeFragment;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         myFragmentManager = getFragmentManager();
@@ -53,6 +55,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
         textUser.setText("User: "+user);
         Log.i("MAIN","Set text ok");
+
+        FragmentManager myFragmentManager = getFragmentManager();
+
+        FragmentAddElement fragmentAddElement = new FragmentAddElement();
+
+        myFragmentManager.beginTransaction().replace(R.id.fragment, fragmentAddElement).commit();
+
     }
 
     @Override
