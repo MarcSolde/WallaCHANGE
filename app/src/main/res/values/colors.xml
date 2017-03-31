@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorStars">#ffb266</color>
+    <color name="grey">#606060</color>
     <color name="colorPrimary3">#E57373</color> <!--red 300-->
     <color name="colorPrimary2">#EF5350</color> <!--red 400-->
     <color name="colorPrimary">#F44336</color> <!--red 500-->
