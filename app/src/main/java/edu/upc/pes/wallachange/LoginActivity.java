@@ -16,13 +16,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterAuthToken;
-import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.TwitterSession;
-import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import org.json.JSONException;
@@ -31,13 +25,10 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.Locale;
 
+import edu.upc.pes.wallachange.LoginSystem.CallbackTwitter;
 import io.fabric.sdk.android.Fabric;
 
 public class LoginActivity extends AppCompatActivity {
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "TQlRNpBSUpJiaRU8DuMo5NroW";
-    private static final String TWITTER_SECRET = "E3UhAV8mcqIQITDtz73o7xIZAWbkhWH3NmoVWn5x76g1WAryN5";
-
     private TwitterLoginButton twLoginButton;
     private LoginButton fbLoginButton;
     CallbackManager callbackManager;
@@ -46,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(getResources().getString(R.string.twitterKey), getResources().getString(R.string.twitterSecret));
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_login);
 
@@ -67,42 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         }
         else lenguage = prefLenguage;
 
-        Log.i("LOGIN","Login");
-
         twLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
-        twLoginButton.setCallback(new Callback<TwitterSession>() {
-            @Override
-            public void success(Result<TwitterSession> result) {
-                // The TwitterSession is also available through:
-                // Twitter.getInstance().core.getSessionManager().getActiveSession()
-                TwitterSession session = result.data;
-                String name = session.getUserName();
-                TwitterAuthToken token = session.getAuthToken();
-
-                TwitterAuthClient authClient = new TwitterAuthClient();
-                authClient.requestEmail(session, new Callback<String>() {
-                    @Override
-                    public void success(Result<String> result) {
-                        String email = result.data;
-                        Toast.makeText(getApplicationContext(),email, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void failure(TwitterException exception) {
-                        Toast.makeText(getApplicationContext(), "Email not authorited", Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                //TODO: Database
-                Log.i("LOGIN","Login ok");
-                login(name);
-            }
-            @Override
-            public void failure(TwitterException exception) {
-                Toast.makeText(getApplicationContext(),R.string.errorIncorrectLogin_eng, Toast.LENGTH_LONG).show();
-                login("Pepe");
-            }
-        });
+        twLoginButton.setCallback(new CallbackTwitter(this));
 
         //FacebookSdk.sdkInitialize(getApplicationContext());
 
@@ -132,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                                     String email = object.getString("email");
                                     String birthday = object.getString("birthday");
                                     String name = object.getString("name");
+                                    //TODO:login(1,name,"","");
                                     String gender = object.getString("gender");
                                     String id = object.getString("id");
                                     login(name);
@@ -191,7 +149,8 @@ public class LoginActivity extends AppCompatActivity {
         ).executeAsync();
     }*/
 
-    private void login (String name) {
+    public void login (Long id, String name, String token ,String secret) {
+        //TODO:database
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("user",name);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

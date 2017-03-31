@@ -89,11 +89,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 AlertDialog dialog2 = alertBuilder2.create();
                 dialog2.show();
                 break;
+            case R.id.navigationNewItem:
+                break;
+            case R.id.navigationProfile:
+                break;
             default:
                 break;
         }
         myDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }
