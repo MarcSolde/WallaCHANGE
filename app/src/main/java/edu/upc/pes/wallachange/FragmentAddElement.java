@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -17,11 +18,8 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +49,8 @@ public class FragmentAddElement extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         fragmentAddElementView =  inflater.inflate(R.layout.fragment_add_element,container, false);
         myActivity = (MainActivity) getActivity();
+        myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        myActivity.setTitle(R.string.navigationNewItem_eng);
         img = (GridLayout) fragmentAddElementView.findViewById(R.id.imatgesMiniatura);
         miniatureImagesView = inflater.inflate(R.layout.grid_view_miniature_images,null);
         nombreImatges = 0;

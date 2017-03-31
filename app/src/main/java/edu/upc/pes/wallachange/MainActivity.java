@@ -14,12 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private HomeFragment homeFragment;
 
     private FragmentManager myFragmentManager;
+    private FragmentAddElement myFragmentAddElement;
     private DrawerLayout myDrawer;
     private String user;
 
@@ -55,12 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
         textUser.setText("User: "+user);
         Log.i("MAIN","Set text ok");
-
-        FragmentManager myFragmentManager = getFragmentManager();
-
-        FragmentAddElement fragmentAddElement = new FragmentAddElement();
-
-        myFragmentManager.beginTransaction().replace(R.id.fragment, fragmentAddElement).commit();
 
     }
 
@@ -99,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog2.show();
                 break;
             case R.id.navigationNewItem:
+                myFragmentAddElement = new FragmentAddElement();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, myFragmentAddElement).commit();
                 break;
             case R.id.navigationProfile:
                 break;
