@@ -118,6 +118,8 @@ public class LoginActivity extends AppCompatActivity {
                 //String name = accessToken.getUserId();
                 //token
                 //fbLogin(loginResult.getAccessToken());
+                String Token = loginResult.getAccessToken().getToken();
+                
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -130,6 +132,8 @@ public class LoginActivity extends AppCompatActivity {
                                     String email = object.getString("email");
                                     String birthday = object.getString("birthday");
                                     String name = object.getString("name");
+                                    String gender = object.getString("gender");
+                                    String id = object.getString("id");
                                     login(name);
                                 }catch (JSONException e){
                                     e.printStackTrace();
