@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="grey">#606060</color>
     <color name="colorStars">#ffb266</color>
-
-
+    <color name="grey">#606060</color>
+    <color name="colorPrimary3">#E57373</color> <!--red 300-->
+    <color name="colorPrimary2">#EF5350</color> <!--red 400-->
+    <color name="colorPrimary">#F44336</color> <!--red 500-->
+    <color name="colorPrimaryDark">#D32F2F</color> <!--red 700-->
+    <color name="colorAccent">#66BB6A</color> <!--green 400-->
+    <color name="colorWallachange">#ED1C40</color> <!--color icono wallachange-->
 </resources>

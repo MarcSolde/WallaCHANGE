@@ -1,6 +1,69 @@
 <resources>
     <string name="app_name">WallaCHANGE</string>
 
+    <string name="facebook_app_id">331745477228111</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <!--<string name="hello_blank_fragment">Hello blank fragment</string>-->
+    <string name="title_activity_login">LoginActivity</string>
+
+    <!-- GLOBAL -->
+
+    <string name="lenguage_eng">eng</string>
+    <string name="lenguage_esp">esp</string>
+
+    <!-- NAVIGATION DRAWER -->
+
+    <string name="navigationHome_eng">Home</string>
+    <string name="navigationNewItem_eng">New Item</string>
+    <string name="navigationProfile_eng">Profile</string>
+    <string name="navigationLogout_eng">Log out</string>
+
+    <string name="navigationOpen">Open navigation drawer</string>
+    <string name="navigationClose">Close navigation drawer</string>
+
+    <string name="logout_dialog_1">Log out</string>
+    <string name="logout_dialog_2">Desea salir?</string>
+    <string name="logout_dialog_3">Salir</string>
+    <string name="logout_dialog_4">Cancelar</string>
+
+    <!-- LOGIN ACTIVITY -->
+    <string name="twitterKey">TQlRNpBSUpJiaRU8DuMo5NroW</string>
+    <string name="twitterSecret">E3UhAV8mcqIQITDtz73o7xIZAWbkhWH3NmoVWn5x76g1WAryN5</string>
+
+    <string name="errorIncorrectLogin_eng">Login with Twitter failure</string>
+    <string name="errorAuthEmail_eng">Email not authorited</string>
+    <string name="loginWallachange">WALLACHANGE</string>
+
+    <!-- MAIN ACTIVITY -->
+
+    <!-- HOME FRAGMENT -->
+
+    <string name="homeWelcome_eng">Welcome</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- Add element -->
+    <string name="add_picture_eng">Add pictures</string>
+    <string name="advertisement_title_eng">Advertisement\'s title</string>
+    <string name="description_eng" >Description</string>
+    <string name="category_eng" >Category</string>
+    <string name="type_of_product_eng" >Type of product</string>
+    <string name="type_of_exchange_eng" >Type of exchange</string>
+    <string name="product_eng" >Product</string>
+    <string name="experience_eng" >Experience</string>
+    <string name="permanent_eng" >Permanent</string>
+    <string name="temporal_eng" >Temporal</string>
+    <string name="duration_of_exchange_eng" >Duration of exchange</string>
+    <string name="the_advertisement_must_have_a_title_eng" >The advertisement must have a title</string>
+    <string name="these_fields_must_be_filled_eng" >These fields must be filled</string>
+    <string name="at_least_one_image_eng" >At least one image</string>
+
+
+
     <!--edit profile-->
     <string name="username_eng">Username</string>
     <string name="city_eng">City</string>
