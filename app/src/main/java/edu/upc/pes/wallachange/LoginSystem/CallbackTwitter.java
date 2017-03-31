@@ -12,10 +12,6 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import edu.upc.pes.wallachange.LoginActivity;
 import edu.upc.pes.wallachange.R;
 
-/**
- * Created by Jordi Fructos on 29/03/2017.
- */
-
 public class CallbackTwitter extends com.twitter.sdk.android.core.Callback<TwitterSession> {
     private LoginActivity myActivity;
 
@@ -28,25 +24,25 @@ public class CallbackTwitter extends com.twitter.sdk.android.core.Callback<Twitt
             // The TwitterSession is also available through:
             // Twitter.getInstance().core.getSessionManager().getActiveSession()
             TwitterSession session = result.data;
-            String name = session.getUserName();
-            TwitterAuthToken token = session.getAuthToken();
-
+            final String name = session.getUserName();
+            final TwitterAuthToken token = session.getAuthToken();
+            myActivity.login(session.getUserId(),session.getUserName(),session.getAuthToken().token,session.getAuthToken().secret);
+            /*
             TwitterAuthClient authClient = new TwitterAuthClient();
             authClient.requestEmail(session, new Callback<String>() {
                 @Override
                 public void success(Result<String> result) {
                         String email = result.data;
-                        Toast.makeText(myActivity,email, Toast.LENGTH_LONG).show();
+                        myActivity.login(name,String.valueOf(token),email);
+
                 }
 
                 @Override
                 public void failure(TwitterException exception) {
-                        Toast.makeText(myActivity, "Email not authorited", Toast.LENGTH_LONG).show();
+                        Toast.makeText(myActivity, R.string.errorAuthEmail_eng, Toast.LENGTH_LONG).show();
                 }
             });
-
-            //TODO: Database
-            myActivity.login(name);
+            */
     }
 
     @Override

@@ -29,10 +29,6 @@ import edu.upc.pes.wallachange.LoginSystem.CallbackTwitter;
 import io.fabric.sdk.android.Fabric;
 
 public class LoginActivity extends AppCompatActivity {
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "TQlRNpBSUpJiaRU8DuMo5NroW";
-    private static final String TWITTER_SECRET = "E3UhAV8mcqIQITDtz73o7xIZAWbkhWH3NmoVWn5x76g1WAryN5";
-
     private TwitterLoginButton twLoginButton;
     private LoginButton fbLoginButton;
     CallbackManager callbackManager;
@@ -41,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(getResources().getString(R.string.twitterKey), getResources().getString(R.string.twitterSecret));
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_login);
 
@@ -61,8 +57,6 @@ public class LoginActivity extends AppCompatActivity {
             editor.apply();
         }
         else lenguage = prefLenguage;
-
-        Log.i("LOGIN","Login");
 
         twLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
         twLoginButton.setCallback(new CallbackTwitter(this));
@@ -93,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                                     String email = object.getString("email");
                                     String birthday = object.getString("birthday");
                                     String name = object.getString("name");
-                                    login(name);
+                                    //TODO:login(1,name,"","");
                                 }catch (JSONException e){
                                     e.printStackTrace();
                                 }
@@ -150,7 +144,8 @@ public class LoginActivity extends AppCompatActivity {
         ).executeAsync();
     }*/
 
-    public void login (String name) {
+    public void login (Long id, String name, String token ,String secret) {
+        //TODO:database
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("user",name);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

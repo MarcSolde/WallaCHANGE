@@ -28,8 +28,11 @@
     <string name="logout_dialog_4">Cancelar</string>
 
     <!-- LOGIN ACTIVITY -->
+    <string name="twitterKey">TQlRNpBSUpJiaRU8DuMo5NroW</string>
+    <string name="twitterSecret">E3UhAV8mcqIQITDtz73o7xIZAWbkhWH3NmoVWn5x76g1WAryN5</string>
 
     <string name="errorIncorrectLogin_eng">Login with Twitter failure</string>
+    <string name="errorAuthEmail_eng">Email not authorited</string>
     <string name="loginWallachange">WALLACHANGE</string>
 
     <!-- MAIN ACTIVITY -->
