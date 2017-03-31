@@ -6,25 +6,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Arrays;
 import java.util.Locale;
 
+import edu.upc.pes.wallachange.LoginSystem.CallbackFacebook;
 import edu.upc.pes.wallachange.LoginSystem.CallbackTwitter;
 import io.fabric.sdk.android.Fabric;
 
@@ -68,50 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                     "public_profile", "email", "user_birthday", "user_friends"));
         callbackManager = CallbackManager.Factory.create();
 
-        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                //TODO:revisar getUserId devuelve nombre o id
-                //String name = accessToken.getUserId();
-                //token
-                //fbLogin(loginResult.getAccessToken());
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                Log.v("LoginActivity", response.toString());
-
-                                // Application code
-                                try{
-                                    String email = object.getString("email");
-                                    String birthday = object.getString("birthday");
-                                    String name = object.getString("name");
-                                    //TODO:login(1,name,"","");
-                                }catch (JSONException e){
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender,birthday");
-                request.setParameters(parameters);
-                request.executeAsync();
-            }
-
-            @Override
-            public void onCancel() {
-                //TODO:
-                Toast.makeText(getApplicationContext(), "login cancelled", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                //TODO:
-                Toast.makeText(getApplicationContext(), "Error login", Toast.LENGTH_LONG).show();
-            }
-        });
+        fbLoginButton.registerCallback(callbackManager, new CallbackFacebook(this));
 
     }
 
@@ -144,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         ).executeAsync();
     }*/
 
-    public void login (Long id, String name, String token ,String secret) {
+    public void login (String id, String name) {
         //TODO:database
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("user",name);
