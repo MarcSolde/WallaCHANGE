@@ -1,5 +1,7 @@
 package edu.upc.pes.wallachange;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 
 /**
@@ -7,20 +9,31 @@ import java.util.ArrayList;
  */
 
 public class Element {
+    private String id;
     private String titol;
     private String descripcio;
     private String categoria;
     private String tipusProducte;
     private String tipusIntercanvi;
-    private ArrayList<String> fotografies;
+    private String temporalitat;
+    private ArrayList<Uri> fotografies;
 
-    public Element(String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, ArrayList<String> fotografies) {
+    public Element(String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, ArrayList<Uri> fotografies) {
         this.titol = titol;
         this.descripcio = descripcio;
         this.categoria = categoria;
         this.tipusProducte = tipusProducte;
         this.tipusIntercanvi = tipusIntercanvi;
+        this.temporalitat = temporalitat;
         this.fotografies = fotografies;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitol() {
@@ -63,22 +76,24 @@ public class Element {
         this.tipusIntercanvi = tipusIntercanvi;
     }
 
-    public ArrayList<String> getFotografies() {
+    public ArrayList<Uri> getFotografies() {
         return fotografies;
     }
 
-    public void setFotografies(ArrayList<String> fotografies) {
+    public void setFotografies(ArrayList<Uri> fotografies) {
         this.fotografies = fotografies;
     }
 
     @Override
     public String toString() {
         return "Element{" +
-                "titol='" + titol + '\'' +
+                "id='" + id + '\'' +
+                ", titol='" + titol + '\'' +
                 ", descripcio='" + descripcio + '\'' +
                 ", categoria='" + categoria + '\'' +
                 ", tipusProducte='" + tipusProducte + '\'' +
                 ", tipusIntercanvi='" + tipusIntercanvi + '\'' +
+                ", temporalitat='" + temporalitat + '\'' +
                 ", fotografies=" + fotografies +
                 '}';
     }
