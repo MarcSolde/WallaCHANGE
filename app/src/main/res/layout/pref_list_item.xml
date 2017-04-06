@@ -16,6 +16,6 @@
         android:layout_width="wrap_content"
         android:background="@null"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/ic_action_close" />
+        app:srcCompat="@drawable/smaller_delete" />
 
 </GridLayout>

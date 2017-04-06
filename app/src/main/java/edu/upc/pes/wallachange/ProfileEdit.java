@@ -2,36 +2,22 @@ package edu.upc.pes.wallachange;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.net.URI;
 import java.util.ArrayList;
 
 
@@ -78,13 +64,13 @@ public class ProfileEdit extends Fragment  implements View.OnClickListener {
 
         //User de prova, li assigno els paràmetres
         //S'haurà d'esborrar en un futur
-        user.setUsername("ari.adna");
+        user.setUsername(myActivity.getUsername());
         user.setLocation("Sant Cugat");
         user.addPreference("esport");
         user.addPreference("patinatge");
         user.addPreference("skate");
         user.setRating(3);
-        Uri imgProva=Uri.parse("android.resource://edu.upc.pes.wallachange/"+R.drawable.ic_userpicture);
+        Uri imgProva=Uri.parse("android.resource://edu.upc.pes.wallachange/"+R.drawable.userpicture);
         user.setPicture(imgProva);
 
 
