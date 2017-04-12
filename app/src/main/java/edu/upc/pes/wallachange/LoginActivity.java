@@ -27,6 +27,12 @@ public class LoginActivity extends AppCompatActivity {
     private String lenguage;
 
     @Override
+    protected void onStart(){
+        super.onStart();
+        CallbackFacebook.checkLogin();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(getResources().getString(R.string.twitterKey), getResources().getString(R.string.twitterSecret));
@@ -65,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Make sure that the loginButton hears the result from any
         // Activity that it triggered.
