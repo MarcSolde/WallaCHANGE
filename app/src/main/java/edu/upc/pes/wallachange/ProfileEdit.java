@@ -21,41 +21,30 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 
-/**
- * Created by carlota on 17/3/17.
- */
+
 
 
 public class ProfileEdit extends Fragment  implements View.OnClickListener {
 
     private int PICK_IMAGE = 1;
     private MainActivity myActivity;
-    private View view;
+
     private User user;
 
-    private String username;
     private String location;
-    private String preference;
-    private Uri picture;
     private ArrayList<String> prefs;
 
     private PreferencesAdapter preferencesAdapter;
-    private ExpandableHeightGridView gridPrefs;
     private ImageView fotoPerfil;
-    private ImageView addPref;
     private EditText locationTE;
-    private RatingBar mRatingBar;
-    private TextView usernameField;
     private EditText editTextPref;
-    private ImageView cleanLocation;
-    private Button submitProfile;
     //private int rating;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-
+        View view;
         view = inflater.inflate(R.layout.profile_edit, container, false);
         myActivity = (MainActivity) getActivity();
 
@@ -73,6 +62,14 @@ public class ProfileEdit extends Fragment  implements View.OnClickListener {
         Uri imgProva=Uri.parse("android.resource://edu.upc.pes.wallachange/"+R.drawable.userpicture);
         user.setPicture(imgProva);
 
+        ExpandableHeightGridView gridPrefs;
+        ImageView addPref;
+
+        RatingBar mRatingBar;
+        TextView usernameField;
+        ImageView cleanLocation;
+        Button submitProfile;
+
 
         //get camps del layout
         fotoPerfil = (ImageView) view.findViewById(R.id.userPicture);
@@ -87,11 +84,12 @@ public class ProfileEdit extends Fragment  implements View.OnClickListener {
 
 
         //set camps del layout
+        String username;
         username = user.getUsername();
         usernameField.setText(username);
 
         fotoPerfil.setImageURI(null);
-        fotoPerfil.setImageURI(imgProva);
+        fotoPerfil.setImageURI(user.getPicture());
 
         location = user.getLocation();
         locationTE.setText(location);
@@ -190,7 +188,7 @@ public class ProfileEdit extends Fragment  implements View.OnClickListener {
     }
 
     public void decrementarNombrePrefs (ArrayList<String> newPrefs, String prefToDelete) {
-            prefs = (ArrayList<String>) newPrefs;
+            prefs = newPrefs;
             user.deletePreference(prefToDelete);
     }
 

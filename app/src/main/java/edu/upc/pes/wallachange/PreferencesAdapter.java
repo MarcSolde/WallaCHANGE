@@ -2,22 +2,18 @@ package edu.upc.pes.wallachange;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by carlota on 24/3/17.
- */
+
 
 public class PreferencesAdapter extends ArrayAdapter<String> {
 
@@ -26,16 +22,16 @@ public class PreferencesAdapter extends ArrayAdapter<String> {
     private ArrayList<String> data;
     private ProfileEdit callBack;
 
-    public PreferencesAdapter(@NonNull Context context, @LayoutRes int layoutResourceId, ArrayList<String> data) {
-        super(context, layoutResourceId, data);
-        this.layoutResourceId = layoutResourceId;
-        this.mContext = context;
-        this.data = data;
-        //this.callBack = profileEdit;
-    }
+//    public PreferencesAdapter(@NonNull Context context, @LayoutRes int layoutResourceId, ArrayList<String> data) {
+//        super(context, layoutResourceId, data);
+//        this.layoutResourceId = layoutResourceId;
+//        this.mContext = context;
+//        this.data = data;
+//        //this.callBack = profileEdit;
+//    }
 
 
-    public PreferencesAdapter(@NonNull Context context, @LayoutRes int layoutResourceId, ArrayList<String> data, ProfileEdit profileEdit) {
+    public PreferencesAdapter(Context context, int layoutResourceId, ArrayList<String> data, ProfileEdit profileEdit) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.mContext = context;
@@ -76,7 +72,7 @@ public class PreferencesAdapter extends ArrayAdapter<String> {
         String pref1 = data.get(position);
 
         TextView texttext = (TextView) convertView.findViewById(R.id.textViewPref);
-        texttext.setText(pref1.toString());
+        texttext.setText(pref1);
         /*final Uri uri = data.get(position);
         ImageView imatge = (ImageView) convertView.findViewById(R.id.imatgeMiniatura);
         Picasso.with(getContext()).load(uri).resize(100, 100).into(imatge);*/

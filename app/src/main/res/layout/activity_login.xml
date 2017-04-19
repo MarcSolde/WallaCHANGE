@@ -12,6 +12,7 @@
         android:layout_centerInParent="true"
         android:orientation="vertical">
         <ImageView
+            android:contentDescription="Logo Inici Wallachange"
             android:layout_width="400px"
             android:layout_height="400px"
             android:layout_marginBottom="20dp"

@@ -7,11 +7,10 @@
         android:id="@+id/textViewPref"
         android:layout_width="wrap_content"
         android:layout_height="15pt"
-        android:layout_weight="1"
         android:gravity="fill_vertical"
-        android:text="TextView"
         android:textSize="9pt" />
     <ImageButton
+        android:contentDescription="@string/contentDeleteImage"
         android:id="@+id/botoEsborrarPref"
         android:layout_width="wrap_content"
         android:background="@null"

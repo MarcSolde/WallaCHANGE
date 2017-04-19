@@ -14,9 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-/**
- * Created by Usuario on 20/03/2017.
- */
+
 
 public class ImatgesMiniaturaListViewAdapter extends ArrayAdapter<Uri> {
     private Context mContext;

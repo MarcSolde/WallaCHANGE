@@ -12,6 +12,9 @@
     <string name="lenguage_eng">eng</string>
     <string name="lenguage_esp">esp</string>
 
+    <!--MAIN-->
+    <string name="user_eng">User:</string>
+
     <!-- NAVIGATION DRAWER -->
 
     <string name="navigationHome_eng">Home</string>
@@ -65,18 +68,21 @@
 
 
     <!--edit profile-->
-    <string name="username_eng">Username</string>
+    <!--<string name="username_eng">Username</string>-->
     <string name="city_eng">City</string>
     <string name="products_eng">Products</string>
     <string name="preference_eng">Preference</string>
     <string name="preferences_eng">Preferences</string>
     <string name="rating_eng">Rating</string>
-    <string name="createProfile_eng">Create</string>
+    <!--<string name="createProfile_eng">Create</string>-->
     <string name="saveProfile_eng">Save</string>
     <string name="cancelProfile_eng">Cancel</string>
     <string name="errorExistingPref_eng">Existing preference</string>
     <string name="errorEmptyField_eng">This field is empty</string>
-
+    <string name="contentDeleteImage">contentDeleteImage</string>
+    <string name="userPicture">user picture</string>
+    <string name="clearEditText">clear edit text</string>
+    <string name="addPreference">add preference</string>
 
 
 
