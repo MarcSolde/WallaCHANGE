@@ -1,8 +1,6 @@
 package edu.upc.pes.wallachange;
 
-/**
- * Created by carlota on 29/3/17.
- */
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;

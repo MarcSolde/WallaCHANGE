@@ -13,6 +13,7 @@
         <item name="windowNoTitle">true</item>
     </style>
     -->
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -20,6 +21,10 @@
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">@color/colorStars</item>
         <item name="colorControlActivated">@color/colorStars</item>
+    </style>
+
+    <style name="Drawer">
+        <item name="android:textSize">16sp</item><!-- text size in menu-->
     </style>
 
 </resources>

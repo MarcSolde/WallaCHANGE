@@ -54,7 +54,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myFragmentManager.beginTransaction().replace(R.id.fragment,homeFragment).commit();
         Log.i("MAIN","Transaction ok");
         TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
-        textUser.setText("User: "+user);
+        String text = getResources().getString(R.string.user_eng);
+        text = text + " "+user;
+        textUser.setText(text);
         Log.i("MAIN","Set text ok");
 
     }
@@ -107,4 +109,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public String getUsername() {
+        return user;
+    }
+
 }

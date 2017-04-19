@@ -15,9 +15,7 @@ import org.json.JSONObject;
 
 import edu.upc.pes.wallachange.LoginActivity;
 
-/**
- * Created by sejo on 31/03/17.
- */
+
 
 public class CallbackFacebook implements FacebookCallback<LoginResult> {
     private LoginActivity myActivity;
