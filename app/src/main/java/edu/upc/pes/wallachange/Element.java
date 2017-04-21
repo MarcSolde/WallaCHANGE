@@ -14,6 +14,7 @@ public class Element {
     private String tipusProducte;
     private String tipusIntercanvi;
     private String temporalitat;
+    private String user;
     private ArrayList<Uri> fotografies;
 
     public Element(String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, ArrayList<Uri> fotografies) {
@@ -26,6 +27,9 @@ public class Element {
         this.fotografies = fotografies;
     }
 
+    public Element() {
+    }
+
     public String getId() {
         return id;
     }
@@ -34,10 +38,14 @@ public class Element {
         this.id = id;
     }
 
+    public void setUser(String user) {this.user = user;}
+
+    public String getUser() {
+        return user;
+    }
     public String getTitol() {
         return titol;
     }
-
     public void setTitol(String titol) {
         this.titol = titol;
     }

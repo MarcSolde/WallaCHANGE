@@ -56,14 +56,6 @@ public class PreferencesAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
 
-        /*View v = convertView;
-
-        if (v == null) {
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.pref_list_item, null);
-        }*/
-
         if(convertView==null){
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
             convertView = inflater.inflate(layoutResourceId, parent, false);

@@ -20,6 +20,7 @@
     <string name="navigationHome_eng">Home</string>
     <string name="navigationNewItem_eng">New Item</string>
     <string name="navigationProfile_eng">Profile</string>
+    <string name="navigationSearch_eng">Search</string>
     <string name="navigationLogout_eng">Log out</string>
 
     <string name="navigationOpen">Open navigation drawer</string>
@@ -83,6 +84,11 @@
     <string name="userPicture">user picture</string>
     <string name="clearEditText">clear edit text</string>
     <string name="addPreference">add preference</string>
+
+
+    <!--cercaElements-->
+    <string name="search_eng">Search...</string>
+
 
 
 
