@@ -84,6 +84,10 @@
     <string name="clearEditText">clear edit text</string>
     <string name="addPreference">add preference</string>
 
+    <!-- element filters -->
+    <string name="cancelFilters_eng">Cancel</string>
+    <string name="applyFilters_eng">Apply</string>
+
 
 
 
