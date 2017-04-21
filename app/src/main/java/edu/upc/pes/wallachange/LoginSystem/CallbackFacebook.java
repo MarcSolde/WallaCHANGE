@@ -51,6 +51,7 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
 
     public static void checkLogin() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        //myActivity.login(accessToken.getUserId(), accessToken.getToken());
         if (accessToken != null){
             GraphRequest request = GraphRequest.newMeRequest(accessToken, new CallbackGraphJSONObject(myActivity));
             Bundle parameters = new Bundle();
