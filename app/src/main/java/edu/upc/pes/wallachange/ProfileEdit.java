@@ -63,16 +63,15 @@ public class ProfileEdit extends Fragment  implements View.OnClickListener {
         user.setUsername(myActivity.getUsername());
 
         AdapterAPIRequest adapter = new AdapterAPIRequest();
-        adapter.GETJsonObjectRequestAPI("http://localhost:3000/user/"+"pepito", new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d("tagtag", response.toString());
-                locationTE.setText("OKEY!");
-
-
-
-            }
-        },
+        adapter.GETJsonObjectRequestAPI(
+                "http://localhost:3000/user/"+"pepito",
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("tagtag", response.toString());
+                        locationTE.setText("OKEY!");
+                    }
+                },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
