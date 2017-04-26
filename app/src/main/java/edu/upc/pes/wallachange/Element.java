@@ -4,9 +4,7 @@ import android.net.Uri;
 
 import java.util.ArrayList;
 
-/**
- * Created by Usuario on 16/03/2017.
- */
+
 
 public class Element {
     private String id;
