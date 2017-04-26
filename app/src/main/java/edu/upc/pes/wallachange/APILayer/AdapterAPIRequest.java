@@ -6,6 +6,7 @@ package edu.upc.pes.wallachange.APILayer;
 
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -17,7 +18,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class AdapterAPIRequest  {
 
-    public void GETStringRequstAPI(String url){
+    public void GETStringRequestAPI(String url){
 
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyStringRequest";
 
@@ -47,28 +47,20 @@ public class AdapterAPIRequest  {
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(strReq, REQUEST_TAG);
     }
 
-    public void GETJsonObjectRequestAPI(String url){
+
+    //BUENO
+    public void GETJsonObjectRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
 
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
 
 
-        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
 
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-            }
-        });
-
+        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(url, null, responseListener, errorListener);
         // Adding JsonObject request to request queue
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectReq,REQUEST_TAG);
+
     }
+    //YA NO BUENO
 
     public void GETJsonArrayRequestAPI(String url){
 
@@ -109,7 +101,67 @@ public class AdapterAPIRequest  {
         });
     }
 
-    public void POSTRequestAPI(String url) {
+    public void uploadImage(String url, final String image, final String name){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        //Logg message of the response
+                        Log.d(TAG, s);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        //Showing toast
+                        Log.e(TAG, "Image Upload Error: " + error.getMessage());
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                //Creating parameters
+                Map<String,String> params = new HashMap<String, String>();
+
+                //Adding parameters
+                params.put("KEY_IMAGE", image);
+                params.put("KEY_NAME", name);
+
+                //returning parameters
+                return params;
+            }
+        };
+        //TODO
+        //Creating a Request Queue
+        //RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        //Adding request to the queue
+        //requestQueue.add(stringRequest);
+    }
+
+    public void POSTImageUploaderAPI(String url){
+        //TODO:Entero
+        ImageLoader imageLoader = AppSingleton.getInstance(getApplicationContext()).getImageLoader();
+
+        imageLoader.get(url, new ImageLoader.ImageListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Image Load Error: " + error.getMessage());
+            }
+
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
+                if (response.getBitmap() != null) {
+
+                }
+            }
+        });
+    }
+
+    //TODO:body JSON?
+    void POSTRequestAPI(String url ) {
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyPOSTRequest";
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -118,6 +170,8 @@ public class AdapterAPIRequest  {
                     public void onResponse(String response) {
                         // response
                         Log.d("Response", response);
+
+
                     }
                 },
                 new Response.ErrorListener() {
