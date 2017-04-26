@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.facebook.CallbackManager;
+import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -20,11 +21,18 @@ import edu.upc.pes.wallachange.LoginSystem.CallbackFacebook;
 import edu.upc.pes.wallachange.LoginSystem.CallbackTwitter;
 import io.fabric.sdk.android.Fabric;
 
+
 public class LoginActivity extends AppCompatActivity {
     private TwitterLoginButton twLoginButton;
     private LoginButton fbLoginButton;
     CallbackManager callbackManager;
     private String lenguage;
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        CallbackFacebook.checkLogin();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Make sure that the loginButton hears the result from any
         // Activity that it triggered.
@@ -102,5 +110,10 @@ public class LoginActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         Log.i("LOGIN","Login to Main");
         startActivity(intent);
+    }
+
+    public static void logOut() {
+        LoginManager.getInstance().logOut();
+        Log.i("LOGIN","Logout from Main");
     }
 }
