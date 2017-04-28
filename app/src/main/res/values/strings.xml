@@ -12,11 +12,16 @@
     <string name="lenguage_eng">eng</string>
     <string name="lenguage_esp">esp</string>
 
+    <!--MAIN-->
+    <string name="user_eng">User:</string>
+
     <!-- NAVIGATION DRAWER -->
 
     <string name="navigationHome_eng">Home</string>
     <string name="navigationNewItem_eng">New Item</string>
     <string name="navigationProfile_eng">Profile</string>
+    <string name="navigationSearchItem_eng">Search Items</string>
+    <string name="navigationSearchUser_eng">Search Users</string>
     <string name="navigationLogout_eng">Log out</string>
 
     <string name="navigationOpen">Open navigation drawer</string>
@@ -35,12 +40,9 @@
     <string name="errorAuthEmail_eng">Email not authorited</string>
     <string name="loginWallachange">WALLACHANGE</string>
 
-    <!-- MAIN ACTIVITY -->
-
-    <!-- HOME FRAGMENT -->
-
-    <string name="homeWelcome_eng">Welcome</string>
-
+    <!-- SEARCH  -->
+    <string name="searchButton_eng">SEARCH</string>
+    <string name="filterButton_eng">FILTER</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -65,20 +67,6 @@
     <string name="advertisements_description_eng">Advertisement\'s description</string>
     <string name="advertisements_category_eng">Advertisement\'s category</string>
     <string name="this_field_is_required_eng">This field is required</string>
-
-    <!--edit profile-->
-    <string name="username_eng">Username</string>
-    <string name="city_eng">City</string>
-    <string name="products_eng">Products</string>
-    <string name="preference_eng">Preference</string>
-    <string name="preferences_eng">Preferences</string>
-    <string name="rating_eng">Rating</string>
-    <string name="createProfile_eng">Create</string>
-    <string name="saveProfile_eng">Save</string>
-    <string name="cancelProfile_eng">Cancel</string>
-    <string name="errorExistingPref_eng">Existing preference</string>
-    <string name="errorEmptyField_eng">This field is empty</string>
-    <string name="add_image_button_eng">Add image button</string>
     <string name="if_product_at_least_one_image_eng">If product, at least one image</string>
     <string name="created_by_eng">Created by</string>
     <string name="from_you_eng">from you</string>
@@ -86,5 +74,29 @@
     <string name="write_here_your_comment_eng">Write here your comment</string>
     <string name="advertisements_view">Advertisement\'s view</string>
     <string name="ok_eng">Ok</string>
+
+
+    <!--edit profile-->
+    <!--<string name="username_eng">Username</string>-->
+    <string name="city_eng">City</string>
+    <string name="products_eng">Products</string>
+    <string name="preference_eng">Preference</string>
+    <string name="preferences_eng">Preferences</string>
+    <string name="rating_eng">Rating</string>
+    <!--<string name="createProfile_eng">Create</string>-->
+    <string name="saveProfile_eng">Save</string>
+    <string name="cancelProfile_eng">Cancel</string>
+    <string name="errorExistingPref_eng">Existing preference</string>
+    <string name="errorEmptyField_eng">This field is empty</string>
+    <string name="add_image_button_eng">Add image button</string>
+    <string name="contentDeleteImage">contentDeleteImage</string>
+    <string name="userPicture">user picture</string>
+    <string name="clearEditText">clear edit text</string>
+    <string name="addPreference">add preference</string>
+
+
+    <!--searchElementFragment-->
+    <string name="search_eng">Search...</string>
+
 
 </resources>

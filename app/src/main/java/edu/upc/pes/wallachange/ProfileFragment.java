@@ -2,90 +2,121 @@ package edu.upc.pes.wallachange;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+
 import com.squareup.picasso.Picasso;
 
-import java.net.URI;
 import java.util.ArrayList;
 
+import edu.upc.pes.wallachange.Adapters.PreferencesAdapter;
+import edu.upc.pes.wallachange.Models.User;
+import edu.upc.pes.wallachange.Others.CircleTransform;
+import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
 
-/**
- * Created by carlota on 17/3/17.
- */
 
-
-public class ProfileEdit extends Fragment  implements View.OnClickListener {
+public class ProfileFragment extends Fragment  implements View.OnClickListener {
 
     private int PICK_IMAGE = 1;
     private MainActivity myActivity;
-    private View view;
+
     private User user;
 
-    private String username;
     private String location;
-    private String preference;
-    private Uri picture;
     private ArrayList<String> prefs;
 
     private PreferencesAdapter preferencesAdapter;
-    private ExpandableHeightGridView gridPrefs;
     private ImageView fotoPerfil;
-    private ImageView addPref;
     private EditText locationTE;
-    private RatingBar mRatingBar;
-    private TextView usernameField;
     private EditText editTextPref;
-    private ImageView cleanLocation;
-    private Button submitProfile;
     //private int rating;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-
-        view = inflater.inflate(R.layout.profile_edit, container, false);
+        View view;
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
         myActivity = (MainActivity) getActivity();
-
+        myActivity.setTitle(R.string.navigationProfile_eng);
         user = new User();
 
+        String username2 = myActivity.getUsername();
+
+//        /////////
+//        AppSingleton single = new AppSingleton(myActivity);
+//        AdapterAPIRequest adapter = new AdapterAPIRequest();
+//        RequestQueue rq = single.getInstance(myActivity);
+//        rq.start();
+////        /////////
+//        AdapterAPIRequest adapter = new AdapterAPIRequest();
+//        adapter.GETJsonObjectRequestAPI("http://localhost:3000/user/"+username2, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                Log.d("tagtag", response.toString());
+//
+//            }
+//        });
+//
+////
+////
 
         //User de prova, li assigno els paràmetres
         //S'haurà d'esborrar en un futur
-        user.setUsername("ari.adna");
+        user.setUsername(username2);
+/**
+        JSONObject js;
+
+        //User de prova, li assigno els paràmetres
+        //S'haurà d'esborrar en un futur
+        user.setUsername(myActivity.getUsername());
+
+        AdapterAPIRequest adapter = new AdapterAPIRequest();
+        adapter.GETJsonObjectRequestAPI(
+                "http://localhost:3000/user/"+"pepito",
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("tagtag", response.toString());
+                        locationTE.setText("OKEY!");
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                        locationTE.setText("Error");
+                    }
+                });
+
+**/
         user.setLocation("Sant Cugat");
         user.addPreference("esport");
         user.addPreference("patinatge");
         user.addPreference("skate");
         user.setRating(3);
-        Uri imgProva=Uri.parse("android.resource://edu.upc.pes.wallachange/"+R.drawable.ic_userpicture);
+        Uri imgProva=Uri.parse("android.resource://edu.upc.pes.wallachange/"+R.drawable.userpicture);
         user.setPicture(imgProva);
+
+        ExpandableHeightGridView gridPrefs;
+        ImageView addPref;
+
+        RatingBar mRatingBar;
+        TextView usernameField;
+        ImageView cleanLocation;
+        Button submitProfile;
 
 
         //get camps del layout
@@ -101,14 +132,15 @@ public class ProfileEdit extends Fragment  implements View.OnClickListener {
 
 
         //set camps del layout
+        String username;
         username = user.getUsername();
         usernameField.setText(username);
 
         fotoPerfil.setImageURI(null);
-        fotoPerfil.setImageURI(imgProva);
+        fotoPerfil.setImageURI(user.getPicture());
 
         location = user.getLocation();
-        locationTE.setText(location);
+        //locationTE.setText(location);
 
         mRatingBar.setRating(user.getRating());
         mRatingBar.setEnabled(false);
@@ -136,9 +168,6 @@ public class ProfileEdit extends Fragment  implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
-
-
             case R.id.userPicture:
                 Intent pickIntent;
                 if (Build.VERSION.SDK_INT >= 19) {
@@ -204,7 +233,7 @@ public class ProfileEdit extends Fragment  implements View.OnClickListener {
     }
 
     public void decrementarNombrePrefs (ArrayList<String> newPrefs, String prefToDelete) {
-            prefs = (ArrayList<String>) newPrefs;
+            prefs = newPrefs;
             user.deletePreference(prefToDelete);
     }
 

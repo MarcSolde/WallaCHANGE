@@ -4,6 +4,7 @@ package edu.upc.pes.wallachange.APILayer;
  * Created by sejo on 21/04/17.
  */
 
+
 import android.util.Log;
 
 import com.android.volley.Cache;
@@ -15,6 +16,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,73 +31,47 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class AdapterAPIRequest  {
 
-    public void GETStringRequstAPI(String url){
+
+
+    // GETERS
+    public void GETStringRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
 
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyStringRequest";
 
-        StringRequest strReq = new StringRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, response.toString());
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-            }
-        });
+        StringRequest strReq = new StringRequest(url, responseListener, errorListener);
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(strReq, REQUEST_TAG);
     }
 
-    public void GETJsonObjectRequestAPI(String url){
+
+    public void GETJsonObjectRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
 
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
 
-
-        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-            }
-        });
-
+        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(url, null, responseListener, errorListener);
         // Adding JsonObject request to request queue
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectReq,REQUEST_TAG);
+
     }
 
-    public void GETJsonArrayRequestAPI(String url){
+
+    public void GETJsonArrayRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
 
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonArrayRequest";
 
-        JsonArrayRequest jsonArrayReq = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-            }
-        });
+        JsonArrayRequest jsonArrayReq = new JsonArrayRequest(url, responseListener, errorListener);
 
         // Adding JsonObject request to request queue
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayReq, REQUEST_TAG);
     }
 
-    public void GETImageLoaderAPI(String url){
+
+
+    public void GETImageLoaderAPI(String url, ImageLoader.ImageListener imageListener){
         ImageLoader imageLoader = AppSingleton.getInstance(getApplicationContext()).getImageLoader();
 
-        imageLoader.get(url, new ImageLoader.ImageListener() {
+        imageLoader.get(url, imageListener);
+        /*new ImageLoader.ImageListener() {
+
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Image Load Error: " + error.getMessage());
@@ -106,29 +83,19 @@ public class AdapterAPIRequest  {
 
                 }
             }
-        });
+
+        });*/
     }
 
-    public void POSTRequestAPI(String url) {
+
+
+    //POST
+    public void POSTSJsonObjectRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener) {
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyPOSTRequest";
 
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // response
-                        Log.d("Response", response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        Log.d("Error.Response", error.getMessage());
-                    }
-                }
-        ) {
-            @Override
+        JsonObjectRequest postRequest = new JsonObjectRequest(url, null, responseListener, errorListener) {
+            /*@Override
+
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 //TODO:Parametrizar
@@ -137,68 +104,77 @@ public class AdapterAPIRequest  {
 
                 return params;
             }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<String, String>();
+                //TODO:Parametrizar
+                headers.put("name", "Alif");
+                headers.put("domain", "http://itsalif.info");
+
+                return headers;
+            }*/
+
         };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest, REQUEST_TAG);
     }
 
-    public void PUTRequestAPI(String url){
 
-        String  REQUEST_TAG = "com.androidtutorialpoint.putRequest";
-        StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response) {
-                        // response
-                        Log.d("Response", response);
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        Log.d("Error.Response", error.getMessage());
-                    }
-                }
-        ) {
-
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String> ();
+    public void POSTStringRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener) {
+        String  REQUEST_TAG = "com.androidtutorialpoint.volleyPOSTRequest";
+        StringRequest postRequest = new StringRequest(url, responseListener, errorListener) {
+            /*@Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //TODO:Parametrizar
                 params.put("name", "Alif");
                 params.put("domain", "http://itsalif.info");
 
                 return params;
             }
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<String, String>();
+                //TODO:Parametrizar
+                headers.put("name", "Alif");
+                headers.put("domain", "http://itsalif.info");
 
+                return headers;
+            }*/
         };
+        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest, REQUEST_TAG);
+    }
 
+    //PUT
+    public void PUTStringRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
+        String  REQUEST_TAG = "com.androidtutorialpoint.putRequest";
+        StringRequest putRequest = new StringRequest(Request.Method.PUT, url, responseListener, errorListener) {
+           /*@Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //TODO:Parametrizar
+                params.put("name", "Alif");
+                params.put("domain", "http://itsalif.info");
+
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<String, String>();
+                //TODO:Parametrizar
+                headers.put("name", "Alif");
+                headers.put("domain", "http://itsalif.info");
+
+                return headers;
+            }*/
+        };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(putRequest, REQUEST_TAG);
     }
 
-    public void DELETERequestAPI(String url){
+    public void DELETERequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
         String  REQUEST_TAG = "com.androidtutorialpoint.Delete";
 
-        StringRequest dr = new StringRequest(Request.Method.DELETE, url,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response) {
-                        // response
-                        Log.d("Response", response);
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error.
-
-                    }
-                }
-        );
+        StringRequest dr = new StringRequest(Request.Method.DELETE, url, responseListener, errorListener);
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(dr, REQUEST_TAG);
     }
 
@@ -233,4 +209,5 @@ public class AdapterAPIRequest  {
         AppSingleton.getInstance(getApplicationContext()).getRequestQueue().getCache().clear();
     }
 }
+
 

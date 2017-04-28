@@ -1,12 +1,10 @@
-package edu.upc.pes.wallachange;
+package edu.upc.pes.wallachange.Models;
 
 import android.net.Uri;
 
 import java.util.ArrayList;
 
-/**
- * Created by Usuario on 16/03/2017.
- */
+
 
 public class Element {
     private String id;
@@ -16,6 +14,7 @@ public class Element {
     private String tipusProducte;
     private String tipusIntercanvi;
     private String temporalitat;
+    private String user;
     private ArrayList<Uri> fotografies;
 
     public Element(String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, ArrayList<Uri> fotografies) {
@@ -28,6 +27,9 @@ public class Element {
         this.fotografies = fotografies;
     }
 
+    public Element() {
+    }
+
     public String getId() {
         return id;
     }
@@ -36,10 +38,14 @@ public class Element {
         this.id = id;
     }
 
+    public void setUser(String user) {this.user = user;}
+
+    public String getUser() {
+        return user;
+    }
     public String getTitol() {
         return titol;
     }
-
     public void setTitol(String titol) {
         this.titol = titol;
     }
@@ -79,6 +85,10 @@ public class Element {
     public ArrayList<Uri> getFotografies() {
         return fotografies;
     }
+
+//    public Uri getFotografia() {
+//        return fotografies[0];
+//    }
 
     public void setFotografies(ArrayList<Uri> fotografies) {
         this.fotografies = fotografies;

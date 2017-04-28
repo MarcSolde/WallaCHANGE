@@ -29,6 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import edu.upc.pes.wallachange.Adapters.ImatgesMiniaturaListViewAdapter;
+import edu.upc.pes.wallachange.Models.Element;
+
 
 /**
  * A simple {@link Fragment} subclass.

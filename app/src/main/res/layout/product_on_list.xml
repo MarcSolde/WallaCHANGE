@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5pt"
+    android:layout_marginEnd="5pt"
+    android:layout_marginStart="5pt"
+    android:layout_marginTop="5pt"
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+    <ImageView
+        android:id="@+id/imatgeElement"
+        android:layout_width="94dp"
+        android:layout_height="101dp"
+        app:srcCompat="@drawable/empty_picture" />
+
+    <LinearLayout
+        android:layout_width="269dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5pt"
+        android:layout_marginTop="2pt"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/nameProductText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2pt"
+            android:text="TextView"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="10pt" />
+
+        <TextView
+            android:id="@+id/categoryProductText"
+            android:textColor="@color/colorPrimary3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2pt"
+            android:text="TextView"
+            android:textSize="8pt" />
+
+        <TextView
+            android:id="@+id/userProductText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2pt"
+            android:text="TextView"
+            android:textSize="8pt" />
+
+        <!--<RatingBar-->
+            <!--style="@style/smallRatingBar"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_marginBottom="1pt"-->
+            <!--android:layout_height="wrap_content" />-->
+
+    </LinearLayout>
+</LinearLayout>

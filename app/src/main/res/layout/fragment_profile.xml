@@ -17,21 +17,22 @@
             android:layout_marginBottom="5pt"
             android:layout_marginRight="5pt"
             android:layout_marginTop="5pt"
-            android:layout_weight="1"
             android:orientation="vertical"
             android:scrollbars="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40pt"
-                android:gravity="center"
+                android:gravity="start|center_horizontal"
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:contentDescription="@string/userPicture"
                     android:id="@+id/userPicture"
                     android:layout_width="35pt"
                     android:layout_height="35pt"
-                    android:layout_marginRight="2pt"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="2pt"
                     android:scaleType="fitXY"
                     app:srcCompat="@mipmap/ic_userpicture" />
 
@@ -39,8 +40,9 @@
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10pt"
-                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+
+                    android:layout_marginStart="16pt"
                     android:text="@string/rating_eng"
                     android:textSize="10pt"
                     android:textStyle="bold" />
@@ -61,7 +63,7 @@
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_width="100dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
                     android:text="@string/city_eng"
@@ -71,19 +73,20 @@
 
                 <EditText
                     android:id="@+id/editCity"
-                    android:layout_width="208dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="2pt"
                     android:hint="@string/city_eng"
+                    android:singleLine="true"
                     android:inputType="textPersonName"
-                    android:layout_weight="0.05" />
+                    android:layout_weight="0.591" />
 
                 <ImageView
+                    android:contentDescription="@string/clearEditText"
                     android:id="@+id/cleanLocation"
-                    android:layout_width="15pt"
-                    android:layout_height="15pt"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/close2" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.09"
+                    app:srcCompat="@drawable/delete" />
             </LinearLayout>
 
             <!--<View-->
@@ -96,36 +99,34 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30pt"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="1">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:layout_width="100dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.13"
+                    android:layout_weight="0.3"
                     android:text="@string/preferences_eng"
                     android:textSize="8pt"
                     android:textStyle="bold" />
 
-
                 <EditText
                     android:id="@+id/addPreference"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.87"
+                    android:layout_weight="0.591"
                     android:hint="@string/preference_eng"
+                    android:singleLine="true"
                     android:inputType="textPersonName" />
 
                 <ImageView
+                    android:contentDescription="@string/addPreference"
                     android:id="@+id/prefAddButton"
-                    android:layout_width="15pt"
-                    android:layout_height="15pt"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/ic_add" />
-
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.09"
+                    app:srcCompat="@drawable/add" />
             </LinearLayout>
 
 
@@ -138,12 +139,12 @@
             <!--android:orientation="horizontal">-->
             <!--</GridView>-->
 
-            <edu.upc.pes.wallachange.ExpandableHeightGridView
+            <edu.upc.pes.wallachange.Others.ExpandableHeightGridView
                 android:id="@+id/gridPreferences"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15pt"
-                android:layout_marginRight="5dp"
+                android:layout_marginStart="15pt"
+                android:layout_marginEnd="5dp"
                 android:horizontalSpacing="10dp"
                 android:isScrollContainer="false"
                 android:stretchMode="columnWidth"
@@ -162,13 +163,12 @@
                 android:id="@+id/linlay1"
                 android:layout_width="match_parent"
                 android:layout_height="30pt"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/seeRating"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/rating_eng"
@@ -183,25 +183,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:numStars="5"
-                    android:stepSize="1"
+                    android:stepSize="0.5"
                     android:theme="@style/RatingBar" />
 
 
             </LinearLayout>
 
-            <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:id="@+id/view2"-->
-            <!--android:layout_marginBottom="5pt"-->
-            <!--android:layout_marginTop="5pt"-->
-            <!--android:background="@android:color/darker_gray" />-->
-
             <LinearLayout
                 android:id="@+id/linlay2"
                 android:layout_width="match_parent"
                 android:layout_height="30pt"
-                android:gravity="right"
+                android:gravity="end"
                 android:orientation="horizontal"
                 android:weightSum="1">
 
@@ -219,8 +211,6 @@
                     android:layout_weight="0.50"
                     android:text="@string/saveProfile_eng" />
 
-                <!--android:elevation="0dp"-->
-                    <!--android:fitsSystemWindows="true"-->
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

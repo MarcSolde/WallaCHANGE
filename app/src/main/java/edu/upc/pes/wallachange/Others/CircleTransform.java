@@ -1,8 +1,6 @@
-package edu.upc.pes.wallachange;
+package edu.upc.pes.wallachange.Others;
 
-/**
- * Created by carlota on 23/3/17.
- */
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;

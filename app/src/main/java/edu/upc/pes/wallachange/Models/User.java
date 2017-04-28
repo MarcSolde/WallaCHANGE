@@ -1,13 +1,10 @@
-package edu.upc.pes.wallachange;
+package edu.upc.pes.wallachange.Models;
 
 import android.net.Uri;
 
-import java.net.URI;
 import java.util.ArrayList;
 
-/**
- * Created by carlota on 22/3/17.
- */
+
 
 public class User {
 
@@ -24,13 +21,12 @@ public class User {
         this.password = password;
         this.rating = rating;
         this.picture = picture;
-        preferences = new ArrayList<String>();
-        //this.preferences = preferences;
+        this.preferences = preferences;
     }
 
     public User() {
         preferences = new ArrayList<String>();
-    };
+    }
 
     public String getUsername() {
         return username;
@@ -40,9 +36,9 @@ public class User {
         return location;
     }
 
-    public String getPassword() {
-        return password;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
 
     public float getRating() {
         return rating;
@@ -64,9 +60,9 @@ public class User {
         this.location = location;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
     public void setRating(int rating) {
         this.rating = rating;

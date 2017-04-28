@@ -1,5 +1,6 @@
 package edu.upc.pes.wallachange;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,11 +10,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -57,7 +59,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myFragmentManager.beginTransaction().replace(R.id.fragment,homeFragment).commit();
         Log.i("MAIN","Transaction ok");
         TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
-        textUser.setText("User: "+user);
+        String text = getResources().getString(R.string.user_eng);
+        text = text + " "+user;
+        textUser.setText(text);
         Log.i("MAIN","Set text ok");
 
     }
@@ -84,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                LoginActivity.logOut();
                                 startActivity(intent);
                             }
                         })
@@ -100,8 +105,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 myFragmentAddElement = new FragmentAddElement();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myFragmentAddElement).commit();
                 break;
+            case R.id.navigationSearchUser:
+                SearchUserFragment searchUserFragment= new SearchUserFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, searchUserFragment).commit();
+                break;
+            case R.id.navigationSearchItem:
+                SearchElementFragment ElementsFragment = new SearchElementFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, ElementsFragment).commit();
+                break;
             case R.id.navigationProfile:
-                ProfileEdit ProfileFragment = new ProfileEdit();
+                ProfileFragment ProfileFragment = new ProfileFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, ProfileFragment).commit();
                 break;
             default:
@@ -130,6 +143,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myFragmentManager.beginTransaction().replace(R.id.fragment, homeFragment).commit();
         NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.getMenu().getItem(0).setChecked(true);
+    }
+
+
+    public String getUsername() {
+        return user;
+    }
+
+    public void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
 }
