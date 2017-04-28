@@ -11,7 +11,7 @@
     android:weightSum="1">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imatgeElement"
         android:layout_width="94dp"
         android:layout_height="101dp"
         app:srcCompat="@drawable/empty_picture" />

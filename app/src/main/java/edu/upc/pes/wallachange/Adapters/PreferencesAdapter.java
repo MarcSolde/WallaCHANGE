@@ -1,9 +1,7 @@
-package edu.upc.pes.wallachange;
+package edu.upc.pes.wallachange.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import edu.upc.pes.wallachange.ProfileFragment;
+import edu.upc.pes.wallachange.R;
 
 
 public class PreferencesAdapter extends ArrayAdapter<String> {
@@ -20,7 +20,7 @@ public class PreferencesAdapter extends ArrayAdapter<String> {
     private Context mContext;
     private int layoutResourceId;
     private ArrayList<String> data;
-    private ProfileEdit callBack;
+    private ProfileFragment callBack;
 
 //    public PreferencesAdapter(@NonNull Context context, @LayoutRes int layoutResourceId, ArrayList<String> data) {
 //        super(context, layoutResourceId, data);
@@ -31,12 +31,12 @@ public class PreferencesAdapter extends ArrayAdapter<String> {
 //    }
 
 
-    public PreferencesAdapter(Context context, int layoutResourceId, ArrayList<String> data, ProfileEdit profileEdit) {
+    public PreferencesAdapter(Context context, int layoutResourceId, ArrayList<String> data, ProfileFragment profileFragment) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.mContext = context;
         this.data = data;
-        this.callBack = profileEdit;
+        this.callBack = profileFragment;
     }
 
 

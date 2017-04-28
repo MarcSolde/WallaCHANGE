@@ -4,6 +4,7 @@ package edu.upc.pes.wallachange;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.upc.pes.wallachange.Adapters.SearchUserAdapter;
+import edu.upc.pes.wallachange.Models.User;
 
 
-public class SearchUserFragment extends Fragment {
+public class SearchUserFragment extends Fragment implements View.OnClickListener{
     private MainActivity myActivity;
 
     private SearchUserAdapter adapter;
@@ -43,7 +45,7 @@ public class SearchUserFragment extends Fragment {
                     switch (i) {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
-                            onSearch();
+                            myActivity.hideKeyboard();
                             return true;
                         default: break;
                     }
@@ -51,6 +53,10 @@ public class SearchUserFragment extends Fragment {
                 return false;
             }
         });
+        Button auxButton = (Button) view.findViewById(R.id.search_user_search);
+        auxButton.setOnClickListener(this);
+        auxButton = (Button) view.findViewById(R.id.search_user_filter) ;
+        auxButton.setOnClickListener(this);
         myListView = (ListView) view.findViewById(R.id.search_user_list);
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -59,13 +65,6 @@ public class SearchUserFragment extends Fragment {
             }
         });
         loadList();
-        Button mySearch = (Button) view.findViewById(R.id.search_user_search);
-        mySearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onSearch();
-            }
-        });
         return view;
     }
 
@@ -84,16 +83,24 @@ public class SearchUserFragment extends Fragment {
         myListView.deferNotifyDataSetChanged();
     }
 
-    public void onSearch() {
-        String var = myText.getText().toString();
-        myText.setFocusable(false);
-        myActivity.hideKeyboard();
-        //TODO: enlace DB
-    }
-
     private void onClickUser (int i) {
         //User user = userList.get(i);
         //TODO: ir al usuario
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.search_user_search:
+                myText.setFocusable(false);
+                myActivity.hideKeyboard();
+                //TODO: enlace DB
+                break;
+            case R.id.search_user_filter:
+                break;
+            default:
+                break;
+        }
     }
 
 }

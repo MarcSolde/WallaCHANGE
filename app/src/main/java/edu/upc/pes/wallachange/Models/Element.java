@@ -1,4 +1,4 @@
-package edu.upc.pes.wallachange;
+package edu.upc.pes.wallachange.Models;
 
 import android.net.Uri;
 
@@ -85,6 +85,10 @@ public class Element {
     public ArrayList<Uri> getFotografies() {
         return fotografies;
     }
+
+//    public Uri getFotografia() {
+//        return fotografies[0];
+//    }
 
     public void setFotografies(ArrayList<Uri> fotografies) {
         this.fotografies = fotografies;

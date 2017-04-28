@@ -1,4 +1,4 @@
-package edu.upc.pes.wallachange;
+package edu.upc.pes.wallachange.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import edu.upc.pes.wallachange.FragmentAddElement;
+import edu.upc.pes.wallachange.R;
 
 
 public class ImatgesMiniaturaListViewAdapter extends ArrayAdapter<Uri> {
