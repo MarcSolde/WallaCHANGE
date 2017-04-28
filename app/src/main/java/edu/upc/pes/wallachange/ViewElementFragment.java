@@ -61,10 +61,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         previousPictureButton.setOnClickListener(this);
         nextPictureButton = (ImageButton) fragmentViewElementView.findViewById(R.id.nextButton);
         nextPictureButton.setOnClickListener(this);
-        reportButton = (ImageButton) fragmentViewElementView.findViewById(R.id.reportButton);
-        reportButton.setOnClickListener(this);
-        reportInformationButton = (ImageButton) fragmentViewElementView.findViewById(R.id.reportInformation);
-        reportInformationButton.setOnClickListener(this);
         writeCommentButton = (ImageButton) fragmentViewElementView.findViewById(R.id.writeComment);
         writeCommentButton.setOnClickListener(this);
         tradeButton = (Button) fragmentViewElementView.findViewById(R.id.tradeButton);
@@ -116,6 +112,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                 break;
             case R.id.writeComment:
                 if (!Objects.equals(editTextWriteComment.getText().toString(), "")){
+                    editTextWriteComment.setFocusable(false);
                     String comentari = editTextWriteComment.getText().toString();
                     Uri path = Uri.parse("android.resource://edu.upc.pes.wallachange/" + R.drawable.userpicture);
                     String date = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(new Date());
