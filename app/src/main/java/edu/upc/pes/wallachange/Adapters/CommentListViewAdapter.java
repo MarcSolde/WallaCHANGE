@@ -1,4 +1,4 @@
-package edu.upc.pes.wallachange;
+package edu.upc.pes.wallachange.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,23 +14,24 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-/**
- * Created by Usuario on 28/04/2017.
- */
+import edu.upc.pes.wallachange.Models.Comment;
+import edu.upc.pes.wallachange.ViewElementFragment;
+import edu.upc.pes.wallachange.R;
+
 
 public class CommentListViewAdapter extends ArrayAdapter<Comment>{
 
     private Context mContext;
     private int layoutResourceId;
     private List<Comment> data;
-    private FragmentViewElement callBack;
+    private ViewElementFragment callBack;
 
-    public CommentListViewAdapter(Context mContext, int layoutResourceId, List<Comment> data, FragmentViewElement fragmentViewElement) {
+    public CommentListViewAdapter(Context mContext, int layoutResourceId, List<Comment> data, ViewElementFragment viewElementFragment) {
         super(mContext, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.mContext = mContext;
         this.data = data;
-        this.callBack = fragmentViewElement;
+        this.callBack = viewElementFragment;
     }
 
     @Override

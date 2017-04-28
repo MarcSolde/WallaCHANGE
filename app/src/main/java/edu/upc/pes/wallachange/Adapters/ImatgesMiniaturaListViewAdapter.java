@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import edu.upc.pes.wallachange.FragmentAddElement;
+import edu.upc.pes.wallachange.AddElementFragment;
 import edu.upc.pes.wallachange.R;
 
 
@@ -22,14 +22,14 @@ public class ImatgesMiniaturaListViewAdapter extends ArrayAdapter<Uri> {
     private Context mContext;
     private int layoutResourceId;
     private List<Uri> data;
-    private FragmentAddElement callBack;
+    private AddElementFragment callBack;
 
-    public ImatgesMiniaturaListViewAdapter(Context mContext, int layoutResourceId, List<Uri> data, FragmentAddElement fragmentAddElement) {
+    public ImatgesMiniaturaListViewAdapter(Context mContext, int layoutResourceId, List<Uri> data, AddElementFragment addElementFragment) {
         super(mContext, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.mContext = mContext;
         this.data = data;
-        this.callBack = fragmentAddElement;
+        this.callBack = addElementFragment;
     }
 
     @Override

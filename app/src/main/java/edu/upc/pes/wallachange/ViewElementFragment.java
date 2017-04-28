@@ -12,12 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -25,14 +21,13 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
-/**
- * Created by Usuario on 19/04/2017.
- */
+import edu.upc.pes.wallachange.Adapters.CommentListViewAdapter;
+import edu.upc.pes.wallachange.Models.Comment;
+import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
 
-public class FragmentViewElement extends Fragment implements View.OnClickListener{
+public class ViewElementFragment extends Fragment implements View.OnClickListener{
 
     private View fragmentViewElementView;
     private MainActivity myActivity;
@@ -48,17 +43,16 @@ public class FragmentViewElement extends Fragment implements View.OnClickListene
     private EditText editTextWriteComment;
     private ArrayList<Comment> comentaris;
 
-    public FragmentViewElement() {}
+    public ViewElementFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
-         fragmentViewElementView = inflater.inflate(R.layout.fragment_view_element, container,
-                false);
+        fragmentViewElementView = inflater.inflate(R.layout.fragment_view_element, container, false);
         myActivity = (MainActivity) getActivity();
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Bundle bundle = getArguments();
-        myActivity.setTitle(getResources().getString(R.string.advertisements_view));
+        myActivity.setTitle(R.string.advertisements_view);
 
         previousPictureButton = (ImageButton) fragmentViewElementView.findViewById(R.id.previousButton);
         previousPictureButton.setOnClickListener(this);
@@ -120,7 +114,7 @@ public class FragmentViewElement extends Fragment implements View.OnClickListene
             case R.id.writeComment:
                 if (!Objects.equals(editTextWriteComment.getText().toString(), "")){
                     String comentari = editTextWriteComment.getText().toString();
-                    Uri path = Uri.parse("android.resource://edu.upc.pes.wallachange/" + R.drawable.ic_userpicture);
+                    Uri path = Uri.parse("android.resource://edu.upc.pes.wallachange/" + R.drawable.userpicture);
                     String date = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(new Date());
                     Comment nouComentari = new Comment(path,"Andreu Conesa",comentari,date);
                     comentaris.add(0,nouComentari);
