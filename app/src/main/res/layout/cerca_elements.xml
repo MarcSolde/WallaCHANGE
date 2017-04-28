@@ -21,17 +21,30 @@
 
 
             <EditText
-                android:layout_width="324dp"
+                android:id="@+id/finder"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.6"
+                android:singleLine="true"
                 android:hint="@string/search_eng" />
+
+
 
             <ImageView
                 android:id="@+id/cleanFieldSearch"
-                android:layout_width="15pt"
-                android:layout_height="15pt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.08"
                 android:contentDescription="@string/clearEditText"
-                android:scaleType="fitXY"
                 app:srcCompat="@drawable/delete" />
+
+            <ImageView
+                android:id="@+id/SearchButt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.08"
+                android:contentDescription="@string/clearEditText"
+                app:srcCompat="@drawable/search"/>
 
 
         </LinearLayout>

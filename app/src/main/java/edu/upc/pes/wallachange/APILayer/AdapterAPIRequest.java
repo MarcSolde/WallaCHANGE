@@ -4,19 +4,31 @@ package edu.upc.pes.wallachange.APILayer;
  * Created by sejo on 21/04/17.
  */
 
+
+import android.util.Log;
+
 import com.android.volley.Cache;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+ç
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
+import static com.android.volley.VolleyLog.TAG;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class AdapterAPIRequest  {
+
 
 
     // GETERS
@@ -45,9 +57,11 @@ public class AdapterAPIRequest  {
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonArrayRequest";
 
         JsonArrayRequest jsonArrayReq = new JsonArrayRequest(url, responseListener, errorListener);
+
         // Adding JsonObject request to request queue
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayReq, REQUEST_TAG);
     }
+
 
 
     public void GETImageLoaderAPI(String url, ImageLoader.ImageListener imageListener){
@@ -55,6 +69,7 @@ public class AdapterAPIRequest  {
 
         imageLoader.get(url, imageListener);
         /*new ImageLoader.ImageListener() {
+
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Image Load Error: " + error.getMessage());
@@ -66,6 +81,7 @@ public class AdapterAPIRequest  {
 
                 }
             }
+
         });*/
     }
 
@@ -77,6 +93,7 @@ public class AdapterAPIRequest  {
 
         JsonObjectRequest postRequest = new JsonObjectRequest(url, null, responseListener, errorListener) {
             /*@Override
+
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 //TODO:Parametrizar
@@ -85,6 +102,7 @@ public class AdapterAPIRequest  {
 
                 return params;
             }
+
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<String, String>();
@@ -94,9 +112,11 @@ public class AdapterAPIRequest  {
 
                 return headers;
             }*/
+
         };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest, REQUEST_TAG);
     }
+
 
     public void POSTStringRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener) {
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyPOSTRequest";

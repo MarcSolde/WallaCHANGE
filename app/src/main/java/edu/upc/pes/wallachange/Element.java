@@ -86,6 +86,10 @@ public class Element {
         return fotografies;
     }
 
+//    public Uri getFotografia() {
+//        return fotografies[0];
+//    }
+
     public void setFotografies(ArrayList<Uri> fotografies) {
         this.fotografies = fotografies;
     }

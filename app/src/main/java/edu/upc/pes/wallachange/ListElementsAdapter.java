@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -50,6 +51,8 @@ public class ListElementsAdapter extends ArrayAdapter<Element> {
         textcat.setText(elem1.getCategoria());
         TextView textuser = (TextView) convertView.findViewById(R.id.userProductText);
         textuser.setText(elem1.getUser());
+//        ImageView imatge = (ImageView) convertView.findViewById(R.id.imatgeElement);
+//        imatge.setImageURI(elem1.getFotografies())
         return convertView;
     }
 
