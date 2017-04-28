@@ -1,5 +1,6 @@
 package edu.upc.pes.wallachange;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -99,7 +102,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 myFragmentAddElement = new FragmentAddElement();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myFragmentAddElement).commit();
                 break;
-            case R.id.navigationSearch:
+            case R.id.navigationSearchUser:
+                SearchUserFragment searchUserFragment= new SearchUserFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, searchUserFragment).commit();
+                break;
+            case R.id.navigationSearchItem:
                 CercaElements ElementsFragment = new CercaElements();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, ElementsFragment).commit();
                 break;
@@ -116,6 +123,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public String getUsername() {
         return user;
+    }
+
+    public void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
 }
