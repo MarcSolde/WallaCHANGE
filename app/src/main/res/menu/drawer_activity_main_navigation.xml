@@ -13,6 +13,12 @@
             android:id="@+id/navigationProfile"
             android:title="@string/navigationProfile_eng" />
         <item
+            android:id="@+id/navigationSearchUser"
+            android:title="@string/navigationSearchUser_eng" />
+        <item
+            android:id="@+id/navigationSearchItem"
+            android:title="@string/navigationSearchItem_eng" />
+        <item
             android:id="@+id/navigationLogout"
             android:title="@string/navigationLogout_eng" />
     </group>

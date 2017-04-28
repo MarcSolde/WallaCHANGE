@@ -21,8 +21,7 @@ public class User {
         this.password = password;
         this.rating = rating;
         this.picture = picture;
-        preferences = new ArrayList<>();
-        //this.preferences = preferences;
+        this.preferences = preferences;
     }
 
     public User() {

@@ -27,4 +27,10 @@
         <item name="android:textSize">16sp</item><!-- text size in menu-->
     </style>
 
+
+    <style name="smallRatingBar" parent="android:style/Widget.Material.RatingBar.Small">
+        <item name="colorControlNormal">@color/colorStars</item>
+        <item name="colorControlActivated">@color/colorStars</item>
+    </style>
+
 </resources>
