@@ -50,19 +50,30 @@
 
     <!-- Add element -->
     <string name="add_picture_eng">Add pictures</string>
-    <string name="advertisement_title_eng">Advertisement\'s title</string>
-    <string name="description_eng">Description</string>
-    <string name="category_eng">Category</string>
-    <string name="type_of_product_eng">Type of product</string>
-    <string name="type_of_exchange_eng">Type of exchange</string>
-    <string name="product_eng">Product</string>
-    <string name="experience_eng">Experience</string>
-    <string name="permanent_eng">Permanent</string>
-    <string name="temporal_eng">Temporal</string>
-    <string name="duration_of_exchange_eng">Duration of exchange</string>
-    <string name="the_advertisement_must_have_a_title_eng">The advertisement must have a title</string>
-    <string name="these_fields_must_be_filled_eng">These fields must be filled</string>
-    <string name="at_least_one_image_eng">At least one image</string>
+    <string name="title_eng">Title</string>
+    <string name="description_eng" >Description</string>
+    <string name="category_eng" >Category</string>
+    <string name="type_of_product_eng" >Type of product</string>
+    <string name="type_of_exchange_eng" >Type of exchange</string>
+    <string name="product_eng" >Product</string>
+    <string name="experience_eng" >Experience</string>
+    <string name="permanent_eng" >Permanent</string>
+    <string name="temporal_eng" >Temporal</string>
+    <string name="duration_eng" >Duration</string>
+    <string name="the_advertisement_must_have_a_title_eng" >The advertisement must have a title</string>
+    <string name="these_fields_must_be_filled_eng" >These fields must be filled</string>
+    <string name="at_least_one_image_eng" >At least one image</string>
+    <string name="advertisements_title_eng">Advertisement\'s title</string>
+    <string name="advertisements_description_eng">Advertisement\'s description</string>
+    <string name="advertisements_category_eng">Advertisement\'s category</string>
+    <string name="this_field_is_required_eng">This field is required</string>
+    <string name="if_product_at_least_one_image_eng">If product, at least one image</string>
+    <string name="created_by_eng">Created by</string>
+    <string name="from_you_eng">from you</string>
+    <string name="trade_eng">Trade</string>
+    <string name="write_here_your_comment_eng">Write here your comment</string>
+    <string name="advertisements_view">Advertisement\'s view</string>
+    <string name="ok_eng">Ok</string>
 
 
     <!--edit profile-->
@@ -77,6 +88,7 @@
     <string name="cancelProfile_eng">Cancel</string>
     <string name="errorExistingPref_eng">Existing preference</string>
     <string name="errorEmptyField_eng">This field is empty</string>
+    <string name="add_image_button_eng">Add image button</string>
     <string name="contentDeleteImage">contentDeleteImage</string>
     <string name="userPicture">user picture</string>
     <string name="clearEditText">clear edit text</string>

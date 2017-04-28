@@ -14,10 +14,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -43,8 +45,11 @@ public class FragmentAddElement extends Fragment implements View.OnClickListener
     private View miniatureImagesView, fragmentAddElementView;
     private ArrayList<Uri> imatgesMiniatura;
     private Integer nombreImatges;
-    private ImageButton botoFotografia, botoAfegirElement;
+    private ImageButton botoFotografia;
+    private Button botoAfegirElement, botoCancelarElement;
     private String tipusProducte, tipusIntercanvi;
+    private EditText textTemporalitat, textCategoria, textDescripcio, textTitol;
+    private ImageView netejaTemporalitat, netejaCategoria, netejaDescripcio, netejaTitol;
 
     public FragmentAddElement() {}
 
@@ -65,10 +70,24 @@ public class FragmentAddElement extends Fragment implements View.OnClickListener
 
         botoFotografia = (ImageButton) fragmentAddElementView.findViewById(R.id.afegirImatge);
         botoFotografia.setOnClickListener(this);
-        botoAfegirElement = (ImageButton) fragmentAddElementView.findViewById(R.id.afegirElement);
+        botoAfegirElement = (Button) fragmentAddElementView.findViewById(R.id.afegirElement);
         botoAfegirElement.setOnClickListener(this);
+        botoCancelarElement = (Button) fragmentAddElementView.findViewById(R.id.cancelarElement);
+        botoCancelarElement.setOnClickListener(this);
 
-        final EditText textTemporalitat = (EditText) fragmentAddElementView.findViewById(R.id.temporalitat);
+        netejaTitol = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_titol);
+        netejaTitol.setOnClickListener(this);
+        netejaDescripcio = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_descripcio);
+        netejaDescripcio.setOnClickListener(this);
+        netejaCategoria = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_categoria);
+        netejaCategoria.setOnClickListener(this);
+        netejaTemporalitat = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_temporalitat);
+        netejaTemporalitat.setOnClickListener(this);
+        textTitol = (EditText) fragmentAddElementView.findViewById(R.id.titolAnunci);
+        textDescripcio = (EditText) fragmentAddElementView.findViewById(R.id.descripcio);
+        textCategoria = (EditText) fragmentAddElementView.findViewById(R.id.categoria);
+        textTemporalitat = (EditText) fragmentAddElementView.findViewById(R.id.temporalitat);
+
         final TextView textViewDurada = (TextView) fragmentAddElementView.findViewById(R.id.textViewDurada);
         final RadioGroup radioGroupTipusIntercanvi = (RadioGroup) fragmentAddElementView.findViewById(R.id.radioGroupTipusIntercanvi);
         radioGroupTipusIntercanvi.setOnCheckedChangeListener(  new RadioGroup.OnCheckedChangeListener() {
@@ -77,10 +96,12 @@ public class FragmentAddElement extends Fragment implements View.OnClickListener
                     case R.id.radioButtonTemporal:
                         textTemporalitat.setVisibility(View.VISIBLE);
                         textViewDurada.setVisibility(View.VISIBLE);
+                        netejaTemporalitat.setVisibility(View.VISIBLE);
                         break;
                     case R.id.radioButtonPermanent:
                         textTemporalitat.setVisibility(View.GONE);
                         textViewDurada.setVisibility(View.GONE);
+                        netejaTemporalitat.setVisibility(View.GONE);
                         break;
                 }
             }
@@ -125,11 +146,12 @@ public class FragmentAddElement extends Fragment implements View.OnClickListener
             }
             Uri uri = data.getData();
             imatgesMiniatura.add(uri);
-            miniatureImagesGridView = (GridView) miniatureImagesView.findViewById(R.id.gridViewImatgesMiniatura);
+            miniatureImagesGridView = (GridView) fragmentAddElementView.findViewById(R.id.gridViewImatgesMiniatura);
             ImatgesMiniaturaListViewAdapter adapter2 = new ImatgesMiniaturaListViewAdapter(myActivity, R.layout.miniature_images_item, imatgesMiniatura,this);
             miniatureImagesGridView.setAdapter(adapter2);
-            img.removeAllViews();
-            img.addView(miniatureImagesView);
+            adapter2.notifyDataSetChanged();
+            //img.removeAllViews();
+            //img.addView(miniatureImagesView);
         }
     }
 
@@ -141,34 +163,23 @@ public class FragmentAddElement extends Fragment implements View.OnClickListener
                 // CONTROL ERRORS
                 // titol de l'anunci obligatori
                 boolean faltenCamps = false;
-                String campsObligatoris = getResources().getString(R.string.these_fields_must_be_filled_eng);
                 if (Objects.equals(e.getTitol(), "")){
-                    campsObligatoris += System.getProperty("line.separator") + getResources().getString(R.string.advertisement_title_eng);
                     faltenCamps = true;
+                    String errorTitleMustBeFilled = getResources().getString(R.string.this_field_is_required_eng);
+                    textTitol.setError(errorTitleMustBeFilled);
                 }
                 // minim 1 imatge per producte
                 if (nombreImatges == 0 && Objects.equals(tipusProducte, getResources().getString(R.string.product_eng))){
-                    campsObligatoris += System.getProperty("line.separator") + getResources().getString(R.string.at_least_one_image_eng);
                     faltenCamps = true;
                 }
 
-                if (faltenCamps){
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-                    builder1.setMessage(campsObligatoris);
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton(
-                            "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
-                }else{
+                if (!faltenCamps){
                     // tot ha anat bé
-                    Toast.makeText(getActivity(),e.toString(),Toast.LENGTH_LONG).show();
+                    myActivity.changeToItem(e);
                 }
+                break;
+            case R.id.cancelarElement:
+                myActivity.changeFragmentToHome();
                 break;
             case R.id.afegirImatge:
                 Intent pickIntent;
@@ -178,6 +189,20 @@ public class FragmentAddElement extends Fragment implements View.OnClickListener
                 pickIntent.setType("image/*");
                 pickIntent.addCategory(Intent.CATEGORY_OPENABLE);
                 startActivityForResult(Intent.createChooser(pickIntent, "Import img"), PICK_IMAGE);
+                break;
+            case R.id.neteja_edittext_titol:
+                textTitol.setText("");
+                break;
+            case R.id.neteja_edittext_descripcio:
+                textDescripcio.setText("");
+                break;
+            case R.id.neteja_edittext_categoria:
+                textCategoria.setText("");
+                break;
+            case R.id.neteja_edittext_temporalitat:
+                textTemporalitat.setText("");
+                break;
+            default:
                 break;
         }
     }
