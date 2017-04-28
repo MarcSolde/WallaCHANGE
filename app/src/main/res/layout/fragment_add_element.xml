@@ -1,171 +1,241 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.upc.pes.wallachange.FragmentAddElement">
+    tools:context="edu.upc.pes.wallachange.FragmentAddElement"
+    android:scrollbars="vertical">
 
     <!-- TODO: Update blank fragment layout -->
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginLeft="5pt"
+        android:layout_marginBottom="5pt"
+        android:layout_marginRight="5pt"
+        android:layout_marginTop="5pt"
+        android:orientation="vertical"
+        android:gravity="center">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="30pt"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@string/add_picture_eng"
+                android:textSize="8pt"
                 android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/afegirImatge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="@null"
+                android:contentDescription="@string/add_image_button_eng"
+                android:paddingLeft="5pt"
+                android:paddingRight="5pt"
                 android:src="@drawable/ic_photo_camera_black_24dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/if_product_at_least_one_image_eng"/>
+
         </LinearLayout>
 
         <GridLayout
             android:id="@+id/imatgesMiniatura"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center">
+        </GridLayout>
+        <GridView
+            android:id="@+id/gridViewImatgesMiniatura"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-        </GridLayout>
+            android:numColumns="5"
+            android:stretchMode="columnWidth"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30pt"
             android:orientation="horizontal"
-            android:weightSum="1">
-
+            android:gravity="center_vertical">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="86dp"
                 android:layout_height="wrap_content"
-                android:text="@string/advertisement_title_eng"
-                android:textStyle="bold" />
-
+                android:text="@string/title_eng"
+                android:textStyle="bold"
+                android:textSize="8pt"
+                android:layout_weight="0.30" />
             <EditText
                 android:id="@+id/titolAnunci"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
+                android:layout_width="195dp"
                 android:layout_height="wrap_content"
-                android:text="@string/description_eng"
-                android:textStyle="bold" />
+                android:hint="@string/advertisements_title_eng"
+                android:layout_weight="0.68" />
+            <ImageView
+                android:layout_width="15pt"
+                android:layout_height="15pt"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/close2"
+                android:id="@+id/neteja_edittext_titol"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="30pt"
+            android:orientation="horizontal"
+            >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/description_eng"
+            android:textStyle="bold"
+            android:textSize="8pt"/>
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30pt"
+            android:orientation="horizontal"
+            >
 
             <EditText
                 android:id="@+id/descripcio"
-                android:layout_width="match_parent"
+                android:layout_width="310dp"
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
                 android:inputType="textMultiLine"
                 android:lines="2"
                 android:maxLines="2"
                 android:minLines="2"
-                android:scrollbars="vertical" />
+                android:scrollbars="vertical"
+                android:layout_weight="1.05"
+                android:hint="@string/advertisements_description_eng"/>
+            <ImageView
+                android:layout_width="15pt"
+                android:layout_height="15pt"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/close2"
+                android:id="@+id/neteja_edittext_descripcio"
+                android:layout_gravity="center_vertical"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="30pt"
             android:orientation="horizontal"
-            android:weightSum="1">
+            android:gravity="center_vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:text="@string/category_eng"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="8pt"
+                android:layout_weight="0.63" />
 
             <EditText
                 android:id="@+id/categoria"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></EditText>
+                android:layout_width="215dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/advertisements_category_eng"
+                android:layout_weight="0.37"></EditText>
+            <ImageView
+                android:layout_width="15pt"
+                android:layout_height="15pt"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/close2"
+                android:id="@+id/neteja_edittext_categoria"
+                android:layout_gravity="center_vertical"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="30pt"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="143dp"
                 android:layout_height="wrap_content"
                 android:text="@string/type_of_product_eng"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="8pt"
+                />
 
             <RadioGroup
                 android:id="@+id/radioGroupTipusProducte"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checkedButton="@+id/producte"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <RadioButton
                     android:id="@+id/producte"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/product_eng" />
+                    android:text="@string/product_eng"
+                    android:layout_weight="0.40" />
 
                 <RadioButton
                     android:id="@+id/experiencia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/experience_eng" />
+                    android:text="@string/experience_eng"
+                    android:layout_weight="0.40"/>
             </RadioGroup>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="30pt"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/type_of_exchange_eng"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="8pt" />
 
             <RadioGroup
                 android:id="@+id/radioGroupTipusIntercanvi"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checkedButton="@+id/radioButtonPermanent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <RadioButton
                     android:id="@+id/radioButtonPermanent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/permanent_eng" />
+                    android:text="@string/permanent_eng"
+                    android:layout_weight="0.4"
+                    />
 
                 <RadioButton
                     android:id="@+id/radioButtonTemporal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/temporal_eng" />
+                    android:text="@string/temporal_eng"
+                    android:layout_weight="0.4"/>
             </RadioGroup>
 
         </LinearLayout>
@@ -173,38 +243,62 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <TextView
                 android:id="@+id/textViewDurada"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/duration_of_exchange_eng"
+                android:text="@string/duration_eng"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:textSize="8pt"
+                android:layout_weight="0.3"
+                />
 
             <EditText
                 android:id="@+id/temporalitat"
-                android:layout_width="match_parent"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:hint="2 weeks, 1 day..."
+                android:layout_weight="0.5"
+                />
+            <ImageView
+                android:layout_width="15pt"
+                android:layout_height="15pt"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/close2"
+                android:id="@+id/neteja_edittext_temporalitat"
+                android:visibility="gone"
+                android:layout_gravity="center_vertical"
+                />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:id="@+id/botons_cancel_save"
+            android:layout_width="match_parent"
+            android:layout_height="30pt"
+            android:gravity="right"
+            android:orientation="horizontal">
 
-            <ImageButton
+            <Button
+                android:id="@+id/cancelarElement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancelProfile_eng"
+                android:layout_weight="0.50" />
+
+            <Button
                 android:id="@+id/afegirElement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:src="@android:drawable/ic_input_add" />
+                android:layout_weight="0.50"
+                android:text="@string/saveProfile_eng" />
         </LinearLayout>
 
 
     </LinearLayout>
-
+    </ScrollView>
 </FrameLayout>

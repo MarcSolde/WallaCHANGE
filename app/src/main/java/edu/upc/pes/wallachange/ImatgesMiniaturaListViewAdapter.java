@@ -40,7 +40,7 @@ public class ImatgesMiniaturaListViewAdapter extends ArrayAdapter<Uri> {
         }
         final Uri uri = data.get(position);
         ImageView imatge = (ImageView) convertView.findViewById(R.id.imatgeMiniatura);
-        Picasso.with(getContext()).load(uri).resize(100, 100).centerCrop().into(imatge);
+        Picasso.with(getContext()).load(uri).resize(100, 100).into(imatge);
         ImageButton botoTreureImatge = (ImageButton) convertView.findViewById(R.id.botoEsborrarImatge);
         botoTreureImatge.setOnClickListener(new View.OnClickListener() {
             @Override

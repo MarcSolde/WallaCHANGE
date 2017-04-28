@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private HomeFragment homeFragment;
 
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FragmentAddElement myFragmentAddElement;
     private DrawerLayout myDrawer;
     private String user;
+    private FragmentViewElement myFragmentViewElement;
 
 
     @Override
@@ -107,4 +110,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void changeToItem(Element e) {
+        //TODO:
+        // String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, ArrayList<Uri> fotografies
+        Bundle bundleViewElement = new Bundle();
+        bundleViewElement.putString("titol",e.getTitol());
+        bundleViewElement.putString("descripcio",e.getDescripcio());
+        bundleViewElement.putParcelableArrayList("fotografies",e.getFotografies());
+
+        myFragmentViewElement = new FragmentViewElement();
+        myFragmentViewElement.setArguments(bundleViewElement);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, myFragmentViewElement).commit();
+    }
+
+    public void changeFragmentToHome () {
+        //TODO:
+        homeFragment = new HomeFragment();
+        myFragmentManager.beginTransaction().replace(R.id.fragment, homeFragment).commit();
+        NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
+        myNavigationView.getMenu().getItem(0).setChecked(true);
+    }
+
 }
