@@ -20,7 +20,8 @@
     <string name="navigationHome_eng">Home</string>
     <string name="navigationNewItem_eng">New Item</string>
     <string name="navigationProfile_eng">Profile</string>
-    <string name="navigationSearch_eng">Search</string>
+    <string name="navigationSearchItem_eng">Search Items</string>
+    <string name="navigationSearchUser_eng">Search Users</string>
     <string name="navigationLogout_eng">Log out</string>
 
     <string name="navigationOpen">Open navigation drawer</string>
@@ -39,12 +40,9 @@
     <string name="errorAuthEmail_eng">Email not authorited</string>
     <string name="loginWallachange">WALLACHANGE</string>
 
-    <!-- MAIN ACTIVITY -->
-
-    <!-- HOME FRAGMENT -->
-
-    <string name="homeWelcome_eng">Welcome</string>
-
+    <!-- SEARCH  -->
+    <string name="searchButton_eng">SEARCH</string>
+    <string name="filterButton_eng">FILTER</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -53,19 +51,18 @@
     <!-- Add element -->
     <string name="add_picture_eng">Add pictures</string>
     <string name="advertisement_title_eng">Advertisement\'s title</string>
-    <string name="description_eng" >Description</string>
-    <string name="category_eng" >Category</string>
-    <string name="type_of_product_eng" >Type of product</string>
-    <string name="type_of_exchange_eng" >Type of exchange</string>
-    <string name="product_eng" >Product</string>
-    <string name="experience_eng" >Experience</string>
-    <string name="permanent_eng" >Permanent</string>
-    <string name="temporal_eng" >Temporal</string>
-    <string name="duration_of_exchange_eng" >Duration of exchange</string>
-    <string name="the_advertisement_must_have_a_title_eng" >The advertisement must have a title</string>
-    <string name="these_fields_must_be_filled_eng" >These fields must be filled</string>
-    <string name="at_least_one_image_eng" >At least one image</string>
-
+    <string name="description_eng">Description</string>
+    <string name="category_eng">Category</string>
+    <string name="type_of_product_eng">Type of product</string>
+    <string name="type_of_exchange_eng">Type of exchange</string>
+    <string name="product_eng">Product</string>
+    <string name="experience_eng">Experience</string>
+    <string name="permanent_eng">Permanent</string>
+    <string name="temporal_eng">Temporal</string>
+    <string name="duration_of_exchange_eng">Duration of exchange</string>
+    <string name="the_advertisement_must_have_a_title_eng">The advertisement must have a title</string>
+    <string name="these_fields_must_be_filled_eng">These fields must be filled</string>
+    <string name="at_least_one_image_eng">At least one image</string>
 
 
     <!--edit profile-->
@@ -88,9 +85,6 @@
 
     <!--cercaElements-->
     <string name="search_eng">Search...</string>
-
-
-
 
 
 </resources>
