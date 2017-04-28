@@ -1,7 +1,13 @@
 package edu.upc.pes.wallachange.LoginSystem;
 
+import static com.android.volley.VolleyLog.TAG;
+
 import android.os.Bundle;
 import android.widget.Toast;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 
 import com.facebook.AccessToken;
 import com.facebook.FacebookCallback;
@@ -9,12 +15,23 @@ import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.login.LoginResult;
 
-import edu.upc.pes.wallachange.LoginActivity;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.LoginActivity;
+import edu.upc.pes.wallachange.Models.CurrentUser;
+import edu.upc.pes.wallachange.Models.User;
+import edu.upc.pes.wallachange.R;
 
 
 public class CallbackFacebook implements FacebookCallback<LoginResult> {
     private static LoginActivity myActivity;
+    private AdapterAPIRequest adapter = new AdapterAPIRequest();
+
 
     public CallbackFacebook(LoginActivity context) {
         myActivity = context;
@@ -27,12 +44,36 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
         //token
         //fbLogin(loginResult.getAccessToken());
         //String Token = loginResult.getAccessToken().getToken();
+        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> headers = new HashMap<String,String>();
+        params.put("token", loginResult.getAccessToken().getToken());
+        params.put("id", loginResult.getAccessToken().getUserId());
+        headers.put("Content-Type", "application/json");
+        adapter.POSTStringRequestAPI("http://localhost:3000/loginFB",
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONObject js = response;
+                        try {
+                            CurrentUser user = CurrentUser.getInstance();
+                            user.setToken(js.getString("token"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    }
+                }, params, headers);
 
-        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new CallbackGraphJSONObject(myActivity));
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,email,gender,birthday");
-        request.setParameters(parameters);
-        request.executeAsync();
+//        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new CallbackGraphJSONObject(myActivity));
+//        Bundle parameters = new Bundle();
+//        parameters.putString("fields", "id,name,email,gender,birthday");
+//        request.setParameters(parameters);
+//        request.executeAsync();
     }
 
     @Override
@@ -49,13 +90,13 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
 
     public static void checkLogin() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        //myActivity.login(accessToken.getUserId(), accessToken.getToken());
-        if (accessToken != null){
-            GraphRequest request = GraphRequest.newMeRequest(accessToken, new CallbackGraphJSONObject(myActivity));
-            Bundle parameters = new Bundle();
-            parameters.putString("fields", "id,name,email,gender,birthday");
-            request.setParameters(parameters);
-            request.executeAsync();
-        }
+        myActivity.login(accessToken.getUserId(), accessToken.getToken());
+//        if (accessToken != null){
+//            GraphRequest request = GraphRequest.newMeRequest(accessToken, new CallbackGraphJSONObject(myActivity));
+//            Bundle parameters = new Bundle();
+//            parameters.putString("fields", "id,name,email,gender,birthday");
+//            request.setParameters(parameters);
+//            request.executeAsync();
+//        }
     }
 }

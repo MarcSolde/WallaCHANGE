@@ -6,6 +6,7 @@ package edu.upc.pes.wallachange.APILayer;
 
 
 import android.util.Log;
+import android.util.Pair;
 
 import com.android.volley.Cache;
 import com.android.volley.Request;
@@ -120,27 +121,19 @@ public class AdapterAPIRequest  {
     }
 
 
-    public void POSTStringRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener) {
+    public void POSTStringRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final Map<String,String> parametres, final Map<String, String> capceleres) {
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyPOSTRequest";
         StringRequest postRequest = new StringRequest(url, responseListener, errorListener) {
-            /*@Override
+            @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                //TODO:Parametrizar
-                params.put("name", "Alif");
-                params.put("domain", "http://itsalif.info");
-
+                Map<String, String> params = parametres;
                 return params;
             }
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<String, String>();
-                //TODO:Parametrizar
-                headers.put("name", "Alif");
-                headers.put("domain", "http://itsalif.info");
-
+                Map<String, String> headers = capceleres;
                 return headers;
-            }*/
+            }
         };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest, REQUEST_TAG);
     }

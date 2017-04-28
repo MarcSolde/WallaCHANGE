@@ -102,5 +102,24 @@
     <!--searchElementFragment-->
     <string name="search_eng">Search...</string>
 
+    <!--API-->
+    <string name="API_URL">http://localhost:3000/</string>
+    <string name="ADD_USER">addUser</string>
+    <string name="GET_USER">user/</string>
+    <string name="GET_ALL_USERS">allUsers</string>
+    <string name="GET_IMATGE_USER">/imatge</string>
+    <string name="LOGIN">login</string>
+    <string name="LOGIN_FB">loginFB</string>
+    <string name="SET_IMATGE_USER">imatge/</string>
+    <string name="DELETE_USER">deleteUser/</string>
+    <string name="UPDATE_USER">updateUser</string>
+
+
+
+
+
+
+
+
 
 </resources>
