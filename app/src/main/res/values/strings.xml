@@ -44,6 +44,10 @@
     <string name="searchButton_eng">SEARCH</string>
     <string name="filterButton_eng">FILTER</string>
 
+    <!-- VIEW ELEMENT -->
+    <string name="viewElementReport_eng">Report</string>
+    <string name="viewElementHelp_eng">Help</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

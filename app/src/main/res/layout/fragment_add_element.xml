@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.upc.pes.wallachange.FragmentAddElement"
+    tools:context="edu.upc.pes.wallachange.AddElementFragment"
     android:scrollbars="vertical">
 
     <!-- TODO: Update blank fragment layout -->
@@ -88,7 +88,7 @@
                 android:layout_width="15pt"
                 android:layout_height="15pt"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/close2"
+                app:srcCompat="@drawable/delete"
                 android:id="@+id/neteja_edittext_titol"/>
         </LinearLayout>
 
@@ -128,7 +128,7 @@
                 android:layout_width="15pt"
                 android:layout_height="15pt"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/close2"
+                app:srcCompat="@drawable/delete"
                 android:id="@+id/neteja_edittext_descripcio"
                 android:layout_gravity="center_vertical"/>
         </LinearLayout>
@@ -157,7 +157,7 @@
                 android:layout_width="15pt"
                 android:layout_height="15pt"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/close2"
+                app:srcCompat="@drawable/delete"
                 android:id="@+id/neteja_edittext_categoria"
                 android:layout_gravity="center_vertical"/>
         </LinearLayout>
@@ -269,7 +269,7 @@
                 android:layout_width="15pt"
                 android:layout_height="15pt"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/close2"
+                app:srcCompat="@drawable/delete"
                 android:id="@+id/neteja_edittext_temporalitat"
                 android:visibility="gone"
                 android:layout_gravity="center_vertical"

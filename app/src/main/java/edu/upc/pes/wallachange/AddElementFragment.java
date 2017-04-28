@@ -36,7 +36,7 @@ import edu.upc.pes.wallachange.Models.Element;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentAddElement extends Fragment implements View.OnClickListener {
+public class AddElementFragment extends Fragment implements View.OnClickListener {
 
     private int PICK_IMAGE = 1, REQUEST_IMAGE = 123;
     private GridLayout img;
@@ -51,7 +51,7 @@ public class FragmentAddElement extends Fragment implements View.OnClickListener
     private EditText textTemporalitat, textCategoria, textDescripcio, textTitol;
     private ImageView netejaTemporalitat, netejaCategoria, netejaDescripcio, netejaTitol;
 
-    public FragmentAddElement() {}
+    public AddElementFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {

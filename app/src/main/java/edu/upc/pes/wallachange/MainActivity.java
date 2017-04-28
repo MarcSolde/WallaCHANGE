@@ -16,18 +16,17 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import edu.upc.pes.wallachange.Models.Element;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private HomeFragment homeFragment;
 
     private FragmentManager myFragmentManager;
-    private FragmentAddElement myFragmentAddElement;
+    private AddElementFragment myAddElementFragment;
     private DrawerLayout myDrawer;
     private String user;
-    private FragmentViewElement myFragmentViewElement;
+    private ViewElementFragment myViewElementFragment;
 
 
     @Override
@@ -102,8 +101,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog2.show();
                 break;
             case R.id.navigationNewItem:
-                myFragmentAddElement = new FragmentAddElement();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, myFragmentAddElement).commit();
+                myAddElementFragment = new AddElementFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, myAddElementFragment).commit();
                 break;
             case R.id.navigationSearchUser:
                 SearchUserFragment searchUserFragment= new SearchUserFragment();
@@ -132,9 +131,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bundleViewElement.putString("descripcio",e.getDescripcio());
         bundleViewElement.putParcelableArrayList("fotografies",e.getFotografies());
 
-        myFragmentViewElement = new FragmentViewElement();
-        myFragmentViewElement.setArguments(bundleViewElement);
-        myFragmentManager.beginTransaction().replace(R.id.fragment, myFragmentViewElement).commit();
+        myViewElementFragment = new ViewElementFragment();
+        myViewElementFragment.setArguments(bundleViewElement);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
     }
 
     public void changeFragmentToHome () {
