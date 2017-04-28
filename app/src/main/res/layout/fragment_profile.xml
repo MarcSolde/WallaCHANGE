@@ -76,6 +76,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/city_eng"
+                    android:singleLine="true"
                     android:inputType="textPersonName"
                     android:layout_weight="0.591" />
 
@@ -116,6 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.591"
                     android:hint="@string/preference_eng"
+                    android:singleLine="true"
                     android:inputType="textPersonName" />
 
                 <ImageView
@@ -137,7 +139,7 @@
             <!--android:orientation="horizontal">-->
             <!--</GridView>-->
 
-            <edu.upc.pes.wallachange.ExpandableHeightGridView
+            <edu.upc.pes.wallachange.Others.ExpandableHeightGridView
                 android:id="@+id/gridPreferences"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

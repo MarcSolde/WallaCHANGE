@@ -107,11 +107,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 myFragmentManager.beginTransaction().replace(R.id.fragment, searchUserFragment).commit();
                 break;
             case R.id.navigationSearchItem:
-                CercaElements ElementsFragment = new CercaElements();
+                SearchElementFragment ElementsFragment = new SearchElementFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, ElementsFragment).commit();
                 break;
             case R.id.navigationProfile:
-                ProfileEdit ProfileFragment = new ProfileEdit();
+                ProfileFragment ProfileFragment = new ProfileFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, ProfileFragment).commit();
                 break;
             default:
