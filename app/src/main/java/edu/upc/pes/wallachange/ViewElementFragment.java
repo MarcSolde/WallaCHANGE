@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -76,17 +79,24 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         imatge = (ImageView) fragmentViewElementView.findViewById(R.id.imageViewFotoElement);
         uris = bundle.getParcelableArrayList("fotografies");
         Uri u = (Uri)uris.get(imatgeActual);
-        Picasso.with(myActivity).load(u).into(imatge);
+        Picasso.with(myActivity).load(u).resize(400,400).into(imatge);
 
         TextView textViewDescripcio = (TextView) fragmentViewElementView.findViewById(R.id.textViewDescripcio);
         textViewDescripcio.setText(bundle.getString("descripcio"));
 
         editTextWriteComment = (EditText) fragmentViewElementView.findViewById(R.id.editTextComment);
 
+        setHasOptionsMenu(true);
 
         return fragmentViewElementView;
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        myActivity.getMenuInflater().inflate(R.menu.menu_fragment_view_element, menu);
+    }
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
@@ -103,13 +113,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                     Uri u = (Uri)uris.get(imatgeActual);
                     Picasso.with(myActivity).load(u).into(imatge);
                 }
-                break;
-            case R.id.reportButton:
-                // TODO: denuncia anunci
-                break;
-            case R.id.reportInformation:
-                // TODO: informacio sobre denunciar anunci
-                mostrarInformacioSobreDenuncia();
                 break;
             case R.id.writeComment:
                 if (!Objects.equals(editTextWriteComment.getText().toString(), "")){
@@ -136,6 +139,13 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //TODO: report and help
+        return super.onOptionsItemSelected(item);
+    }
+
+    /*
     private void mostrarInformacioSobreDenuncia() {
         AlertDialog alertDialog = new AlertDialog.Builder(myActivity).create();
         alertDialog.setTitle(getResources().getString(R.string.this_field_is_required_eng));
@@ -148,4 +158,5 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                 });
         alertDialog.show();
     }
+    */
 }
