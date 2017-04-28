@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,17 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-
-
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.APILayer.AppSingleton;
 
 
 public class ProfileEdit extends Fragment  implements View.OnClickListener {
@@ -47,13 +53,31 @@ public class ProfileEdit extends Fragment  implements View.OnClickListener {
         View view;
         view = inflater.inflate(R.layout.profile_edit, container, false);
         myActivity = (MainActivity) getActivity();
-
+        myActivity.setTitle(R.string.navigationProfile_eng);
         user = new User();
+        String username2 = myActivity.getUsername();
 
+//        /////////
+//        AppSingleton single = new AppSingleton(myActivity);
+//        AdapterAPIRequest adapter = new AdapterAPIRequest();
+//        RequestQueue rq = single.getInstance(myActivity);
+//        rq.start();
+////        /////////
+//        AdapterAPIRequest adapter = new AdapterAPIRequest();
+//        adapter.GETJsonObjectRequestAPI("http://localhost:3000/user/"+username2, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                Log.d("tagtag", response.toString());
+//
+//            }
+//        });
+//
+////
+////
 
         //User de prova, li assigno els paràmetres
         //S'haurà d'esborrar en un futur
-        user.setUsername(myActivity.getUsername());
+        user.setUsername(username2);
         user.setLocation("Sant Cugat");
         user.addPreference("esport");
         user.addPreference("patinatge");
@@ -120,9 +144,6 @@ public class ProfileEdit extends Fragment  implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
-
-
             case R.id.userPicture:
                 Intent pickIntent;
                 if (Build.VERSION.SDK_INT >= 19) {

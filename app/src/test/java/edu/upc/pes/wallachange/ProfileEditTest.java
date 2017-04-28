@@ -1,14 +1,14 @@
 package edu.upc.pes.wallachange;
 
 import android.content.Context;
+//
+//import org.junit.Test;
+//import org.junit.runner.RunWith;
+//import org.mockito.Mock;
+//import org.mockito.runners.MockitoJUnitRunner;
+//
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
 public class ProfileEditTest {
     
 //
