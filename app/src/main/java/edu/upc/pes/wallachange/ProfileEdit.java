@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,18 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 
-
+import static com.android.volley.VolleyLog.TAG;
 
 
 public class ProfileEdit extends Fragment  implements View.OnClickListener {
@@ -49,11 +56,30 @@ public class ProfileEdit extends Fragment  implements View.OnClickListener {
         myActivity = (MainActivity) getActivity();
 
         user = new User();
-
+        JSONObject js;
 
         //User de prova, li assigno els paràmetres
         //S'haurà d'esborrar en un futur
         user.setUsername(myActivity.getUsername());
+
+        AdapterAPIRequest adapter = new AdapterAPIRequest();
+        adapter.GETJsonObjectRequestAPI(
+                "http://localhost:3000/user/"+"pepito",
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("tagtag", response.toString());
+                        locationTE.setText("OKEY!");
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                        locationTE.setText("Error");
+                    }
+                });
+
         user.setLocation("Sant Cugat");
         user.addPreference("esport");
         user.addPreference("patinatge");
@@ -92,7 +118,7 @@ public class ProfileEdit extends Fragment  implements View.OnClickListener {
         fotoPerfil.setImageURI(user.getPicture());
 
         location = user.getLocation();
-        locationTE.setText(location);
+        //locationTE.setText(location);
 
         mRatingBar.setRating(user.getRating());
         mRatingBar.setEnabled(false);
