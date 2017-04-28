@@ -86,6 +86,7 @@ public class SearchUserFragment extends Fragment {
 
     public void onSearch() {
         String var = myText.getText().toString();
+        myText.setFocusable(false);
         myActivity.hideKeyboard();
         //TODO: enlace DB
     }
