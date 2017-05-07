@@ -163,11 +163,20 @@ public class AdapterAPIRequest  {
         };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(putRequest, REQUEST_TAG);
     }
+    public void DELETERequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener) {
+//  public void DELETERequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final Map<String,String> body){
+        String REQUEST_TAG = "com.androidtutorialpoint.Delete";
 
-    public void DELETERequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
-        String  REQUEST_TAG = "com.androidtutorialpoint.Delete";
-
-        StringRequest dr = new StringRequest(Request.Method.DELETE, url, responseListener, errorListener);
+        StringRequest dr = new StringRequest(Request.Method.DELETE, url, responseListener,
+                errorListener);
+//        Jo diria que ha de ser així:
+//        StringRequest dr = new StringRequest(Request.Method.DELETE, url, responseListener, errorListener) {
+//        @Override
+//        protected Map<String, String> getParams () {
+//            Map<String, String> params = body;
+//            return params;
+//        }
+//    };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(dr, REQUEST_TAG);
     }
 
