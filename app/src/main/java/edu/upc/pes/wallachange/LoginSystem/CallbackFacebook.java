@@ -1,18 +1,14 @@
 package edu.upc.pes.wallachange.LoginSystem;
 
-import static com.android.volley.VolleyLog.TAG;
-
-import android.os.Bundle;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-
 import com.facebook.AccessToken;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
 import org.json.JSONException;
@@ -24,8 +20,8 @@ import java.util.Map;
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.LoginActivity;
 import edu.upc.pes.wallachange.Models.CurrentUser;
-import edu.upc.pes.wallachange.Models.User;
-import edu.upc.pes.wallachange.R;
+
+import static com.android.volley.VolleyLog.TAG;
 
 
 public class CallbackFacebook implements FacebookCallback<LoginResult> {
@@ -49,7 +45,7 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
         params.put("token", loginResult.getAccessToken().getToken());
         params.put("id", loginResult.getAccessToken().getUserId());
         headers.put("Content-Type", "application/json");
-        adapter.POSTStringRequestAPI("http://localhost:3000/loginFB",
+        adapter.POSTStringRequestAPI("http://10.0.2.2:3000/loginFB",
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -66,6 +62,7 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         VolleyLog.d(TAG, "Error: " + error.getMessage());
+                        LoginManager.getInstance().logOut();
                     }
                 }, params, headers);
 
@@ -90,6 +87,8 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
 
     public static void checkLogin() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
+
+
         myActivity.login(accessToken.getUserId(), accessToken.getToken());
 //        if (accessToken != null){
 //            GraphRequest request = GraphRequest.newMeRequest(accessToken, new CallbackGraphJSONObject(myActivity));

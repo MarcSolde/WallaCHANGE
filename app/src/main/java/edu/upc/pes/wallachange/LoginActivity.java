@@ -10,9 +10,6 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-
-import static com.android.volley.VolleyLog.TAG;
-
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
@@ -32,6 +29,8 @@ import edu.upc.pes.wallachange.LoginSystem.CallbackTwitter;
 import edu.upc.pes.wallachange.Models.User;
 import io.fabric.sdk.android.Fabric;
 
+import static com.android.volley.VolleyLog.TAG;
+
 
 public class LoginActivity extends AppCompatActivity {
     private TwitterLoginButton twLoginButton;
@@ -42,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        CallbackFacebook.checkLogin();
+        //CallbackFacebook.checkLogin();
     }
 
     @Override
@@ -112,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         ).executeAsync();
     }*/
 
-    public void login (String id, String name) {
+    public void login (String token, String name) {
         AdapterAPIRequest adapter = new AdapterAPIRequest();
         adapter.GETJsonObjectRequestAPI(
                 "http://localhost:3000/user/"+"pepito",
@@ -122,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                         JSONObject js = response;
                         try {
                             if (js.getString("success").equals("true")) {
-                                User u = new User("token");
+                                User u = new User();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
