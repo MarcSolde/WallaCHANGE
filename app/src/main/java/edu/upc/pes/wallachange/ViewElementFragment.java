@@ -1,12 +1,10 @@
 package edu.upc.pes.wallachange;
 
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,9 +19,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 import edu.upc.pes.wallachange.Adapters.CommentListViewAdapter;
@@ -34,12 +33,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
     private View fragmentViewElementView;
     private MainActivity myActivity;
-    private ImageButton previousPictureButton;
-    private ImageButton nextPictureButton;
-    private ImageButton reportButton;
-    private ImageButton reportInformationButton;
-    private ImageButton writeCommentButton;
-    private Button tradeButton;
     private Integer imatgeActual;
     private ArrayList<Parcelable> uris;
     private ImageView imatge;
@@ -57,31 +50,137 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         Bundle bundle = getArguments();
         myActivity.setTitle(R.string.advertisements_view);
 
-        previousPictureButton = (ImageButton) fragmentViewElementView.findViewById(R.id.previousButton);
+        ImageButton previousPictureButton = (ImageButton) fragmentViewElementView.findViewById(
+                R.id.previousButton);
         previousPictureButton.setOnClickListener(this);
-        nextPictureButton = (ImageButton) fragmentViewElementView.findViewById(R.id.nextButton);
+        ImageButton nextPictureButton = (ImageButton) fragmentViewElementView.findViewById(
+                R.id.nextButton);
         nextPictureButton.setOnClickListener(this);
-        writeCommentButton = (ImageButton) fragmentViewElementView.findViewById(R.id.writeComment);
+        ImageButton writeCommentButton = (ImageButton) fragmentViewElementView.findViewById(
+                R.id.writeComment);
         writeCommentButton.setOnClickListener(this);
-        tradeButton = (Button) fragmentViewElementView.findViewById(R.id.tradeButton);
+        Button tradeButton = (Button) fragmentViewElementView.findViewById(R.id.tradeButton);
         tradeButton.setOnClickListener(this);
 
         comentaris = new ArrayList<>();
 
-        TextView textViewTitol = (TextView) fragmentViewElementView.findViewById(R.id.titolAnunci);
-        textViewTitol.setText(bundle.getString("titol"));
+        /*
+        quan afegeixes un element (anunci)
+        fas peticio d'inserir a la BD
+        et retorna l'id de l'anunci o l'anunci sencer
+        amb aixo pots construir la vista de l'anunci utilitzant-ne els atributs
+        fotos, descripcio, comentaris, qui l'ha creat (l'usuari actual)
+        el botó d'intercanvi estarà desactivat i
+        l'edicio d'alguns camps activada
+        * */
+
+        EditText editTextTitol = (EditText) fragmentViewElementView.findViewById(R.id.titolAnunci);
+        editTextTitol.setText(bundle.getString("titol"));
+        editTextTitol.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    // TODO: fer un update del nou titol
+                }
+            }
+        });
+
+        final EditText editTextDescripcio = (EditText) fragmentViewElementView.findViewById(R.id.editTextDescripcio);
+        String descripcio = bundle.getString("descripcio");
+        editTextDescripcio.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    if (!Objects.equals(editTextDescripcio.getText().toString(), getResources().getString(R.string.edit_description_here_eng))){
+                        // TODO: fer update de la nova descripcio si es diferent al text "descriptiu" quan és buida
+
+                    }
+                }
+            }
+        });
+
+        final EditText editTextCategoria = (EditText) fragmentViewElementView.findViewById(R.id.editTextCategoria);
+        String categoria = bundle.getString("categoria");
+        editTextCategoria.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    if (!Objects.equals(editTextCategoria.getText().toString(),
+                            getResources().getString(R.string.edit_category_here_eng))) {
+                        // TODO: fer update de la nova categoria si es diferent al text "descriptiu" quan és buida
+                    }
+                }
+            }
+        });
+
+        final EditText editTextTemporalitat = (EditText) fragmentViewElementView.findViewById(R.id.temporalitat);
+        String temporalitat = bundle.getString("temporalitat");
+        editTextTemporalitat.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    if (!Objects.equals(editTextTemporalitat.getText().toString(),
+                            getResources().getString(R.string.edit_temporality_here_eng))) {
+                        // TODO: fer update de la nova temporalitat si es diferent al text "descriptiu" quan és buida
+                    }
+                }
+            }
+        });
+
+        String tipusIntercanvi = bundle.getString("tipusIntercanvi");
+        String usuariActual = myActivity.getUsername();
+        String usuariAnunci = bundle.getString("usuari");
+        if (Objects.equals(usuariAnunci, usuariActual)) {
+            editTextTitol.setEnabled(true);
+            editTextDescripcio.setEnabled(true);
+            editTextCategoria.setEnabled(true);
+            tradeButton.setEnabled(false);
+
+            if (!Objects.equals(descripcio, "")) editTextDescripcio.setText(descripcio);
+            else editTextDescripcio.setText(getResources().getString(R.string.edit_description_here_eng));
+
+            if (!Objects.equals(categoria, "")) editTextCategoria.setText(categoria);
+            else editTextCategoria.setText(getResources().getString(R.string.edit_category_here_eng));
+
+            if (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng))) {
+                if (!Objects.equals(temporalitat, "")) editTextTemporalitat.setText(temporalitat);
+                else editTextTemporalitat.setText(
+                        getResources().getString(R.string.edit_temporality_here_eng));
+            }
+        }else {
+            editTextTitol.setEnabled(false);
+            editTextDescripcio.setEnabled(false);
+            editTextCategoria.setEnabled(false);
+            tradeButton.setEnabled(true);
+
+            if (!Objects.equals(descripcio, "")) editTextDescripcio.setText(descripcio);
+            else editTextDescripcio.setText(getResources().getString(R.string.empty_description_eng));
+
+            if (!Objects.equals(categoria, "")) editTextCategoria.setText(categoria);
+            else editTextCategoria.setText(getResources().getString(R.string.empty_category_eng));
+
+            if (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng))) {
+                if (!Objects.equals(temporalitat, "")) editTextTemporalitat.setText(temporalitat);
+                else editTextTemporalitat.setText(
+                        getResources().getString(R.string.empty_temporality_eng));
+            }
+        }
+
+        TextView textViewCreatedBy = (TextView) fragmentViewElementView.findViewById(R.id.createdByTextView);
+        String createdBy = textViewCreatedBy.getText().toString();
+        createdBy += "\n" + usuariActual;
+        textViewCreatedBy.setText(createdBy);
 
         imatgeActual = 0;
         imatge = (ImageView) fragmentViewElementView.findViewById(R.id.imageViewFotoElement);
         uris = bundle.getParcelableArrayList("fotografies");
-        Uri u = (Uri)uris.get(imatgeActual);
-        Picasso.with(myActivity).load(u).resize(400,400).into(imatge);
-
-        TextView textViewDescripcio = (TextView) fragmentViewElementView.findViewById(R.id.textViewDescripcio);
-        textViewDescripcio.setText(bundle.getString("descripcio"));
+        String tipusProducte = bundle.getString("tipusProducte");
+        if (Objects.equals(tipusProducte, getResources().getString(R.string.product_eng))){
+            Uri u = (Uri)uris.get(imatgeActual);
+            Picasso.with(myActivity).load(u).into(imatge);
+        }
 
         editTextWriteComment = (EditText) fragmentViewElementView.findViewById(R.id.editTextComment);
-
         setHasOptionsMenu(true);
 
         return fragmentViewElementView;
@@ -112,13 +211,16 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                 break;
             case R.id.writeComment:
                 if (!Objects.equals(editTextWriteComment.getText().toString(), "")){
-                    editTextWriteComment.setFocusable(false);
                     String comentari = editTextWriteComment.getText().toString();
                     Uri path = Uri.parse("android.resource://edu.upc.pes.wallachange/" + R.drawable.userpicture);
-                    String date = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(new Date());
-                    Comment nouComentari = new Comment(path,"Andreu Conesa",comentari,date);
+
+
+                    Date date = new Date();
+                    String data = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("es","ES")).format(date);
+                    data += "  " + DateFormat.getTimeInstance(DateFormat.MEDIUM, new Locale("es","ES")).format(date);
+                    String nomUsuari = myActivity.getUsername();
+                    Comment nouComentari = new Comment(path,nomUsuari,comentari,data);
                     comentaris.add(0,nouComentari);
-                    // TODO: el comentari s'afegeix a l'anunci
 
                     ExpandableHeightGridView listViewComentaris = (ExpandableHeightGridView) fragmentViewElementView.findViewById(R.id.comments_list);
                     listViewComentaris.setExpanded(true);
@@ -138,22 +240,16 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //TODO: report and help
-        return super.onOptionsItemSelected(item);
+        //TODO: opcions report and help del menu superior
+        switch (item.getItemId()){
+            case R.id.menu_report:
+                //TODO: report si les imatges i/o els texts son inapropiats
+                break;
+            case R.id.menu_help:
+                //TODO: informacio sobre casos en que es pot denunciar
+                break;
+            default:break;
+        }
+        return true;
     }
-
-    /*
-    private void mostrarInformacioSobreDenuncia() {
-        AlertDialog alertDialog = new AlertDialog.Builder(myActivity).create();
-        alertDialog.setTitle(getResources().getString(R.string.this_field_is_required_eng));
-        alertDialog.setMessage("Alert message to be shown");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
-    }
-    */
 }

@@ -102,5 +102,15 @@
     <!--searchElementFragment-->
     <string name="search_eng">Search...</string>
 
+    <!-- fragment-view-element (edit) -->
+    <string name="temporality_eng">Temporality</string>
+    <string name="edit_description_here_eng">Edit description here</string>
+    <string name="empty_description_eng">Empty description</string>
+    <string name="edit_category_here_eng">Edit category here</string>
+    <string name="empty_category_eng">Empty category</string>
+    <string name="edit_temporality_here_eng">Edit temporality here</string>
+    <string name="empty_temporality_eng">Empty temporality</string>
+    <string name="by_eng">By</string>
+
 
 </resources>

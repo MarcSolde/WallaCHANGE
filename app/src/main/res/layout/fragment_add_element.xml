@@ -50,14 +50,17 @@
                 android:text="@string/if_product_at_least_one_image_eng"/>
 
         </LinearLayout>
+        <edu.upc.pes.wallachange.Others.ExpandableHeightGridView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gridViewImatgesMiniatura"
+            android:isScrollContainer="false"
+            android:numColumns="5"
+            android:stretchMode="columnWidth"
+            >
 
-        <GridLayout
-            android:id="@+id/imatgesMiniatura"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center">
-        </GridLayout>
+        </edu.upc.pes.wallachange.Others.ExpandableHeightGridView>
+        <!--
         <GridView
             android:id="@+id/gridViewImatgesMiniatura"
             android:layout_width="wrap_content"
@@ -65,7 +68,7 @@
             android:numColumns="5"
             android:stretchMode="columnWidth"
             />
-
+        -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30pt"
@@ -83,7 +86,10 @@
                 android:layout_width="195dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/advertisements_title_eng"
-                android:layout_weight="0.68" />
+                android:layout_weight="0.68"
+                android:maxLines="1"
+                android:inputType="text"
+                />
             <ImageView
                 android:layout_width="15pt"
                 android:layout_height="15pt"
@@ -94,7 +100,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30pt"
+            android:layout_height="10pt"
             android:orientation="horizontal"
             >
         <TextView
@@ -152,7 +158,9 @@
                 android:layout_width="215dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/advertisements_category_eng"
-                android:layout_weight="0.37"></EditText>
+                android:layout_weight="0.37"
+                android:maxLines="1"
+                android:inputType="text"></EditText>
             <ImageView
                 android:layout_width="15pt"
                 android:layout_height="15pt"
@@ -264,6 +272,8 @@
                 android:visibility="gone"
                 android:hint="2 weeks, 1 day..."
                 android:layout_weight="0.5"
+                android:maxLines="1"
+                android:inputType="text"
                 />
             <ImageView
                 android:layout_width="15pt"
