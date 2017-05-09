@@ -66,7 +66,7 @@ public class CommentListViewAdapter extends ArrayAdapter<Comment>{
         }
 
         holder.reportedDateView.setText(data.get(position).getData());
-        String comentarista = String.valueOf(R.string.by_eng) + ", " + data.get(position).getNomUsuari();
+        String comentarista = mContext.getString(R.string.by_eng) + ", " + data.get(position).getNomUsuari();
         holder.reporterNameView.setText(comentarista);
         holder.headlineView.setText(data.get(position).getTextComentari());
         return convertView;

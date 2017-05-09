@@ -74,7 +74,7 @@
                     android:layout_width="100pt"
                     android:layout_height="100pt"
                     android:layout_weight="1"
-                    app:srcCompat="@mipmap/ic_userpicture" />
+                    app:srcCompat="@drawable/empty_picture" />
 
                 <ImageButton
                     android:id="@+id/nextButton"

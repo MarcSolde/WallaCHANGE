@@ -1,10 +1,12 @@
 package edu.upc.pes.wallachange;
 
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -61,18 +65,9 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         writeCommentButton.setOnClickListener(this);
         Button tradeButton = (Button) fragmentViewElementView.findViewById(R.id.tradeButton);
         tradeButton.setOnClickListener(this);
+        editTextWriteComment = (EditText) fragmentViewElementView.findViewById(R.id.editTextComment);
 
         comentaris = new ArrayList<>();
-
-        /*
-        quan afegeixes un element (anunci)
-        fas peticio d'inserir a la BD
-        et retorna l'id de l'anunci o l'anunci sencer
-        amb aixo pots construir la vista de l'anunci utilitzant-ne els atributs
-        fotos, descripcio, comentaris, qui l'ha creat (l'usuari actual)
-        el botó d'intercanvi estarà desactivat i
-        l'edicio d'alguns camps activada
-        * */
 
         EditText editTextTitol = (EditText) fragmentViewElementView.findViewById(R.id.titolAnunci);
         editTextTitol.setText(bundle.getString("titol"));
@@ -168,19 +163,19 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
         TextView textViewCreatedBy = (TextView) fragmentViewElementView.findViewById(R.id.createdByTextView);
         String createdBy = textViewCreatedBy.getText().toString();
-        createdBy += "\n" + usuariActual;
+        createdBy += "\n" + usuariAnunci;
         textViewCreatedBy.setText(createdBy);
 
         imatgeActual = 0;
         imatge = (ImageView) fragmentViewElementView.findViewById(R.id.imageViewFotoElement);
         uris = bundle.getParcelableArrayList("fotografies");
-        String tipusProducte = bundle.getString("tipusProducte");
-        if (Objects.equals(tipusProducte, getResources().getString(R.string.product_eng))){
-            Uri u = (Uri)uris.get(imatgeActual);
-            Picasso.with(myActivity).load(u).into(imatge);
+        if (uris != null ){
+            if (uris.size()> 0) {
+                Uri u = (Uri) uris.get(imatgeActual);
+                Picasso.with(myActivity).load(u).into(imatge);
+            }
         }
 
-        editTextWriteComment = (EditText) fragmentViewElementView.findViewById(R.id.editTextComment);
         setHasOptionsMenu(true);
 
         return fragmentViewElementView;
@@ -224,7 +219,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
                     ExpandableHeightGridView listViewComentaris = (ExpandableHeightGridView) fragmentViewElementView.findViewById(R.id.comments_list);
                     listViewComentaris.setExpanded(true);
-                    CommentListViewAdapter adapter = new CommentListViewAdapter(myActivity, R.layout.comment_row_layout, comentaris,this);
+                    CommentListViewAdapter adapter = new CommentListViewAdapter(myActivity, R.layout.comment_row_layout, comentaris);
                     listViewComentaris.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     editTextWriteComment.setText("");
@@ -244,6 +239,31 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         switch (item.getItemId()){
             case R.id.menu_report:
                 //TODO: report si les imatges i/o els texts son inapropiats
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+
+                final View mView = inflater.inflate(R.layout.report_dialog, null);
+                builder.setView(mView);
+
+                final RadioGroup radioGroup = (RadioGroup) mView.findViewById(R.id.report_radio_group);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        int checkedId = radioGroup.getCheckedRadioButtonId();
+                        RadioButton radioButton = (RadioButton) mView.findViewById(checkedId);
+                        //TODO: procedir amb la denuncia
+                    }
+                });
+
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //TODO: boto cancelar denuncia
+                    }
+                });
+
+                builder.show();
+
                 break;
             case R.id.menu_help:
                 //TODO: informacio sobre casos en que es pot denunciar
