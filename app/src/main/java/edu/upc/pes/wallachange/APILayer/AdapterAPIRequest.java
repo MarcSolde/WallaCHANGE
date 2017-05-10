@@ -13,13 +13,15 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class AdapterAPIRequest  {
+public class AdapterAPIRequest   {
 
 
 
@@ -80,30 +82,23 @@ public class AdapterAPIRequest  {
 
 
     //POST
-    public void POSTSJsonObjectRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener) {
+    public void POSTSJsonObjectRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener,  final Map<String,String> parametres, final Map<String, String> capceleres) {
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyPOSTRequest";
 
-        JsonObjectRequest postRequest = new JsonObjectRequest(url, null, responseListener, errorListener) {
-            /*@Override
-
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                //TODO:Parametrizar
-                params.put("name", "Alif");
-                params.put("domain", "http://itsalif.info");
-
-                return params;
-            }
+        JsonObjectRequest postRequest = new JsonObjectRequest(url, new JSONObject(parametres), responseListener, errorListener) {
 
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<String, String>();
-                //TODO:Parametrizar
-                headers.put("name", "Alif");
-                headers.put("domain", "http://itsalif.info");
+                Map<String, String> headers = new HashMap<String, String>(capceleres);
+                /*Iterator it = capceleres.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry)it.next();
+                    headers.put(pair.getKey().toString(), pair.getValue().toString());
+                    it.remove(); // avoids a ConcurrentModificationException
+                }*/
 
                 return headers;
-            }*/
+            }
 
         };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest, REQUEST_TAG);
@@ -126,6 +121,7 @@ public class AdapterAPIRequest  {
 
                 return params;
             }
+
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<String, String>(capceleres);

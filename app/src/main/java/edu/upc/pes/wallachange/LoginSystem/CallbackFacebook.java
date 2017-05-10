@@ -45,7 +45,7 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
         params.put("token", loginResult.getAccessToken().getToken());
         params.put("id", loginResult.getAccessToken().getUserId());
         headers.put("Content-Type", "application/json");
-        adapter.POSTStringRequestAPI("http://10.0.2.2:3000/loginFB",
+        adapter.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/loginFB",
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -53,6 +53,7 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
                         try {
                             CurrentUser user = CurrentUser.getInstance();
                             user.setToken(js.getString("token"));
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
