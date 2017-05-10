@@ -53,6 +53,15 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
                         try {
                             CurrentUser user = CurrentUser.getInstance();
                             user.setToken(js.getString("token"));
+                            user.setUsername(js.getString("nom"));
+                            user.setLocation(js.getString("localitat"));
+                            user.setPreferencesArray(js.getJSONArray("prefs"));
+                            user.setIntercanvisArray(js.getJSONArray("intercanvis"));
+                            user.setProductesArray(js.getJSONArray("productes"));
+                            user.setRating(js.getString("reputacio"));
+                            user.setPicture(js.getString("path"));
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

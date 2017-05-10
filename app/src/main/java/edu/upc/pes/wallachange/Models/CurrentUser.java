@@ -2,6 +2,8 @@ package edu.upc.pes.wallachange.Models;
 
 import android.net.Uri;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 
 /**
@@ -51,7 +53,9 @@ public class CurrentUser {
         return user.getRating();
     }
 
-    public void setRating(float rating) {
+    public void setRating(String rating) {
+
+        //TODO string->float
         user.setRating(rating);
     }
 
@@ -59,7 +63,9 @@ public class CurrentUser {
         return user.getPicture();
     }
 
-    public void setPicture(Uri picture) {
+    public void setPicture(String picture) {
+
+        //TODO string->uri
         user.setPicture(picture);
     }
 
@@ -88,5 +94,16 @@ public class CurrentUser {
 
     public boolean existsPref(String newPref) {
         return user.existsPref(newPref);
+    }
+
+
+    public void setIntercanvisArray(JSONArray intercanvisArray) {
+        //TODO
+        this.intercanvisArray = intercanvisArray;
+    }
+
+    public void setProductesArray(JSONArray productesArray) {
+        //TODO
+        this.productesArray = productesArray;
     }
 }
