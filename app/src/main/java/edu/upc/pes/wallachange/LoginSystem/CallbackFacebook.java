@@ -8,6 +8,7 @@ import com.android.volley.VolleyLog;
 import com.facebook.AccessToken;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
@@ -53,13 +54,14 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
                         try {
                             CurrentUser user = CurrentUser.getInstance();
                             user.setToken(js.getString("token"));
-                            user.setUsername(js.getString("nom"));
-                            user.setLocation(js.getString("localitat"));
-                            user.setPreferencesArray(js.getJSONArray("prefs"));
-                            user.setIntercanvisArray(js.getJSONArray("intercanvis"));
-                            user.setProductesArray(js.getJSONArray("productes"));
-                            user.setRating(js.getString("reputacio"));
-                            user.setPicture(js.getString("path"));
+//                            user.setUsername(js.getString("nom"));
+//                            user.setLocation(js.getString("localitat"));
+//                            user.setPreferencesArray(js.getJSONArray("prefs"));
+//                                user.setIntercanvisArray(js.getJSONArray("intercanvis"));
+//                                user.setProductesArray(js.getJSONArray("productes"));
+//                                user.setRating(js.getString("reputacio"));
+//                                user.setPicture(js.getString("path"));
+                            myActivity.login();
 
 
 
@@ -96,16 +98,46 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
     }
 
     public static void checkLogin() {
+        FacebookSdk.sdkInitialize(myActivity);
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
 
 
-        myActivity.login(accessToken.getUserId(), accessToken.getToken());
-//        if (accessToken != null){
-//            GraphRequest request = GraphRequest.newMeRequest(accessToken, new CallbackGraphJSONObject(myActivity));
-//            Bundle parameters = new Bundle();
-//            parameters.putString("fields", "id,name,email,gender,birthday");
-//            request.setParameters(parameters);
-//            request.executeAsync();
-//        }
+        if (accessToken != null){
+            AdapterAPIRequest adapter2 = new AdapterAPIRequest();
+
+            Map<String, String> params = new HashMap<String, String>();
+            Map<String, String> headers = new HashMap<String,String>();
+            params.put("token", accessToken.toString());
+            params.put("id", accessToken.getUserId());
+            headers.put("Content-Type", "application/json");
+            adapter2.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/loginFB",
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            JSONObject js = response;
+                            try {
+                                CurrentUser user = CurrentUser.getInstance();
+                                user.setToken(js.getString("token"));
+                                //user.setUsername(js.getString("nom"));
+//                                user.setLocation(js.getString("localitat"));
+//                                user.setPreferencesArray(js.getJSONArray("prefs"));
+//                                user.setIntercanvisArray(js.getJSONArray("intercanvis"));
+//                                user.setProductesArray(js.getJSONArray("productes"));
+//                                user.setRating(js.getString("reputacio"));
+//                                user.setPicture(js.getString("path"));
+                                myActivity.login();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            VolleyLog.d(TAG, "Error: " + error.getMessage());
+                            LoginManager.getInstance().logOut();
+                        }
+                    }, params, headers);
+        }
     }
 }

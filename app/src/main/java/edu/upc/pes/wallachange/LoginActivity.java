@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
@@ -17,19 +14,13 @@ import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Arrays;
 import java.util.Locale;
 
-import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.LoginSystem.CallbackFacebook;
 import edu.upc.pes.wallachange.LoginSystem.CallbackTwitter;
-import edu.upc.pes.wallachange.Models.User;
+import edu.upc.pes.wallachange.Models.CurrentUser;
 import io.fabric.sdk.android.Fabric;
-
-import static com.android.volley.VolleyLog.TAG;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -41,7 +32,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        //CallbackFacebook.checkLogin();
+        CallbackFacebook.checkLogin();
+    }
+
+    @Override
+    protected void onPostResume(){
+        super.onPostResume();
+        CallbackFacebook.checkLogin();
     }
 
     @Override
@@ -111,31 +108,11 @@ public class LoginActivity extends AppCompatActivity {
         ).executeAsync();
     }*/
 
-    public void login (String token, String name) {
-        AdapterAPIRequest adapter = new AdapterAPIRequest();
-        adapter.GETJsonObjectRequestAPI(
-                "http://localhost:3000/user/"+"pepito",
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        JSONObject js = response;
-                        try {
-                            if (js.getString("success").equals("true")) {
-                                User u = new User();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(TAG, "Error: " + error.getMessage());
-                    }
-                });
+    public void login() {
+        CurrentUser user = CurrentUser.getInstance();
+
         Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra("user",name);
+        intent.putExtra("user",user.getUsername());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

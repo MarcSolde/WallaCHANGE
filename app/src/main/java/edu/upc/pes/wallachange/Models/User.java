@@ -13,6 +13,8 @@ public class User {
     private float rating;
     private Uri picture;
     private ArrayList<String> preferences;
+    private ArrayList<String> intercanvis;
+    private ArrayList<String> productes;
 
     public User(String username, String location, String password, int rating, Uri picture, ArrayList<String> preferences) {
         this.username = username;
@@ -89,4 +91,11 @@ public class User {
         return false;
     }
 
+    public void setIntercanvis(ArrayList<String> intercanvis) {
+        this.intercanvis = intercanvis;
+    }
+
+    public void setProductes(ArrayList<String> productes) {
+        this.productes = productes;
+    }
 }

@@ -1,28 +1,30 @@
 package edu.upc.pes.wallachange.Models;
 
+import android.net.Uri;
+
 /**
  * Created by Usuario on 28/04/2017.
  */
 
 public class Comment {
     // foto, nom d'usuari, text del comentari, data
-    private String fotoUsuari;
+    private Uri fotoUsuari;
     private String nomUsuari;
     private String textComentari;
     private String data;
 
-    public Comment(String fotoUsuari, String nomUsuari, String textComentari, String data) {
+    public Comment(Uri fotoUsuari, String nomUsuari, String textComentari, String data) {
         this.fotoUsuari = fotoUsuari;
         this.nomUsuari = nomUsuari;
         this.textComentari = textComentari;
         this.data = data;
     }
 
-    public String getFotoUsuari() {
+    public Uri getFotoUsuari() {
         return fotoUsuari;
     }
 
-    public void setFotoUsuari(String fotoUsuari) {
+    public void setFotoUsuari(Uri fotoUsuari) {
         this.fotoUsuari = fotoUsuari;
     }
 

@@ -22,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import edu.upc.pes.wallachange.Adapters.PreferencesAdapter;
+import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.User;
 import edu.upc.pes.wallachange.Others.CircleTransform;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
@@ -138,8 +139,8 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
 
         fotoPerfil.setImageURI(null);
         fotoPerfil.setImageURI(user.getPicture());
-
-        location = user.getLocation();
+        CurrentUser us = CurrentUser.getInstance();
+        locationTE.setText(us.getToken());
         //locationTE.setText(location);
 
         mRatingBar.setRating(user.getRating());

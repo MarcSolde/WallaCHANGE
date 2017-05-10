@@ -3,6 +3,7 @@ package edu.upc.pes.wallachange.Models;
 import android.net.Uri;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -55,8 +56,8 @@ public class CurrentUser {
 
     public void setRating(String rating) {
 
-        //TODO string->float
-        user.setRating(rating);
+        Float f = Float.parseFloat(rating);
+        user.setRating(f);
     }
 
     public Uri getPicture() {
@@ -64,9 +65,8 @@ public class CurrentUser {
     }
 
     public void setPicture(String picture) {
-
-        //TODO string->uri
-        user.setPicture(picture);
+        Uri uri = Uri.parse(picture);
+        user.setPicture(uri);
     }
 
     public ArrayList<String> getPreferences() {
@@ -79,8 +79,21 @@ public class CurrentUser {
         return ourInstance;
     }
 
-    public void setPreferencesArray(ArrayList<String> newPreferences) {
-        user.setPreferencesArray(newPreferences);
+    public void setPreferencesArray(JSONArray newPreferences) {
+        ArrayList<String> list = new ArrayList<String>();
+        JSONArray jsonArray = (JSONArray) newPreferences;
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i=0;i<len;i++){
+                try {
+                    list.add(jsonArray.get(i).toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        user.setPreferencesArray(list);
     }
 
     public void addPreference(String preference) {
@@ -98,12 +111,36 @@ public class CurrentUser {
 
 
     public void setIntercanvisArray(JSONArray intercanvisArray) {
-        //TODO
-        this.intercanvisArray = intercanvisArray;
+        ArrayList<String> list = new ArrayList<String>();
+        JSONArray jsonArray = (JSONArray)intercanvisArray;
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i=0;i<len;i++){
+                try {
+                    list.add(jsonArray.get(i).toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        user.setIntercanvis(list);
     }
 
     public void setProductesArray(JSONArray productesArray) {
-        //TODO
-        this.productesArray = productesArray;
+        ArrayList<String> list = new ArrayList<String>();
+        JSONArray jsonArray = (JSONArray) productesArray;
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i=0;i<len;i++){
+                try {
+                    list.add(jsonArray.get(i).toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        user.setProductes(list);
     }
 }
