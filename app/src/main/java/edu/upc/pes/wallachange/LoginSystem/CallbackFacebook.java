@@ -8,8 +8,6 @@ import com.android.volley.VolleyLog;
 import com.facebook.AccessToken;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
 import org.json.JSONException;
@@ -27,7 +25,7 @@ import static com.android.volley.VolleyLog.TAG;
 
 public class CallbackFacebook implements FacebookCallback<LoginResult> {
     private static LoginActivity myActivity;
-    private AdapterAPIRequest adapter = new AdapterAPIRequest();
+    private static AdapterAPIRequest adapter = new AdapterAPIRequest();
 
 
     public CallbackFacebook(LoginActivity context) {
@@ -36,15 +34,11 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
 
     @Override
     public void onSuccess(LoginResult loginResult) {
-        //TODO:revisar getUserId devuelve nombre o id
-        //String name = accessToken.getUserId();
-        //token
-        //fbLogin(loginResult.getAccessToken());
-        //String Token = loginResult.getAccessToken().getToken();
         Map<String, String> params = new HashMap<String, String>();
         Map<String, String> headers = new HashMap<String,String>();
-        params.put("token", loginResult.getAccessToken().getToken());
-        params.put("id", loginResult.getAccessToken().getUserId());
+        AccessToken accessToken = loginResult.getAccessToken();
+        params.put("token", accessToken.getToken());
+        params.put("id", accessToken.getUserId());
         headers.put("Content-Type", "application/json");
         adapter.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/loginFB",
                 new Response.Listener<JSONObject>() {
@@ -74,7 +68,7 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         VolleyLog.d(TAG, "Error: " + error.getMessage());
-                        LoginManager.getInstance().logOut();
+                        myActivity.logOut();
                     }
                 }, params, headers);
 
@@ -98,19 +92,17 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
     }
 
     public static void checkLogin() {
-        FacebookSdk.sdkInitialize(myActivity);
+        //FacebookSdk.sdkInitialize(myActivity);
+
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
 
-
         if (accessToken != null){
-            AdapterAPIRequest adapter2 = new AdapterAPIRequest();
-
             Map<String, String> params = new HashMap<String, String>();
             Map<String, String> headers = new HashMap<String,String>();
             params.put("token", accessToken.toString());
             params.put("id", accessToken.getUserId());
             headers.put("Content-Type", "application/json");
-            adapter2.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/loginFB",
+            adapter.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/loginFB",
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -135,7 +127,7 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             VolleyLog.d(TAG, "Error: " + error.getMessage());
-                            LoginManager.getInstance().logOut();
+                            myActivity.logOut();
                         }
                     }, params, headers);
         }

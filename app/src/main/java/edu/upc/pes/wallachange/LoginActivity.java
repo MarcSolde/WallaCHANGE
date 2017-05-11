@@ -36,12 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostResume(){
-        super.onPostResume();
-        CallbackFacebook.checkLogin();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(getResources().getString(R.string.twitterKey), getResources().getString(R.string.twitterSecret));
@@ -87,26 +81,6 @@ public class LoginActivity extends AppCompatActivity {
         twLoginButton.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-
-    /*private void fbLogin(AccessToken accessToken){
-        new GraphRequest(
-                accessToken,
-                "/{user-id}",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        // handle the result
-                        try {
-                            Log.d("JSONResponse",response.getJSONArray().toString());
-                            login(response.getJSONObject().getJSONObject("data").getString("name"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-        ).executeAsync();
-    }*/
 
     public void login() {
         CurrentUser user = CurrentUser.getInstance();
