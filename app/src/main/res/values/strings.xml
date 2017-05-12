@@ -102,5 +102,20 @@
     <!--searchElementFragment-->
     <string name="search_eng">Search...</string>
 
+    <!-- fragment-view-element (edit) -->
+    <string name="temporality_eng">Temporality</string>
+    <string name="edit_description_here_eng">Edit description here</string>
+    <string name="empty_description_eng">Empty description</string>
+    <string name="edit_category_here_eng">Edit category here</string>
+    <string name="empty_category_eng">Empty category</string>
+    <string name="edit_temporality_here_eng">Edit temporality here</string>
+    <string name="empty_temporality_eng">Empty temporality</string>
+    <string name="by_eng">By</string>
+    <string name="report_advertisement_eng">Report advertisement</string>
+    <string name="spam_or_commercial_content_eng">Spam or commercial content</string>
+    <string name="adult_content_eng">Adult content</string>
+    <string name="racism_and_xenophobia_eng">Racism and xenophobia</string>
+    <string name="incitement_to_hatred_eng">Incitement to hatred</string>
+
 
 </resources>
