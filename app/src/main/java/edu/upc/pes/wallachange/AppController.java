@@ -5,7 +5,7 @@ import android.content.Context;
 
 /**
  * Created by sejo on 6/05/17.
- */
+*/
 
 public class AppController extends Application {
     private static AppController instance;

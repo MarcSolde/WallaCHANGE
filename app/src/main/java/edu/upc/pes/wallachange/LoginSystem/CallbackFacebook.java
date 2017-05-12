@@ -1,5 +1,7 @@
 package edu.upc.pes.wallachange.LoginSystem;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -24,22 +26,40 @@ import static com.android.volley.VolleyLog.TAG;
 
 
 public class CallbackFacebook implements FacebookCallback<LoginResult> {
+    final public static String MyPREFERENCES = "MyPrefs";
+    final public static String MyTokenPref = "MyFBToken";
+    final public static String MyFBidPref = "MyFBid";
+
+
     private static LoginActivity myActivity;
     private static AdapterAPIRequest adapter = new AdapterAPIRequest();
+    private static SharedPreferences sharedPreferences;
 
 
     public CallbackFacebook(LoginActivity context) {
         myActivity = context;
+        sharedPreferences = myActivity.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
     }
 
     @Override
     public void onSuccess(LoginResult loginResult) {
         Map<String, String> params = new HashMap<String, String>();
         Map<String, String> headers = new HashMap<String,String>();
+        SharedPreferences.Editor editor  = sharedPreferences.edit();
         AccessToken accessToken = loginResult.getAccessToken();
-        params.put("token", accessToken.getToken());
-        params.put("id", accessToken.getUserId());
+
+        String token = accessToken.getToken();
+        params.put("token", token);
+        editor.putString(MyTokenPref, token);
+
+        String id = accessToken.getUserId();
+        params.put("id", id);
+        editor.putString(MyFBidPref, id);
+
+        editor.commit();
+
         headers.put("Content-Type", "application/json");
+
         adapter.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/loginFB",
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -94,13 +114,16 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
     public static void checkLogin() {
         //FacebookSdk.sdkInitialize(myActivity);
 
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        //AccessToken accessToken = AccessToken.getCurrentAccessToken();
 
-        if (accessToken != null){
+        String token = sharedPreferences.getString(MyTokenPref, null);
+        String id = sharedPreferences.getString(MyFBidPref, null);
+
+        if (token != null && id != null){
             Map<String, String> params = new HashMap<String, String>();
             Map<String, String> headers = new HashMap<String,String>();
-            params.put("token", accessToken.toString());
-            params.put("id", accessToken.getUserId());
+            params.put("token", token);
+            params.put("id", id);
             headers.put("Content-Type", "application/json");
             adapter.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/loginFB",
                     new Response.Listener<JSONObject>() {
@@ -130,6 +153,9 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
                             myActivity.logOut();
                         }
                     }, params, headers);
+        } else {
+            VolleyLog.d(TAG, "Error login");
+            myActivity.logOut();
         }
     }
 }
