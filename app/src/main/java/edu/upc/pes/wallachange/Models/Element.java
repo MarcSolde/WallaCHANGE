@@ -2,8 +2,19 @@ package edu.upc.pes.wallachange.Models;
 
 import android.net.Uri;
 
-import java.util.ArrayList;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.android.volley.VolleyLog.TAG;
+
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 
 
 public class Element {
@@ -26,7 +37,27 @@ public class Element {
         this.temporalitat = temporalitat;
         this.user = user;
         this.fotografies = fotografies;
+        AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
+        Map<String, String> params = new HashMap<>();
+        params.put("titol",titol);
+        params.put("descripcio",descripcio);
+        params.put("imatges",fotografies);
+        Map<String, String> headers = new HashMap<>();
+        adapterAPIRequest.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/element",
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                },new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG,"Error ");
+                    }
+                },params, headers);
     }
+
 
     public Element() {
     }

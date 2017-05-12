@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.ImatgesMiniaturaListViewAdapter;
 import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
