@@ -19,6 +19,7 @@ import java.util.Locale;
 
 import edu.upc.pes.wallachange.LoginSystem.CallbackFacebook;
 import edu.upc.pes.wallachange.LoginSystem.CallbackTwitter;
+import edu.upc.pes.wallachange.Models.CurrentUser;
 import io.fabric.sdk.android.Fabric;
 
 
@@ -81,30 +82,11 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    /*private void fbLogin(AccessToken accessToken){
-        new GraphRequest(
-                accessToken,
-                "/{user-id}",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        // handle the result
-                        try {
-                            Log.d("JSONResponse",response.getJSONArray().toString());
-                            login(response.getJSONObject().getJSONObject("data").getString("name"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-        ).executeAsync();
-    }*/
+    public void login() {
+        CurrentUser user = CurrentUser.getInstance();
 
-    public void login (String id, String name) {
-        //TODO:database
         Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra("user",name);
+        intent.putExtra("user",user.getUsername());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

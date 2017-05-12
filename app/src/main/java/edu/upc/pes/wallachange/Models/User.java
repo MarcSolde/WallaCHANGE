@@ -10,15 +10,15 @@ public class User {
 
     private String username;
     private String location;
-    private String password;
     private float rating;
     private Uri picture;
     private ArrayList<String> preferences;
+    private ArrayList<String> intercanvis;
+    private ArrayList<String> productes;
 
     public User(String username, String location, String password, int rating, Uri picture, ArrayList<String> preferences) {
         this.username = username;
         this.location = location;
-        this.password = password;
         this.rating = rating;
         this.picture = picture;
         this.preferences = preferences;
@@ -35,10 +35,6 @@ public class User {
     public String getLocation() {
         return location;
     }
-
-//    public String getPassword() {
-//        return password;
-//    }
 
     public float getRating() {
         return rating;
@@ -60,11 +56,7 @@ public class User {
         this.location = location;
     }
 
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
-
-    public void setRating(int rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
@@ -73,13 +65,12 @@ public class User {
     }
 
     public void setPreferencesArray(ArrayList<String> newPreferences) {
-            preferences.clear();
-            preferences.addAll(newPreferences);
+        preferences.clear();
+        preferences.addAll(newPreferences);
     }
 
-    public void addPreference(String preference) {
-        preferences.add(preference);
-       // preferences.add("hola");
+    public void addPreference(String pref) {
+        preferences.add(pref);
     }
 
     public void deletePreference(String prefToDelete) {
@@ -100,4 +91,11 @@ public class User {
         return false;
     }
 
+    public void setIntercanvis(ArrayList<String> intercanvis) {
+        this.intercanvis = intercanvis;
+    }
+
+    public void setProductes(ArrayList<String> productes) {
+        this.productes = productes;
+    }
 }

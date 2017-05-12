@@ -24,7 +24,7 @@ public class CallbackTwitter extends com.twitter.sdk.android.core.Callback<Twitt
             TwitterSession session = result.data;
             final String name = session.getUserName();
             final TwitterAuthToken token = session.getAuthToken();
-            myActivity.login(Long.toString(session.getUserId()),session.getUserName());
+            myActivity.login();
             /*
             TwitterAuthClient authClient = new TwitterAuthClient();
             authClient.requestEmail(session, new Callback<String>() {
