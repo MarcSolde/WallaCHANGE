@@ -2,9 +2,7 @@ package edu.upc.pes.wallachange;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -16,14 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +26,7 @@ import java.util.Objects;
 
 import edu.upc.pes.wallachange.Adapters.ImatgesMiniaturaListViewAdapter;
 import edu.upc.pes.wallachange.Models.Element;
+import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
 
 
 /**
@@ -38,18 +34,16 @@ import edu.upc.pes.wallachange.Models.Element;
  */
 public class AddElementFragment extends Fragment implements View.OnClickListener {
 
-    private int PICK_IMAGE = 1, REQUEST_IMAGE = 123;
-    private GridLayout img;
+    private final int PICK_IMAGE = 1;
     private MainActivity myActivity;
-    private GridView miniatureImagesGridView;
-    private View miniatureImagesView, fragmentAddElementView;
+    private View fragmentAddElementView;
     private ArrayList<Uri> imatgesMiniatura;
     private Integer nombreImatges;
     private ImageButton botoFotografia;
-    private Button botoAfegirElement, botoCancelarElement;
     private String tipusProducte, tipusIntercanvi;
     private EditText textTemporalitat, textCategoria, textDescripcio, textTitol;
-    private ImageView netejaTemporalitat, netejaCategoria, netejaDescripcio, netejaTitol;
+    private ImageView netejaTemporalitat;
+    private ExpandableHeightGridView miniatureImagesExpandableGridView;
 
     public AddElementFragment() {}
 
@@ -59,8 +53,6 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         myActivity = (MainActivity) getActivity();
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         myActivity.setTitle(R.string.navigationNewItem_eng);
-        img = (GridLayout) fragmentAddElementView.findViewById(R.id.imatgesMiniatura);
-        miniatureImagesView = inflater.inflate(R.layout.grid_view_miniature_images,null);
         nombreImatges = 0;
         imatgesMiniatura = new ArrayList<>();
         tipusProducte = getResources().getString(R.string.product_eng);
@@ -70,16 +62,23 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
 
         botoFotografia = (ImageButton) fragmentAddElementView.findViewById(R.id.afegirImatge);
         botoFotografia.setOnClickListener(this);
-        botoAfegirElement = (Button) fragmentAddElementView.findViewById(R.id.afegirElement);
+        Button botoAfegirElement = (Button) fragmentAddElementView.findViewById(R.id.afegirElement);
         botoAfegirElement.setOnClickListener(this);
-        botoCancelarElement = (Button) fragmentAddElementView.findViewById(R.id.cancelarElement);
+        Button botoCancelarElement = (Button) fragmentAddElementView.findViewById(
+                R.id.cancelarElement);
         botoCancelarElement.setOnClickListener(this);
 
-        netejaTitol = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_titol);
+        miniatureImagesExpandableGridView = (ExpandableHeightGridView) fragmentAddElementView.findViewById(R.id.gridViewImatgesMiniatura);
+        miniatureImagesExpandableGridView.setExpanded(true);
+
+        ImageView netejaTitol = (ImageView) fragmentAddElementView.findViewById(
+                R.id.neteja_edittext_titol);
         netejaTitol.setOnClickListener(this);
-        netejaDescripcio = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_descripcio);
+        ImageView netejaDescripcio = (ImageView) fragmentAddElementView.findViewById(
+                R.id.neteja_edittext_descripcio);
         netejaDescripcio.setOnClickListener(this);
-        netejaCategoria = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_categoria);
+        ImageView netejaCategoria = (ImageView) fragmentAddElementView.findViewById(
+                R.id.neteja_edittext_categoria);
         netejaCategoria.setOnClickListener(this);
         netejaTemporalitat = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_temporalitat);
         netejaTemporalitat.setOnClickListener(this);
@@ -109,7 +108,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         return fragmentAddElementView;
     }
 
-    public Element generarNouElement(){
+    private Element generarNouElement(){
         Element element;
         EditText editTextTitolAnunci = (EditText) fragmentAddElementView.findViewById(R.id.titolAnunci);
         EditText editTextDescripcio = (EditText) fragmentAddElementView.findViewById(R.id.descripcio);
@@ -132,7 +131,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             RadioButton btn = (RadioButton) radioGroupTipusIntercanvi.getChildAt(radioId);
             tipusIntercanvi = (String) btn.getText();
         }
-        element = new Element(editTextTitolAnunci.getText().toString(),editTextDescripcio.getText().toString(),editTextCategoria.getText().toString(),tipusProducte,tipusIntercanvi,editTextTemporalitat.getText().toString(),imatgesMiniatura);
+        element = new Element(editTextTitolAnunci.getText().toString(),editTextDescripcio.getText().toString(),editTextCategoria.getText().toString(),tipusProducte,tipusIntercanvi,editTextTemporalitat.getText().toString(),myActivity.getUsername(),imatgesMiniatura);
 
         return element;
     }
@@ -146,10 +145,10 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             }
             Uri uri = data.getData();
             imatgesMiniatura.add(uri);
-            miniatureImagesGridView = (GridView) fragmentAddElementView.findViewById(R.id.gridViewImatgesMiniatura);
             ImatgesMiniaturaListViewAdapter adapter2 = new ImatgesMiniaturaListViewAdapter(myActivity, R.layout.miniature_images_item, imatgesMiniatura,this);
-            miniatureImagesGridView.setAdapter(adapter2);
+            miniatureImagesExpandableGridView.setAdapter(adapter2);
             adapter2.notifyDataSetChanged();
+
             //img.removeAllViews();
             //img.addView(miniatureImagesView);
         }
@@ -207,12 +206,14 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    public void obtenirPermisos(){
+    private void obtenirPermisos(){
         int permission;
         if (Build.VERSION.SDK_INT >= 23) {
             permission = myActivity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
             if (permission != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_IMAGE);
+                int REQUEST_IMAGE = 123;
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_IMAGE);
             }
         }
     }

@@ -3,7 +3,7 @@ package edu.upc.pes.wallachange.Models;
 import android.net.Uri;
 
 /**
- * Created by Usuario on 28/04/2017.
+ * Andreu Conesa 28/04/2017.
  */
 
 public class Comment {

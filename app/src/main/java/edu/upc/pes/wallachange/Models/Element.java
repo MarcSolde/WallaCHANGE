@@ -17,13 +17,14 @@ public class Element {
     private String user;
     private ArrayList<Uri> fotografies;
 
-    public Element(String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, ArrayList<Uri> fotografies) {
+    public Element(String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, String user, ArrayList<Uri> fotografies) {
         this.titol = titol;
         this.descripcio = descripcio;
         this.categoria = categoria;
         this.tipusProducte = tipusProducte;
         this.tipusIntercanvi = tipusIntercanvi;
         this.temporalitat = temporalitat;
+        this.user = user;
         this.fotografies = fotografies;
     }
 
@@ -80,6 +81,14 @@ public class Element {
 
     public void setTipusIntercanvi(String tipusIntercanvi) {
         this.tipusIntercanvi = tipusIntercanvi;
+    }
+
+    public String getTemporalitat() {
+        return temporalitat;
+    }
+
+    public void setTemporalitat(String temporalitat) {
+        this.temporalitat = temporalitat;
     }
 
     public ArrayList<Uri> getFotografies() {

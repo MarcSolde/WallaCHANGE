@@ -125,10 +125,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void changeToItem(Element e) {
         //TODO:
-        // String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, ArrayList<Uri> fotografies
+        // String temporalitat
         Bundle bundleViewElement = new Bundle();
         bundleViewElement.putString("titol",e.getTitol());
         bundleViewElement.putString("descripcio",e.getDescripcio());
+        bundleViewElement.putString("categoria",e.getCategoria());
+        bundleViewElement.putString("usuari",e.getUser());
+        bundleViewElement.putString("temporalitat",e.getTemporalitat());
+        bundleViewElement.putString("tipusProducte",e.getTipusProducte());
+        bundleViewElement.putString("tipusIntercanvi",e.getTipusIntercanvi());
         bundleViewElement.putParcelableArrayList("fotografies",e.getFotografies());
 
         myViewElementFragment = new ViewElementFragment();
