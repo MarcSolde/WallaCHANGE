@@ -98,4 +98,5 @@ public class User {
     public void setProductes(ArrayList<String> productes) {
         this.productes = productes;
     }
+
 }

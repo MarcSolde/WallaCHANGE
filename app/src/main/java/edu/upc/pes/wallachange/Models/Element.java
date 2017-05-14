@@ -2,6 +2,9 @@ package edu.upc.pes.wallachange.Models;
 
 import android.net.Uri;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 
@@ -16,6 +19,7 @@ public class Element {
     private String temporalitat;
     private String user;
     private ArrayList<Uri> fotografies;
+    private ArrayList<String> tags;
 
     public Element(String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, String user, ArrayList<Uri> fotografies) {
         this.titol = titol;
@@ -98,6 +102,41 @@ public class Element {
 //    public Uri getFotografia() {
 //        return fotografies[0];
 //    }
+
+    public void setTagsArray(JSONArray tagsArray) {
+        ArrayList<String> list = new ArrayList<String>();
+        JSONArray jsonArray = (JSONArray) tagsArray;
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i = 0; i < len; i++) {
+                try {
+                    list.add(jsonArray.get(i).toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.tags = list;
+    }
+
+    public void setFotografiesArray(JSONArray tagsArray) {
+        ArrayList<Uri> list = new ArrayList<Uri>();
+        JSONArray jsonArray = (JSONArray) tagsArray;
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i = 0; i < len; i++) {
+                try {
+                    Uri uri = Uri.parse(jsonArray.get(i).toString());
+                    list.add(uri);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.fotografies = list;
+    }
 
     public void setFotografies(ArrayList<Uri> fotografies) {
         this.fotografies = fotografies;

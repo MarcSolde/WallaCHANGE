@@ -33,7 +33,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
     private int PICK_IMAGE = 1;
     private MainActivity myActivity;
 
-    private User user;
+    private CurrentUser user;
 
     private String location;
     private ArrayList<String> prefs;
@@ -52,68 +52,18 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
         myActivity = (MainActivity) getActivity();
         myActivity.setTitle(R.string.navigationProfile_eng);
-        user = new User();
-
-        String username2 = myActivity.getUsername();
-
-//        /////////
-//        AppSingleton single = new AppSingleton(myActivity);
-//        AdapterAPIRequest adapter = new AdapterAPIRequest();
-//        RequestQueue rq = single.getInstance(myActivity);
-//        rq.start();
-////        /////////
-//        AdapterAPIRequest adapter = new AdapterAPIRequest();
-//        adapter.GETJsonObjectRequestAPI("http://localhost:3000/user/"+username2, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                Log.d("tagtag", response.toString());
-//
-//            }
-//        });
-//
-////
-////
-
-        //User de prova, li assigno els paràmetres
-        //S'haurà d'esborrar en un futur
-        user.setUsername(username2);
-/**
-        JSONObject js;
-
-        //User de prova, li assigno els paràmetres
-        //S'haurà d'esborrar en un futur
-        user.setUsername(myActivity.getUsername());
-
-        AdapterAPIRequest adapter = new AdapterAPIRequest();
-        adapter.GETJsonObjectRequestAPI(
-                "http://localhost:3000/user/"+"pepito",
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("tagtag", response.toString());
-                        locationTE.setText("OKEY!");
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(TAG, "Error: " + error.getMessage());
-                        locationTE.setText("Error");
-                    }
-                });
-
-**/
-        user.setLocation("Sant Cugat");
-        user.addPreference("esport");
-        user.addPreference("patinatge");
-        user.addPreference("skate");
-        user.setRating(3);
-        Uri imgProva=Uri.parse("android.resource://edu.upc.pes.wallachange/"+R.drawable.userpicture);
-        user.setPicture(imgProva);
+        user = CurrentUser.getInstance();
+        String username = user.getUsername();
+//        user.setLocation("Sant Cugat");
+//        user.addPreference("esport");
+//        user.addPreference("patinatge");
+//        user.addPreference("skate");
+//        user.setRating(3);
+//        Uri imgProva=Uri.parse("android.resource://edu.upc.pes.wallachange/"+R.drawable.userpicture);
+//        user.setPicture(imgProva);
 
         ExpandableHeightGridView gridPrefs;
         ImageView addPref;
-
         RatingBar mRatingBar;
         TextView usernameField;
         ImageView cleanLocation;
@@ -132,15 +82,10 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         editTextPref = (EditText) view.findViewById(R.id.addPreference);
 
 
-        //set camps del layout
-        String username;
-        username = user.getUsername();
-        usernameField.setText(username);
 
         fotoPerfil.setImageURI(null);
         fotoPerfil.setImageURI(user.getPicture());
-        CurrentUser us = CurrentUser.getInstance();
-        locationTE.setText(us.getToken());
+        locationTE.setText(user.getLocation());
         //locationTE.setText(location);
 
         mRatingBar.setRating(user.getRating());
@@ -205,13 +150,16 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                 if (location.trim().length() != 0) {
                     if (!user.getLocation().isEmpty()) {
                         if (!user.getLocation().equals(location)) user.setLocation(location);
-                    } else user.setLocation(location);
+                    } else {
+                        user.setLocation(location);
+                    }
 
                 } else {
                     String errorEmpty = getResources().getString(R.string.errorEmptyField_eng);
                     locationTE.setError(errorEmpty);
                 }
-                user.setPreferencesArray(prefs);
+                user.setPreferencesArrayList(prefs);
+                user.updateFields();
                 break;
 
 

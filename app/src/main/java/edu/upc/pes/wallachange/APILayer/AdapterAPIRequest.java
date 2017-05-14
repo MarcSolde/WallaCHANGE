@@ -35,8 +35,8 @@ public class AdapterAPIRequest   {
     }
 
 
-    public void GETJsonObjectRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
-
+    public void GETJsonObjectRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener,  final Map<String,String> body, final Map<String, String> capceleres){
+//TODO!!!!!!!
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
 
         JsonObjectRequest jsonObjectReq = new JsonObjectRequest(url, null, responseListener, errorListener);
@@ -46,8 +46,8 @@ public class AdapterAPIRequest   {
     }
 
 
-    public void GETJsonArrayRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
-
+    public void GETJsonArrayRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener,  final Map<String,String> body, final Map<String, String> capceleres){
+//TODO!
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonArrayRequest";
 
         JsonArrayRequest jsonArrayReq = new JsonArrayRequest(url, responseListener, errorListener);
@@ -139,7 +139,8 @@ public class AdapterAPIRequest   {
     }
 
     //PUT
-    public void PUTStringRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
+    public void PUTStringRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final Map<String,String> parametres, final Map<String, String> capceleres){
+        //TODO!!!!!!!!!!!!!!!!!!
         String  REQUEST_TAG = "com.androidtutorialpoint.putRequest";
         StringRequest putRequest = new StringRequest(Request.Method.PUT, url, responseListener, errorListener) {
            /*@Override

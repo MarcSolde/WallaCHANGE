@@ -1,11 +1,22 @@
 package edu.upc.pes.wallachange.Models;
 
+import static com.android.volley.VolleyLog.TAG;
+
 import android.net.Uri;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 
 /**
  * Created by carlota on 28/4/17.
@@ -15,6 +26,8 @@ public class CurrentUser {
 
     private String token;
     private User user;
+    private static AdapterAPIRequest adapter = new AdapterAPIRequest();
+
 
     private static final CurrentUser ourInstance = new CurrentUser();
 
@@ -74,7 +87,6 @@ public class CurrentUser {
     }
 
 
-
     public static CurrentUser getOurInstance() {
         return ourInstance;
     }
@@ -84,7 +96,7 @@ public class CurrentUser {
         JSONArray jsonArray = (JSONArray) newPreferences;
         if (jsonArray != null) {
             int len = jsonArray.length();
-            for (int i=0;i<len;i++){
+            for (int i = 0; i < len; i++) {
                 try {
                     list.add(jsonArray.get(i).toString());
 
@@ -94,6 +106,10 @@ public class CurrentUser {
             }
         }
         user.setPreferencesArray(list);
+    }
+
+    public void setPreferencesArrayList(ArrayList<String> newPreferences) {
+        user.setPreferencesArray(newPreferences);
     }
 
     public void addPreference(String preference) {
@@ -112,10 +128,10 @@ public class CurrentUser {
 
     public void setIntercanvisArray(JSONArray intercanvisArray) {
         ArrayList<String> list = new ArrayList<String>();
-        JSONArray jsonArray = (JSONArray)intercanvisArray;
+        JSONArray jsonArray = (JSONArray) intercanvisArray;
         if (jsonArray != null) {
             int len = jsonArray.length();
-            for (int i=0;i<len;i++){
+            for (int i = 0; i < len; i++) {
                 try {
                     list.add(jsonArray.get(i).toString());
 
@@ -132,7 +148,7 @@ public class CurrentUser {
         JSONArray jsonArray = (JSONArray) productesArray;
         if (jsonArray != null) {
             int len = jsonArray.length();
-            for (int i=0;i<len;i++){
+            for (int i = 0; i < len; i++) {
                 try {
                     list.add(jsonArray.get(i).toString());
 
@@ -142,5 +158,37 @@ public class CurrentUser {
             }
         }
         user.setProductes(list);
+    }
+
+    public void updateFields() {
+        String location = user.getLocation();
+        ArrayList<String> prefs = user.getPreferences();
+//        String[] ja = new String[prefs.size()];
+        JSONArray ja = new JSONArray();
+        for (String p : prefs) {
+            ja.put(p);
+        }
+        Map<String, String> body = new HashMap<String, String>();
+        Map<String, String> headers = new HashMap<String, String>();
+        body.put("token", this.getToken());
+        body.put("localitat", location);
+//        body.put("preferencies", ja); ???
+//        body.put("preferencies", ja); ??COM HO FAIG?
+
+
+        adapter.PUTStringRequestAPI("http://10.0.2.2:3000/updateUser/"+user.getUsername(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONObject js = response;
+                        //SI voleu aquí comprovar que s'ha fet bé
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    }
+                }, body, headers);
     }
 }
