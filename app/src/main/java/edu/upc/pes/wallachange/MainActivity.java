@@ -116,6 +116,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ProfileFragment ProfileFragment = new ProfileFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, ProfileFragment).commit();
                 break;
+
+            case R.id.navigationFilters:
+                FiltersFragment FiltersFragment = new FiltersFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, FiltersFragment).commit();
+                break;
             default:
                 break;
         }
