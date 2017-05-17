@@ -147,13 +147,55 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                 finder.setText("");
                 break;
             case R.id.SearchButt:
-                Proxy proxy = new Proxy();
-                ArrayList<Element> elements2 = null;
-                try {
-                    elements2 = proxy.getElements(finder.getText().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                String title = finder.getText().toString();
+                AdapterAPIRequest adapter = new AdapterAPIRequest();
+                JSONObject body = new JSONObject();
+                Map<String, String> headers = new HashMap<>();
+                CurrentUser us = CurrentUser.getInstance();
+                headers.put("token", us.getToken());
+                headers.put("titol", title);
+                headers.put("Content-Type", "application/json");
+
+                final ArrayList<Element> elements2 = new ArrayList<>();
+                adapter.GETRequestAPI("http://10.0.2.2:3000/elements", new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                JSONArray ja = response;
+                                try {
+                                    if (ja != null) {
+                                        int len = ja.length();
+                                        for (int i = 0; i < len; i++) {
+                                            Element elem = new Element();
+                                            elem.setTitol(ja.getJSONObject(i).getString("titol"));
+                                            elem.setCategoria(ja.getJSONObject(i).getString("categoria"));
+                                            elem.setDescripcio(ja.getJSONObject(i).getString("descripcio"));
+                                            elem.setTipusProducte(ja.getJSONObject(i).getString("tipus_element"));
+                                            elem.setId(ja.getJSONObject(i).getString("id"));
+                                            elem.setTagsArray(ja.getJSONObject(i).getJSONArray("tags"));
+                                            elem.setFotografiesArray(ja.getJSONObject(i).getJSONArray("imatges"));
+                                            elem.setUser(ja.getJSONObject(i).getString("nom_user"));
+                                            if (ja.getJSONObject(i).getBoolean("es_temporal"))
+                                                elem.setTipusIntercanvi("Temporal");
+                                            else
+                                                elem.setTipusIntercanvi("Permanent");
+                                            elem.setComentarisArray(ja.getJSONObject(i).getJSONArray("comentaris"));
+                                            elem.setCoordenadesArray(ja.getJSONObject(i).getJSONArray("coordenades"));
+                                            elements2.add(elem);
+                                        }
+                                    }
+                                } catch(JSONException e){
+                                    e.printStackTrace();
+                                }
+
+                            }},
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                VolleyLog.d(TAG, "Error: " + error.getMessage());
+
+                            }
+                        },headers);
+
                 if (!elements2.isEmpty()) {
                     elements = elements2;
                     listElementsAdapter.notifyDataSetChanged();

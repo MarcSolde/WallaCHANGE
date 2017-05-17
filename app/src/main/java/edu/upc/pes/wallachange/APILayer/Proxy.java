@@ -29,7 +29,9 @@ public class Proxy {
 
     public User getInfoUser(String username) {
         final User newUser = new User();
-        adapter.GETJsonObjectRequestAPI("http://10.0.2.2:3000/userser/"+username,
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        adapter.GETRequestAPI("http://10.0.2.2:3000/userser/"+username,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -55,7 +57,7 @@ public class Proxy {
                     public void onErrorResponse(VolleyError error) {
                         VolleyLog.d(TAG, "Error: " + error.getMessage());
                     }
-                });
+                }, headers);
 
         return newUser;
     }
@@ -75,9 +77,10 @@ public class Proxy {
         body.put("localitat", location);
         body.put("preferencies", ja);
 
-        JSONObject headers = new JSONObject();
+        Map<String,String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
 
-        adapter.PUTStringRequestAPI("http://10.0.2.2:3000/updateUser/"+user.getUsername(),
+        adapter.PUTRequestAPI("http://10.0.2.2:3000/updateUser/"+user.getUsername(),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -97,12 +100,14 @@ public class Proxy {
     public ArrayList<Element> getElements(String title) throws JSONException {
 
         JSONObject body = new JSONObject();
-        JSONObject headers = new JSONObject();
+        Map<String, String> headers = new HashMap<>();
         CurrentUser us = CurrentUser.getInstance();
-        body.put("token", us.getToken());
-        body.put("titol", title);
+        headers.put("token", us.getToken());
+        headers.put("titol", title);
+        headers.put("Content-Type", "application/json");
+
         final ArrayList<Element> elements2 = new ArrayList<>();
-        adapter.GETJsonArrayRequestAPI("http://10.0.2.2:3000/elements", new Response.Listener<JSONArray>() {
+        adapter.GETRequestAPI("http://10.0.2.2:3000/elements", new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         JSONArray ja = response;
@@ -139,7 +144,7 @@ public class Proxy {
                         VolleyLog.d(TAG, "Error: " + error.getMessage());
 
                     }
-                }, body, headers);
+                },headers);
         return elements2;
     }
 }

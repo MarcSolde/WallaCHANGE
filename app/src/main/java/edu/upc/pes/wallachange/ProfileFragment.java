@@ -30,6 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.APILayer.Proxy;
@@ -180,9 +182,10 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                     e.printStackTrace();
                 }
 
-                JSONObject headers = new JSONObject();
+                Map<String,String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
                 AdapterAPIRequest adapter = new AdapterAPIRequest();
-                adapter.PUTStringRequestAPI("http://10.0.2.2:3000/updateUser/"+user.getUsername(),
+                adapter.PUTRequestAPI("http://10.0.2.2:3000/updateUser/"+user.getUsername(),
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -196,12 +199,6 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                             }
                         }, body, headers);
-                Proxy proxy = new Proxy();
-                try {
-                    proxy.updateUser(user);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 break;
 
             default:

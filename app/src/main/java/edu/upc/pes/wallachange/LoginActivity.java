@@ -14,6 +14,8 @@ import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
+import org.json.JSONException;
+
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -32,7 +34,11 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        CallbackFacebook.checkLogin();
+        try {
+            CallbackFacebook.checkLogin();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

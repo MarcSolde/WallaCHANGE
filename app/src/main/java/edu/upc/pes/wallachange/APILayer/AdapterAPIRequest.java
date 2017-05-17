@@ -141,7 +141,7 @@ public class AdapterAPIRequest   {
 //    }
 
     //PUT
-    public void PUTStringRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final JSONObject body, final Map<String,String> headers){
+    public void PUTRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final JSONObject body, final Map<String,String> headers){
         String  REQUEST_TAG = "com.androidtutorialpoint.putRequest";
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, body, responseListener, errorListener) {
 
