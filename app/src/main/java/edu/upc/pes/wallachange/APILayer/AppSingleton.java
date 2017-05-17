@@ -9,12 +9,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import edu.upc.pes.wallachange.AppController;
 
-    /**
+
+/**
      * Created by androidtutorialpoint on 5/11/16.
      */
     public class AppSingleton {
-        private static AppSingleton mAppSingletonInstance;
+        private static AppSingleton mAppSingletonInstance = null;
         private RequestQueue mRequestQueue;
         private ImageLoader mImageLoader;
         private static Context mContext;
@@ -51,7 +53,7 @@ import com.android.volley.toolbox.Volley;
             if (mRequestQueue == null) {
                 // getApplicationContext() is key, it keeps you from leaking the
                 // Activity or BroadcastReceiver if someone passes one in.
-                mRequestQueue = Volley.newRequestQueue(mContext.getApplicationContext());
+                mRequestQueue = Volley.newRequestQueue(AppController.getAppContext());
             }
             return mRequestQueue;
         }
