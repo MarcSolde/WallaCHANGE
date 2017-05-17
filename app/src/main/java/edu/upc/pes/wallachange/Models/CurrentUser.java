@@ -1,11 +1,22 @@
 package edu.upc.pes.wallachange.Models;
 
+import static com.android.volley.VolleyLog.TAG;
+
 import android.net.Uri;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 
 /**
  * Created by carlota on 28/4/17.
@@ -15,6 +26,8 @@ public class CurrentUser {
 
     private String token;
     private User user;
+    private static AdapterAPIRequest adapter = new AdapterAPIRequest();
+
 
     private static final CurrentUser ourInstance = new CurrentUser();
 
@@ -54,10 +67,8 @@ public class CurrentUser {
         return user.getRating();
     }
 
-    public void setRating(String rating) {
-
-        Float f = Float.parseFloat(rating);
-        user.setRating(f);
+    public void setRatingString(String rating) {
+        user.setRatingString(rating);
     }
 
     public Uri getPicture() {
@@ -74,26 +85,16 @@ public class CurrentUser {
     }
 
 
-
     public static CurrentUser getOurInstance() {
         return ourInstance;
     }
 
     public void setPreferencesArray(JSONArray newPreferences) {
-        ArrayList<String> list = new ArrayList<String>();
-        JSONArray jsonArray = (JSONArray) newPreferences;
-        if (jsonArray != null) {
-            int len = jsonArray.length();
-            for (int i=0;i<len;i++){
-                try {
-                    list.add(jsonArray.get(i).toString());
+        user.setPreferencesArray(newPreferences);
+    }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        user.setPreferencesArray(list);
+    public void setPreferencesArrayList(ArrayList<String> newPreferences) {
+        user.setPreferencesArray(newPreferences);
     }
 
     public void addPreference(String preference) {
@@ -112,10 +113,10 @@ public class CurrentUser {
 
     public void setIntercanvisArray(JSONArray intercanvisArray) {
         ArrayList<String> list = new ArrayList<String>();
-        JSONArray jsonArray = (JSONArray)intercanvisArray;
+        JSONArray jsonArray = (JSONArray) intercanvisArray;
         if (jsonArray != null) {
             int len = jsonArray.length();
-            for (int i=0;i<len;i++){
+            for (int i = 0; i < len; i++) {
                 try {
                     list.add(jsonArray.get(i).toString());
 
@@ -124,23 +125,14 @@ public class CurrentUser {
                 }
             }
         }
-        user.setIntercanvis(list);
+        user.setIntercanvisArray(intercanvisArray);
     }
 
     public void setProductesArray(JSONArray productesArray) {
-        ArrayList<String> list = new ArrayList<String>();
-        JSONArray jsonArray = (JSONArray) productesArray;
-        if (jsonArray != null) {
-            int len = jsonArray.length();
-            for (int i=0;i<len;i++){
-                try {
-                    list.add(jsonArray.get(i).toString());
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        user.setProductes(list);
+        user.setProductesArray(productesArray);
     }
+    public void setFacebookId(String fbId) {
+        user.setFacebookId(fbId);
+    }
+
 }

@@ -5,6 +5,7 @@ package edu.upc.pes.wallachange.APILayer;
  */
 
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -26,35 +27,42 @@ public class AdapterAPIRequest   {
 
 
     // GETERS
-    public void GETStringRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
+//    public void GETRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
+//
+//        String  REQUEST_TAG = "com.androidtutorialpoint.volleyStringRequest";
+//
+//        StringRequest strReq = new StringRequest(url, responseListener, errorListener) {
+//            @Override
+//            public
+//        };
+//        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(strReq, REQUEST_TAG);
+//    }
 
-        String  REQUEST_TAG = "com.androidtutorialpoint.volleyStringRequest";
 
-        StringRequest strReq = new StringRequest(url, responseListener, errorListener);
-        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(strReq, REQUEST_TAG);
-    }
-
-
-    public void GETJsonObjectRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
+    public void GETRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final Map<String,String> headers){
 
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
 
-        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(url, null, responseListener, errorListener);
-        // Adding JsonObject request to request queue
+        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, url, null, responseListener, errorListener) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params = headers;
+                return params;
+            }
+        };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectReq,REQUEST_TAG);
-
     }
 
 
-    public void GETJsonArrayRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
-
-        String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonArrayRequest";
-
-        JsonArrayRequest jsonArrayReq = new JsonArrayRequest(url, responseListener, errorListener);
-
-        // Adding JsonObject request to request queue
-        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayReq, REQUEST_TAG);
-    }
+//    public void GETJsonArrayRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener,  final JSONObject body, final JSONObject capceleres){
+//        String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonArrayRequest";
+//
+//        JsonArrayRequest jsonArrayReq = new JsonArrayRequest(url, responseListener, errorListener);
+//
+//        // Adding JsonObject request to request queue
+//        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayReq, REQUEST_TAG);
+//    }
 
 
 
@@ -82,84 +90,67 @@ public class AdapterAPIRequest   {
 
 
     //POST
-    public void POSTSJsonObjectRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener,  final Map<String,String> parametres, final Map<String, String> capceleres) {
+    public void POSTRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener,  final JSONObject body, final Map<String,String>  headers) {
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyPOSTRequest";
 
-        JsonObjectRequest postRequest = new JsonObjectRequest(url, new JSONObject(parametres), responseListener, errorListener) {
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, body, responseListener, errorListener) {
 
             @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<String, String>(capceleres);
-                /*Iterator it = capceleres.entrySet().iterator();
-                while (it.hasNext()) {
-                    Map.Entry pair = (Map.Entry)it.next();
-                    headers.put(pair.getKey().toString(), pair.getValue().toString());
-                    it.remove(); // avoids a ConcurrentModificationException
-                }*/
-
-                return headers;
-            }
-
-        };
-        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest, REQUEST_TAG);
-    }
-
-
-    public void POSTStringRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final Map<String,String> parametres, final Map<String, String> capceleres) {
-        String  REQUEST_TAG = "com.androidtutorialpoint.volleyPOSTRequest";
-        StringRequest postRequest = new StringRequest(url, responseListener, errorListener) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>(parametres);
-                /*Iterator it = parametres.entrySet().iterator();
-                while (it.hasNext()) {
-                    Map.Entry pair = (Map.Entry)it.next();
-                    params.put(pair.getKey().toString(), pair.getValue().toString());
-                    it.remove(); // avoids a ConcurrentModificationException
-                }*/
-
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params = headers;
                 return params;
             }
 
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<String, String>(capceleres);
-                /*Iterator it = capceleres.entrySet().iterator();
-                while (it.hasNext()) {
-                    Map.Entry pair = (Map.Entry)it.next();
-                    headers.put(pair.getKey().toString(), pair.getValue().toString());
-                    it.remove(); // avoids a ConcurrentModificationException
-                }*/
-
-                return headers;
-            }
         };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest, REQUEST_TAG);
     }
+
+//
+//    public void POSTStringRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final Map<String,String> parametres, final Map<String, String> capceleres) {
+//        String  REQUEST_TAG = "com.androidtutorialpoint.volleyPOSTRequest";
+//        StringRequest postRequest = new StringRequest(url, responseListener, errorListener) {
+//
+//            @Override
+//            protected Map<String, String> getParams() {
+//                Map<String, String> params = new HashMap<String, String>(parametres);
+//                /*Iterator it = parametres.entrySet().iterator();
+//                while (it.hasNext()) {
+//                    Map.Entry pair = (Map.Entry)it.next();
+//                    params.put(pair.getKey().toString(), pair.getValue().toString());
+//                    it.remove(); // avoids a ConcurrentModificationException
+//                }*/
+//
+//                return params;
+//            }
+//
+//            @Override
+//            public Map<String, String> getHeaders() {
+//                Map<String, String> headers = new HashMap<String, String>(capceleres);
+//                /*Iterator it = capceleres.entrySet().iterator();
+//                while (it.hasNext()) {
+//                    Map.Entry pair = (Map.Entry)it.next();
+//                    headers.put(pair.getKey().toString(), pair.getValue().toString());
+//                    it.remove(); // avoids a ConcurrentModificationException
+//                }*/
+//
+//                return headers;
+//            }
+//        };
+//        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest, REQUEST_TAG);
+//    }
 
     //PUT
-    public void PUTStringRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
+    public void PUTRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final JSONObject body, final Map<String,String> headers){
         String  REQUEST_TAG = "com.androidtutorialpoint.putRequest";
-        StringRequest putRequest = new StringRequest(Request.Method.PUT, url, responseListener, errorListener) {
-           /*@Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                //TODO:Parametrizar
-                params.put("name", "Alif");
-                params.put("domain", "http://itsalif.info");
+        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, body, responseListener, errorListener) {
 
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params = headers;
                 return params;
             }
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<String, String>();
-                //TODO:Parametrizar
-                headers.put("name", "Alif");
-                headers.put("domain", "http://itsalif.info");
-
-                return headers;
-            }*/
         };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(putRequest, REQUEST_TAG);
     }
