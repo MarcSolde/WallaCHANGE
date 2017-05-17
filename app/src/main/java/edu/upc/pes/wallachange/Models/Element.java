@@ -1,21 +1,7 @@
 package edu.upc.pes.wallachange.Models;
 
 import android.net.Uri;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.android.volley.VolleyLog.TAG;
-
-import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
-
 
 public class Element {
     private String id;
@@ -23,41 +9,25 @@ public class Element {
     private String descripcio;
     private String categoria;
     private String tipusProducte;
-    private String tipusIntercanvi;
+    private Boolean esTemporal;
     private String temporalitat;
     private String user;
     private ArrayList<Uri> fotografies;
+    private ArrayList<Comment> comentaris;
+    private String localitat;
 
-    public Element(String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, String user, ArrayList<Uri> fotografies) {
+    public Element(String titol, String descripcio, String categoria, String tipusProducte, Boolean esTemporal, String temporalitat, String user, ArrayList<Uri> fotografies, ArrayList<Comment> comentaris, String localitat) {
         this.titol = titol;
         this.descripcio = descripcio;
         this.categoria = categoria;
         this.tipusProducte = tipusProducte;
-        this.tipusIntercanvi = tipusIntercanvi;
+        this.esTemporal = esTemporal;
         this.temporalitat = temporalitat;
         this.user = user;
         this.fotografies = fotografies;
-        AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
-        Map<String, String> params = new HashMap<>();
-        params.put("titol",titol);
-        params.put("descripcio",descripcio);
-        params.put("imatges",fotografies);
-        Map<String, String> headers = new HashMap<>();
-        adapterAPIRequest.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/element",
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                    }
-                },new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(TAG,"Error ");
-                    }
-                },params, headers);
+        this.comentaris = comentaris;
+        this.localitat = localitat;
     }
-
 
     public Element() {
     }
@@ -106,12 +76,12 @@ public class Element {
         this.tipusProducte = tipusProducte;
     }
 
-    public String getTipusIntercanvi() {
-        return tipusIntercanvi;
+    public Boolean getEsTemporal() {
+        return esTemporal;
     }
 
-    public void setTipusIntercanvi(String tipusIntercanvi) {
-        this.tipusIntercanvi = tipusIntercanvi;
+    public void setEsTemporal(Boolean intercanviTemporal) {
+        this.esTemporal = intercanviTemporal;
     }
 
     public String getTemporalitat() {
@@ -120,6 +90,22 @@ public class Element {
 
     public void setTemporalitat(String temporalitat) {
         this.temporalitat = temporalitat;
+    }
+
+    public ArrayList<Comment> getComentaris() {
+        return comentaris;
+    }
+
+    public void setComentaris(ArrayList<Comment> comentaris) {
+        this.comentaris = comentaris;
+    }
+
+    public String getLocalitat() {
+        return localitat;
+    }
+
+    public void setLocalitat(String localitat) {
+        this.localitat = localitat;
     }
 
     public ArrayList<Uri> getFotografies() {
@@ -142,9 +128,12 @@ public class Element {
                 ", descripcio='" + descripcio + '\'' +
                 ", categoria='" + categoria + '\'' +
                 ", tipusProducte='" + tipusProducte + '\'' +
-                ", tipusIntercanvi='" + tipusIntercanvi + '\'' +
+                ", intercanviTemporal=" + esTemporal +
                 ", temporalitat='" + temporalitat + '\'' +
+                ", user='" + user + '\'' +
                 ", fotografies=" + fotografies +
+                ", comentaris=" + comentaris +
+                ", localitat='" + localitat + '\'' +
                 '}';
     }
 }

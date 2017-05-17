@@ -63,19 +63,15 @@ public class AdapterAPIRequest   {
 
         imageLoader.get(url, imageListener);
         /*new ImageLoader.ImageListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Image Load Error: " + error.getMessage());
             }
-
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
                 if (response.getBitmap() != null) {
-
                 }
             }
-
         });*/
     }
 
@@ -148,7 +144,6 @@ public class AdapterAPIRequest   {
                 //TODO:Parametrizar
                 params.put("name", "Alif");
                 params.put("domain", "http://itsalif.info");
-
                 return params;
             }
             @Override
@@ -157,7 +152,6 @@ public class AdapterAPIRequest   {
                 //TODO:Parametrizar
                 headers.put("name", "Alif");
                 headers.put("domain", "http://itsalif.info");
-
                 return headers;
             }*/
         };
@@ -202,5 +196,3 @@ public class AdapterAPIRequest   {
         AppSingleton.getInstance(getApplicationContext()).getRequestQueue().getCache().clear();
     }
 }
-
-

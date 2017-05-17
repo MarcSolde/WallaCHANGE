@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bundleViewElement.putString("usuari",e.getUser());
         bundleViewElement.putString("temporalitat",e.getTemporalitat());
         bundleViewElement.putString("tipusProducte",e.getTipusProducte());
-        bundleViewElement.putString("tipusIntercanvi",e.getTipusIntercanvi());
+        bundleViewElement.putBoolean("tipusIntercanvi",e.getEsTemporal());
         bundleViewElement.putParcelableArrayList("fotografies",e.getFotografies());
 
         myViewElementFragment = new ViewElementFragment();

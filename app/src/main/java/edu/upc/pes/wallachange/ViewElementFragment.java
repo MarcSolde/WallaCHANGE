@@ -122,7 +122,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
             }
         });
 
-        String tipusIntercanvi = bundle.getString("tipusIntercanvi");
+        Boolean esTemporal = bundle.getBoolean("tipusIntercanvi");
         String usuariActual = myActivity.getUsername();
         String usuariAnunci = bundle.getString("usuari");
         if (Objects.equals(usuariAnunci, usuariActual)) {
@@ -137,7 +137,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
             if (!Objects.equals(categoria, "")) editTextCategoria.setText(categoria);
             else editTextCategoria.setText(getResources().getString(R.string.edit_category_here_eng));
 
-            if (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng))) {
+            if (esTemporal) {
                 if (!Objects.equals(temporalitat, "")) editTextTemporalitat.setText(temporalitat);
                 else editTextTemporalitat.setText(
                         getResources().getString(R.string.edit_temporality_here_eng));
@@ -154,7 +154,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
             if (!Objects.equals(categoria, "")) editTextCategoria.setText(categoria);
             else editTextCategoria.setText(getResources().getString(R.string.empty_category_eng));
 
-            if (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng))) {
+            if (esTemporal) {
                 if (!Objects.equals(temporalitat, "")) editTextTemporalitat.setText(temporalitat);
                 else editTextTemporalitat.setText(
                         getResources().getString(R.string.empty_temporality_eng));

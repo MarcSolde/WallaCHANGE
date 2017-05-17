@@ -1,5 +1,10 @@
 package edu.upc.pes.wallachange;
 
+import static com.android.volley.VolleyLog.TAG;
+
+import static edu.upc.pes.wallachange.R.id.editTextCategoria;
+import static edu.upc.pes.wallachange.R.id.editTextDescripcio;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
@@ -19,13 +24,24 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.ImatgesMiniaturaListViewAdapter;
+import edu.upc.pes.wallachange.Models.Comment;
 import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
 
@@ -37,69 +53,64 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
 
     private final int PICK_IMAGE = 1;
     private MainActivity myActivity;
-    private View fragmentAddElementView;
     private ArrayList<Uri> imatgesMiniatura;
     private Integer nombreImatges;
     private ImageButton botoFotografia;
-    private String tipusProducte, tipusIntercanvi;
-    private EditText textTemporalitat, textCategoria, textDescripcio, textTitol;
-    private ImageView netejaTemporalitat;
+    private EditText editTextCategoria, editTextDescripcio, editTextTitol, editTextTemporalitat;
     private ExpandableHeightGridView miniatureImagesExpandableGridView;
+    private RadioGroup radioGroupTipusProducte, radioGroupTipusIntercanvi;
 
     public AddElementFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        fragmentAddElementView =  inflater.inflate(R.layout.fragment_add_element,container, false);
+
+        View fragmentAddElementView = inflater.inflate(R.layout.fragment_add_element, container,
+                false);
         myActivity = (MainActivity) getActivity();
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         myActivity.setTitle(R.string.navigationNewItem_eng);
         nombreImatges = 0;
         imatgesMiniatura = new ArrayList<>();
-        tipusProducte = getResources().getString(R.string.product_eng);
-        tipusIntercanvi = getResources().getString(R.string.permanent_eng);
-
         obtenirPermisos();
 
-        botoFotografia = (ImageButton) fragmentAddElementView.findViewById(R.id.afegirImatge);
-        botoFotografia.setOnClickListener(this);
         Button botoAfegirElement = (Button) fragmentAddElementView.findViewById(R.id.afegirElement);
         botoAfegirElement.setOnClickListener(this);
-        Button botoCancelarElement = (Button) fragmentAddElementView.findViewById(
-                R.id.cancelarElement);
+        Button botoCancelarElement = (Button) fragmentAddElementView.findViewById(R.id.cancelarElement);
         botoCancelarElement.setOnClickListener(this);
+        botoFotografia = (ImageButton) fragmentAddElementView.findViewById(R.id.afegirImatge);
+        botoFotografia.setOnClickListener(this);
 
+        ImageView netejaTitol = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_titol);
+        netejaTitol.setOnClickListener(this);
+        ImageView netejaDescripcio = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_descripcio);
+        netejaDescripcio.setOnClickListener(this);
+        ImageView netejaCategoria = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_categoria);
+        netejaCategoria.setOnClickListener(this);
+        final ImageView netejaTemporalitat = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_temporalitat);
+        netejaTemporalitat.setOnClickListener(this);
+
+        editTextTemporalitat = (EditText) fragmentAddElementView.findViewById(R.id.temporalitat);
+        editTextTitol = (EditText) fragmentAddElementView.findViewById(R.id.titolAnunci);
+        editTextDescripcio = (EditText) fragmentAddElementView.findViewById(R.id.descripcio);
+        editTextCategoria = (EditText) fragmentAddElementView.findViewById(R.id.categoria);
+
+        radioGroupTipusProducte = (RadioGroup) fragmentAddElementView.findViewById(R.id.radioGroupTipusProducte);
+        radioGroupTipusIntercanvi = (RadioGroup) fragmentAddElementView.findViewById(R.id.radioGroupTipusIntercanvi);
         miniatureImagesExpandableGridView = (ExpandableHeightGridView) fragmentAddElementView.findViewById(R.id.gridViewImatgesMiniatura);
         miniatureImagesExpandableGridView.setExpanded(true);
 
-        ImageView netejaTitol = (ImageView) fragmentAddElementView.findViewById(
-                R.id.neteja_edittext_titol);
-        netejaTitol.setOnClickListener(this);
-        ImageView netejaDescripcio = (ImageView) fragmentAddElementView.findViewById(
-                R.id.neteja_edittext_descripcio);
-        netejaDescripcio.setOnClickListener(this);
-        ImageView netejaCategoria = (ImageView) fragmentAddElementView.findViewById(
-                R.id.neteja_edittext_categoria);
-        netejaCategoria.setOnClickListener(this);
-        netejaTemporalitat = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_temporalitat);
-        netejaTemporalitat.setOnClickListener(this);
-        textTitol = (EditText) fragmentAddElementView.findViewById(R.id.titolAnunci);
-        textDescripcio = (EditText) fragmentAddElementView.findViewById(R.id.descripcio);
-        textCategoria = (EditText) fragmentAddElementView.findViewById(R.id.categoria);
-        textTemporalitat = (EditText) fragmentAddElementView.findViewById(R.id.temporalitat);
-
         final TextView textViewDurada = (TextView) fragmentAddElementView.findViewById(R.id.textViewDurada);
-        final RadioGroup radioGroupTipusIntercanvi = (RadioGroup) fragmentAddElementView.findViewById(R.id.radioGroupTipusIntercanvi);
         radioGroupTipusIntercanvi.setOnCheckedChangeListener(  new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch(checkedId) {
                     case R.id.radioButtonTemporal:
-                        textTemporalitat.setVisibility(View.VISIBLE);
+                        editTextTemporalitat.setVisibility(View.VISIBLE);
                         textViewDurada.setVisibility(View.VISIBLE);
                         netejaTemporalitat.setVisibility(View.VISIBLE);
                         break;
                     case R.id.radioButtonPermanent:
-                        textTemporalitat.setVisibility(View.GONE);
+                        editTextTemporalitat.setVisibility(View.GONE);
                         textViewDurada.setVisibility(View.GONE);
                         netejaTemporalitat.setVisibility(View.GONE);
                         break;
@@ -109,32 +120,63 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         return fragmentAddElementView;
     }
 
-    private Element generarNouElement(){
-        Element element;
-        EditText editTextTitolAnunci = (EditText) fragmentAddElementView.findViewById(R.id.titolAnunci);
-        EditText editTextDescripcio = (EditText) fragmentAddElementView.findViewById(R.id.descripcio);
-        EditText editTextCategoria = (EditText) fragmentAddElementView.findViewById(R.id.categoria);
-        EditText editTextTemporalitat = (EditText) fragmentAddElementView.findViewById(R.id.temporalitat);
-        RadioGroup radioGroupTipusProducte = (RadioGroup) fragmentAddElementView.findViewById(R.id.radioGroupTipusProducte);
-        RadioGroup radioGroupTipusIntercanvi = (RadioGroup) fragmentAddElementView.findViewById(R.id.radioGroupTipusIntercanvi);
 
-        if(radioGroupTipusProducte.getCheckedRadioButtonId()!=-1){
-            int id= radioGroupTipusProducte.getCheckedRadioButtonId();
-            View radioButton = radioGroupTipusProducte.findViewById(id);
-            int radioId = radioGroupTipusProducte.indexOfChild(radioButton);
-            RadioButton btn = (RadioButton) radioGroupTipusProducte.getChildAt(radioId);
-            tipusProducte = (String) btn.getText();
-        }
-        if(radioGroupTipusIntercanvi.getCheckedRadioButtonId()!=-1){
-            int id= radioGroupTipusIntercanvi.getCheckedRadioButtonId();
-            View radioButton = radioGroupTipusIntercanvi.findViewById(id);
-            int radioId = radioGroupTipusIntercanvi.indexOfChild(radioButton);
-            RadioButton btn = (RadioButton) radioGroupTipusIntercanvi.getChildAt(radioId);
-            tipusIntercanvi = (String) btn.getText();
-        }
-        element = new Element(editTextTitolAnunci.getText().toString(),editTextDescripcio.getText().toString(),editTextCategoria.getText().toString(),tipusProducte,tipusIntercanvi,editTextTemporalitat.getText().toString(),myActivity.getUsername(),imatgesMiniatura);
+    private Element obtenirElement(String id) {
+        //TODO
+        return null;
+    }
 
-        return element;
+    private String publicarElement(String titol, String descripcio, String categoria, String tipusProducte,
+            Boolean temporal, String temporalitat, String username, ArrayList<Uri> imatgesMiniatura,
+            ArrayList<Comment> comentaris, String localitat) {
+        final String[] idElement = new String[1];
+        AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
+
+        //docker run
+        //i node
+        //node server.js
+/*
+        JSONObject nouElement = new JSONObject() ;
+        try {
+            nouElement.put("titol",titol);
+            nouElement.put("descripcio",descripcio);
+            nouElement.put("imatges",imatgesMiniatura);
+            nouElement.put("nom_user",username);
+            //jSO.put("data_publicacio",date); al json del ruteo que te veo posa que es DATE
+            nouElement.put("tipus_element",tipusProducte);
+            nouElement.put("es_temporal",temporal);
+            nouElement.put("tags",categoria);
+            // aqui s'hauria de convertir larraylist de comentaris a vector de parelles textComentari, nom_usuari
+            nouElement.put("comentaris",comentaris);
+            nouElement.put("localitat",localitat);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // params ara sera un JSON
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        //headers.put("token",);
+        adapterAPIRequest.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/element",
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            idElement[0] = response.getString("id");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG,"Error ");
+                    }
+                },nouElement, headers);
+*/
+        return idElement[0];
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -149,9 +191,6 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             ImatgesMiniaturaListViewAdapter adapter2 = new ImatgesMiniaturaListViewAdapter(myActivity, R.layout.miniature_images_item, imatgesMiniatura,this);
             miniatureImagesExpandableGridView.setAdapter(adapter2);
             adapter2.notifyDataSetChanged();
-
-            //img.removeAllViews();
-            //img.addView(miniatureImagesView);
         }
     }
 
@@ -159,23 +198,20 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.afegirElement:
-                Element e = generarNouElement();
-                // CONTROL ERRORS
-                // titol de l'anunci obligatori
-                boolean faltenCamps = false;
-                if (Objects.equals(e.getTitol(), "")){
-                    faltenCamps = true;
-                    String errorTitleMustBeFilled = getResources().getString(R.string.this_field_is_required_eng);
-                    textTitol.setError(errorTitleMustBeFilled);
-                }
-                // minim 1 imatge per producte
-                if (nombreImatges == 0 && Objects.equals(tipusProducte, getResources().getString(R.string.product_eng))){
-                    faltenCamps = true;
-                }
-
-                if (!faltenCamps){
-                    // tot ha anat bé
-                    myActivity.changeToItem(e);
+                boolean b = faltenCamps();
+                if (!b){
+                    //TODO:
+                    String tipusProducte = obtenirTipusProducte();
+                    String tipusIntercanvi = obtenirTipusIntercanvi();
+                    Boolean esTemporal = (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng)));
+                    // 1 POST
+                    String localitat = obtenirLocalitatUsuari(myActivity.getUsername());
+                    String id = publicarElement(editTextTitol.getText().toString(),editTextDescripcio.getText().toString(),editTextCategoria.getText().toString(),tipusProducte,esTemporal,editTextTemporalitat.getText().toString(),myActivity.getUsername(),imatgesMiniatura,new ArrayList<Comment>(),localitat);
+                    // 2 GET http://localhost:3000/element/:id
+                    Element nouElement = obtenirElement(id);
+                    // 3 construir element amb el que retorna el GET
+                    // 4 Mostrar element just creat
+                    myActivity.changeToItem(nouElement);
                 }
                 break;
             case R.id.cancelarElement:
@@ -191,20 +227,65 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                 startActivityForResult(Intent.createChooser(pickIntent, "Import img"), PICK_IMAGE);
                 break;
             case R.id.neteja_edittext_titol:
-                textTitol.setText("");
+                editTextTitol.setText("");
                 break;
             case R.id.neteja_edittext_descripcio:
-                textDescripcio.setText("");
+                editTextDescripcio.setText("");
                 break;
             case R.id.neteja_edittext_categoria:
-                textCategoria.setText("");
+                editTextCategoria.setText("");
                 break;
             case R.id.neteja_edittext_temporalitat:
-                textTemporalitat.setText("");
+                editTextTemporalitat.setText("");
                 break;
             default:
                 break;
         }
+    }
+
+    private String obtenirLocalitatUsuari(String username) {
+        //TODO
+        return null;
+    }
+
+    private String obtenirTipusIntercanvi() {
+        String tipusIntercanvi = getResources().getString(R.string.permanent_eng);
+        if(radioGroupTipusIntercanvi.getCheckedRadioButtonId()!=-1){
+            int id= radioGroupTipusIntercanvi.getCheckedRadioButtonId();
+            View radioButton = radioGroupTipusIntercanvi.findViewById(id);
+            int radioId = radioGroupTipusIntercanvi.indexOfChild(radioButton);
+            RadioButton btn = (RadioButton) radioGroupTipusIntercanvi.getChildAt(radioId);
+            tipusIntercanvi = (String) btn.getText();
+        }
+        return tipusIntercanvi;
+    }
+
+    private String obtenirTipusProducte() {
+        String tipusProducte = getResources().getString(R.string.product_eng);
+        if(radioGroupTipusProducte.getCheckedRadioButtonId()!=-1){
+            int id= radioGroupTipusProducte.getCheckedRadioButtonId();
+            View radioButton = radioGroupTipusProducte.findViewById(id);
+            int radioId = radioGroupTipusProducte.indexOfChild(radioButton);
+            RadioButton btn = (RadioButton) radioGroupTipusProducte.getChildAt(radioId);
+            tipusProducte = (String) btn.getText();
+        }
+        return tipusProducte;
+    }
+
+    private boolean faltenCamps() {
+        // titol de l'anunci obligatori
+        boolean falten = false;
+        if (Objects.equals(editTextTitol.getText().toString(), "")){
+            falten = true;
+            String errorTitleMustBeFilled = getResources().getString(R.string.this_field_is_required_eng);
+            editTextTitol.setError(errorTitleMustBeFilled);
+        }
+        String tp = obtenirTipusProducte();
+        // minim 1 imatge per producte
+        if (nombreImatges == 0 && Objects.equals(tp, getResources().getString(R.string.product_eng))){
+            falten = true;
+        }
+        return falten;
     }
 
     private void obtenirPermisos(){
