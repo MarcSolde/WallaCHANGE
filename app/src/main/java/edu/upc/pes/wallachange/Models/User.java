@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 
 public class User {
-
+    private String id;
     private String username;
     private String location;
     private String password;
@@ -15,7 +15,8 @@ public class User {
     private Uri picture;
     private ArrayList<String> preferences;
 
-    public User(String username, String location, String password, int rating, Uri picture, ArrayList<String> preferences) {
+    public User(String id, String username, String location, String password, int rating, Uri picture, ArrayList<String> preferences) {
+        this.id = id;
         this.username = username;
         this.location = location;
         this.password = password;
@@ -27,6 +28,8 @@ public class User {
     public User() {
         preferences = new ArrayList<String>();
     }
+
+    public String getId () {return id;}
 
     public String getUsername() {
         return username;

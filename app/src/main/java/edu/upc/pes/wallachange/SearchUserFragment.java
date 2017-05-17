@@ -27,7 +27,7 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
     private ListView myListView;
     private EditText myText;
 
-    private List<User> userList;
+    private ArrayList<User> users;
 
 
     @Override
@@ -74,18 +74,17 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
         aux.add("aaa");
         aux.add("bbb");
         aux.add("ccc");
-        User aux2 = new User("pepe","bcn","aaa",4,null,aux);
+        User aux2 = new User("1","pepe","bcn","aaa",4,null,aux);
         items.add(aux2);
-        items.add(new User("juanjo","mdr","aaa",3,null,aux));
-        items.add(new User("phol","par","aaa",5,null,aux));
+        items.add(new User("2","juanjo","mdr","aaa",3,null,aux));
+        items.add(new User("3","phol","par","aaa",5,null,aux));
         adapter = new SearchUserAdapter(myActivity,R.layout.item_search_user,items,this);
         myListView.setAdapter(adapter);
         myListView.deferNotifyDataSetChanged();
     }
 
     private void onClickUser (int i) {
-        //User user = userList.get(i);
-        //TODO: ir al usuario
+        myActivity.changeToOtherUserProfile(users.get(i).getId());
     }
 
     @Override

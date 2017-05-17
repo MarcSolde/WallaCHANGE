@@ -48,6 +48,9 @@
     <string name="viewElementReport_eng">Report</string>
     <string name="viewElementHelp_eng">Help</string>
 
+    <!-- VIEW OTHER PROFILE -->
+    <string name="viewOtherProfileElement_eng">ELEMENTS:</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -55,18 +58,18 @@
     <!-- Add element -->
     <string name="add_picture_eng">Add pictures</string>
     <string name="title_eng">Title</string>
-    <string name="description_eng" >Description</string>
-    <string name="category_eng" >Category</string>
-    <string name="type_of_product_eng" >Type of product</string>
-    <string name="type_of_exchange_eng" >Type of exchange</string>
-    <string name="product_eng" >Product</string>
-    <string name="experience_eng" >Experience</string>
-    <string name="permanent_eng" >Permanent</string>
-    <string name="temporal_eng" >Temporal</string>
-    <string name="duration_eng" >Duration</string>
-    <string name="the_advertisement_must_have_a_title_eng" >The advertisement must have a title</string>
-    <string name="these_fields_must_be_filled_eng" >These fields must be filled</string>
-    <string name="at_least_one_image_eng" >At least one image</string>
+    <string name="description_eng">Description</string>
+    <string name="category_eng">Category</string>
+    <string name="type_of_product_eng">Type of product</string>
+    <string name="type_of_exchange_eng">Type of exchange</string>
+    <string name="product_eng">Product</string>
+    <string name="experience_eng">Experience</string>
+    <string name="permanent_eng">Permanent</string>
+    <string name="temporal_eng">Temporal</string>
+    <string name="duration_eng">Duration</string>
+    <string name="the_advertisement_must_have_a_title_eng">The advertisement must have a title</string>
+    <string name="these_fields_must_be_filled_eng">These fields must be filled</string>
+    <string name="at_least_one_image_eng">At least one image</string>
     <string name="advertisements_title_eng">Advertisement\'s title</string>
     <string name="advertisements_description_eng">Advertisement\'s description</string>
     <string name="advertisements_category_eng">Advertisement\'s category</string>

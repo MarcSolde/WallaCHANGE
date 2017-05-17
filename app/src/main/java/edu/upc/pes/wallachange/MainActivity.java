@@ -17,16 +17,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import edu.upc.pes.wallachange.Models.Element;
+
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private HomeFragment homeFragment;
 
     private FragmentManager myFragmentManager;
-    private AddElementFragment myAddElementFragment;
     private DrawerLayout myDrawer;
     private String user;
-    private ViewElementFragment myViewElementFragment;
 
 
     @Override
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog2.show();
                 break;
             case R.id.navigationNewItem:
-                myAddElementFragment = new AddElementFragment();
+                AddElementFragment myAddElementFragment = new AddElementFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myAddElementFragment).commit();
                 break;
             case R.id.navigationSearchUser:
@@ -136,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bundleViewElement.putString("tipusIntercanvi",e.getTipusIntercanvi());
         bundleViewElement.putParcelableArrayList("fotografies",e.getFotografies());
 
-        myViewElementFragment = new ViewElementFragment();
+        ViewElementFragment myViewElementFragment = new ViewElementFragment();
         myViewElementFragment.setArguments(bundleViewElement);
         myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
     }
@@ -160,6 +159,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    public  void changeToOtherUserProfile (String id) {
+        SeeProfileFragment seeProfileFragment = new SeeProfileFragment();
+        Bundle args = new Bundle();
+        args.putString("id",id);
+        seeProfileFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, seeProfileFragment).commit();
     }
 
 }
