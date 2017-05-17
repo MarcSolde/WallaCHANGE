@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.APILayer.Proxy;
 import edu.upc.pes.wallachange.Adapters.ListElementsAdapter;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
@@ -146,52 +147,13 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                 finder.setText("");
                 break;
             case R.id.SearchButt:
-                Map<String, String> body = new HashMap<String, String>();
-                Map<String, String> headers = new HashMap<String, String>();
-                CurrentUser us = CurrentUser.getInstance();
-                body.put("token", us.getToken());
-                body.put("titol", finder.getText().toString());
-                AdapterAPIRequest adapter = new AdapterAPIRequest();
-                final ArrayList<Element> elements2 = new ArrayList<>();
-                adapter.GETJsonArrayRequestAPI("http://10.0.2.2:3000/elements", new Response.Listener<JSONArray>() {
-                                                    @Override
-                                                    public void onResponse(JSONArray response) {
-                                                        JSONArray ja = response;
-                                                        try {
-//                                                            if (ja != null) {
-                                                                int len = ja.length();
-                                                                for (int i = 0; i < len; i++) {
-                                                                    Element elem = new Element();
-                                                                    elem.setTitol(ja.getJSONObject(i).getString("titol"));
-                                                                    elem.setCategoria(ja.getJSONObject(i).getString("categoria"));
-                                                                    elem.setDescripcio(ja.getJSONObject(i).getString("descripcio"));
-                                                                    elem.setTipusProducte(ja.getJSONObject(i).getString("tipus_element"));
-                                                                    elem.setId(ja.getJSONObject(i).getString("id"));
-                                                                    elem.setTagsArray(ja.getJSONObject(i).getJSONArray("tags"));
-                                                                    elem.setFotografiesArray(ja.getJSONObject(i).getJSONArray("imatges"));
-                                                                    elem.setUser(ja.getJSONObject(i).getString("nom_user"));
-//                                                                        elem.setData(ja getJSONObject(i).getDate("tipus_element"));
-                                                                    if (ja.getJSONObject(i).getBoolean("es_temporal"))
-//                                                                            elem.setTipusIntercanvi(R.string.temporal_eng);
-//                                                                    else
-//                                                                            elem.setTipusIntercanvi(R.string.permanent_eng);
-                                                                    // faltencoordenades, comentaris
-                                                                    elements2.add(elem);
-                                                                }
-
-
-                                                            } catch(JSONException e){
-                                                                e.printStackTrace();
-                                                            }
-
-                                                }},
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                VolleyLog.d(TAG, "Error: " + error.getMessage());
-
-                            }
-                        }, body, headers);
+                Proxy proxy = new Proxy();
+                ArrayList<Element> elements2 = null;
+                try {
+                    elements2 = proxy.getElements(finder.getText().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 if (!elements2.isEmpty()) {
                     elements = elements2;
                     listElementsAdapter.notifyDataSetChanged();

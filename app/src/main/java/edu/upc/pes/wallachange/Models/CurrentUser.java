@@ -67,10 +67,8 @@ public class CurrentUser {
         return user.getRating();
     }
 
-    public void setRating(String rating) {
-
-        Float f = Float.parseFloat(rating);
-        user.setRating(f);
+    public void setRatingString(String rating) {
+        user.setRatingString(rating);
     }
 
     public Uri getPicture() {
@@ -92,20 +90,7 @@ public class CurrentUser {
     }
 
     public void setPreferencesArray(JSONArray newPreferences) {
-        ArrayList<String> list = new ArrayList<String>();
-        JSONArray jsonArray = (JSONArray) newPreferences;
-        if (jsonArray != null) {
-            int len = jsonArray.length();
-            for (int i = 0; i < len; i++) {
-                try {
-                    list.add(jsonArray.get(i).toString());
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        user.setPreferencesArray(list);
+        user.setPreferencesArray(newPreferences);
     }
 
     public void setPreferencesArrayList(ArrayList<String> newPreferences) {
@@ -140,55 +125,14 @@ public class CurrentUser {
                 }
             }
         }
-        user.setIntercanvis(list);
+        user.setIntercanvisArray(intercanvisArray);
     }
 
     public void setProductesArray(JSONArray productesArray) {
-        ArrayList<String> list = new ArrayList<String>();
-        JSONArray jsonArray = (JSONArray) productesArray;
-        if (jsonArray != null) {
-            int len = jsonArray.length();
-            for (int i = 0; i < len; i++) {
-                try {
-                    list.add(jsonArray.get(i).toString());
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        user.setProductes(list);
+        user.setProductesArray(productesArray);
+    }
+    public void setFacebookId(String fbId) {
+        user.setFacebookId(fbId);
     }
 
-    public void updateFields() {
-        String location = user.getLocation();
-        ArrayList<String> prefs = user.getPreferences();
-//        String[] ja = new String[prefs.size()];
-        JSONArray ja = new JSONArray();
-        for (String p : prefs) {
-            ja.put(p);
-        }
-        Map<String, String> body = new HashMap<String, String>();
-        Map<String, String> headers = new HashMap<String, String>();
-        body.put("token", this.getToken());
-        body.put("localitat", location);
-//        body.put("preferencies", ja); ???
-//        body.put("preferencies", ja); ??COM HO FAIG?
-
-
-        adapter.PUTStringRequestAPI("http://10.0.2.2:3000/updateUser/"+user.getUsername(),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        JSONObject js = response;
-                        //SI voleu aquí comprovar que s'ha fet bé
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(TAG, "Error: " + error.getMessage());
-                    }
-                }, body, headers);
-    }
 }

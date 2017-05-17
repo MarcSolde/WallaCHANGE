@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,8 @@ public class Element {
     private String user;
     private ArrayList<Uri> fotografies;
     private ArrayList<String> tags;
+    private ArrayList<Comment> comentaris;
+    private ArrayList<Coordenades> coordenades;
 
     public Element(String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, String user, ArrayList<Uri> fotografies) {
         this.titol = titol;
@@ -121,8 +124,8 @@ public class Element {
     }
 
     public void setFotografiesArray(JSONArray tagsArray) {
-        ArrayList<Uri> list = new ArrayList<Uri>();
-        JSONArray jsonArray = (JSONArray) tagsArray;
+        ArrayList<Uri> list = new ArrayList<>();
+        JSONArray jsonArray = tagsArray;
         if (jsonArray != null) {
             int len = jsonArray.length();
             for (int i = 0; i < len; i++) {
@@ -136,6 +139,41 @@ public class Element {
             }
         }
         this.fotografies = list;
+    }
+
+    public void setComentarisArray(JSONArray comentaris) {
+        ArrayList<Comment> list = new ArrayList<>();
+        JSONArray jsonArray = comentaris;
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i = 0; i < len; i++) {
+                try {
+                    Comment comment = new Comment(jsonArray.getJSONObject(i).getString("nom_user"), jsonArray.getJSONObject(i).getString("text"));
+                    list.add(comment);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.comentaris = list;
+    }
+
+    public void setCoordenadesArray(JSONArray coords) {
+        ArrayList<Coordenades> list = new ArrayList<>();
+        JSONArray jsonArray = coords;
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i = 0; i < len; i++) {
+                try {
+                    Coordenades cords = new Coordenades();
+                    cords.setCoords(jsonArray.getJSONObject(i).getInt("x"), jsonArray.getJSONObject(i).getInt("y"));
+                    list.add(cords);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.coordenades = list;
     }
 
     public void setFotografies(ArrayList<Uri> fotografies) {

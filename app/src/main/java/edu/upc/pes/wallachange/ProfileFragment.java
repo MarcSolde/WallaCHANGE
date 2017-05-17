@@ -1,5 +1,7 @@
 package edu.upc.pes.wallachange;
 
+import static com.android.volley.VolleyLog.TAG;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -17,13 +19,22 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.APILayer.Proxy;
 import edu.upc.pes.wallachange.Adapters.PreferencesAdapter;
 import edu.upc.pes.wallachange.Models.CurrentUser;
-import edu.upc.pes.wallachange.Models.User;
 import edu.upc.pes.wallachange.Others.CircleTransform;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
 
@@ -54,13 +65,6 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         myActivity.setTitle(R.string.navigationProfile_eng);
         user = CurrentUser.getInstance();
         String username = user.getUsername();
-//        user.setLocation("Sant Cugat");
-//        user.addPreference("esport");
-//        user.addPreference("patinatge");
-//        user.addPreference("skate");
-//        user.setRating(3);
-//        Uri imgProva=Uri.parse("android.resource://edu.upc.pes.wallachange/"+R.drawable.userpicture);
-//        user.setPicture(imgProva);
 
         ExpandableHeightGridView gridPrefs;
         ImageView addPref;
@@ -158,10 +162,47 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                     String errorEmpty = getResources().getString(R.string.errorEmptyField_eng);
                     locationTE.setError(errorEmpty);
                 }
-                user.setPreferencesArrayList(prefs);
-                user.updateFields();
-                break;
+                user.setPreferencesArrayList(prefs);String token = user.getToken();
+                String location = user.getLocation();
+                ArrayList<String> prefs = user.getPreferences();
 
+                JSONArray ja = new JSONArray();
+                for (String p : prefs) {
+                    ja.put(p);
+                }
+
+                JSONObject body = new JSONObject();
+                try {
+                    body.put("token", token);
+                    body.put("localitat", location);
+                    body.put("preferencies", ja);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                JSONObject headers = new JSONObject();
+                AdapterAPIRequest adapter = new AdapterAPIRequest();
+                adapter.PUTStringRequestAPI("http://10.0.2.2:3000/updateUser/"+user.getUsername(),
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                JSONObject js = response;
+                                //SI voleu aquí comprovar que s'ha fet bé
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                            }
+                        }, body, headers);
+                Proxy proxy = new Proxy();
+                try {
+                    proxy.updateUser(user);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
 
             default:
                 break;

@@ -13,6 +13,11 @@ public class Comment {
     private String textComentari;
     private String data;
 
+    public Comment(String nomUsuari, String textComentari) {
+        this.nomUsuari = nomUsuari;
+        this.textComentari = textComentari;
+        //TODO obtenir data i foto usuari
+    }
     public Comment(Uri fotoUsuari, String nomUsuari, String textComentari, String data) {
         this.fotoUsuari = fotoUsuari;
         this.nomUsuari = nomUsuari;
