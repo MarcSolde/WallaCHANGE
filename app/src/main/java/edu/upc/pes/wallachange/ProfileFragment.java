@@ -1,5 +1,7 @@
 package edu.upc.pes.wallachange;
 
+import static com.android.volley.VolleyLog.TAG;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -17,13 +19,24 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.APILayer.Proxy;
 import edu.upc.pes.wallachange.Adapters.PreferencesAdapter;
 import edu.upc.pes.wallachange.Models.CurrentUser;
-import edu.upc.pes.wallachange.Models.User;
 import edu.upc.pes.wallachange.Others.CircleTransform;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
 
@@ -33,7 +46,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
     private int PICK_IMAGE = 1;
     private MainActivity myActivity;
 
-    private User user;
+    private CurrentUser user;
 
     private String location;
     private ArrayList<String> prefs;
@@ -52,68 +65,11 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
         myActivity = (MainActivity) getActivity();
         myActivity.setTitle(R.string.navigationProfile_eng);
-        user = new User();
-
-        String username2 = myActivity.getUsername();
-
-//        /////////
-//        AppSingleton single = new AppSingleton(myActivity);
-//        AdapterAPIRequest adapter = new AdapterAPIRequest();
-//        RequestQueue rq = single.getInstance(myActivity);
-//        rq.start();
-////        /////////
-//        AdapterAPIRequest adapter = new AdapterAPIRequest();
-//        adapter.GETJsonObjectRequestAPI("http://localhost:3000/user/"+username2, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                Log.d("tagtag", response.toString());
-//
-//            }
-//        });
-//
-////
-////
-
-        //User de prova, li assigno els paràmetres
-        //S'haurà d'esborrar en un futur
-        user.setUsername(username2);
-/**
-        JSONObject js;
-
-        //User de prova, li assigno els paràmetres
-        //S'haurà d'esborrar en un futur
-        user.setUsername(myActivity.getUsername());
-
-        AdapterAPIRequest adapter = new AdapterAPIRequest();
-        adapter.GETJsonObjectRequestAPI(
-                "http://localhost:3000/user/"+"pepito",
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("tagtag", response.toString());
-                        locationTE.setText("OKEY!");
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(TAG, "Error: " + error.getMessage());
-                        locationTE.setText("Error");
-                    }
-                });
-
-**/
-        user.setLocation("Sant Cugat");
-        user.addPreference("esport");
-        user.addPreference("patinatge");
-        user.addPreference("skate");
-        user.setRating(3);
-        Uri imgProva=Uri.parse("android.resource://edu.upc.pes.wallachange/"+R.drawable.userpicture);
-        user.setPicture(imgProva);
+        user = CurrentUser.getInstance();
+        String username = user.getUsername();
 
         ExpandableHeightGridView gridPrefs;
         ImageView addPref;
-
         RatingBar mRatingBar;
         TextView usernameField;
         ImageView cleanLocation;
@@ -132,15 +88,10 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         editTextPref = (EditText) view.findViewById(R.id.addPreference);
 
 
-        //set camps del layout
-        String username;
-        username = user.getUsername();
-        usernameField.setText(username);
 
         fotoPerfil.setImageURI(null);
         fotoPerfil.setImageURI(user.getPicture());
-        CurrentUser us = CurrentUser.getInstance();
-        locationTE.setText(us.getToken());
+        locationTE.setText(user.getLocation());
         //locationTE.setText(location);
 
         mRatingBar.setRating(user.getRating());
@@ -205,15 +156,50 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                 if (location.trim().length() != 0) {
                     if (!user.getLocation().isEmpty()) {
                         if (!user.getLocation().equals(location)) user.setLocation(location);
-                    } else user.setLocation(location);
+                    } else {
+                        user.setLocation(location);
+                    }
 
                 } else {
                     String errorEmpty = getResources().getString(R.string.errorEmptyField_eng);
                     locationTE.setError(errorEmpty);
                 }
-                user.setPreferencesArray(prefs);
-                break;
+                user.setPreferencesArrayList(prefs);String token = user.getToken();
+                String location = user.getLocation();
+                ArrayList<String> prefs = user.getPreferences();
 
+                JSONArray ja = new JSONArray();
+                for (String p : prefs) {
+                    ja.put(p);
+                }
+
+                JSONObject body = new JSONObject();
+                try {
+                    body.put("token", token);
+                    body.put("localitat", location);
+                    body.put("preferencies", ja);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Map<String,String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                AdapterAPIRequest adapter = new AdapterAPIRequest();
+                adapter.PUTRequestAPI("http://10.0.2.2:3000/updateUser/"+user.getUsername(),
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                JSONObject js = response;
+                                //SI voleu aquí comprovar que s'ha fet bé
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                            }
+                        }, body, headers);
+                break;
 
             default:
                 break;

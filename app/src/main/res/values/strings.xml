@@ -101,6 +101,7 @@
 
     <!--searchElementFragment-->
     <string name="search_eng">Search...</string>
+    <string name="filter_eng">FILTER</string>
 
     <!--API-->
     <string name="API_URL">http://localhost:3000/</string>
