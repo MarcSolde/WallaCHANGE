@@ -48,6 +48,23 @@
 
 
         </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/filterButton"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:layout_gravity="center"
+            android:background="@drawable/border"
+            android:textColor="#606060"
+            android:text="@string/filter_eng" />
+
+
+        </LinearLayout>
         <ListView
             android:id="@+id/listElements"
             android:layout_width="match_parent"

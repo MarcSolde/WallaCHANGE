@@ -7,13 +7,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -137,6 +140,9 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
 
         ImageView findButt = (ImageView) view.findViewById(R.id.SearchButt);
         findButt.setOnClickListener(this);
+
+        Button filterButt = (Button) view.findViewById(R.id.filterButton);
+        filterButt.setOnClickListener(this);
         return view;
     }
 
@@ -145,6 +151,11 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
         switch (v.getId()) {
             case R.id.cleanFieldSearch:
                 finder.setText("");
+                break;
+            case R.id.filterButton:
+                //aquí es crida el fragment del sergi
+//                myFragmentManager.beginTransaction().replace(R.id.fragment,FiltersFragment).commit();
+
                 break;
             case R.id.SearchButt:
                 String title = finder.getText().toString();
