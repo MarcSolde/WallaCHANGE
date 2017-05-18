@@ -5,6 +5,12 @@
     android:orientation="vertical"
     tools:context="edu.upc.pes.wallachange.FiltersFragment">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:text="Tags:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     <MultiAutoCompleteTextView
         android:id="@+id/multiAutoCompleteTextView1"
@@ -12,10 +18,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
-        android:text="Tags"
         android:ems="10" >
     </MultiAutoCompleteTextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Tipus d'element:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
     <RadioGroup
         android:id="@+id/radiosTipusTemp"
         android:layout_width="match_parent"
@@ -23,7 +35,8 @@
         android:layout_alignParentLeft="true"
         android:layout_gravity="right"
         android:inputType="text"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
 
         <RadioButton
             android:id="@+id/radioButtonTemporal"
@@ -54,7 +67,8 @@
         android:layout_alignParentLeft="true"
         android:layout_gravity="right"
         android:inputType="text"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
 
         <RadioButton
             android:id="@+id/radioButtonExp"
@@ -89,17 +103,17 @@
     <!--</FrameLayout>-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30pt"
-        android:gravity="end"
-        android:orientation="horizontal"
-        android:weightSum="1">
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/cancelButton1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:layout_weight="0.50" />
+            android:layout_weight="0.50"
+            android:text="Cancel" />
 
         <Button
             android:id="@+id/submitButton1"

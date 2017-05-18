@@ -163,9 +163,9 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                 JSONObject body = new JSONObject();
                 Map<String, String> headers = new HashMap<>();
                 CurrentUser us = CurrentUser.getInstance();
-                headers.put("token", us.getToken());
+                headers.put("x-access-token", us.getToken());
                 headers.put("titol", title);
-                headers.put("Content-Type", "application/json");
+                //headers.put("Content-Type", "application/json");
 
                 final ArrayList<Element> elements2 = new ArrayList<>();
                 adapter.GETRequestAPI("http://10.0.2.2:3000/elements", new Response.Listener<JSONArray>() {
