@@ -2,8 +2,9 @@ package edu.upc.pes.wallachange.Models;
 
 import android.net.Uri;
 
+import java.sql.Struct;
 import java.util.ArrayList;
-
+import java.util.HashMap;
 
 
 public class Element {
@@ -16,6 +17,7 @@ public class Element {
     private String temporalitat;
     private String user;
     private ArrayList<Uri> fotografies;
+    private HashMap <Integer, String> hmap = new HashMap<Integer, String>();
 
     public Element(String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, String user, ArrayList<Uri> fotografies) {
         this.titol = titol;
