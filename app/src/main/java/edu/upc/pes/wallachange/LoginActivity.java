@@ -14,6 +14,8 @@ import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
+import org.json.JSONException;
+
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -28,11 +30,20 @@ public class LoginActivity extends AppCompatActivity {
     private LoginButton fbLoginButton;
     CallbackManager callbackManager;
     private String lenguage;
+    final public static String MyPREFERENCES = "MyPrefs";
+    final public static String MyTokenPref = "MyFBToken";
+    final public static String MyFBidPref = "MyFBid";
+    public static LoginActivity context;
 
     @Override
     protected void onStart(){
         super.onStart();
-        CallbackFacebook.checkLogin();
+        context = this;
+        try {
+            CallbackFacebook.checkLogin();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -95,6 +106,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public static void logOut() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferences.edit().clear().commit();
         LoginManager.getInstance().logOut();
         Log.i("LOGIN","Logout from Main");
     }

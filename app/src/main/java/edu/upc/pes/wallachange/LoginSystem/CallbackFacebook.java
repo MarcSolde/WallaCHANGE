@@ -43,31 +43,34 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
 
     @Override
     public void onSuccess(LoginResult loginResult) {
-        Map<String, String> params = new HashMap<String, String>();
+        JSONObject params = new JSONObject();
         Map<String, String> headers = new HashMap<String,String>();
         SharedPreferences.Editor editor  = sharedPreferences.edit();
         AccessToken accessToken = loginResult.getAccessToken();
 
-        String token = accessToken.getToken();
-        params.put("token", token);
-        editor.putString(MyTokenPref, token);
-
         String id = accessToken.getUserId();
-        params.put("id", id);
+        String token = accessToken.getToken();
+        try {
+            params.put("token", token);
+            params.put("id", id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        editor.putString(MyTokenPref, token);
         editor.putString(MyFBidPref, id);
 
         editor.commit();
 
         headers.put("Content-Type", "application/json");
 
-        adapter.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/loginFB",
+        //adapter.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/loginFB",
+        adapter.POSTSJsonObjectRequestAPI("http://104.236.98.100:3000/loginFB",
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        JSONObject js = response;
                         try {
                             CurrentUser user = CurrentUser.getInstance();
-                            user.setToken(js.getString("token"));
+                            user.setToken(response.getString("token"));
 //                            user.setUsername(js.getString("nom"));
 //                            user.setLocation(js.getString("localitat"));
 //                            user.setPreferencesArray(js.getJSONArray("prefs"));
@@ -111,7 +114,7 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
         Toast.makeText(myActivity, "Error login", Toast.LENGTH_LONG).show();
     }
 
-    public static void checkLogin() {
+    public static void checkLogin() throws JSONException {
         //FacebookSdk.sdkInitialize(myActivity);
 
         //AccessToken accessToken = AccessToken.getCurrentAccessToken();
@@ -120,12 +123,14 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
         String id = sharedPreferences.getString(MyFBidPref, null);
 
         if (token != null && id != null){
-            Map<String, String> params = new HashMap<String, String>();
+            JSONObject params = new JSONObject();
             Map<String, String> headers = new HashMap<String,String>();
             params.put("token", token);
             params.put("id", id);
             headers.put("Content-Type", "application/json");
-            adapter.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/loginFB",
+
+            //adapter.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/loginFB",
+            adapter.POSTSJsonObjectRequestAPI("http://104.236.98.100:3000/loginFB",
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
