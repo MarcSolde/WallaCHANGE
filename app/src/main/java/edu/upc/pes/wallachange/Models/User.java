@@ -16,7 +16,7 @@ public class User {
     private ArrayList<String> intercanvis;
     private ArrayList<String> productes;
 
-    public User(String id, String username, String location, String password, int rating, Uri picture, ArrayList<String> preferences) {
+    public User(String id, String username, String location, String password, float rating, Uri picture, ArrayList<String> preferences) {
         this.id = id;
         this.username = username;
         this.location = location;

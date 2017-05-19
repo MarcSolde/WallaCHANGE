@@ -32,7 +32,7 @@ public class SeeProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search_user, container, false);
+        View view = inflater.inflate(R.layout.fragment_see_profile, container, false);
         myActivity = (MainActivity) getActivity();
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         myActivity.setTitle(R.string.navigationProfile_eng);
@@ -40,12 +40,11 @@ public class SeeProfileFragment extends Fragment {
 
         String id = getArguments().getString("id");
         //TODO:get user
-        user = new User();
-        user.setUsername("Pepe");
-        user.setLocation("Sant Cugat");
-        user.addPreference("esport");
-        user.addPreference("patinatge");
-        user.setRating(3);
+        ArrayList<String> aux5 = new ArrayList<> ();
+        aux5.add("aaa");
+        aux5.add("bbb");
+        aux5.add("ccc");
+        user = new User("id","Pepe","Sant Cugat","aaa",4,null,aux5);
 
         TextView aux = (TextView) view.findViewById(R.id.see_user_username);
         aux.setText(user.getUsername());
@@ -71,6 +70,7 @@ public class SeeProfileFragment extends Fragment {
 
     private void loadList () {
         //TODO:
+        elements = new ArrayList<>();
         elements.add(new Element("1","aaa1",null,"aaa2",null,"aaa3",null,null,null));
         elements.add(new Element("2","bbb1",null,"bbb2",null,"bbb3",null,null,null));
         adapter = new SeeProfileAdapter(myActivity,R.layout.item_see_profile,elements,this);

@@ -201,6 +201,7 @@ public class AdapterAPIRequest   {
     public void volleyClearCache(){
         AppSingleton.getInstance(getApplicationContext()).getRequestQueue().getCache().clear();
     }
+
 }
 
 
