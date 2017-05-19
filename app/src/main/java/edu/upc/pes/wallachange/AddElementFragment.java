@@ -131,7 +131,8 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             RadioButton btn = (RadioButton) radioGroupTipusIntercanvi.getChildAt(radioId);
             tipusIntercanvi = (String) btn.getText();
         }
-        element = new Element(editTextTitolAnunci.getText().toString(),editTextDescripcio.getText().toString(),editTextCategoria.getText().toString(),tipusProducte,tipusIntercanvi,editTextTemporalitat.getText().toString(),myActivity.getUsername(),imatgesMiniatura);
+        //TODO:
+        element = new Element("1",editTextTitolAnunci.getText().toString(),editTextDescripcio.getText().toString(),editTextCategoria.getText().toString(),tipusProducte,tipusIntercanvi,editTextTemporalitat.getText().toString(),myActivity.getUsername(),imatgesMiniatura);
 
         return element;
     }

@@ -2,8 +2,10 @@ package edu.upc.pes.wallachange;
 
 
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Debug;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -13,9 +15,22 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import java.util.ArrayList;
-import java.util.List;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.SearchUserAdapter;
 import edu.upc.pes.wallachange.Models.User;
 
@@ -27,8 +42,8 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
     private ListView myListView;
     private EditText myText;
 
-    private List<User> userList;
-
+    private ArrayList<User> users;
+    private static AdapterAPIRequest adapterAPI = new AdapterAPIRequest();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,37 +79,80 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                 onClickUser(i);
             }
         });
-        loadList();
         return view;
     }
 
-    private void loadList () {
-        ArrayList<User> items = new ArrayList<>();
+    private void loadList (ArrayList<User> al) {
         ArrayList<String> aux = new ArrayList<> ();
-        aux.add("aaa");
-        aux.add("bbb");
-        aux.add("ccc");
-        User aux2 = new User("pepe","bcn","aaa",4,null,aux);
-        items.add(aux2);
-        items.add(new User("juanjo","mdr","aaa",3,null,aux));
-        items.add(new User("phol","par","aaa",5,null,aux));
-        adapter = new SearchUserAdapter(myActivity,R.layout.item_search_user,items,this);
+        users = new ArrayList<> ();
+        users = al;
+
+        ArrayList<String> aux2 = new ArrayList<> ();
+        aux2.add("aaa");
+        users.add(new User("CarlotaPrats","Carlota Prats",null,null,50.0f,null,aux2));
+        users.add(new User("MarcSoldevilla","Marc Soldevilla",null,null,50.0f,null,aux2));
+        users.add(new User("AnnaMascaro","Anna Mascaro",null,null,50.0f,null,aux2));
+
+        adapter = new SearchUserAdapter(myActivity,R.layout.item_search_user,users,this);
         myListView.setAdapter(adapter);
         myListView.deferNotifyDataSetChanged();
     }
 
     private void onClickUser (int i) {
-        //User user = userList.get(i);
-        //TODO: ir al usuario
+        myActivity.changeToOtherUserProfile(users.get(i).getId());
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search_user_search:
-                myText.setFocusable(false);
+                //TODO: revisar ocultacion teclado
                 myActivity.hideKeyboard();
                 //TODO: enlace DB
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+
+                adapterAPI.GETJsonArrayRequestAPI("http://10.0.2.2:3000/allUsers",
+                        new Response.Listener<JSONArray>() {
+
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                try {
+                                    Log.i("JSON: ",response.toString());
+                                    ArrayList<User> aux = new ArrayList<> ();
+                                    for (int i = 0;i < response.length();++i) {
+                                        JSONObject var = response.getJSONObject(i);
+
+                                        JSONArray var2 = var.getJSONArray("preferencies");
+                                        ArrayList<String> aux2 = new ArrayList<> ();
+                                        for (int j = 0; j < var2.length();++j) {
+                                            aux2.add(var2.get(j).toString());
+                                        }
+                                        if (aux2.size() == 0) aux2.add("No preference recorded");
+                                        User u = new User(var.getString("nom_user"),
+                                                var.getString("nom"),
+                                                null,
+                                                null,
+                                                Float.parseFloat(var.getString("reputacio")),
+                                                Uri.parse(var.getString("path")),
+                                                aux2);
+                                        aux.add(u);
+                                    }
+                                    loadList(aux);
+                                }
+                                catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.i("JSONerror: ","");
+                            }
+                        }, null, null
+                );
                 break;
             case R.id.search_user_filter:
                 break;
@@ -102,5 +160,6 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                 break;
         }
     }
+
 
 }
