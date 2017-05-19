@@ -2,6 +2,9 @@ package edu.upc.pes.wallachange.Models;
 
 import android.net.Uri;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 
@@ -15,6 +18,7 @@ public class User {
     private ArrayList<String> preferences;
     private ArrayList<String> intercanvis;
     private ArrayList<String> productes;
+    private String facebookId;
 
     public User(String id, String username, String location, String password, float rating, Uri picture, ArrayList<String> preferences) {
         this.id = id;
@@ -93,6 +97,65 @@ public class User {
         }
         return false;
     }
+    public void setRatingString(String rating) {
+        Float f = Float.parseFloat(rating);
+        this.rating = f;
+    }
+
+    public void setIntercanvisArray(JSONArray intercanvisArray) {
+        ArrayList<String> list = new ArrayList<String>();
+        JSONArray jsonArray = (JSONArray) intercanvisArray;
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i = 0; i < len; i++) {
+                try {
+                    list.add(jsonArray.get(i).toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.intercanvis= list;
+    }
+
+    public void setPreferencesArray(JSONArray newPreferences) {
+        ArrayList<String> list = new ArrayList<String>();
+        JSONArray jsonArray = (JSONArray) newPreferences;
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i = 0; i < len; i++) {
+                try {
+                    list.add(jsonArray.get(i).toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.preferences = list;
+    }
+
+    public void setProductesArray(JSONArray productesArray) {
+        ArrayList<String> list = new ArrayList<String>();
+        JSONArray jsonArray = (JSONArray) productesArray;
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i = 0; i < len; i++) {
+                try {
+                    list.add(jsonArray.get(i).toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.productes = list;
+    }
+
+    public void setFacebookId(String fbId) {
+        this.facebookId = fbId;
+    }
 
     public void setIntercanvis(ArrayList<String> intercanvis) {
         this.intercanvis = intercanvis;
@@ -101,4 +164,5 @@ public class User {
     public void setProductes(ArrayList<String> productes) {
         this.productes = productes;
     }
+
 }

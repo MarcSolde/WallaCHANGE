@@ -2,6 +2,10 @@ package edu.upc.pes.wallachange.Models;
 
 import android.net.Uri;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 
@@ -16,6 +20,9 @@ public class Element {
     private String temporalitat;
     private String user;
     private ArrayList<Uri> fotografies;
+    private ArrayList<String> tags;
+    private ArrayList<Comment> comentaris;
+    private ArrayList<Coordenades> coordenades;
 
     public Element(String id, String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, String user, ArrayList<Uri> fotografies) {
         this.id = id;
@@ -95,6 +102,76 @@ public class Element {
 //    public Uri getFotografia() {
 //        return fotografies[0];
 //    }
+
+    public void setTagsArray(JSONArray tagsArray) {
+        ArrayList<String> list = new ArrayList<String>();
+        JSONArray jsonArray = (JSONArray) tagsArray;
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i = 0; i < len; i++) {
+                try {
+                    list.add(jsonArray.get(i).toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.tags = list;
+    }
+
+    public void setFotografiesArray(JSONArray tagsArray) {
+        ArrayList<Uri> list = new ArrayList<>();
+        JSONArray jsonArray = tagsArray;
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i = 0; i < len; i++) {
+                try {
+                    Uri uri = Uri.parse(jsonArray.get(i).toString());
+                    list.add(uri);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.fotografies = list;
+    }
+
+    public void setComentarisArray(JSONArray comentaris) {
+        ArrayList<Comment> list = new ArrayList<>();
+        JSONArray jsonArray = comentaris;
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i = 0; i < len; i++) {
+                try {
+                    Comment comment = new Comment(jsonArray.getJSONObject(i).getString("nom_user"), jsonArray.getJSONObject(i).getString("text"));
+                    list.add(comment);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.comentaris = list;
+    }
+
+    public void setCoordenadesArray(JSONArray coords) {
+        ArrayList<Coordenades> list = new ArrayList<>();
+        JSONArray jsonArray = coords;
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i = 0; i < len; i++) {
+                try {
+                    Coordenades cords = new Coordenades();
+                    cords.setCoords(jsonArray.getJSONObject(i).getInt("x"), jsonArray.getJSONObject(i).getInt("y"));
+                    list.add(cords);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.coordenades = list;
+    }
 
     public void setFotografies(ArrayList<Uri> fotografies) {
         this.fotografies = fotografies;
