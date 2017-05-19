@@ -23,6 +23,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.SeeProfileAdapter;
@@ -52,7 +54,8 @@ public class SeeProfileFragment extends Fragment {
 
         String id = getArguments().getString("id");
         //TODO: enlace DB
-        adapterAPI.GETJsonArrayRequestAPI("http://10.0.2.2:3000/user/"+id,
+        Map<String, String> headers = new HashMap<>();
+        adapterAPI.GETRequestAPI("http://10.0.2.2:3000/user/"+id,
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -66,12 +69,12 @@ public class SeeProfileFragment extends Fragment {
                             }
                             User u = new User(response.getString("nom_user"),
                                     response.getString("nom"),
-                                    response.getString("location"),
+                                    response.getString("localitat"),
                                     null,
                                     Float.parseFloat(response.getString("reputacio")),
                                     Uri.parse(response.getString("path")),
                                     aux2);
-
+                            int a = 0;
                             loadUser(u);
                         }
                         catch (JSONException e) {
@@ -83,9 +86,10 @@ public class SeeProfileFragment extends Fragment {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.i("JSONerror: ","");
                     }
-                }
+                },
+                headers
         );
 
         myListView = (ListView) view.findViewById(R.id.see_user_list);

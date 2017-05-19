@@ -18,6 +18,7 @@ import android.widget.ListView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
@@ -85,6 +86,13 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
         ArrayList<String> aux = new ArrayList<> ();
         users = new ArrayList<> ();
         users = al;
+
+        ArrayList<String> aux2 = new ArrayList<> ();
+        aux2.add("aaa");
+        users.add(new User("CarlotaPrats","Carlota Prats",null,null,50.0f,null,aux2));
+        users.add(new User("MarcSoldevilla","Marc Soldevilla",null,null,50.0f,null,aux2));
+        users.add(new User("AnnaMascaro","Anna Mascaro",null,null,50.0f,null,aux2));
+
         adapter = new SearchUserAdapter(myActivity,R.layout.item_search_user,users,this);
         myListView.setAdapter(adapter);
         myListView.deferNotifyDataSetChanged();
@@ -101,6 +109,9 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                 //TODO: revisar ocultacion teclado
                 myActivity.hideKeyboard();
                 //TODO: enlace DB
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+
                 adapterAPI.GETJsonArrayRequestAPI("http://10.0.2.2:3000/allUsers",
                         new Response.Listener<JSONArray>() {
 
@@ -138,9 +149,9 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
 
                             @Override
                             public void onErrorResponse(VolleyError error) {
-
+                                Log.i("JSONerror: ","");
                             }
-                        }
+                        }, null, null
                 );
                 break;
             case R.id.search_user_filter:

@@ -23,20 +23,23 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="2pt"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="10pt" />
+            android:textSize="10pt"
+            android:maxLines="1"/>
         <TextView
             android:id="@+id/item_search_user_preference"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2pt"
             android:textColor="@color/colorPrimary3"
-            android:textSize="8pt" />
+            android:textSize="8pt"
+            android:maxLines="1"/>
         <TextView
             android:id="@+id/item_search_user_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2pt"
-            android:textSize="8pt" />
+            android:textSize="8pt"
+            android:maxLines="1"/>
     </LinearLayout>
 
 </LinearLayout>

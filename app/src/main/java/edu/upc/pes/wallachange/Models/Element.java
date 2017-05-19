@@ -43,6 +43,10 @@ public class Element {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public void setUser(String user) {this.user = user;}
 
     public String getUser() {
