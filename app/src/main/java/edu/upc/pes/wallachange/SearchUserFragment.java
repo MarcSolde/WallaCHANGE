@@ -106,7 +106,7 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
 
-                adapterAPI.GETJsonArrayRequestAPI("http://http://104.236.98.100:3000/allUsers",
+                adapterAPI.GETJsonArrayRequestAPI("http://104.236.98.100:3000/allUsers",
                         new Response.Listener<JSONArray>() {
 
                             @Override
