@@ -49,7 +49,7 @@ public class SearchUserAdapter extends ArrayAdapter<User>{
         for (int i = 0;i < preferences.size();++i) pref = pref + preferences.get(i) + " ";
         preference.setText(pref);
         TextView rating = (TextView) convertView.findViewById(R.id.item_search_user_rating);
-        String rat = "Rating: " + var.getRating() + "/100";
+        String rat = "Rating: " + var.getRating()/20 + "/5.0";
         rating.setText(rat);
         return convertView;
     }

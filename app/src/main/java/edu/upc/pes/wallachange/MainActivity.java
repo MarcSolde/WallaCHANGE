@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
 
 import android.widget.TextView;
@@ -27,8 +28,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private FragmentManager myFragmentManager;
     private DrawerLayout myDrawer;
-    private String user;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +51,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myNavigationView.setNavigationItemSelectedListener(this);
 
         Log.i("MAIN","Create ok");
-        Bundle extras = getIntent().getExtras();
-        user = extras.getString("user");
         //TODO:lenguage
 
         myFragmentManager.beginTransaction().replace(R.id.fragment,homeFragment).commit();
         Log.i("MAIN","Transaction ok");
         TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
+
+        CurrentUser user = CurrentUser.getInstance();
         String text = getResources().getString(R.string.user_eng);
-        text = text + " "+user;
+        text = text + " "+ user.getUsername();
         textUser.setText(text);
         Log.i("MAIN","Set text ok");
 
@@ -152,7 +151,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public String getUsername() {
-        return user;
+        //TODO: eliminar
+        return "quitar esto";
     }
 
     public void hideKeyboard() {

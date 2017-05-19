@@ -47,6 +47,14 @@ public class CurrentUser {
         this.token = token;
     }
 
+    public void setId(String id) {
+        user.setId(id);
+    }
+    
+    public String getId () {
+        return user.getId();
+    }
+
     public String getUsername() {
         return user.getUsername();
     }
