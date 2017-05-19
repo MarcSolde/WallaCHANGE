@@ -16,8 +16,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Models.Element;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private HomeFragment homeFragment;
@@ -123,9 +126,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void changeToItem(Element e) {
+    public void changeToItem(String id) {
         //TODO:
         // String temporalitat
+        AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
+        Toast.makeText(this,id,Toast.LENGTH_LONG).show();
+        /*
+        adapterAPIRequest.GETJsonObjectRequestAPI(id);
+
         Bundle bundleViewElement = new Bundle();
         bundleViewElement.putString("titol",e.getTitol());
         bundleViewElement.putString("descripcio",e.getDescripcio());
@@ -137,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bundleViewElement.putParcelableArrayList("fotografies",e.getFotografies());
 
         myViewElementFragment = new ViewElementFragment();
-        myViewElementFragment.setArguments(bundleViewElement);
+        myViewElementFragment.setArguments(bundleViewElement);*/
         myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
     }
 
