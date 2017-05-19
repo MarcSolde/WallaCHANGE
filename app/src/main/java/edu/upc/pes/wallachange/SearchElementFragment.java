@@ -1,13 +1,10 @@
 package edu.upc.pes.wallachange;
 
-import static com.android.volley.VolleyLog.TAG;
-
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -31,10 +27,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
-import edu.upc.pes.wallachange.APILayer.Proxy;
 import edu.upc.pes.wallachange.Adapters.ListElementsAdapter;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
+
+import static com.android.volley.VolleyLog.TAG;
 
 
 
@@ -186,9 +183,9 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                                             elem.setFotografiesArray(ja.getJSONObject(i).getJSONArray("imatges"));
                                             elem.setUser(ja.getJSONObject(i).getString("nom_user"));
                                             if (ja.getJSONObject(i).getBoolean("es_temporal"))
-                                                elem.setTipusIntercanvi("Temporal");
+                                                elem.setTemporalitat("Temporal");
                                             else
-                                                elem.setTipusIntercanvi("Permanent");
+                                                elem.setTemporalitat("Permanent");
                                             elem.setComentarisArray(ja.getJSONObject(i).getJSONArray("comentaris"));
                                             elem.setCoordenadesArray(ja.getJSONObject(i).getJSONArray("coordenades"));
                                             elements2.add(elem);

@@ -4,7 +4,6 @@ import android.net.Uri;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -21,7 +20,6 @@ public class Element {
     private ArrayList<String> tags;
     private ArrayList<Comment> comentaris;
     private ArrayList<Coordenades> coordenades;
-    private ArrayList<Comment> comentaris;
     private String localitat;
 
     public Element(String titol, String descripcio, String categoria, String tipusProducte, Boolean esTemporal, String temporalitat, String user, ArrayList<Uri> fotografies, ArrayList<Comment> comentaris, String localitat) {

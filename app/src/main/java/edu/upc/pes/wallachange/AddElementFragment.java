@@ -1,10 +1,5 @@
 package edu.upc.pes.wallachange;
 
-import static com.android.volley.VolleyLog.TAG;
-
-import static edu.upc.pes.wallachange.R.id.editTextCategoria;
-import static edu.upc.pes.wallachange.R.id.editTextDescripcio;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
@@ -41,10 +36,11 @@ import java.util.Objects;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.ImatgesMiniaturaListViewAdapter;
-import edu.upc.pes.wallachange.LoginSystem.CallbackFacebook;
 import edu.upc.pes.wallachange.Models.Comment;
 import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
+
+import static com.android.volley.VolleyLog.TAG;
 
 
 /**
@@ -135,7 +131,8 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         //docker run
         //i node
         //node server.js
-        Map<String, String> nouElement = new HashMap<>();
+        JSONObject nouElement = new JSONObject();
+        try {
             nouElement.put("titol",titol);
             nouElement.put("descripcio",descripcio);
             nouElement.put("imatges",null);
@@ -147,13 +144,16 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             // aqui s'hauria de convertir larraylist de comentaris a vector de parelles textComentari, nom_usuari
             nouElement.put("comentaris",null);
             nouElement.put("localitat",localitat);
-        // params ara sera un JSON
+            // params ara sera un JSON
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("token","EAAEtuINTdk8BAKjYGNPoN5VwMsaoyoyPY2SfhFrH13mKABxtYxTWpv4l7KYcZAVACcdRx1TN5H4XdagAn7buk5QklMXxjMg0ZCQnq2Qc0Oi8TopSy23iRMZA3I4p56yNG0DJZA0VJJUxdAIj1edGRnCI2Hz1h0T7CTsGyBAnNqoZChjQQSq7cHsQQMhJFT6gZD"); //http://10.0.2.2:3000/element
 
-        adapterAPIRequest.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/loginFB",
+        adapterAPIRequest.POSTRequestAPI("http://10.0.2.2:3000/loginFB",
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
