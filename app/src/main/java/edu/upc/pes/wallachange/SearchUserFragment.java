@@ -87,12 +87,6 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
         users = new ArrayList<> ();
         users = al;
 
-        ArrayList<String> aux2 = new ArrayList<> ();
-        aux2.add("aaa");
-        users.add(new User("CarlotaPrats","Carlota Prats",null,null,50.0f,null,aux2));
-        users.add(new User("MarcSoldevilla","Marc Soldevilla",null,null,50.0f,null,aux2));
-        users.add(new User("AnnaMascaro","Anna Mascaro",null,null,50.0f,null,aux2));
-
         adapter = new SearchUserAdapter(myActivity,R.layout.item_search_user,users,this);
         myListView.setAdapter(adapter);
         myListView.deferNotifyDataSetChanged();
@@ -112,7 +106,7 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
 
-                adapterAPI.GETJsonArrayRequestAPI("http://10.0.2.2:3000/allUsers",
+                adapterAPI.GETJsonArrayRequestAPI("http://http://104.236.98.100:3000/allUsers",
                         new Response.Listener<JSONArray>() {
 
                             @Override
