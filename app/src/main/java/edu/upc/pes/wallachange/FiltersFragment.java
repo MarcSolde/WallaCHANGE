@@ -1,5 +1,6 @@
 package edu.upc.pes.wallachange;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,7 +23,6 @@ import edu.upc.pes.wallachange.Models.FilterElement;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FiltersFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link FiltersFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -41,6 +41,9 @@ public class FiltersFragment extends Fragment implements View.OnClickListener{
     private RadioButton radioProd;
     private RadioButton radioExp;
     private Button submitButton;
+    private Button cancelButton;
+    private FragmentManager myFragmentManager;
+    private SearchElementFragment searchElemFragment;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -96,14 +99,17 @@ public class FiltersFragment extends Fragment implements View.OnClickListener{
         radioTemp = (RadioButton) view.findViewById(R.id.radioButtonTemporal);
         radioPermanent = (RadioButton) view.findViewById(R.id.radioButtonPermanent);
         radioProd = (RadioButton) view.findViewById(R.id.radioButtonProd);
+        radioProd.setChecked(filter.getTipus_element());
         radioExp = (RadioButton) view.findViewById(R.id.radioButtonExp);
         submitButton = (Button) view.findViewById(R.id.submitButton1);
-
+        cancelButton = (Button) view.findViewById(R.id.cancelButton1);
+        searchElemFragment = new SearchElementFragment();
         ArrayAdapter<String> adapter = new ArrayAdapter
                 (myActivity,android.R.layout.simple_list_item_1,countries);
         auto.setAdapter(adapter);
         auto.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
         submitButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
 
         // Inflate the layout for this fragment
         return view;
@@ -136,6 +142,10 @@ public class FiltersFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.cancelButton1:
+                myFragmentManager = getFragmentManager();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, searchElemFragment).commit();
+                break;
             case R.id.submitButton1:
                 String intermediate_text = auto.getText().toString();
                 String[] finalTags = intermediate_text.split(",");
@@ -147,6 +157,8 @@ public class FiltersFragment extends Fragment implements View.OnClickListener{
 
                 filter.setEs_producte(radioProd.isChecked());
                 for (int i = 0; i < finalTags.length; i++) Log.d("MyTagGoesHere", finalTags[i]);
+                myFragmentManager = getFragmentManager();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, searchElemFragment).commit();
                 break;
 
 

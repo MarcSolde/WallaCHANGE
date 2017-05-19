@@ -20,7 +20,7 @@ import edu.upc.pes.wallachange.Models.Element;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private HomeFragment homeFragment;
+    private SearchElementFragment homeFragment;
 
     private FragmentManager myFragmentManager;
     private AddElementFragment myAddElementFragment;
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         myFragmentManager = getFragmentManager();
-        homeFragment = new HomeFragment();
+        homeFragment = new SearchElementFragment();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void changeFragmentToHome () {
         //TODO:
-        homeFragment = new HomeFragment();
+        homeFragment = new SearchElementFragment();
         myFragmentManager.beginTransaction().replace(R.id.fragment, homeFragment).commit();
         NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.getMenu().getItem(0).setChecked(true);

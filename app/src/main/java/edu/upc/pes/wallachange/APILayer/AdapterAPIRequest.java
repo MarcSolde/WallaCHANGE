@@ -55,14 +55,21 @@ public class AdapterAPIRequest   {
     }
 
 
-//    public void GETJsonArrayRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener,  final JSONObject body, final JSONObject capceleres){
-//        String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonArrayRequest";
-//
-//        JsonArrayRequest jsonArrayReq = new JsonArrayRequest(url, responseListener, errorListener);
-//
-//        // Adding JsonObject request to request queue
-//        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayReq, REQUEST_TAG);
-//    }
+    public void GETJsonArrayRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final Map<String, String> headers){
+        String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonArrayRequest";
+
+        JsonArrayRequest jsonArrayReq = new JsonArrayRequest(Request.Method.GET, url, null, responseListener, errorListener){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<>();
+                params = headers;
+                return params;
+            }
+        };
+
+        // Adding JsonObject request to request queue
+        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayReq, REQUEST_TAG);
+    }
 
 
 
