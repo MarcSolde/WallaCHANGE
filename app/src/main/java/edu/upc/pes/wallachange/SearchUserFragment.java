@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Debug;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -83,14 +84,7 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
     private void loadList (ArrayList<User> al) {
         ArrayList<String> aux = new ArrayList<> ();
         users = new ArrayList<> ();
-        //users = al;
-        aux.add("aaa");
-        aux.add("bbb");
-        aux.add("ccc");
-        User aux2 = new User("1","pepe","bcn","aaa",4,null,aux);
-        users.add(aux2);
-        users.add(new User("2","juanjo","mdr","aaa",3,null,aux));
-        users.add(new User("3","phol","par","aaa",5,null,aux));
+        users = al;
         adapter = new SearchUserAdapter(myActivity,R.layout.item_search_user,users,this);
         myListView.setAdapter(adapter);
         myListView.deferNotifyDataSetChanged();
@@ -113,8 +107,9 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                             @Override
                             public void onResponse(JSONArray response) {
                                 try {
+                                    Log.i("JSON: ",response.toString());
                                     ArrayList<User> aux = new ArrayList<> ();
-                                    for (int i = 1;i < response.length();++i) {
+                                    for (int i = 0;i < response.length();++i) {
                                         JSONObject var = response.getJSONObject(i);
 
                                         JSONArray var2 = var.getJSONArray("preferencies");
@@ -122,9 +117,9 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                                         for (int j = 0; j < var2.length();++j) {
                                             aux2.add(var2.get(j).toString());
                                         }
-
-                                        User u = new User(var.getString("token"),
-                                                var.getString("nom_user"),
+                                        if (aux2.size() == 0) aux2.add("No preference recorded");
+                                        User u = new User(var.getString("nom_user"),
+                                                var.getString("nom"),
                                                 null,
                                                 null,
                                                 Float.parseFloat(var.getString("reputacio")),
