@@ -37,6 +37,7 @@ import java.util.Objects;
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.ImatgesMiniaturaListViewAdapter;
 import edu.upc.pes.wallachange.Models.Comment;
+import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
 
@@ -56,6 +57,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
     private EditText editTextCategoria, editTextDescripcio, editTextTitol, editTextTemporalitat;
     private ExpandableHeightGridView miniatureImagesExpandableGridView;
     private RadioGroup radioGroupTipusProducte, radioGroupTipusIntercanvi;
+    private CurrentUser currentUser;
 
     public AddElementFragment() {}
 
@@ -69,6 +71,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         myActivity.setTitle(R.string.navigationNewItem_eng);
         nombreImatges = 0;
         imatgesMiniatura = new ArrayList<>();
+        currentUser = CurrentUser.getInstance();
         obtenirPermisos();
 
         Button botoAfegirElement = (Button) fragmentAddElementView.findViewById(R.id.afegirElement);
@@ -123,7 +126,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         return null;
     }
 
-    private void publicarElement(String titol, String descripcio, String categoria, String tipusProducte,
+    private void publicarElement(String titol, String descripcio, ArrayList<String> categories, String tipusProducte,
             Boolean temporal, String temporalitat, String username, ArrayList<Uri> imatgesMiniatura,
             ArrayList<Comment> comentaris, String localitat) {
         AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
@@ -140,7 +143,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             //jSO.put("data_publicacio",date); al json del ruteo que te veo posa que es DATE
             nouElement.put("tipus_element",tipusProducte);
             nouElement.put("es_temporal",temporal.toString());
-            nouElement.put("tags",categoria);
+            nouElement.put("tags",categories);
             // aqui s'hauria de convertir larraylist de comentaris a vector de parelles textComentari, nom_usuari
             nouElement.put("comentaris",null);
             nouElement.put("localitat",localitat);
@@ -151,9 +154,10 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
-        headers.put("token","EAAEtuINTdk8BAKjYGNPoN5VwMsaoyoyPY2SfhFrH13mKABxtYxTWpv4l7KYcZAVACcdRx1TN5H4XdagAn7buk5QklMXxjMg0ZCQnq2Qc0Oi8TopSy23iRMZA3I4p56yNG0DJZA0VJJUxdAIj1edGRnCI2Hz1h0T7CTsGyBAnNqoZChjQQSq7cHsQQMhJFT6gZD"); //http://10.0.2.2:3000/element
+        headers.put("x-access-token",currentUser.getToken()); //http://10.0.2.2:3000/api/element
+        String url = "http://10.0.2.2:3000/".concat("api/element");
 
-        adapterAPIRequest.POSTRequestAPI("http://10.0.2.2:3000/loginFB",
+        adapterAPIRequest.POSTRequestAPI(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -168,7 +172,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(TAG,"Error ");
+                        VolleyLog.d(TAG,error.getMessage());
                     }
                 },nouElement, headers);
     }
@@ -198,9 +202,18 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     String tipusProducte = obtenirTipusProducte();
                     String tipusIntercanvi = obtenirTipusIntercanvi();
                     Boolean esTemporal = (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng)));
+                    ArrayList<String> categories = new ArrayList<>();
+                    //TODO:Pugin ser mes d'una categoria
+                    categories.add(editTextCategoria.getText().toString());
+
                     // 1 POST
                     String localitat = obtenirLocalitatUsuari(myActivity.getUsername());
-                    publicarElement(editTextTitol.getText().toString(),editTextDescripcio.getText().toString(),editTextCategoria.getText().toString(),tipusProducte,esTemporal,editTextTemporalitat.getText().toString(),myActivity.getUsername(),imatgesMiniatura,new ArrayList<Comment>(),localitat);
+
+                    publicarElement(editTextTitol.getText().toString(),editTextDescripcio.getText().toString(),
+                            categories,
+                            tipusProducte,esTemporal,editTextTemporalitat.getText().toString(),
+                            myActivity.getUsername(),imatgesMiniatura,new ArrayList<Comment>(),
+                            localitat);
                     // 2 GET http://localhost:3000/element/:id
                     Toast.makeText(myActivity,"tots els camps necessaris",Toast.LENGTH_LONG).show();
                     // 3 construir element amb el que retorna el GET
