@@ -33,8 +33,8 @@
     <string name="logout_dialog_4">Cancelar</string>
 
     <!-- LOGIN ACTIVITY -->
-    <string name="twitterKey">TQlRNpBSUpJiaRU8DuMo5NroW</string>
-    <string name="twitterSecret">E3UhAV8mcqIQITDtz73o7xIZAWbkhWH3NmoVWn5x76g1WAryN5</string>
+    <string name="twitterKey">ZtNlSehcYLlv24mPgXqqlvRyU</string>
+    <string name="twitterSecret">u2HaRQ3dwxiXzqf03tnsrWrLOIvKzHmKlx1HElPDWEHt1m2w5u</string>
 
     <string name="errorIncorrectLogin_eng">Login with Twitter failure</string>
     <string name="errorAuthEmail_eng">Email not authorited</string>
