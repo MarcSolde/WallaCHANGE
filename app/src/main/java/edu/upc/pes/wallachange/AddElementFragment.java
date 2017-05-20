@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.Adapters.CategoriesAdapter;
 import edu.upc.pes.wallachange.Adapters.ImatgesMiniaturaListViewAdapter;
 import edu.upc.pes.wallachange.Models.Comment;
 import edu.upc.pes.wallachange.Models.CurrentUser;
@@ -55,9 +56,11 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
     private Integer nombreImatges;
     private ImageButton botoFotografia;
     private EditText editTextCategoria, editTextDescripcio, editTextTitol, editTextTemporalitat;
-    private ExpandableHeightGridView miniatureImagesExpandableGridView;
+    private ExpandableHeightGridView miniatureImagesExpandableGridView, gridCategories;
     private RadioGroup radioGroupTipusProducte, radioGroupTipusIntercanvi;
     private CurrentUser currentUser;
+    private ArrayList<String> categories;
+    private CategoriesAdapter categoriesAdapter;
 
     public AddElementFragment() {}
 
@@ -73,6 +76,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         imatgesMiniatura = new ArrayList<>();
         currentUser = CurrentUser.getInstance();
         obtenirPermisos();
+        categories = new ArrayList<>();
 
         Button botoAfegirElement = (Button) fragmentAddElementView.findViewById(R.id.afegirElement);
         botoAfegirElement.setOnClickListener(this);
@@ -85,10 +89,16 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         netejaTitol.setOnClickListener(this);
         ImageView netejaDescripcio = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_descripcio);
         netejaDescripcio.setOnClickListener(this);
-        ImageView netejaCategoria = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_categoria);
-        netejaCategoria.setOnClickListener(this);
         final ImageView netejaTemporalitat = (ImageView) fragmentAddElementView.findViewById(R.id.neteja_edittext_temporalitat);
         netejaTemporalitat.setOnClickListener(this);
+        ImageView afegeixCategoria = (ImageView) fragmentAddElementView.findViewById(R.id.botoAfegirCategoria);
+        afegeixCategoria.setOnClickListener(this);
+
+        gridCategories = (ExpandableHeightGridView) fragmentAddElementView.findViewById(R.id.gridCategories);
+        gridCategories.setExpanded(true);
+        categoriesAdapter = new CategoriesAdapter(myActivity, R.layout.category_list_item, categories, this);
+        gridCategories.setAdapter(categoriesAdapter);
+        categoriesAdapter.notifyDataSetChanged();
 
         editTextTemporalitat = (EditText) fragmentAddElementView.findViewById(R.id.temporalitat);
         editTextTitol = (EditText) fragmentAddElementView.findViewById(R.id.titolAnunci);
@@ -202,10 +212,6 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     String tipusProducte = obtenirTipusProducte();
                     String tipusIntercanvi = obtenirTipusIntercanvi();
                     Boolean esTemporal = (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng)));
-                    ArrayList<String> categories = new ArrayList<>();
-                    //TODO:Pugin ser mes d'una categoria
-                    categories.add(editTextCategoria.getText().toString());
-
                     // 1 POST
                     String localitat = obtenirLocalitatUsuari(myActivity.getUsername());
 
@@ -239,11 +245,31 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             case R.id.neteja_edittext_descripcio:
                 editTextDescripcio.setText("");
                 break;
-            case R.id.neteja_edittext_categoria:
-                editTextCategoria.setText("");
-                break;
             case R.id.neteja_edittext_temporalitat:
                 editTextTemporalitat.setText("");
+                break;
+            case R.id.botoAfegirCategoria:
+                //TODO:Pugin ser mes d'una categoria
+                String novaCategoria = editTextCategoria.getText().toString();
+                if (novaCategoria.trim().length() != 0) {
+                    boolean categoriaExistent = false;
+                    int i = 0;
+                    while (i < categories.size() && !categoriaExistent){
+                        if (Objects.equals(categories.get(i), novaCategoria)) categoriaExistent = true;
+                        ++i;
+                    }
+                    if (!categoriaExistent) {
+                        categories.add(novaCategoria);
+                        categoriesAdapter.notifyDataSetChanged();
+                        editTextCategoria.setText("");
+                    } else {
+                        String errorExisting = getResources().getString(R.string.errorExistingCategory_eng);
+                        editTextCategoria.setError(errorExisting);
+                    }
+                } else {
+                    String errorEmpty = getResources().getString(R.string.errorEmptyField_eng);
+                    editTextCategoria.setError(errorEmpty);
+                }
                 break;
             default:
                 break;
@@ -311,5 +337,9 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         if (nombreImatges == 5) botoFotografia.setClickable(true);
         nombreImatges= imatges.size();
         imatgesMiniatura = (ArrayList<Uri>) imatges;
+    }
+
+    public void actualitzarCategories (ArrayList<String> catgs) {
+        categories = catgs;
     }
 }
