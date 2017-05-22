@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 
 public class User {
-
+    private String id;
     private String username;
     private String location;
     private float rating;
@@ -20,7 +20,8 @@ public class User {
     private ArrayList<String> productes;
     private String facebookId;
 
-    public User(String username, String location, String password, int rating, Uri picture, ArrayList<String> preferences) {
+    public User(String id, String username, String location, String password, float rating, Uri picture, ArrayList<String> preferences) {
+        this.id = id;
         this.username = username;
         this.location = location;
         this.rating = rating;
@@ -30,6 +31,12 @@ public class User {
 
     public User() {
         preferences = new ArrayList<String>();
+    }
+
+    public String getId () {return id;}
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUsername() {

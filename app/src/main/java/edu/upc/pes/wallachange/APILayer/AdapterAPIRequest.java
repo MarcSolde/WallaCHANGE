@@ -66,7 +66,6 @@ public class AdapterAPIRequest   {
                 return params;
             }
         };
-
         // Adding JsonObject request to request queue
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayReq, REQUEST_TAG);
     }
@@ -199,6 +198,7 @@ public class AdapterAPIRequest   {
     public void volleyClearCache(){
         AppSingleton.getInstance(getApplicationContext()).getRequestQueue().getCache().clear();
     }
+
 }
 
 
