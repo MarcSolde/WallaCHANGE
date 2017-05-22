@@ -30,10 +30,15 @@ public class LoginActivity extends AppCompatActivity {
     private LoginButton fbLoginButton;
     CallbackManager callbackManager;
     private String lenguage;
+    final public static String MyPREFERENCES = "MyPrefs";
+    final public static String MyTokenPref = "MyFBToken";
+    final public static String MyFBidPref = "MyFBid";
+    public static LoginActivity context;
 
     @Override
     protected void onStart(){
         super.onStart();
+        context = this;
         try {
             CallbackFacebook.checkLogin();
         } catch (JSONException e) {
@@ -101,6 +106,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public static void logOut() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferences.edit().clear().commit();
         LoginManager.getInstance().logOut();
         Log.i("LOGIN","Logout from Main");
     }

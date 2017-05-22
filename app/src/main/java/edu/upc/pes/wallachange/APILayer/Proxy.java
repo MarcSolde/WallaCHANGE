@@ -1,4 +1,4 @@
-package edu.upc.pes.wallachange.APILayer;
+/*package edu.upc.pes.wallachange.APILayer;
 
 import static com.android.volley.VolleyLog.TAG;
 
@@ -18,9 +18,9 @@ import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Models.User;
 
-/**
+*
  * Created by carlota on 17/5/17.
- */
+
 
 public class Proxy {
 
@@ -148,3 +148,4 @@ public class Proxy {
         return elements2;
     }
 }
+ */
