@@ -18,7 +18,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,11 +28,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private HomeFragment homeFragment;
 
     private FragmentManager myFragmentManager;
-    private AddElementFragment myAddElementFragment;
     private DrawerLayout myDrawer;
-    private String user;
-    private ViewElementFragment myViewElementFragment;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +52,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myNavigationView.setNavigationItemSelectedListener(this);
 
         Log.i("MAIN","Create ok");
-        Bundle extras = getIntent().getExtras();
-        user = extras.getString("user");
         //TODO:lenguage
 
         myFragmentManager.beginTransaction().replace(R.id.fragment,homeFragment).commit();
         Log.i("MAIN","Transaction ok");
         TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
+
+        CurrentUser user = CurrentUser.getInstance();
         String text = getResources().getString(R.string.user_eng);
-        text = text + " "+user;
+        text = text + " "+ user.getUsername();
         textUser.setText(text);
         Log.i("MAIN","Set text ok");
 
@@ -104,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog2.show();
                 break;
             case R.id.navigationNewItem:
-                myAddElementFragment = new AddElementFragment();
+                AddElementFragment myAddElementFragment = new AddElementFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myAddElementFragment).commit();
                 break;
             case R.id.navigationSearchUser:
@@ -144,8 +142,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bundleViewElement.putBoolean("tipusIntercanvi",e.getEsTemporal());
         bundleViewElement.putParcelableArrayList("fotografies",e.getFotografies());
 
-        myViewElementFragment = new ViewElementFragment();
-        myViewElementFragment.setArguments(bundleViewElement);*/
+        ViewElementFragment myViewElementFragment = new ViewElementFragment();
+        myViewElementFragment.setArguments(bundleViewElement);
         myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
     }
 
@@ -159,7 +157,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public String getUsername() {
-        return user;
+        //TODO: eliminar
+        return "quitar esto";
     }
 
     public void hideKeyboard() {
@@ -168,6 +167,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    public  void changeToOtherUserProfile (String id) {
+        SeeProfileFragment seeProfileFragment = new SeeProfileFragment();
+        Bundle args = new Bundle();
+        args.putString("id",id);
+        seeProfileFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, seeProfileFragment).commit();
     }
 
 }

@@ -22,7 +22,8 @@ public class Element {
     private ArrayList<Coordenades> coordenades;
     private String localitat;
 
-    public Element(String titol, String descripcio, String categoria, String tipusProducte, Boolean esTemporal, String temporalitat, String user, ArrayList<Uri> fotografies, ArrayList<Comment> comentaris, String localitat) {
+    public Element(String id, String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, String user, ArrayList<Uri> fotografies) {
+        this.id = id;
         this.titol = titol;
         this.descripcio = descripcio;
         this.categoria = categoria;
