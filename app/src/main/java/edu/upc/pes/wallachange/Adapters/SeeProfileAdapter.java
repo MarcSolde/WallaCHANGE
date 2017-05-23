@@ -47,7 +47,7 @@ public class SeeProfileAdapter extends ArrayAdapter<Element> {
         aux = (TextView) convertView.findViewById(R.id.item_see_profile_category);
         aux.setText(var.getCategoria());
         aux = (TextView) convertView.findViewById(R.id.item_see_profile_temporal);
-        aux.setText(var.getTipusIntercanvi());
+        aux.setText(var.getTemporalitat());
         return convertView;
     }
 }

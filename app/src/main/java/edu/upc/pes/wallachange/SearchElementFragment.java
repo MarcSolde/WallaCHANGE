@@ -20,7 +20,6 @@ import com.android.volley.VolleyLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -157,7 +156,6 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
             case R.id.SearchButt:
                 String title = finder.getText().toString();
                 AdapterAPIRequest adapter = new AdapterAPIRequest();
-                JSONObject body = new JSONObject();
                 Map<String, String> headers = new HashMap<>();
                 CurrentUser us = CurrentUser.getInstance();
                 headers.put("token", us.getToken());
@@ -165,7 +163,8 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                 headers.put("Content-Type", "application/json");
 
                 final ArrayList<Element> elements2 = new ArrayList<>();
-                adapter.GETRequestAPI("http://104.236.98.100:3000/elements",
+                //adapter.GETRequestAPI("http://104.236.98.100:3000/elements",
+                adapter.GETRequestAPI("http://10.0.2.2:3000/elements",
                         new Response.Listener<JSONArray>() {
                             @Override
                             public void onResponse(JSONArray response) {

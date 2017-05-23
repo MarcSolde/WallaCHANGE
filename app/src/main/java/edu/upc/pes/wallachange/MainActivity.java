@@ -16,13 +16,22 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Models.CurrentUser;
-import edu.upc.pes.wallachange.Models.Element;
 
-import android.widget.TextView;
-import android.widget.Toast;
+import static com.android.volley.VolleyLog.TAG;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private HomeFragment homeFragment;
@@ -129,22 +138,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // String temporalitat
         AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
         Toast.makeText(this,id,Toast.LENGTH_LONG).show();
-        /*
-        adapterAPIRequest.GETJsonObjectRequestAPI(id);
+        Map<String, String> headers = new HashMap<>();
+        CurrentUser us = CurrentUser.getInstance();
+        headers.put("token", us.getToken());
+        headers.put("Content-Type", "application/json");
 
-        Bundle bundleViewElement = new Bundle();
-        bundleViewElement.putString("titol",e.getTitol());
-        bundleViewElement.putString("descripcio",e.getDescripcio());
-        bundleViewElement.putString("categoria",e.getCategoria());
-        bundleViewElement.putString("usuari",e.getUser());
-        bundleViewElement.putString("temporalitat",e.getTemporalitat());
-        bundleViewElement.putString("tipusProducte",e.getTipusProducte());
-        bundleViewElement.putBoolean("tipusIntercanvi",e.getEsTemporal());
-        bundleViewElement.putParcelableArrayList("fotografies",e.getFotografies());
+        //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
+        adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/element/".concat(id),
+                new Response.Listener<JSONObject>(){
+                    @Override
+                    public void onResponse(JSONObject response){
+                        JSONObject e = response;
+                        /*
+                        Element e = new Element(response);
 
-        ViewElementFragment myViewElementFragment = new ViewElementFragment();
-        myViewElementFragment.setArguments(bundleViewElement);
-        myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
+                        Bundle bundleViewElement = new Bundle();
+                        bundleViewElement.putString("titol",e.getTitol());
+                        bundleViewElement.putString("descripcio",e.getDescripcio());
+                        bundleViewElement.putString("categoria",e.getCategoria());
+                        bundleViewElement.putString("usuari",e.getUser());
+                        bundleViewElement.putString("temporalitat",e.getTemporalitat());
+                        bundleViewElement.putString("tipusProducte",e.getTipusProducte());
+                        bundleViewElement.putBoolean("tipusIntercanvi",e.getEsTemporal());
+                        bundleViewElement.putParcelableArrayList("fotografies",e.getFotografies());
+
+                        ViewElementFragment myViewElementFragment = new ViewElementFragment();
+                        myViewElementFragment.setArguments(bundleViewElement);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
+                        */
+                    }
+                }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            VolleyLog.d(TAG, "Error: " + error.getMessage());
+
+                        }
+                }, headers);
+
+
+
+
     }
 
     public void changeFragmentToHome () {
