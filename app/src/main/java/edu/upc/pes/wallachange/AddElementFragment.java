@@ -6,9 +6,11 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ import com.android.volley.VolleyLog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,10 +56,11 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
     private final int PICK_IMAGE = 1;
     private MainActivity myActivity;
     private ArrayList<Uri> imatgesMiniatura;
+    private ArrayList<Bitmap> imatgesMiniaturaEnBitmap;
     private Integer nombreImatges;
     private ImageButton botoFotografia;
     private EditText editTextCategoria, editTextDescripcio, editTextTitol, editTextTemporalitat;
-    private ExpandableHeightGridView miniatureImagesExpandableGridView, gridCategories;
+    private ExpandableHeightGridView miniatureImagesExpandableGridView;
     private RadioGroup radioGroupTipusProducte, radioGroupTipusIntercanvi;
     private CurrentUser currentUser;
     private ArrayList<String> categories;
@@ -74,6 +78,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         myActivity.setTitle(R.string.navigationNewItem_eng);
         nombreImatges = 0;
         imatgesMiniatura = new ArrayList<>();
+        imatgesMiniaturaEnBitmap = new ArrayList<>();
         currentUser = CurrentUser.getInstance();
         obtenirPermisos();
         categories = new ArrayList<>();
@@ -94,7 +99,8 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         ImageView afegeixCategoria = (ImageView) fragmentAddElementView.findViewById(R.id.botoAfegirCategoria);
         afegeixCategoria.setOnClickListener(this);
 
-        gridCategories = (ExpandableHeightGridView) fragmentAddElementView.findViewById(R.id.gridCategories);
+        ExpandableHeightGridView gridCategories =
+                (ExpandableHeightGridView) fragmentAddElementView.findViewById(R.id.gridCategories);
         gridCategories.setExpanded(true);
         categoriesAdapter = new CategoriesAdapter(myActivity, R.layout.category_list_item, categories, this);
         gridCategories.setAdapter(categoriesAdapter);
@@ -173,7 +179,8 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     public void onResponse(JSONObject response) {
 
                         try {
-                            myActivity.changeToItem(response.getString("id"));
+                            //myActivity.changeToItem(response.getString("id"));
+                            response.getString("id");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -189,14 +196,22 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK && data != null
+                && data.getData() != null) {
             nombreImatges++;
-            if (nombreImatges == 5){
+            if (nombreImatges == 5) {
                 botoFotografia.setClickable(false);
             }
             Uri uri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(myActivity.getContentResolver(), uri);
+                imatgesMiniaturaEnBitmap.add(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             imatgesMiniatura.add(uri);
-            ImatgesMiniaturaListViewAdapter adapter2 = new ImatgesMiniaturaListViewAdapter(myActivity, R.layout.miniature_images_item, imatgesMiniatura,this);
+            ImatgesMiniaturaListViewAdapter adapter2 = new ImatgesMiniaturaListViewAdapter(
+                    myActivity, R.layout.miniature_images_item, imatgesMiniatura, imatgesMiniaturaEnBitmap, this);
             miniatureImagesExpandableGridView.setAdapter(adapter2);
             adapter2.notifyDataSetChanged();
         }
@@ -225,6 +240,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     // 3 construir element amb el que retorna el GET
                     // 4 Mostrar element just creat
                     //myActivity.changeToItem(id);
+                    myActivity.changeToItem(imatgesMiniaturaEnBitmap);
                 }
                 break;
             case R.id.cancelarElement:
@@ -333,13 +349,15 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    public void actualitzarNombreImatges(List<Uri> imatges) {
+    public void actualitzarNombreImatges(List<Uri> imatges, List<Bitmap> imatgesBitmap) {
         if (nombreImatges == 5) botoFotografia.setClickable(true);
         nombreImatges= imatges.size();
         imatgesMiniatura = (ArrayList<Uri>) imatges;
+        imatgesMiniaturaEnBitmap = (ArrayList<Bitmap>) imatgesBitmap;
     }
 
     public void actualitzarCategories (ArrayList<String> catgs) {
         categories = catgs;
     }
+
 }

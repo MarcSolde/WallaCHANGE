@@ -3,9 +3,12 @@ package edu.upc.pes.wallachange;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,21 +16,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
+import android.widget.ViewSwitcher;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+
 
 import edu.upc.pes.wallachange.Adapters.CommentListViewAdapter;
 import edu.upc.pes.wallachange.Models.Comment;
@@ -38,10 +44,11 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private View fragmentViewElementView;
     private MainActivity myActivity;
     private Integer imatgeActual;
-    private ArrayList<Parcelable> uris;
-    private ImageView imatge;
+    private ArrayList<Bitmap> imatges;
     private EditText editTextWriteComment;
     private ArrayList<Comment> comentaris;
+    private ImageSwitcher imageSwitcher;
+
 
     public ViewElementFragment() {}
 
@@ -63,6 +70,8 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         ImageButton writeCommentButton = (ImageButton) fragmentViewElementView.findViewById(
                 R.id.writeComment);
         writeCommentButton.setOnClickListener(this);
+        ImageButton removeImageButton = (ImageButton) fragmentViewElementView.findViewById(R.id.esborrarImatge);
+        removeImageButton.setOnClickListener(this);
         Button tradeButton = (Button) fragmentViewElementView.findViewById(R.id.tradeButton);
         tradeButton.setOnClickListener(this);
         editTextWriteComment = (EditText) fragmentViewElementView.findViewById(R.id.editTextComment);
@@ -166,21 +175,43 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         createdBy += "\n" + usuariAnunci;
         textViewCreatedBy.setText(createdBy);
 
+        Animation in = AnimationUtils.loadAnimation(myActivity, android.R.anim.fade_in);
+        Animation out = AnimationUtils.loadAnimation(myActivity, android.R.anim.fade_out);
+        imageSwitcher = (ImageSwitcher)fragmentViewElementView.findViewById(R.id.imageViewFotoElement);
+        imageSwitcher.setInAnimation(in);
+        imageSwitcher.setOutAnimation(out);
+        imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                ImageView myView = new ImageView(myActivity);
+                myView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                myView.setLayoutParams(new
+                        ImageSwitcher.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
+                        ActionBar.LayoutParams.WRAP_CONTENT));
+                return myView;
+            }
+        });
+        imatges = bundle.getParcelableArrayList("fotografies");
         imatgeActual = 0;
-        imatge = (ImageView) fragmentViewElementView.findViewById(R.id.imageViewFotoElement);
-        uris = bundle.getParcelableArrayList("fotografies");
+
+        if (imatges != null && imatges.size() > 0) {
+            //noinspection deprecation
+            Drawable drawable = new BitmapDrawable(imatges.get(imatgeActual));
+            imageSwitcher.setImageDrawable(drawable);
+        }
+
+/*
         if (uris != null ){
             if (uris.size()> 0) {
                 Uri u = (Uri) uris.get(imatgeActual);
                 Picasso.with(myActivity).load(u).into(imatge);
             }
         }
-
+*/
         setHasOptionsMenu(true);
 
         return fragmentViewElementView;
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -193,15 +224,42 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
             case R.id.previousButton:
                 if (imatgeActual > 0){
                     imatgeActual--;
+                    //noinspection deprecation
+                    Drawable drawable = new BitmapDrawable(imatges.get(imatgeActual));
+                    imageSwitcher.setImageDrawable(drawable);
+                    /*
                     Uri u = (Uri)uris.get(imatgeActual);
-                    Picasso.with(myActivity).load(u).into(imatge);
+                    Picasso.with(myActivity).load(u).into(imatge);*/
                 }
                 break;
             case R.id.nextButton:
-                if (imatgeActual < (uris.size()-1)){
+                if (imatgeActual < (imatges.size()-1)){
                     imatgeActual++;
+                    //noinspection deprecation
+                    Drawable drawable = new BitmapDrawable(imatges.get(imatgeActual));
+                    imageSwitcher.setImageDrawable(drawable);
+                    /*
                     Uri u = (Uri)uris.get(imatgeActual);
-                    Picasso.with(myActivity).load(u).into(imatge);
+                    Picasso.with(myActivity).load(u).into(imatge);*/
+                }
+                break;
+            case R.id.esborrarImatge:
+
+                if (imatgeActual > 0){
+                    imatges.remove(imatges.get(imatgeActual));
+                    imatgeActual--;
+                    //noinspection deprecation
+                    Drawable drawable = new BitmapDrawable(imatges.get(imatgeActual));
+                    imageSwitcher.setImageDrawable(drawable);
+                }else if (imatgeActual <= (imatges.size()-1)) {
+                    imatges.remove(imatges.get(imatgeActual));
+                    if (imatges.size() > 0){
+                        //noinspection deprecation
+                        Drawable drawable = new BitmapDrawable(imatges.get(imatgeActual));
+                        imageSwitcher.setImageDrawable(drawable);
+                    }else {
+                        imageSwitcher.setImageResource(R.drawable.empty_picture);
+                    }
                 }
                 break;
             case R.id.writeComment:

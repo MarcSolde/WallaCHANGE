@@ -28,7 +28,8 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:background="@android:color/transparent"
                 android:maxLines="1"
-                android:inputType="text"/>
+                android:inputType="text"
+                tools:ignore="LabelFor" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -51,7 +52,8 @@
                     android:background="@android:color/transparent"
                     android:maxLines="1"
                     android:inputType="text"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    tools:ignore="LabelFor" />
             </LinearLayout>
 
             <LinearLayout
@@ -60,15 +62,8 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/previousButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/tw__transparent"
-                    android:tint="@color/colorPrimary2"
-                    app:srcCompat="@android:drawable/ic_media_previous" />
 
+                <!--
                 <ImageView
                     android:id="@+id/imageViewFotoElement"
                     android:layout_width="100pt"
@@ -76,15 +71,46 @@
                     android:layout_weight="1"
                     app:srcCompat="@drawable/empty_picture" />
 
+                    -->
+
+
                 <ImageButton
-                    android:id="@+id/nextButton"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/previousButton"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/tw__transparent"
                     android:tint="@color/colorPrimary2"
-                    app:srcCompat="@android:drawable/ic_media_next" />
+                    app:srcCompat="@android:drawable/ic_media_previous"
+                    android:contentDescription="@string/boto_de_la_imatge_anterior"/>
+
+                <ImageSwitcher
+                    android:id="@+id/imageViewFotoElement"
+                    android:layout_width="100pt"
+                    android:layout_height="100pt"
+                    app:srcCompat="@drawable/empty_picture" />
+
+                <ImageButton
+                    android:id="@+id/nextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/tw__transparent"
+                    android:tint="@color/colorPrimary2"
+                    app:srcCompat="@android:drawable/ic_media_next"
+                    android:contentDescription="@string/boto_de_la_imatge_posterior"/>
+
             </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/esborrarImatge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tw__transparent"
+                android:padding="5pt"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/clear_picture"
+                android:contentDescription="@string/boto_per_esborrar_la_imatge_actual"/>
 
             <EditText
                 android:id="@+id/editTextDescripcio"
@@ -93,7 +119,9 @@
                 android:gravity="center"
                 android:textAlignment="center"
                 android:textSize="8pt"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent"
+                android:hint="@string/description_eng"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/editTextCategoria"
@@ -103,13 +131,14 @@
                 android:textSize="6pt"
                 android:background="@android:color/transparent"
                 android:maxLines="1"
-                android:inputType="text"/>
+                android:inputType="text"
+                tools:ignore="LabelFor" />
 
             <LinearLayout
                 android:id="@+id/botons_cancel_save"
                 android:layout_width="match_parent"
                 android:layout_height="30pt"
-                android:gravity="right"
+                android:gravity="end"
                 android:orientation="horizontal"
                 android:weightSum="1">
 
@@ -143,7 +172,8 @@
                     android:background="@color/tw__transparent"
                     android:scaleType="fitCenter"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@android:drawable/ic_menu_send" />
+                    app:srcCompat="@android:drawable/ic_menu_send"
+                    android:contentDescription="@string/boto_per_enviar_comentari"/>
             </LinearLayout>
 
                 <edu.upc.pes.wallachange.Others.ExpandableHeightGridView
@@ -156,7 +186,8 @@
                     android:isScrollContainer="false"
                     android:stretchMode="columnWidth"
                     android:paddingBottom="10dp"
-                    android:paddingRight="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp"
                     android:verticalSpacing="10dp" />
         </LinearLayout>
     </ScrollView>

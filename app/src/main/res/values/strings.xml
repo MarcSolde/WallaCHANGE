@@ -133,6 +133,10 @@
     <string name="incitement_to_hatred_eng">Incitement to hatred</string>
     <string name="add_category">Add category</string>
     <string name="errorExistingCategory_eng">Existing category</string>
+    <string name="boto_de_la_imatge_anterior">Boto de la imatge anterior</string>
+    <string name="boto_de_la_imatge_posterior">Boto de la imatge posterior</string>
+    <string name="boto_per_esborrar_la_imatge_actual">Boto per esborrar la imatge actual</string>
+    <string name="boto_per_enviar_comentari">Boto per enviar comentari</string>
 
 
 </resources>

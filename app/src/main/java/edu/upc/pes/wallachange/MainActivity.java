@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,6 +33,8 @@ import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 
 import static com.android.volley.VolleyLog.TAG;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private HomeFragment homeFragment;
@@ -133,9 +136,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void changeToItem(String id) {
+    public void changeToItem(ArrayList<Bitmap> fotografies) {
         //TODO:
         // String temporalitat
+        /*
         AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
         Toast.makeText(this,id,Toast.LENGTH_LONG).show();
         Map<String, String> headers = new HashMap<>();
@@ -178,6 +182,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+        myViewElementFragment = new ViewElementFragment();
+        myViewElementFragment.setArguments(bundleViewElement);*/
+        Bundle bundleViewElement = new Bundle();
+        bundleViewElement.putParcelableArrayList("fotografies",fotografies);
+        myViewElementFragment = new ViewElementFragment();
+        myViewElementFragment.setArguments(bundleViewElement);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
     }
 
     public void changeFragmentToHome () {
