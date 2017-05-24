@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +89,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         editTextPref = (EditText) view.findViewById(R.id.addPreference);
 
 
-        usernameField.setText(user.getUsername());
+        usernameField.setText(user.getId());
         fotoPerfil.setImageURI(null);
         fotoPerfil.setImageURI(user.getPicture());
         locationTE.setText(user.getLocation());
@@ -134,7 +135,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                 String newPref = editTextPref.getText().toString();
                 if (newPref.trim().length() != 0) {
                     if (!user.existsPref(newPref)) {
-                        prefs.add(newPref);
+                        user.setPreference(newPref);
                         preferencesAdapter.notifyDataSetChanged();
                         editTextPref.setText("");
                     } else {
@@ -153,21 +154,24 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
 
             case R.id.submitButton:
                 user.setLocation(locationTE.getText().toString());
-                locationTE.setText("this is"+user.getLocation());
-                user.setPreferencesArrayList(prefs);String token = user.getToken();
+                Log.i("this is prefs", prefs.get(0));
+                ArrayList<String> afegirPreferencies = new ArrayList<>();
+                afegirPreferencies = user.getPreferences();
+                String token = user.getToken();
                 String location = user.getLocation();
-                ArrayList<String> prefs = user.getPreferences();
 
                 JSONArray ja = new JSONArray();
-                for (String p : prefs) {
+                for (String p : afegirPreferencies) {
                     ja.put(p);
+                    Log.i("tagSola", p);
                 }
+                Log.i("taagssss", ja.toString());
 
                 JSONObject body = new JSONObject();
                 try {
                     body.put("token", token);
                     body.put("localitat", user.getLocation());
-//                    body.put("preferencies", ja);
+                    body.put("preferencies", ja);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -175,7 +179,9 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                 Map<String,String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 AdapterAPIRequest adapter = new AdapterAPIRequest();
-                adapter.PUTRequestAPI("http://104.236.98.100:3000/updateUser/" + user.getId(),
+                adapter.PUTRequestAPI("http://104.236.98.100:3000/updateUser/MarcSoldevillaCuartiella",
+
+//                adapter.PUTRequestAPI("http://104.236.98.100:3000/updateUser/" + user.getId(),
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -210,8 +216,9 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
     }
 
     public void decrementarNombrePrefs (ArrayList<String> newPrefs, String prefToDelete) {
-            prefs = newPrefs;
             user.deletePreference(prefToDelete);
+            prefs = user.getPreferences();
+
     }
 
 

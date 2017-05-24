@@ -135,6 +135,9 @@ public class CurrentUser {
         }
         user.setIntercanvisArray(intercanvisArray);
     }
+    public void setPreference(String pref) {
+        user.setPreference(pref);
+    }
 
     public void setProductesArray(JSONArray productesArray) {
         user.setProductesArray(productesArray);

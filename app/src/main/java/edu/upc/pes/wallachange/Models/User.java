@@ -161,6 +161,9 @@ public class User {
         this.facebookId = fbId;
     }
 
+    public void setPreference(String pref) {
+        preferences.add(pref);
+    }
     public void setIntercanvis(ArrayList<String> intercanvis) {
         this.intercanvis = intercanvis;
     }
