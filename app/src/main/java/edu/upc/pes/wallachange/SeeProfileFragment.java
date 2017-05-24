@@ -120,11 +120,12 @@ public class SeeProfileFragment extends Fragment {
     }
 
     private void loadList () {
+
         //TODO:
         elements = new ArrayList<>();
-        elements.add(new Element("1","aaa1",null,"aaa2",null,"aaa3",null,null,null));
-        elements.add(new Element("2","bbb1",null,"bbb2",null,"bbb3",null,null,null));
-        elements.add(new Element("3","ccc1",null,"ccc2",null,"ccc3",null,null,null));
+        //elements.add(new Element("1","aaa1",null,"aaa2",null,"aaa3",null,null,null));
+        //elements.add(new Element("2","bbb1",null,"bbb2",null,"bbb3",null,null,null));
+        //elements.add(new Element("3","ccc1",null,"ccc2",null,"ccc3",null,null,null));
         adapter = new SeeProfileAdapter(myActivity,R.layout.item_see_profile,elements,this);
         myListView.setAdapter(adapter);
         myListView.deferNotifyDataSetChanged();

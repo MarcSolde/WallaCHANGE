@@ -51,7 +51,7 @@ public class Element {
         //this.esTemporal = ej.getBoolean("es_temporal");
         this.temporalitat = ej.getString("temporalitat");
         this.user = ej.getString("nom_user");
-        setCoordenadesArray(ej.getJSONObject("coordenades"));
+        setCoordenades(ej.getJSONObject("coordenades"));
         setFotografiesArray(ej.getJSONArray("imatges"));
         setTagsArray(ej.getJSONArray("tags"));
         setComentarisArray(ej.getJSONArray("comentaris"));
@@ -202,7 +202,7 @@ public class Element {
         this.comentaris = list;
     }
 
-    public void setCoordenadesArray(JSONObject coords) throws JSONException {
+    public void setCoordenades(JSONObject coords) throws JSONException {
         this.coordenades.setCoords(Integer.parseInt(coords.getString("x")),
                 Integer.parseInt(coords.getString("y")));
     }

@@ -63,7 +63,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
 
         ListView listElemsView = (ListView) view.findViewById(R.id.listElements);
 
-
+        /*
         //s'haura de fer GET a la db, no això.
         element1 = new Element();
         element1.setTitol("titol1");
@@ -109,7 +109,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
         elements.add(element4);
         elements.add(element5);
         elements.add(element6);
-
+        */
 
         finder = (EditText) view.findViewById(R.id.finder);
         finder.setOnKeyListener(new View.OnKeyListener() {
@@ -175,7 +175,6 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                                         for (int i = 0; i < len; i++) {
                                             Element elem = new Element();
                                             elem.setTitol(ja.getJSONObject(i).getString("titol"));
-                                            elem.setCategoria(ja.getJSONObject(i).getString("categoria"));
                                             elem.setDescripcio(ja.getJSONObject(i).getString("descripcio"));
                                             elem.setTipusProducte(ja.getJSONObject(i).getString("tipus_element"));
                                             elem.setId(ja.getJSONObject(i).getString("id"));
@@ -187,7 +186,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                                             else
                                                 elem.setTemporalitat("Permanent");
                                             elem.setComentarisArray(ja.getJSONObject(i).getJSONArray("comentaris"));
-                                            elem.setCoordenadesArray(ja.getJSONObject(i).getJSONArray("coordenades"));
+                                            elem.setCoordenades(ja.getJSONObject(i).getJSONObject("coordenades"));
                                             elements2.add(elem);
                                         }
                                     }
