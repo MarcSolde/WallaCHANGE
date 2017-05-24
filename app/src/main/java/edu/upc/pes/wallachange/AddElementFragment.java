@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -179,8 +178,11 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     public void onResponse(JSONObject response) {
 
                         try {
-                            //myActivity.changeToItem(response.getString("id"));
-                            response.getString("id");
+                            //TODO: LOAD imagenes
+
+                            // de moment mostrem sense imatges
+                            myActivity.changeToItem(response.getString("id"));
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -227,20 +229,14 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     String tipusProducte = obtenirTipusProducte();
                     String tipusIntercanvi = obtenirTipusIntercanvi();
                     Boolean esTemporal = (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng)));
-                    // 1 POST
                     String localitat = obtenirLocalitatUsuari(myActivity.getUsername());
 
+                    //crida POST
                     publicarElement(editTextTitol.getText().toString(),editTextDescripcio.getText().toString(),
                             categories,
                             tipusProducte,esTemporal,editTextTemporalitat.getText().toString(),
                             myActivity.getUsername(),imatgesMiniatura,new ArrayList<Comment>(),
                             localitat);
-                    // 2 GET http://localhost:3000/element/:id
-                    Toast.makeText(myActivity,"tots els camps necessaris",Toast.LENGTH_LONG).show();
-                    // 3 construir element amb el que retorna el GET
-                    // 4 Mostrar element just creat
-                    //myActivity.changeToItem(id);
-                    myActivity.changeToItem(imatgesMiniaturaEnBitmap);
                 }
                 break;
             case R.id.cancelarElement:

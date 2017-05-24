@@ -4,14 +4,15 @@ import android.net.Uri;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Element {
     private String id;
     private String titol;
     private String descripcio;
-    private String categoria;
     private String tipusProducte;
     private Boolean esTemporal;
     private String temporalitat;
@@ -19,14 +20,15 @@ public class Element {
     private ArrayList<Uri> fotografies;
     private ArrayList<String> tags;
     private ArrayList<Comment> comentaris;
-    private ArrayList<Coordenades> coordenades;
+    //private ArrayList<Coordenades> coordenades;
+    private Coordenades coordenades;
     private String localitat;
+    private Date dataPublicacio;
 
-    public Element(String id, String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, String user, ArrayList<Uri> fotografies) {
+    public Element(String id, String titol, String descripcio, String tipusProducte, String tipusIntercanvi, String temporalitat, String user, ArrayList<Uri> fotografies) {
         this.id = id;
         this.titol = titol;
         this.descripcio = descripcio;
-        this.categoria = categoria;
         this.tipusProducte = tipusProducte;
         this.esTemporal = esTemporal;
         this.temporalitat = temporalitat;
@@ -37,6 +39,23 @@ public class Element {
     }
 
     public Element() {
+    }
+
+    public Element(JSONObject ej) throws JSONException {
+        this.id = ej.getString("id");
+        this.titol= ej.getString("titol");
+        this.descripcio = ej.getString("descripcio");
+        this.tipusProducte = ej.getString("tipusProducte");
+        //TODO: que cojones es esto? String?
+        this.esTemporal = ej.getString("es_temporal").equals("si");
+        //this.esTemporal = ej.getBoolean("es_temporal");
+        this.temporalitat = ej.getString("temporalitat");
+        this.user = ej.getString("nom_user");
+        setCoordenadesArray(ej.getJSONObject("coordenades"));
+        setFotografiesArray(ej.getJSONArray("imatges"));
+        setTagsArray(ej.getJSONArray("tags"));
+        setComentarisArray(ej.getJSONArray("comentaris"));
+        this.localitat = ej.getString("localitat");
     }
 
     public String getId() {
@@ -65,14 +84,6 @@ public class Element {
 
     public void setDescripcio(String descripcio) {
         this.descripcio = descripcio;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
     }
 
     public String getTipusProducte() {
@@ -122,6 +133,22 @@ public class Element {
 //    public Uri getFotografia() {
 //        return fotografies[0];
 //    }
+
+    public Date getDataPublicacio() {
+        return dataPublicacio;
+    }
+
+    public void setDataPublicacio(Date dataPublicacio) {
+        this.dataPublicacio = dataPublicacio;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public Coordenades getCoordenades() {
+        return coordenades;
+    }
 
     public void setTagsArray(JSONArray tagsArray) {
         ArrayList<String> list = new ArrayList<String>();
@@ -175,7 +202,12 @@ public class Element {
         this.comentaris = list;
     }
 
-    public void setCoordenadesArray(JSONArray coords) {
+    public void setCoordenadesArray(JSONObject coords) throws JSONException {
+        this.coordenades.setCoords(Integer.parseInt(coords.getString("x")),
+                Integer.parseInt(coords.getString("y")));
+    }
+
+   /* public void setCoordenadesArray(JSONArray coords) {
         ArrayList<Coordenades> list = new ArrayList<>();
         JSONArray jsonArray = coords;
         if (jsonArray != null) {
@@ -191,11 +223,7 @@ public class Element {
             }
         }
         this.coordenades = list;
-    }
-
-    public void setFotografies(ArrayList<Uri> fotografies) {
-        this.fotografies = fotografies;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -203,7 +231,6 @@ public class Element {
                 "id='" + id + '\'' +
                 ", titol='" + titol + '\'' +
                 ", descripcio='" + descripcio + '\'' +
-                ", categoria='" + categoria + '\'' +
                 ", tipusProducte='" + tipusProducte + '\'' +
                 ", intercanviTemporal=" + esTemporal +
                 ", temporalitat='" + temporalitat + '\'' +

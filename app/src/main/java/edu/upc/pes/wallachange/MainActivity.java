@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,12 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -31,10 +30,9 @@ import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Models.CurrentUser;
+import edu.upc.pes.wallachange.Models.Element;
 
 import static com.android.volley.VolleyLog.TAG;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private HomeFragment homeFragment;
@@ -136,12 +134,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void changeToItem(ArrayList<Bitmap> fotografies) {
+    public void changeToItem(String id) {
         //TODO:
         // String temporalitat
-        /*
+
         AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
-        Toast.makeText(this,id,Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,id,Toast.LENGTH_LONG).show();
         Map<String, String> headers = new HashMap<>();
         CurrentUser us = CurrentUser.getInstance();
         headers.put("token", us.getToken());
@@ -152,14 +150,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response){
-                        JSONObject e = response;
-                        /*
-                        Element e = new Element(response);
+
+                        Element e = null;
+                        try {
+                            e = new Element(response);
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
 
                         Bundle bundleViewElement = new Bundle();
                         bundleViewElement.putString("titol",e.getTitol());
                         bundleViewElement.putString("descripcio",e.getDescripcio());
-                        bundleViewElement.putString("categoria",e.getCategoria());
+                        bundleViewElement.putStringArrayList("categoria",e.getTags());
                         bundleViewElement.putString("usuari",e.getUser());
                         bundleViewElement.putString("temporalitat",e.getTemporalitat());
                         bundleViewElement.putString("tipusProducte",e.getTipusProducte());
@@ -169,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         ViewElementFragment myViewElementFragment = new ViewElementFragment();
                         myViewElementFragment.setArguments(bundleViewElement);
                         myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
-                        */
+
                     }
                 }, new Response.ErrorListener() {
                         @Override
@@ -178,17 +180,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         }
                 }, headers);
-
-
-
-
-        myViewElementFragment = new ViewElementFragment();
-        myViewElementFragment.setArguments(bundleViewElement);*/
-        Bundle bundleViewElement = new Bundle();
-        bundleViewElement.putParcelableArrayList("fotografies",fotografies);
-        myViewElementFragment = new ViewElementFragment();
-        myViewElementFragment.setArguments(bundleViewElement);
-        myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
     }
 
     public void changeFragmentToHome () {
