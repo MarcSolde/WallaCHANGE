@@ -1,5 +1,6 @@
 package edu.upc.pes.wallachange.Models;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import org.json.JSONArray;
@@ -19,6 +20,7 @@ public class User {
     private ArrayList<String> intercanvis;
     private ArrayList<String> productes;
     private String facebookId;
+    private Bitmap pictureBM;
 
     public User(String id, String username, String location, String password, float rating, Uri picture, ArrayList<String> preferences) {
         this.id = id;
@@ -73,6 +75,14 @@ public class User {
 
     public void setPicture(Uri picture) {
         this.picture = picture;
+    }
+
+    public void setPictureBitmap(Bitmap bitmap) {
+        this.pictureBM = bitmap;
+    }
+
+    public Bitmap getPictureBitmap() {
+        return pictureBM;
     }
 
     public void setPreferencesArray(ArrayList<String> newPreferences) {
