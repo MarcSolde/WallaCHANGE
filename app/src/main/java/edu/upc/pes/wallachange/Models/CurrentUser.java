@@ -83,9 +83,8 @@ public class CurrentUser {
         return user.getPicture();
     }
 
-    public void setPicture(String picture) {
-        Uri uri = Uri.parse(picture);
-        user.setPicture(uri);
+    public void setPicture(Uri picture) {
+        user.setPicture(picture);
     }
 
     public ArrayList<String> getPreferences() {

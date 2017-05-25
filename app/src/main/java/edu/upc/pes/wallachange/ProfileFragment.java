@@ -4,10 +4,14 @@ import static com.android.volley.VolleyLog.TAG;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +34,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +65,8 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
     private EditText locationTE;
     private EditText editTextPref;
     //private int rating;
+    private Context context;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -104,6 +114,9 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         preferencesAdapter = new PreferencesAdapter(myActivity, R.layout.pref_list_item, prefs, this);
         gridPrefs.setAdapter(preferencesAdapter);
         preferencesAdapter.notifyDataSetChanged();
+        if (user.getPicture() != null) {
+            locationTE.setText(user.getPicture().toString());
+        }
 
 //        locationTE.setOnClickListener(this);
 
@@ -154,7 +167,6 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
 
             case R.id.submitButton:
                 user.setLocation(locationTE.getText().toString());
-                Log.i("this is prefs", prefs.get(0));
                 ArrayList<String> afegirPreferencies = new ArrayList<>();
                 afegirPreferencies = user.getPreferences();
                 String token = user.getToken();
@@ -165,7 +177,6 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                     ja.put(p);
                     Log.i("tagSola", p);
                 }
-                Log.i("taagssss", ja.toString());
 
                 JSONObject body = new JSONObject();
                 try {
@@ -195,6 +206,72 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                             }
                         }, body, headers);
+
+                if (user.getPicture()!= null) {
+//                    try {
+//                        // bimatp factory
+//                        BitmapFactory.Options options = new BitmapFactory.Options();
+//
+//                        // downsizing image as it throws OutOfMemory Exception for larger
+//                        // images
+//                        options.inSampleSize = 8;
+//
+//                        final Bitmap bitmap = BitmapFactory.decodeFile(user.getPicture().toString(), options);
+//                        Log.i("bitmap", bitmap.toString());
+//                    } catch (NullPointerException e) {
+//                        e.printStackTrace();
+//                    }
+
+//                    try {
+//                        Uri uri = user.getPicture();
+//                        URL url = uri.toURL(); //get URL from your uri object
+//                        InputStream stream = url.openStream();
+//                        Bitmap bm = BitmapFactory.decodeStream(getContentResolver().openInputStream(user.getPicture()));
+//                        Log.i("bitmap", bm.toString());
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+                    Bitmap bitmap = null;
+                    try {
+                        context = getActivity().getApplicationContext();
+                        bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), user.getPicture());
+                        Log.i("bitmap", bitmap.toString());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    JSONObject bodyimatge = new JSONObject();
+                    try {
+                        bodyimatge.put("avatar", bitmap);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Map<String, String> headersimatge = new HashMap<>();
+                    headersimatge.put("x-access-token", user.getToken());
+                    adapter.POSTRequestAPI(
+                            "http://104.236.98.100:3000/imatge/MarcSoldevillaCuartiella",
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    JSONObject js = response;
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    VolleyLog.d(TAG, "Error: " + error.getMessage());
+                                }
+                            }, body, headers);
+                }
+//                POST http://localhost:3000/imatge/”nom_user”
+//                body: en format form-data, la parella key-value amb key=avatar i value=arxiu d’imatge
+//                header:
+//                key: x-access-token
+//                value: el token del login
+//                nom_user: Ha de ser el nom de usuari
+//                return: Image uploaded
                 break;
 
             default:
@@ -209,9 +286,9 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
 
             Uri selectedImage = data.getData();
-            System.out.println(selectedImage.toString());
 
             Picasso.with(myActivity).load(selectedImage).resize(100, 100).transform(new CircleTransform()).into(fotoPerfil);
+            user.setPicture(selectedImage);
         }
     }
 
@@ -220,6 +297,9 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
             prefs = user.getPreferences();
 
     }
+
+
+
 
 
 }
