@@ -21,20 +21,25 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.CategoriesAdapter;
@@ -146,22 +151,25 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             ArrayList<Comment> comentaris, String localitat) {
         AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
 
-        //docker run
-        //i node
-        //node server.js
         JSONObject nouElement = new JSONObject();
         try {
             nouElement.put("titol",titol);
             nouElement.put("descripcio",descripcio);
-            nouElement.put("imatges",null);
+            //nouElement.put("imatges",null);
             nouElement.put("nom_user",username);
-            //jSO.put("data_publicacio",date); al json del ruteo que te veo posa que es DATE
+
+            DateFormat df = DateFormat.getTimeInstance();
+            df.setTimeZone(TimeZone.getTimeZone("UTC"));
+            String avui = df.format(new Date());
+
+            nouElement.put("data_publicacio",avui);
             nouElement.put("tipus_element",tipusProducte);
-            nouElement.put("es_temporal",temporal.toString());
-            nouElement.put("tags",categories);
-            // aqui s'hauria de convertir larraylist de comentaris a vector de parelles textComentari, nom_usuari
-            nouElement.put("comentaris",null);
-            nouElement.put("localitat",localitat);
+            nouElement.put("es_temporal",temporal);
+            JSONArray tags = obtenirJSONarrayTags(categories);
+            nouElement.put("tags",tags);
+            //JSONArray coments = obtenirJSONarrayComentaris(comentaris);
+            //nouElement.put("comentaris",coments);
+            //nouElement.put("localitat",localitat);
             // params ara sera un JSON
         } catch (JSONException e) {
             e.printStackTrace();
@@ -171,7 +179,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",currentUser.getToken()); //http://10.0.2.2:3000/api/element
         String url = "http://10.0.2.2:3000/".concat("api/element");
-
+        //adapter.POSTRequestAPI("http://104.236.98.100:3000/loginFB"
         adapterAPIRequest.POSTRequestAPI(url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -194,6 +202,16 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                         VolleyLog.d(TAG,error.getMessage());
                     }
                 },nouElement, headers);
+    }
+
+    private JSONArray obtenirJSONarrayComentaris(ArrayList<Comment> comentaris){
+        //TODO aqui s'hauria de convertir larraylist de comentaris a vector de parelles textComentari, nom_usuari
+        return null;
+    }
+
+    private JSONArray obtenirJSONarrayTags(ArrayList<String> tags){
+        //TODO
+        return null;
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -22,6 +22,7 @@ public class Element {
     private ArrayList<Comment> comentaris;
     //private ArrayList<Coordenades> coordenades;
     private Coordenades coordenades;
+    // TODO localitat sha desborrar
     private String localitat;
     private Date dataPublicacio;
 
@@ -192,6 +193,7 @@ public class Element {
             int len = jsonArray.length();
             for (int i = 0; i < len; i++) {
                 try {
+                    // TODO els comentaris tindran data
                     Comment comment = new Comment(jsonArray.getJSONObject(i).getString("nom_user"), jsonArray.getJSONObject(i).getString("text"));
                     list.add(comment);
                 } catch (JSONException e) {
