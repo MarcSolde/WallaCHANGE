@@ -182,7 +182,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     public void onResponse(JSONObject response) {
                         //TODO: LOAD imagenes
                         try {
-                            myActivity.changeToItem(response.getString("id"));
+                            myActivity.changeToItem(response.getString("_id"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

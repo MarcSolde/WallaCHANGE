@@ -100,10 +100,12 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         headers.put("x-access-token", us.getToken());
         headers.put("Content-Type", "application/json");
 
-        //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
-        //adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/element/".concat(id),
+        String id = getArguments().getString("id");
 
-        adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/api/element/591f424f8d47ad08bc958a44",
+        //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
+        adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/api/element/".concat(id),
+
+        //adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/api/element/591f424f8d47ad08bc958a44",
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response){
