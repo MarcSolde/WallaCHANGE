@@ -160,15 +160,29 @@
                 android:hint="@string/advertisements_category_eng"
                 android:layout_weight="0.37"
                 android:maxLines="1"
-                android:inputType="text"></EditText>
+                android:inputType="textPersonName"></EditText>
+
             <ImageView
+                android:contentDescription="@string/add_category"
+                android:id="@+id/botoAfegirCategoria"
                 android:layout_width="15pt"
                 android:layout_height="15pt"
+                android:layout_gravity="center_vertical"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/delete"
-                android:id="@+id/neteja_edittext_categoria"
-                android:layout_gravity="center_vertical"/>
+                app:srcCompat="@drawable/add" />
         </LinearLayout>
+
+        <edu.upc.pes.wallachange.Others.ExpandableHeightGridView
+            android:id="@+id/gridCategories"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="15pt"
+            android:layout_weight="0.63"
+            android:horizontalSpacing="10dp"
+            android:isScrollContainer="false"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -1,7 +1,5 @@
 package edu.upc.pes.wallachange;
 
-import static com.android.volley.VolleyLog.TAG;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -18,11 +16,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -34,11 +30,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
-import edu.upc.pes.wallachange.APILayer.Proxy;
 import edu.upc.pes.wallachange.Adapters.PreferencesAdapter;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Others.CircleTransform;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
+
+import static com.android.volley.VolleyLog.TAG;
+
+//import edu.upc.pes.wallachange.APILayer.Proxy;
 
 
 public class ProfileFragment extends Fragment  implements View.OnClickListener {

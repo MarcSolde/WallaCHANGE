@@ -2,6 +2,7 @@ package edu.upc.pes.wallachange.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -23,13 +24,15 @@ public class ImatgesMiniaturaListViewAdapter extends ArrayAdapter<Uri> {
     private final Context mContext;
     private final int layoutResourceId;
     private final List<Uri> data;
+    private final List<Bitmap> bitmaps;
     private final AddElementFragment callBack;
 
-    public ImatgesMiniaturaListViewAdapter(Context mContext, int layoutResourceId, List<Uri> data, AddElementFragment addElementFragment) {
+    public ImatgesMiniaturaListViewAdapter(Context mContext, int layoutResourceId, List<Uri> data, List<Bitmap> bitmaps, AddElementFragment addElementFragment) {
         super(mContext, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.mContext = mContext;
         this.data = data;
+        this.bitmaps = bitmaps;
         this.callBack = addElementFragment;
     }
 
@@ -48,8 +51,9 @@ public class ImatgesMiniaturaListViewAdapter extends ArrayAdapter<Uri> {
             @Override
             public void onClick(View v) {
                 data.remove(position);
+                bitmaps.remove(position);
                 notifyDataSetChanged();
-                callBack.actualitzarNombreImatges(data);
+                callBack.actualitzarNombreImatges(data, bitmaps);
             }
         });
         return convertView;
