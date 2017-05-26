@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,10 +18,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +37,6 @@ import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
 
-import static com.android.volley.VolleyLog.TAG;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private HomeFragment homeFragment;
@@ -136,50 +140,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void changeToItem(String id) {
         //TODO:
-        // String temporalitat
-
-        AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
-        //Toast.makeText(this,id,Toast.LENGTH_LONG).show();
-        Map<String, String> headers = new HashMap<>();
-        CurrentUser us = CurrentUser.getInstance();
-        headers.put("token", us.getToken());
-        headers.put("Content-Type", "application/json");
-
-        //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
-        adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/element/".concat(id),
-                new Response.Listener<JSONObject>(){
-                    @Override
-                    public void onResponse(JSONObject response){
-
-                        Element e = null;
-                        try {
-                            e = new Element(response);
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                        }
-
-                        Bundle bundleViewElement = new Bundle();
-                        bundleViewElement.putString("titol",e.getTitol());
-                        bundleViewElement.putString("descripcio",e.getDescripcio());
-                        bundleViewElement.putStringArrayList("categoria",e.getTags());
-                        bundleViewElement.putString("usuari",e.getUser());
-                        bundleViewElement.putString("temporalitat",e.getTemporalitat());
-                        bundleViewElement.putString("tipusProducte",e.getTipusProducte());
-                        bundleViewElement.putBoolean("tipusIntercanvi",e.getEsTemporal());
-                        bundleViewElement.putParcelableArrayList("fotografies",e.getFotografies());
-
-                        ViewElementFragment myViewElementFragment = new ViewElementFragment();
-                        myViewElementFragment.setArguments(bundleViewElement);
-                        myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
-
-                    }
-                }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            VolleyLog.d(TAG, "Error: " + error.getMessage());
-
-                        }
-                }, headers);
+        Bundle bundleViewElement = new Bundle();
+        bundleViewElement.putString("id",id);
+        ViewElementFragment myViewElementFragment = new ViewElementFragment();
+        myViewElementFragment.setArguments(bundleViewElement);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
     }
 
     public void changeFragmentToHome () {
@@ -189,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.getMenu().getItem(0).setChecked(true);
     }
-
 
     public String getUsername() {
         //TODO: eliminar

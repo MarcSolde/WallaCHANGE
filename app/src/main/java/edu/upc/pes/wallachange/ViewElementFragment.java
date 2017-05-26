@@ -26,18 +26,33 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.CommentListViewAdapter;
 import edu.upc.pes.wallachange.Models.Comment;
+import edu.upc.pes.wallachange.Models.CurrentUser;
+import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
+
+import static com.android.volley.VolleyLog.TAG;
 
 public class ViewElementFragment extends Fragment implements View.OnClickListener{
 
@@ -48,7 +63,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private EditText editTextWriteComment;
     private ArrayList<Comment> comentaris;
     private ImageSwitcher imageSwitcher;
-
 
     public ViewElementFragment() {}
 
@@ -78,102 +92,38 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
         comentaris = new ArrayList<>();
 
-        EditText editTextTitol = (EditText) fragmentViewElementView.findViewById(R.id.titolAnunci);
-        editTextTitol.setText(bundle.getString("titol"));
-        editTextTitol.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    // TODO: fer un update del nou titol
-                }
-            }
-        });
 
-        final EditText editTextDescripcio = (EditText) fragmentViewElementView.findViewById(R.id.editTextDescripcio);
-        String descripcio = bundle.getString("descripcio");
-        editTextDescripcio.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    if (!Objects.equals(editTextDescripcio.getText().toString(), getResources().getString(R.string.edit_description_here_eng))){
-                        // TODO: fer update de la nova descripcio si es diferent al text "descriptiu" quan és buida
+        AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
+        //Toast.makeText(this,id,Toast.LENGTH_LONG).show();
+        Map<String, String> headers = new HashMap<>();
+        CurrentUser us = CurrentUser.getInstance();
+        headers.put("x-access-token", us.getToken());
+        headers.put("Content-Type", "application/json");
+
+        //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
+        //adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/element/".concat(id),
+
+        adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/api/element/591f424f8d47ad08bc958a44",
+                new Response.Listener<JSONObject>(){
+                    @Override
+                    public void onResponse(JSONObject response){
+                        try {
+                            Element e  = new Element(response);
+                            loadElement(e);
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
 
                     }
-                }
-            }
-        });
+                },
+                new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            VolleyLog.d(TAG, "Error: " + error.getMessage());
+                        }
+                }, headers);
 
-        final EditText editTextCategoria = (EditText) fragmentViewElementView.findViewById(R.id.editTextCategoria);
-        String categoria = bundle.getString("categoria");
-        editTextCategoria.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (!Objects.equals(editTextCategoria.getText().toString(),
-                            getResources().getString(R.string.edit_category_here_eng))) {
-                        // TODO: fer update de la nova categoria si es diferent al text "descriptiu" quan és buida
-                    }
-                }
-            }
-        });
 
-        final EditText editTextTemporalitat = (EditText) fragmentViewElementView.findViewById(R.id.temporalitat);
-        String temporalitat = bundle.getString("temporalitat");
-        editTextTemporalitat.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    if (!Objects.equals(editTextTemporalitat.getText().toString(),
-                            getResources().getString(R.string.edit_temporality_here_eng))) {
-                        // TODO: fer update de la nova temporalitat si es diferent al text "descriptiu" quan és buida
-                    }
-                }
-            }
-        });
-
-        Boolean esTemporal = bundle.getBoolean("tipusIntercanvi");
-        String usuariActual = myActivity.getUsername();
-        String usuariAnunci = bundle.getString("usuari");
-        if (Objects.equals(usuariAnunci, usuariActual)) {
-            editTextTitol.setEnabled(true);
-            editTextDescripcio.setEnabled(true);
-            editTextCategoria.setEnabled(true);
-            tradeButton.setEnabled(false);
-
-            if (!Objects.equals(descripcio, "")) editTextDescripcio.setText(descripcio);
-            else editTextDescripcio.setText(getResources().getString(R.string.edit_description_here_eng));
-
-            if (!Objects.equals(categoria, "")) editTextCategoria.setText(categoria);
-            else editTextCategoria.setText(getResources().getString(R.string.edit_category_here_eng));
-
-            if (esTemporal) {
-                if (!Objects.equals(temporalitat, "")) editTextTemporalitat.setText(temporalitat);
-                else editTextTemporalitat.setText(
-                        getResources().getString(R.string.edit_temporality_here_eng));
-            }
-        }else {
-            editTextTitol.setEnabled(false);
-            editTextDescripcio.setEnabled(false);
-            editTextCategoria.setEnabled(false);
-            tradeButton.setEnabled(true);
-
-            if (!Objects.equals(descripcio, "")) editTextDescripcio.setText(descripcio);
-            else editTextDescripcio.setText(getResources().getString(R.string.empty_description_eng));
-
-            if (!Objects.equals(categoria, "")) editTextCategoria.setText(categoria);
-            else editTextCategoria.setText(getResources().getString(R.string.empty_category_eng));
-
-            if (esTemporal) {
-                if (!Objects.equals(temporalitat, "")) editTextTemporalitat.setText(temporalitat);
-                else editTextTemporalitat.setText(
-                        getResources().getString(R.string.empty_temporality_eng));
-            }
-        }
-
-        TextView textViewCreatedBy = (TextView) fragmentViewElementView.findViewById(R.id.createdByTextView);
-        String createdBy = textViewCreatedBy.getText().toString();
-        createdBy += "\n" + usuariAnunci;
-        textViewCreatedBy.setText(createdBy);
 
         Animation in = AnimationUtils.loadAnimation(myActivity, android.R.anim.fade_in);
         Animation out = AnimationUtils.loadAnimation(myActivity, android.R.anim.fade_out);
@@ -289,6 +239,112 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
             default:
                 break;
         }
+    }
+
+    void loadElement(Element e){
+        Toast.makeText(myActivity,"titol " + e.getTitol(), Toast.LENGTH_LONG).show();
+        EditText editTextTitol = (EditText) fragmentViewElementView.findViewById(R.id.titolAnunci);
+        editTextTitol.setText(e.getTitol());
+        editTextTitol.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    // TODO: fer un update del nou titol
+                }
+            }
+        });
+
+        final EditText editTextDescripcio = (EditText) fragmentViewElementView.findViewById(R.id.editTextDescripcio);
+        editTextDescripcio.setText(e.getDescripcio());
+        editTextDescripcio.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    if (!Objects.equals(editTextDescripcio.getText().toString(), getResources().getString(R.string.edit_description_here_eng))){
+                        // TODO: fer update de la nova descripcio si es diferent al text "descriptiu" quan és buida
+
+                    }
+                }
+            }
+        });
+/*
+        final EditText editTextCategoria = (EditText) fragmentViewElementView.findViewById(R.id.editTextCategoria);
+        String categoria = bundle.getString("categories");
+        editTextCategoria.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    if (!Objects.equals(editTextCategoria.getText().toString(),
+                            getResources().getString(R.string.edit_category_here_eng))) {
+                        // TODO: fer update de la nova categoria si es diferent al text "descriptiu" quan és buida
+                    }
+                }
+            }
+        });
+
+        final EditText editTextTemporalitat = (EditText) fragmentViewElementView.findViewById(R.id.temporalitat);
+        String temporalitat = bundle.getString("temporalitat");
+        editTextTemporalitat.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    if (!Objects.equals(editTextTemporalitat.getText().toString(),
+                            getResources().getString(R.string.edit_temporality_here_eng))) {
+                        // TODO: fer update de la nova temporalitat si es diferent al text "descriptiu" quan és buida
+                    }
+                }
+            }
+        });
+
+         Boolean esTemporal = bundle.getBoolean("tipusIntercanvi");
+        CurrentUser currentUser = CurrentUser.getInstance();
+        String usuariActual = currentUser.getUsername();
+        String usuariAnunci = bundle.getString("usuari");
+        if (Objects.equals(usuariAnunci, usuariActual)) {
+            editTextTitol.setEnabled(true);
+            editTextDescripcio.setEnabled(true);
+            editTextCategoria.setEnabled(true);
+            tradeButton.setEnabled(false);
+
+            if (!Objects.equals(descripcio, "")) editTextDescripcio.setText(descripcio);
+            else editTextDescripcio.setText(getResources().getString(R.string.edit_description_here_eng));
+
+            if (!Objects.equals(categoria, "")) editTextCategoria.setText(categoria);
+            else editTextCategoria.setText(getResources().getString(R.string.edit_category_here_eng));
+
+            if (esTemporal) {
+                if (!Objects.equals(temporalitat, "")) editTextTemporalitat.setText(temporalitat);
+                else editTextTemporalitat.setText(
+                        getResources().getString(R.string.edit_temporality_here_eng));
+            }
+        }else {
+            editTextTitol.setEnabled(false);
+            editTextDescripcio.setEnabled(false);
+            editTextCategoria.setEnabled(false);
+            tradeButton.setEnabled(true);
+
+            if (!Objects.equals(descripcio, "")) editTextDescripcio.setText(descripcio);
+            else editTextDescripcio.setText(getResources().getString(R.string.empty_description_eng));
+
+            if (!Objects.equals(categoria, "")) editTextCategoria.setText(categoria);
+            else editTextCategoria.setText(getResources().getString(R.string.empty_category_eng));
+
+            if (esTemporal) {
+                if (!Objects.equals(temporalitat, "")) editTextTemporalitat.setText(temporalitat);
+                else editTextTemporalitat.setText(
+                        getResources().getString(R.string.empty_temporality_eng));
+            }
+        }
+
+        TextView textViewCreatedBy = (TextView) fragmentViewElementView.findViewById(R.id.createdByTextView);
+        String createdBy = textViewCreatedBy.getText().toString();
+        createdBy += "\n" + usuariAnunci;
+        textViewCreatedBy.setText(createdBy);
+
+
+        */
+
+
     }
 
     @Override

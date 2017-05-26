@@ -141,11 +141,6 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
     }
 
 
-    private Element obtenirElement(String id) {
-        //TODO
-        return null;
-    }
-
     private void publicarElement(String titol, String descripcio, ArrayList<String> categories, String tipusProducte,
             Boolean temporal, String temporalitat, String username, ArrayList<Uri> imatgesMiniatura,
             ArrayList<Comment> comentaris, String localitat) {
@@ -177,20 +172,16 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
-        headers.put("x-access-token",currentUser.getToken()); //http://10.0.2.2:3000/api/element
+        headers.put("x-access-token",currentUser.getToken());
         String url = "http://10.0.2.2:3000/".concat("api/element");
         //adapter.POSTRequestAPI("http://104.236.98.100:3000/loginFB"
         adapterAPIRequest.POSTRequestAPI(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
+                        //TODO: LOAD imagenes
                         try {
-                            //TODO: LOAD imagenes
-
-                            // de moment mostrem sense imatges
                             myActivity.changeToItem(response.getString("id"));
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -248,7 +239,6 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     String tipusIntercanvi = obtenirTipusIntercanvi();
                     Boolean esTemporal = (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng)));
                     String localitat = obtenirLocalitatUsuari(myActivity.getUsername());
-
                     //crida POST
                     publicarElement(editTextTitol.getText().toString(),editTextDescripcio.getText().toString(),
                             categories,
@@ -279,7 +269,6 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                 editTextTemporalitat.setText("");
                 break;
             case R.id.botoAfegirCategoria:
-                //TODO:Pugin ser mes d'una categoria
                 String novaCategoria = editTextCategoria.getText().toString();
                 if (novaCategoria.trim().length() != 0) {
                     boolean categoriaExistent = false;

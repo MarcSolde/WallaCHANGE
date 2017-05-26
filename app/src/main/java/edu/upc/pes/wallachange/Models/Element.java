@@ -43,20 +43,20 @@ public class Element {
     }
 
     public Element(JSONObject ej) throws JSONException {
-        this.id = ej.getString("id");
+        this.id = ej.getString("_id");
         this.titol= ej.getString("titol");
         this.descripcio = ej.getString("descripcio");
-        this.tipusProducte = ej.getString("tipusProducte");
-        //TODO: que cojones es esto? String?
-        this.esTemporal = ej.getString("es_temporal").equals("si");
+        this.tipusProducte = ej.getString("tipus_element");
+        //TODO: temporalitat, nom_user, coordenades, localitat ara no ho retorna el GET
+        this.esTemporal = ej.getString("es_temporal").equals("true");
         //this.esTemporal = ej.getBoolean("es_temporal");
-        this.temporalitat = ej.getString("temporalitat");
-        this.user = ej.getString("nom_user");
-        setCoordenades(ej.getJSONObject("coordenades"));
+        //this.temporalitat = ej.getString("temporalitat");
+        //this.user = ej.getString("nom_user");
+        //setCoordenades(ej.getJSONObject("coordenades"));
         setFotografiesArray(ej.getJSONArray("imatges"));
         setTagsArray(ej.getJSONArray("tags"));
         setComentarisArray(ej.getJSONArray("comentaris"));
-        this.localitat = ej.getString("localitat");
+        //this.localitat = ej.getString("localitat");
     }
 
     public String getId() {
