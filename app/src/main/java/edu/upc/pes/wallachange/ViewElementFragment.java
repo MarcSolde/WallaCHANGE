@@ -25,7 +25,6 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -43,7 +42,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.CommentListViewAdapter;
@@ -102,8 +100,8 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
         String id = getArguments().getString("id");
 
-        //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
-        adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/api/element/".concat(id),
+        adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
+        //adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/api/element/".concat(id),
 
         //adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/api/element/591f424f8d47ad08bc958a44",
                 new Response.Listener<JSONObject>(){

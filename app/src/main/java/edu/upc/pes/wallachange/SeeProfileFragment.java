@@ -55,8 +55,8 @@ public class SeeProfileFragment extends Fragment {
         String id = getArguments().getString("id");
         //TODO: enlace DB
         Map<String, String> headers = new HashMap<>();
-        //adapterAPI.GETRequestAPI("http://104.236.98.100:3000/user/"+id,
-        adapterAPI.GETRequestAPI("http://10.0.2.2:3000/user/"+id,
+        adapterAPI.GETRequestAPI("http://104.236.98.100:3000/user/"+id,
+        //adapterAPI.GETRequestAPI("http://10.0.2.2:3000/user/"+id,
                 new Response.Listener<JSONObject>() {
 
                     @Override

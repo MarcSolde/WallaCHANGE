@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -32,21 +31,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.TimeZone;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.CategoriesAdapter;
 import edu.upc.pes.wallachange.Adapters.ImatgesMiniaturaListViewAdapter;
 import edu.upc.pes.wallachange.Models.Comment;
 import edu.upc.pes.wallachange.Models.CurrentUser;
-import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
 
 import static com.android.volley.VolleyLog.TAG;
@@ -174,8 +169,8 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",currentUser.getToken());
-        String url = "http://10.0.2.2:3000/".concat("api/element");
-        //adapter.POSTRequestAPI("http://104.236.98.100:3000/loginFB"
+        //String url = "http://10.0.2.2:3000/".concat("api/element");
+        String url = "http://104.236.98.100:3000/loginFB".concat("api/element");
         adapterAPIRequest.POSTRequestAPI(url,
                 new Response.Listener<JSONObject>() {
                     @Override

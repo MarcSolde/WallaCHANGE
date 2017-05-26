@@ -184,7 +184,8 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                 Map<String,String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 AdapterAPIRequest adapter = new AdapterAPIRequest();
-                adapter.PUTRequestAPI("http://10.0.2.2:3000/updateUser/"+user.getUsername(),
+                //adapter.PUTRequestAPI("http://10.0.2.2:3000/updateUser/"+user.getUsername(),
+                adapter.PUTRequestAPI("http://104.236.98.100:3000/updateUser/"+user.getUsername(),
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
