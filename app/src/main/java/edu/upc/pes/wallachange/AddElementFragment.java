@@ -151,18 +151,19 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             nouElement.put("titol",titol);
             nouElement.put("descripcio",descripcio);
             //nouElement.put("imatges",null);
-            nouElement.put("nom_user",username);
+            //nouElement.put("nom_user",username);
 
-            DateFormat df = DateFormat.getTimeInstance();
-            df.setTimeZone(TimeZone.getTimeZone("UTC"));
-            String avui = df.format(new Date());
+            //DateFormat df = DateFormat.getTimeInstance();
+            //1df.setTimeZone(TimeZone.getTimeZone("UTC"));
+            //String avui = df.format(new Date());
 
-            nouElement.put("data_publicacio",avui);
+            //nouElement.put("data_publicacio",avui);
             nouElement.put("tipus_element",tipusProducte);
             nouElement.put("es_temporal",temporal);
             JSONArray tags = obtenirJSONarrayTags(categories);
             nouElement.put("tags",tags);
-            //JSONArray coments = obtenirJSONarrayComentaris(comentaris);
+            int i = 0;
+            //JSONArray coments = null;
             //nouElement.put("comentaris",coments);
             //nouElement.put("localitat",localitat);
             // params ara sera un JSON
@@ -197,12 +198,17 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
 
     private JSONArray obtenirJSONarrayComentaris(ArrayList<Comment> comentaris){
         //TODO aqui s'hauria de convertir larraylist de comentaris a vector de parelles textComentari, nom_usuari
+
         return null;
     }
 
     private JSONArray obtenirJSONarrayTags(ArrayList<String> tags){
         //TODO
-        return null;
+        JSONArray jsonArray = new JSONArray();
+        for(int i = 0; i < tags.size(); ++i){
+            jsonArray.put(tags.get(i));
+        }
+        return jsonArray;
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
