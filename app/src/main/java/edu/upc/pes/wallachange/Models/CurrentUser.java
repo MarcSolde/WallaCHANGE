@@ -2,6 +2,7 @@ package edu.upc.pes.wallachange.Models;
 
 import static com.android.volley.VolleyLog.TAG;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import com.android.volley.Response;
@@ -83,9 +84,16 @@ public class CurrentUser {
         return user.getPicture();
     }
 
-    public void setPicture(String picture) {
-        Uri uri = Uri.parse(picture);
-        user.setPicture(uri);
+    public void setPicture(Uri picture) {
+        user.setPicture(picture);
+    }
+
+    public void setPictureBitmap(Bitmap picture) {
+        user.setPictureBitmap(picture);
+    }
+
+    public Bitmap getPictureBitmap() {
+        return user.getPictureBitmap();
     }
 
     public ArrayList<String> getPreferences() {
@@ -134,6 +142,9 @@ public class CurrentUser {
             }
         }
         user.setIntercanvisArray(intercanvisArray);
+    }
+    public void setPreference(String pref) {
+        user.setPreference(pref);
     }
 
     public void setProductesArray(JSONArray productesArray) {

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -51,6 +52,10 @@ public class SearchUserAdapter extends ArrayAdapter<User>{
         TextView rating = (TextView) convertView.findViewById(R.id.item_search_user_rating);
         String rat = "Rating: " + var.getRating()/20 + "/5.0";
         rating.setText(rat);
+        if (var.getPictureBitmap() != null) {
+            ImageView foto = (ImageView) convertView.findViewById(R.id.item_search_user_image);
+            foto.setImageBitmap(var.getPictureBitmap());
+        }
         return convertView;
     }
 }
