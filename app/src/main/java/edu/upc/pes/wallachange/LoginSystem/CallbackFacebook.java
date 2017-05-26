@@ -29,11 +29,6 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
     final public static String MyPREFERENCES = "MyPrefs";
     final public static String MyTokenPref = "MyFBToken";
     final public static String MyFBidPref = "MyFBid";
-    private String tokennnn;
-
-    public String getTokennnn() {
-        return tokennnn;
-    }
 
     private static LoginActivity myActivity;
     private static AdapterAPIRequest adapter = new AdapterAPIRequest();
