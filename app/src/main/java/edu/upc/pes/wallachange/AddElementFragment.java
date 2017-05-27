@@ -162,7 +162,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             nouElement.put("es_temporal",temporal);
             JSONArray tags = obtenirJSONarrayTags(categories);
             nouElement.put("tags",tags);
-            int i = 0;
+            //int i = 0;
             //JSONArray coments = null;
             //nouElement.put("comentaris",coments);
             //nouElement.put("localitat",localitat);

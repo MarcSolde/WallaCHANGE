@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -33,11 +34,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -46,6 +49,7 @@ import java.util.Objects;
 
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.Adapters.CategoriesAdapter;
 import edu.upc.pes.wallachange.Adapters.CommentListViewAdapter;
 import edu.upc.pes.wallachange.Models.Comment;
 import edu.upc.pes.wallachange.Models.CurrentUser;
@@ -63,6 +67,9 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private EditText editTextWriteComment;
     private ArrayList<Comment> comentaris;
     private ImageSwitcher imageSwitcher;
+    private Button tradeButton;
+    private String idElement;
+    private Element mElement;
 
     public ViewElementFragment() {}
 
@@ -86,32 +93,28 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         writeCommentButton.setOnClickListener(this);
         ImageButton removeImageButton = (ImageButton) fragmentViewElementView.findViewById(R.id.esborrarImatge);
         removeImageButton.setOnClickListener(this);
-        Button tradeButton = (Button) fragmentViewElementView.findViewById(R.id.tradeButton);
+        tradeButton = (Button) fragmentViewElementView.findViewById(R.id.tradeButton);
         tradeButton.setOnClickListener(this);
         editTextWriteComment = (EditText) fragmentViewElementView.findViewById(R.id.editTextComment);
 
         comentaris = new ArrayList<>();
 
-
         AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
-        //Toast.makeText(this,id,Toast.LENGTH_LONG).show();
         Map<String, String> headers = new HashMap<>();
         CurrentUser us = CurrentUser.getInstance();
         headers.put("x-access-token", us.getToken());
         headers.put("Content-Type", "application/json");
 
-        String id = getArguments().getString("id");
+        idElement = getArguments().getString("id");
 
         //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
-        adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/api/element/".concat(id),
-
-        //adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/api/element/591f424f8d47ad08bc958a44",
+        adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/api/element/".concat(idElement),
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response){
                         try {
-                            Element e  = new Element(response);
-                            loadElement(e);
+                            mElement  = new Element(response);
+                            loadElement(mElement);
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -152,14 +155,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
             imageSwitcher.setImageDrawable(drawable);
         }
 
-/*
-        if (uris != null ){
-            if (uris.size()> 0) {
-                Uri u = (Uri) uris.get(imatgeActual);
-                Picasso.with(myActivity).load(u).into(imatge);
-            }
-        }
-*/
         setHasOptionsMenu(true);
 
         return fragmentViewElementView;
@@ -217,22 +212,44 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
             case R.id.writeComment:
                 if (!Objects.equals(editTextWriteComment.getText().toString(), "")){
                     String comentari = editTextWriteComment.getText().toString();
-                    Uri path = Uri.parse("android.resource://edu.upc.pes.wallachange/" + R.drawable.userpicture);
+                    // TODO: aqui s'ha de fer POST d'un comentari, falta poder pujar la data del comentari
+                    AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
+                    CurrentUser us = CurrentUser.getInstance();
+                JSONObject nouComentari = new JSONObject();
+                try {
+                    nouComentari.put("text",comentari);
+                    nouComentari.put("nom_user",us.getUsername());
+                    //DateFormat df = DateFormat.getTimeInstance();
+                    //1df.setTimeZone(TimeZone.getTimeZone("UTC"));
+                    //String avui = df.format(new Date());
+                    //nouElement.put("data_publicacio",avui);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("x-access-token",us.getToken());
+                String url = "http://10.0.2.2:3000/api/owner/element/"+idElement+"/comment";
+                //adapter.POSTRequestAPI("http://104.236.98.100:3000/loginFB"
+                adapterAPIRequest.POSTRequestAPI(url,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                mElement = new Element(response);
+                                loadElement(mElement);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },new Response.ErrorListener() {
 
-                    Date date = new Date();
-                    String data = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("es","ES")).format(date);
-                    data += "  " + DateFormat.getTimeInstance(DateFormat.MEDIUM, new Locale("es","ES")).format(date);
-                    String nomUsuari = myActivity.getUsername();
-                    Comment nouComentari = new Comment(path,nomUsuari,comentari,data);
-                    comentaris.add(0,nouComentari);
-
-                    ExpandableHeightGridView listViewComentaris = (ExpandableHeightGridView) fragmentViewElementView.findViewById(R.id.comments_list);
-                    listViewComentaris.setExpanded(true);
-                    CommentListViewAdapter adapter = new CommentListViewAdapter(myActivity, R.layout.comment_row_layout, comentaris);
-                    listViewComentaris.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                    editTextWriteComment.setText("");
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            VolleyLog.d(TAG,error.getMessage());
+                        }
+                    },nouComentari, headers);
                 }else{
                     String errorCommentCanNotBeEmpty = getResources().getString(R.string.this_field_is_required_eng);
                     editTextWriteComment.setError(errorCommentCanNotBeEmpty);
@@ -244,14 +261,53 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     }
 
     void loadElement(Element e){
-        Toast.makeText(myActivity,"titol " + e.getTitol(), Toast.LENGTH_LONG).show();
-        EditText editTextTitol = (EditText) fragmentViewElementView.findViewById(R.id.titolAnunci);
+        final EditText editTextTitol = (EditText) fragmentViewElementView.findViewById(R.id.titolAnunci);
         editTextTitol.setText(e.getTitol());
         editTextTitol.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    // TODO: fer un update del nou titol
+                if (!hasFocus) {
+                    if (!Objects.equals(editTextTitol.getText().toString(), "")) {
+                        // TODO: fer un update del nou titol
+                        mElement.setTitol(editTextTitol.getText().toString());
+                        AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
+                        CurrentUser us = CurrentUser.getInstance();
+                        JSONObject elementModificat = new JSONObject();
+                        try {
+                            elementModificat.put("titol", mElement.getTitol());
+                            elementModificat.put("descripcio", mElement.getDescripcio());
+                            // TODO: falten coses de l'element
+                            elementModificat.put("tipus_element", mElement.getTipusProducte());
+                            elementModificat.put("es_temporal", mElement.getEsTemporal());
+                            JSONArray tags = obtenirJSONarrayTags(mElement.getTags());
+                            elementModificat.put("tags", tags);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("Content-Type", "application/json");
+                        headers.put("x-access-token", us.getToken());
+                        String url = "http://10.0.2.2:3000/api/owner/element/" + idElement;
+                        //adapter.PUTRequestAPI("http://104.236.98.100:3000/loginFB"
+                        adapterAPIRequest.PUTRequestAPI(url,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            mElement = new Element(response);
+                                            loadElement(mElement);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        VolleyLog.d(TAG, error.getMessage());
+                                    }
+                                }, elementModificat, headers);
+                    }
                 }
             }
         });
@@ -264,14 +320,51 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                 if (!hasFocus){
                     if (!Objects.equals(editTextDescripcio.getText().toString(), getResources().getString(R.string.edit_description_here_eng))){
                         // TODO: fer update de la nova descripcio si es diferent al text "descriptiu" quan és buida
+                        mElement.setDescripcio(editTextDescripcio.getText().toString());
+                        AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
+                        CurrentUser us = CurrentUser.getInstance();
+                        JSONObject elementModificat = new JSONObject();
+                        try {
+                            elementModificat.put("titol",mElement.getTitol());
+                            elementModificat.put("descripcio",mElement.getDescripcio());
+                            // TODO: falten coses de l'element
+                            elementModificat.put("tipus_element",mElement.getTipusProducte());
+                            elementModificat.put("es_temporal",mElement.getEsTemporal());
+                            JSONArray tags = obtenirJSONarrayTags(mElement.getTags());
+                            elementModificat.put("tags",tags);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("Content-Type", "application/json");
+                        headers.put("x-access-token",us.getToken());
+                        String url = "http://10.0.2.2:3000/api/owner/element/"+idElement;
+                        //adapter.PUTRequestAPI("http://104.236.98.100:3000/loginFB"
+                        adapterAPIRequest.PUTRequestAPI(url,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            mElement = new Element(response);
+                                            loadElement(mElement);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                },new Response.ErrorListener() {
 
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        VolleyLog.d(TAG,error.getMessage());
+                                    }
+                                },elementModificat, headers);
                     }
                 }
             }
         });
-/*
+
+        ArrayList<String> categories = e.getTags();
         final EditText editTextCategoria = (EditText) fragmentViewElementView.findViewById(R.id.editTextCategoria);
-        String categoria = bundle.getString("categories");
         editTextCategoria.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -279,11 +372,22 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                     if (!Objects.equals(editTextCategoria.getText().toString(),
                             getResources().getString(R.string.edit_category_here_eng))) {
                         // TODO: fer update de la nova categoria si es diferent al text "descriptiu" quan és buida
+
                     }
                 }
             }
         });
 
+        comentaris = mElement.getComentaris();
+        Collections.reverse(comentaris);
+        ExpandableHeightGridView listViewComentaris = (ExpandableHeightGridView) fragmentViewElementView.findViewById(R.id.comments_list);
+        listViewComentaris.setExpanded(true);
+        CommentListViewAdapter adapter = new CommentListViewAdapter(myActivity, R.layout.comment_row_layout, comentaris);
+        listViewComentaris.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        editTextWriteComment.setText("");
+
+        /*
         final EditText editTextTemporalitat = (EditText) fragmentViewElementView.findViewById(R.id.temporalitat);
         String temporalitat = bundle.getString("temporalitat");
         editTextTemporalitat.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -297,56 +401,67 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                 }
             }
         });
+        */
 
-         Boolean esTemporal = bundle.getBoolean("tipusIntercanvi");
+        Boolean esTemporal = mElement.getEsTemporal();
         CurrentUser currentUser = CurrentUser.getInstance();
         String usuariActual = currentUser.getUsername();
-        String usuariAnunci = bundle.getString("usuari");
+        String usuariAnunci = mElement.getUser();
+        usuariAnunci = "Andreu Conesa"; // TODO: AQUESTA LINIA SHA DE TREURE QUAN LELEMENT TINGUI LUSUARI CREADOR
         if (Objects.equals(usuariAnunci, usuariActual)) {
             editTextTitol.setEnabled(true);
             editTextDescripcio.setEnabled(true);
-            editTextCategoria.setEnabled(true);
+            //editTextCategoria.setEnabled(true);
             tradeButton.setEnabled(false);
 
-            if (!Objects.equals(descripcio, "")) editTextDescripcio.setText(descripcio);
+            if (!Objects.equals(mElement.getDescripcio(), "")) editTextDescripcio.setText(mElement.getDescripcio());
             else editTextDescripcio.setText(getResources().getString(R.string.edit_description_here_eng));
 
-            if (!Objects.equals(categoria, "")) editTextCategoria.setText(categoria);
+            //TODO: utilitzar adaptador i gridView per les categories
+            if (!Objects.equals(mElement.getTags().toString(), "")) editTextCategoria.setText(mElement.getTags().toString());
             else editTextCategoria.setText(getResources().getString(R.string.edit_category_here_eng));
 
+            /*
+            TODO: quan hi hagi la temporalitat afegirla al seu editText corresponent
             if (esTemporal) {
                 if (!Objects.equals(temporalitat, "")) editTextTemporalitat.setText(temporalitat);
                 else editTextTemporalitat.setText(
                         getResources().getString(R.string.edit_temporality_here_eng));
             }
+             */
         }else {
             editTextTitol.setEnabled(false);
             editTextDescripcio.setEnabled(false);
             editTextCategoria.setEnabled(false);
             tradeButton.setEnabled(true);
 
-            if (!Objects.equals(descripcio, "")) editTextDescripcio.setText(descripcio);
+            if (!Objects.equals(mElement.getDescripcio(), "")) editTextDescripcio.setText(mElement.getDescripcio());
             else editTextDescripcio.setText(getResources().getString(R.string.empty_description_eng));
 
-            if (!Objects.equals(categoria, "")) editTextCategoria.setText(categoria);
+            if (!Objects.equals(mElement.getTags().toString(), "")) editTextCategoria.setText(mElement.getTags().toString());
             else editTextCategoria.setText(getResources().getString(R.string.empty_category_eng));
 
+            /*
+            TODO: quan hi hagi la temporalitat afegirla al seu editText corresponent
             if (esTemporal) {
                 if (!Objects.equals(temporalitat, "")) editTextTemporalitat.setText(temporalitat);
                 else editTextTemporalitat.setText(
                         getResources().getString(R.string.empty_temporality_eng));
             }
+            */
         }
-
         TextView textViewCreatedBy = (TextView) fragmentViewElementView.findViewById(R.id.createdByTextView);
-        String createdBy = textViewCreatedBy.getText().toString();
-        createdBy += "\n" + usuariAnunci;
+        String createdBy =  getResources().getString(R.string.created_by_eng) + "\n" + mElement.getUser();
         textViewCreatedBy.setText(createdBy);
+    }
 
-
-        */
-
-
+    private JSONArray obtenirJSONarrayTags(ArrayList<String> tags){
+        //TODO
+        JSONArray jsonArray = new JSONArray();
+        for(int i = 0; i < tags.size(); ++i){
+            jsonArray.put(tags.get(i));
+        }
+        return jsonArray;
     }
 
     @Override

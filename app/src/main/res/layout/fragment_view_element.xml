@@ -40,7 +40,6 @@
                     android:id="@+id/createdByTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/created_by_eng"
                     android:layout_weight="1"/>
 
                 <EditText
