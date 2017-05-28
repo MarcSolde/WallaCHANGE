@@ -170,7 +170,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",currentUser.getToken());
         //String url = "http://10.0.2.2:3000/".concat("api/element");
-        String url = "http://104.236.98.100:3000/loginFB".concat("api/element");
+        String url = "http://104.236.98.100:3000/".concat("api/element");
         adapterAPIRequest.POSTRequestAPI(url,
                 new Response.Listener<JSONObject>() {
                     @Override
