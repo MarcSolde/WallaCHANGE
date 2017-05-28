@@ -1,8 +1,11 @@
 package edu.upc.pes.wallachange;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
 import static com.android.volley.VolleyLog.TAG;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -21,11 +24,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.android.volley.Response;
@@ -42,6 +47,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,7 +91,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         myActivity = (MainActivity) getActivity();
         myActivity.setTitle(R.string.navigationProfile_eng);
         user = CurrentUser.getInstance();
-        String username = user.getUsername();
+        hideSoftKeyboard();
 
         ExpandableHeightGridView gridPrefs;
         ImageView addPref;
@@ -110,7 +116,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
 
         foto = false;
 
-        usernameField.setText(user.getId());
+        usernameField.setText(user.getUsername());
         fotoPerfil.setImageURI(null);
         fotoPerfil.setImageURI(user.getPicture());
         locationTE.setText(user.getLocation());
@@ -128,7 +134,9 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
 //        locationTE.setText(user.getPicture().toString());
 
 
-//        locationTE.setOnClickListener(this);
+        locationTE.setOnClickListener(this);
+
+        editTextPref.setOnClickListener(this);
 
         fotoPerfil.setOnClickListener(this);
 
@@ -156,10 +164,17 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                 startActivityForResult(Intent.createChooser(pickIntent, "Import img"), PICK_IMAGE);
                 foto = true;
                 break;
-
+            case R.id.editCity:
+                showSoftKeyboard(view);
+                locationTE.requestFocus();
+                break;
+            case R.id.addPreference:
+                showSoftKeyboard(view);
+                editTextPref.requestFocus();
+                break;
             case R.id.prefAddButton:
                 String newPref = editTextPref.getText().toString();
-                if (newPref != "") {
+                if (!newPref.equals("")) {
                     if (!user.existsPref(newPref)) {
                         user.setPreference(newPref);
                         preferencesAdapter.notifyDataSetChanged();
@@ -172,6 +187,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                     String errorEmpty = getResources().getString(R.string.errorEmptyField_eng);
                     editTextPref.setError(errorEmpty);
                 }
+                hideSoftKeyboard();
                 break;
 
             case R.id.cleanLocation:
@@ -188,7 +204,6 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                 JSONArray ja = new JSONArray();
                 for (String p : afegirPreferencies) {
                     ja.put(p);
-                    Log.i("tagSola", p);
                 }
 
                 JSONObject body = new JSONObject();
@@ -219,6 +234,8 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                             }
                         }, body, headers);
 
+                //COMENTAR LA SEGUENT LINIA PER A IMPLEMENTAR EL POST DE LA FOTO
+                foto = false;
                 if (foto) {
                     JSONObject bodyimatge = new JSONObject();
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -255,10 +272,13 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                                 }
                             }, bodyimatge, headersimatge);
                 }
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(myActivity, "Profile changes updated successfully.", duration);
+                toast.show();
+                myActivity.changeFragmentToHome();
                 break;
 
             case R.id.cancelButton:
-
                 myActivity.changeFragmentToHome();
                 break;
 
@@ -295,6 +315,20 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
             user.deletePreference(prefToDelete);
             prefs = user.getPreferences();
 
+    }
+
+    public void hideSoftKeyboard() {
+        if(myActivity.getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) myActivity.getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(myActivity.getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+
+    public void showSoftKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) myActivity.getSystemService(INPUT_METHOD_SERVICE);
+        view.requestFocus();
+        inputMethodManager.showSoftInput(view, 0);
     }
 
 

@@ -95,10 +95,10 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
         return view;
     }
 
-    private void loadList (ArrayList<User> users) {
-//        ArrayList<String> aux = new ArrayList<> ();
-//        users = new ArrayList<> ();
-//        users = al;
+    private void loadList (ArrayList<User> al) {
+        ArrayList<String> aux = new ArrayList<> ();
+        users = new ArrayList<> ();
+        users = al;
 
         adapter = new SearchUserAdapter(myActivity,R.layout.item_search_user,users,this);
         myListView.setAdapter(adapter);
@@ -147,7 +147,9 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                                                 aux2);
                                         aux.add(u);
                                     }
-                                    getPictures(aux);
+//                                    getPictures(aux);
+                                      loadList(aux);
+
                                 }
                                 catch (JSONException e) {
                                     e.printStackTrace();
@@ -163,30 +165,6 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                         }, null, null
                 );
 
-//                for (final User u : users) {
-//                    adapterAPI.GETRequestAPI("http://104.236.98.100:3000/MarcSoldevillaCuartiella/imatge/",
-//                            new Response.Listener<JSONObject>() {
-//                                @Override
-//                                public void onResponse(JSONObject response) {
-//                                    try {
-//                                        String bitstring = response.getString("avatar");
-//                                        Bitmap bm = StringToBitMap(bitstring);
-//                                        u.setPictureBitmap(bm);
-//                                    }
-//                                    catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            },
-//                            new Response.ErrorListener() {
-//
-//                                @Override
-//                                public void onErrorResponse(VolleyError error) {
-//                                    Log.i("JSONerror: ","");
-//                                }
-//                            }, null);
-//                }
-//                loadList(users);
                 break;
             case R.id.search_user_filter:
                 break;

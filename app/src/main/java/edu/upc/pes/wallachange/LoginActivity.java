@@ -59,13 +59,15 @@ public class LoginActivity extends AppCompatActivity {
             String lenguage = Locale.getDefault().getDisplayLanguage();
             SharedPreferences.Editor editor = preferences.edit();
             if (lenguage.equals("Español")) {
-                lenguage = getString(R.string.lenguage_esp);
+                lenguage = getString(R.string.lenguage_cat);
                 editor.putString("language",lenguage);
             }
             else  {
                 lenguage = getString(R.string.lenguage_eng);
                 editor.putString("language",lenguage);
             }
+
+
             editor.apply();
         }
         else lenguage = prefLenguage;

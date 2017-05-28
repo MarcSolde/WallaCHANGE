@@ -53,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
                     android:text="@string/city_eng"
+
                     android:textSize="8pt"
                     android:textStyle="bold" />
 
@@ -60,6 +61,7 @@
                 <TextView
                     android:id="@+id/see_user_city"
                     android:layout_width="0dp"
+                    android:textSize="8pt"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:inputType="textPersonName"
@@ -83,6 +85,7 @@
                 <TextView
                     android:id="@+id/see_user_preference"
                     android:layout_width="0dp"
+                    android:textSize="8pt"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.591"
                     android:singleLine="true"
