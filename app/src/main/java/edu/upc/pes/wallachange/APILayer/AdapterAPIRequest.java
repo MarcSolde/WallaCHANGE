@@ -40,9 +40,7 @@ public class AdapterAPIRequest   {
 
 
     public void GETRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final Map<String,String> headers){
-
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
-
         JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, url, null, responseListener, errorListener) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -53,6 +51,7 @@ public class AdapterAPIRequest   {
         };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectReq,REQUEST_TAG);
     }
+
 
 
     public void GETJsonArrayRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final Map<String, String> headers){
@@ -77,19 +76,15 @@ public class AdapterAPIRequest   {
 
         imageLoader.get(url, imageListener);
         /*new ImageLoader.ImageListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Image Load Error: " + error.getMessage());
             }
-
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
                 if (response.getBitmap() != null) {
-
                 }
             }
-
         });*/
     }
 
@@ -200,5 +195,3 @@ public class AdapterAPIRequest   {
     }
 
 }
-
-

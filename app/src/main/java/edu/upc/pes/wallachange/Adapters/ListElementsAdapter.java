@@ -47,7 +47,8 @@ public class ListElementsAdapter extends ArrayAdapter<Element> {
         TextView texttitol = (TextView) convertView.findViewById(R.id.nameProductText);
         texttitol.setText(elem1.getTitol());
         TextView textcat = (TextView) convertView.findViewById(R.id.categoryProductText);
-        textcat.setText(elem1.getCategoria());
+        // TODO: ara mateix aqui nomes safegeix la primera categoria. S'haurien d'afegir les que es cregui convenient
+        //textcat.setText(elem1.getTags().get(0));
         TextView textuser = (TextView) convertView.findViewById(R.id.userProductText);
         textuser.setText(elem1.getUser());
 //        ImageView imatge = (ImageView) convertView.findViewById(R.id.imatgeElement);

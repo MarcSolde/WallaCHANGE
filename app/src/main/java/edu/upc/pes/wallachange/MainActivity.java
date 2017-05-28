@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,12 +17,26 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
 
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private SearchElementFragment homeFragment;
@@ -128,19 +143,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void changeToItem(Element e) {
+    public void changeToItem(String id) {
         //TODO:
-        // String temporalitat
         Bundle bundleViewElement = new Bundle();
-        bundleViewElement.putString("titol",e.getTitol());
-        bundleViewElement.putString("descripcio",e.getDescripcio());
-        bundleViewElement.putString("categoria",e.getCategoria());
-        bundleViewElement.putString("usuari",e.getUser());
-        bundleViewElement.putString("temporalitat",e.getTemporalitat());
-        bundleViewElement.putString("tipusProducte",e.getTipusProducte());
-        bundleViewElement.putString("tipusIntercanvi",e.getTipusIntercanvi());
-        bundleViewElement.putParcelableArrayList("fotografies",e.getFotografies());
-
+        bundleViewElement.putString("id",id);
         ViewElementFragment myViewElementFragment = new ViewElementFragment();
         myViewElementFragment.setArguments(bundleViewElement);
         myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
@@ -153,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.getMenu().getItem(0).setChecked(true);
     }
-
 
     public String getUsername() {
         //TODO: eliminar
