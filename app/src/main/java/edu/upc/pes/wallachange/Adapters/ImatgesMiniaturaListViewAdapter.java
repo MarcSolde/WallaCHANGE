@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import edu.upc.pes.wallachange.AddElementFragment;
+import edu.upc.pes.wallachange.Fragments.AddElementFragment;
 import edu.upc.pes.wallachange.R;
 
 

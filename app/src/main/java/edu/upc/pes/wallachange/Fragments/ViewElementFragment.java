@@ -1,4 +1,4 @@
-package edu.upc.pes.wallachange;
+package edu.upc.pes.wallachange.Fragments;
 
 import android.app.Fragment;
 import android.content.DialogInterface;
@@ -25,7 +25,6 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -44,13 +43,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.CommentListViewAdapter;
+import edu.upc.pes.wallachange.MainActivity;
 import edu.upc.pes.wallachange.Models.Comment;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
+import edu.upc.pes.wallachange.R;
 
 import static com.android.volley.VolleyLog.TAG;
 

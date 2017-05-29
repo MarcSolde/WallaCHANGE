@@ -1,11 +1,10 @@
-package edu.upc.pes.wallachange;
+package edu.upc.pes.wallachange.Fragments;
 
 
+import android.app.Fragment;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.os.Debug;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -18,8 +17,6 @@ import android.widget.ListView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,12 +24,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.SearchUserAdapter;
+import edu.upc.pes.wallachange.MainActivity;
 import edu.upc.pes.wallachange.Models.User;
+import edu.upc.pes.wallachange.R;
 
 
 public class SearchUserFragment extends Fragment implements View.OnClickListener{

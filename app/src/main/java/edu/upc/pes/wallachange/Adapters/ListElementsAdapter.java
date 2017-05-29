@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import edu.upc.pes.wallachange.SearchElementFragment;
+import edu.upc.pes.wallachange.Fragments.SearchElementFragment;
 import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.R;
 

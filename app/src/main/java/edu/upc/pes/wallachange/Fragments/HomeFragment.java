@@ -1,4 +1,4 @@
-package edu.upc.pes.wallachange;
+package edu.upc.pes.wallachange.Fragments;
 
 
 import android.content.pm.ActivityInfo;
@@ -7,6 +7,9 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import edu.upc.pes.wallachange.MainActivity;
+import edu.upc.pes.wallachange.R;
 
 
 public class HomeFragment extends Fragment {

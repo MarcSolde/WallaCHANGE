@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="edu.upc.pes.wallachange.ViewElementFragment"
+    tools:context="edu.upc.pes.wallachange.Fragments.ViewElementFragment"
     android:layout_height="match_parent"
     >
     <ScrollView

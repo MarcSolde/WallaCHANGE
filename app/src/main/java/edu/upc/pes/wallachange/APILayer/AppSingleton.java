@@ -39,6 +39,8 @@ import edu.upc.pes.wallachange.AppController;
                         public void putBitmap(String url, Bitmap bitmap) {
                             cache.put(url, bitmap);
                         }
+
+
                     });
         }
 

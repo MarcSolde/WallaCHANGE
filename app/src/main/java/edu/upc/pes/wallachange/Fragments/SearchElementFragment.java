@@ -1,4 +1,4 @@
-package edu.upc.pes.wallachange;
+package edu.upc.pes.wallachange.Fragments;
 
 import android.app.Fragment;
 import android.net.Uri;
@@ -27,8 +27,10 @@ import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.ListElementsAdapter;
+import edu.upc.pes.wallachange.MainActivity;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
+import edu.upc.pes.wallachange.R;
 
 import static com.android.volley.VolleyLog.TAG;
 

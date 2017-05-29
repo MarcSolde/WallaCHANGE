@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import edu.upc.pes.wallachange.ProfileFragment;
+import edu.upc.pes.wallachange.Fragments.ProfileFragment;
 import edu.upc.pes.wallachange.R;
 
 

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.R;
-import edu.upc.pes.wallachange.SeeProfileFragment;
+import edu.upc.pes.wallachange.Fragments.SeeProfileFragment;
 
 
 

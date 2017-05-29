@@ -1,4 +1,4 @@
-package edu.upc.pes.wallachange;
+package edu.upc.pes.wallachange.Fragments;
 
 
 import android.content.pm.ActivityInfo;
@@ -28,8 +28,10 @@ import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.SeeProfileAdapter;
+import edu.upc.pes.wallachange.MainActivity;
 import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Models.User;
+import edu.upc.pes.wallachange.R;
 
 
 public class SeeProfileFragment extends Fragment {

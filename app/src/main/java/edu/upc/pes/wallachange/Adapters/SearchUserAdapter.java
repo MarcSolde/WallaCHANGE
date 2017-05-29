@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import edu.upc.pes.wallachange.R;
-import edu.upc.pes.wallachange.SearchUserFragment;
+import edu.upc.pes.wallachange.Fragments.SearchUserFragment;
 import edu.upc.pes.wallachange.Models.User;
 
 public class SearchUserAdapter extends ArrayAdapter<User>{

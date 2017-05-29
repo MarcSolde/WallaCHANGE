@@ -5,17 +5,23 @@ package edu.upc.pes.wallachange.APILayer;
  */
 
 
-import com.android.volley.AuthFailureError;
+import android.graphics.Bitmap;
+import android.util.Base64;
+
 import com.android.volley.Cache;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.request.SimpleMultiPartRequest;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +49,7 @@ public class AdapterAPIRequest   {
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
         JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, url, null, responseListener, errorListener) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String>  params = new HashMap<String, String>();
                 params = headers;
                 return params;
@@ -63,7 +69,6 @@ public class AdapterAPIRequest   {
         // Adding JsonObject request to request queue
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayReq, REQUEST_TAG);
     }
-
 
 
     public void GETImageLoaderAPI(String url, ImageLoader.ImageListener imageListener){
@@ -92,7 +97,7 @@ public class AdapterAPIRequest   {
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, body, responseListener, errorListener) {
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String>  params = new HashMap<String, String>();
                 params = headers;
                 return params;
@@ -142,7 +147,7 @@ public class AdapterAPIRequest   {
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, body, responseListener, errorListener) {
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders(){
                 Map<String, String>  params = new HashMap<String, String>();
                 params = headers;
                 return params;
@@ -151,6 +156,49 @@ public class AdapterAPIRequest   {
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(putRequest, REQUEST_TAG);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void POSTImageAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final Bitmap bitmap, final Map<String,String> headers) {
+        String REQUEST_TAG = "com.androidtutorialpoint.putImageRequest";
+        JSONObject body = new JSONObject();
+
+        try {
+            body.put("image", getStringImage(bitmap));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, body, responseListener, errorListener) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params = headers;
+                return params;
+            }
+        };
+        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest, REQUEST_TAG);
+    }
+
+    public void updateProfile(String url, Response.Listener<String> listener, Response.ErrorListener errorListener, String appliance_id, File file, final Map<String,String> headers) {
+        String REQUEST_TAG = "com.androidtutorialpoint.putImageRequest";
+        SimpleMultiPartRequest postRequest = new SimpleMultiPartRequest(Request.Method.POST, url, listener, errorListener);
+//        request.setParams(data);
+        postRequest.setHeaders(headers);
+
+        postRequest.addMultipartParam("token", "text", "tdfysghfhsdfh");
+        //postRequest.addMultipartParam("parameter_1", "text", doc_name);
+        //postRequest.addMultipartParam("dparameter_2", "text", doc_type);
+        postRequest.addMultipartParam("parameter_3", "text", appliance_id);
+        postRequest.addFile("image", file.getPath());
+
+        postRequest.setFixedStreamingMode(true);
+        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest, REQUEST_TAG);
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public void DELETERequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
         String  REQUEST_TAG = "com.androidtutorialpoint.Delete";
 
@@ -158,7 +206,15 @@ public class AdapterAPIRequest   {
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(dr, REQUEST_TAG);
     }
 
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
 
+    //UTILS
 
     public void volleyCacheRequest(String url){
         Cache cache = AppSingleton.getInstance(getApplicationContext()).getRequestQueue().getCache();
@@ -188,5 +244,9 @@ public class AdapterAPIRequest   {
     public void volleyClearCache(){
         AppSingleton.getInstance(getApplicationContext()).getRequestQueue().getCache().clear();
     }
+
+
+    //PRIVATS
+
 
 }

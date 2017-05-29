@@ -1,4 +1,4 @@
-package edu.upc.pes.wallachange;
+package edu.upc.pes.wallachange.Fragments;
 
 import android.Manifest;
 import android.app.Activity;
@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -32,22 +31,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.TimeZone;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.CategoriesAdapter;
 import edu.upc.pes.wallachange.Adapters.ImatgesMiniaturaListViewAdapter;
+import edu.upc.pes.wallachange.MainActivity;
 import edu.upc.pes.wallachange.Models.Comment;
 import edu.upc.pes.wallachange.Models.CurrentUser;
-import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
+import edu.upc.pes.wallachange.R;
 
 import static com.android.volley.VolleyLog.TAG;
 
@@ -180,12 +177,16 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //TODO: LOAD imagenes
+                        String id;
                         try {
-                            myActivity.changeToItem(response.getString("_id"));
-                        } catch (JSONException e) {
+                            id = response.getString("_id");
+                            pujarImatges(id);
+                            myActivity.changeToItem(id);
+                        }
+                        catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
                 },new Response.ErrorListener() {
 
@@ -194,6 +195,10 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                         VolleyLog.d(TAG,error.getMessage());
                     }
                 },nouElement, headers);
+    }
+
+    private void pujarImatges(String id) {
+
     }
 
     private JSONArray obtenirJSONarrayComentaris(ArrayList<Comment> comentaris){
@@ -223,6 +228,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(myActivity.getContentResolver(), uri);
                 imatgesMiniaturaEnBitmap.add(bitmap);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

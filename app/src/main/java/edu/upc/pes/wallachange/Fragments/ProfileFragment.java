@@ -1,4 +1,4 @@
-package edu.upc.pes.wallachange;
+package edu.upc.pes.wallachange.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -31,9 +31,11 @@ import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.PreferencesAdapter;
+import edu.upc.pes.wallachange.MainActivity;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Others.CircleTransform;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
+import edu.upc.pes.wallachange.R;
 
 import static com.android.volley.VolleyLog.TAG;
 
