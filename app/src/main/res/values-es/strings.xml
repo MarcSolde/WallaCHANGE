@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+        <string name="english_eng">Inglés</string>
+        <string name="spanish_eng">Español</string>
+        <string name="catalan_eng">Catalán</string>
+        <string name="language_eng">Idioma</string>
         <string name="app_name">WallaCHANGE</string>
         <string name="viewOtherProfileElement_eng"></string>
         <string name="write_here_your_comment_eng">Escribe aquí tu comentario</string>

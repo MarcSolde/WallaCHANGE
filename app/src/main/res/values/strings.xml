@@ -11,6 +11,11 @@
 
     <string name="lenguage_eng">eng</string>
     <string name="lenguage_esp">esp</string>
+    <string name="english_eng">English</string>
+    <string name="spanish_eng">Spanish</string>
+    <string name="catalan_eng">Catalan</string>
+    <string name="language_eng">Language</string>
+
 
     <!--MAIN-->
     <string name="user_eng">User:</string>
@@ -23,6 +28,7 @@
     <string name="navigationSearchItem_eng">Search Items</string>
     <string name="navigationSearchUser_eng">Search Users</string>
     <string name="navigationLogout_eng">Log out</string>
+    <string name="navigationConfiguration_eng">Configuration</string>
 
     <string name="navigationOpen">Open navigation drawer</string>
     <string name="navigationClose">Close navigation drawer</string>
