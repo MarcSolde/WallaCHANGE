@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="app_name">WallaCHANGE</string>
+        <string name="write_here_your_comment_eng">Escriu aquí el teu comentari</string>
+        <string name="viewOtherProfileElement_eng"></string>
+        <string name="viewElementHelp_eng"></string>
+        <string name="user_eng">Usuari:</string>
+        <string name="userPicture"></string>
+        <string name="type_of_product_eng">Tipus de producte</string>
+        <string name="type_of_exchange_eng">Tipus d\'intercanvi</string>
+        <string name="twitterSecret"></string>
+        <string name="trade_eng">Intercanvi</string>
+        <string name="title_eng">Títol</string>
+        <string name="this_field_is_required_eng">Aquest camp és obligatori</string>
+        <string name="these_fields_must_be_filled_eng">Aquests camps són obligatoris</string>
+        <string name="the_advertisement_must_have_a_title_eng">El títol és obligatori</string>
+        <string name="temporality_eng">Temporalitat</string>
+        <string name="temporal_eng">Temporal</string>
+        <string name="spam_or_commercial_content_eng">Spam o contingut comercial</string>
+        <string name="search_eng">Cerca...</string>
+        <string name="searchButton_eng">CERCAR</string>
+        <string name="saveProfile_eng">GUARDAR</string>
+        <string name="report_advertisement_eng">Reporta l\'anunci</string>
+        <string name="rating_eng">Valoració</string>
+        <string name="racism_and_xenophobia_eng">Racisme i xenofòbia</string>
+        <string name="products_eng">Productes</string>
+        <string name="product_eng">Producte</string>
+        <string name="preferences_eng">Preferències</string>
+        <string name="preference_eng">Preferència</string>
+        <string name="permanent_eng">Permanent</string>
+        <string name="ok_eng">Ok</string>
+</resources>

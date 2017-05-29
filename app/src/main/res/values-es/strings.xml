@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="app_name">WallaCHANGE</string>
+        <string name="viewOtherProfileElement_eng"></string>
+        <string name="write_here_your_comment_eng">Escribe aquí tu comentario</string>
+        <string name="user_eng">Usuario</string>
+        <string name="type_of_product_eng">Tipo de producto</string>
+        <string name="type_of_exchange_eng">Tipo de intercambio</string>
+        <string name="trade_eng">Intercambio</string>
+        <string name="title_eng">Título</string>
+        <string name="this_field_is_required_eng">Este campo es obligatorio</string>
+        <string name="these_fields_must_be_filled_eng">Estos campos son obligatorios</string>
+        <string name="the_advertisement_must_have_a_title_eng">El título es obligatorio</string>
+        <string name="temporality_eng">Temporalidad</string>
+        <string name="temporal_eng">Temporal</string>
+        <string name="spam_or_commercial_content_eng">Spam o contenido comercial</string>
+        <string name="search_eng">Busca...</string>
+        <string name="searchButton_eng">BUSCAR</string>
+        <string name="saveProfile_eng">GUARDAR</string>
+        <string name="report_advertisement_eng">Denuncia el anuncio</string>
+        <string name="rating_eng">Valoración</string>
+        <string name="racism_and_xenophobia_eng">Racismo i xenofobia</string>
+        <string name="products_eng">Productos</string>
+        <string name="product_eng">Producto</string>
+        <string name="preferences_eng">Preferencias</string>
+        <string name="preference_eng">Preferencia</string>
+        <string name="permanent_eng">Permanente</string>
+        <string name="ok_eng">Ok</string>
+</resources>
