@@ -147,6 +147,10 @@ public class Element {
         return tags;
     }
 
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
     public Coordenades getCoordenades() {
         return coordenades;
     }

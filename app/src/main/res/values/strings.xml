@@ -137,6 +137,8 @@
     <string name="boto_de_la_imatge_posterior">Boto de la imatge posterior</string>
     <string name="boto_per_esborrar_la_imatge_actual">Boto per esborrar la imatge actual</string>
     <string name="boto_per_enviar_comentari">Boto per enviar comentari</string>
+    <string name="save_changes_eng">Save changes?</string>
+    <string name="are_you_sure_you_want_to_save_the_changes_eng">Are you sure you want to save the changes?</string>
 
 
 </resources>
