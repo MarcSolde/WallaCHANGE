@@ -61,23 +61,14 @@ public class MakeOfferFragment extends Fragment {
         String id = getArguments().getString("id");
 
         //TODO: get element 1
-        adapterAPI.GETRequestAPI("http://104.236.98.100:3000/api/element/"+id,
+        adapterAPI.GETRequestAPI("http://10.0.2.2:3000/api/element/"+id,
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             Log.i("JSON: ",response.toString());
-                            Element aux = new Element(response.getString("_id"),
-                                    response.getString("titol"),
-                                    null,
-                                    null,
-                                    null,
-                                    response.getJSONObject("es_temporal").getString("temporalitat"),
-                                    null,
-                                    null,
-                                    null
-                            );
+                            Element aux = new Element(response);
                             loadElement1(aux);
                         }
                         catch (JSONException e) {
@@ -102,7 +93,7 @@ public class MakeOfferFragment extends Fragment {
             }
         });
 
-        adapterAPI.GETRequestAPI("http://104.236.98.100:3000/api/elements/"+user.getId(),
+        adapterAPI.GETRequestAPI("http://10.0.2.2:3000/api/elements/"+user.getId(),
                 new Response.Listener<JSONArray>() {
 
                     @Override
@@ -112,16 +103,7 @@ public class MakeOfferFragment extends Fragment {
                             ArrayList<Element> aux = new ArrayList<> ();
                             for (int i = 0;i < response.length();++i) {
                                 JSONObject var = response.getJSONObject(i);
-                                Element aux2 = new Element(var.getString("_id"),
-                                        var.getString("titol"),
-                                        null,
-                                        null,
-                                        null,
-                                        var.getJSONObject("es_temporal").getString("temporalitat"),
-                                        null,
-                                        null,
-                                        null
-                                );
+                                Element aux2 = new Element(var);
                             }
                             loadElements(aux);
                         }
@@ -140,10 +122,6 @@ public class MakeOfferFragment extends Fragment {
                 headers
         );
 
-        elements = new ArrayList<>();
-        elements.add(new Element("1","aaa1",null,"aaa2",null,"aaa3",null,null,null));
-        elements.add(new Element("2","bbb1",null,"bbb2",null,"bbb3",null,null,null));
-        elements.add(new Element("3","ccc1",null,"ccc2",null,"ccc3",null,null,null));
         adapter = new MakeOfferAdapter(myActivity,R.layout.item_see_profile,elements,this);
         myListView.setAdapter(adapter);
         myListView.deferNotifyDataSetChanged();

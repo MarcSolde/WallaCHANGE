@@ -45,9 +45,10 @@ public class SeeProfileAdapter extends ArrayAdapter<Element> {
         TextView aux = (TextView) convertView.findViewById(R.id.item_see_profile_title);
         aux.setText(var.getTitol());
         aux = (TextView) convertView.findViewById(R.id.item_see_profile_category);
-        aux.setText(var.getCategoria());
+        // TODO: ara mateix aqui nomes safegeix la primera categoria. S'haurien d'afegir les que es cregui convenient
+        //aux.setText(var.getTags().get(0));
         aux = (TextView) convertView.findViewById(R.id.item_see_profile_temporal);
-        aux.setText(var.getTipusIntercanvi());
+        aux.setText(var.getTemporalitat());
         return convertView;
     }
 }

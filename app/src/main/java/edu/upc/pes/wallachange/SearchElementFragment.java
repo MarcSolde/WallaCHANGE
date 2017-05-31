@@ -1,13 +1,10 @@
 package edu.upc.pes.wallachange;
 
-import static com.android.volley.VolleyLog.TAG;
-
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -24,17 +20,17 @@ import com.android.volley.VolleyLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
-import edu.upc.pes.wallachange.APILayer.Proxy;
 import edu.upc.pes.wallachange.Adapters.ListElementsAdapter;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
+
+import static com.android.volley.VolleyLog.TAG;
 
 
 
@@ -67,7 +63,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
 
         ListView listElemsView = (ListView) view.findViewById(R.id.listElements);
 
-
+        /*
         //s'haura de fer GET a la db, no això.
         element1 = new Element();
         element1.setTitol("titol1");
@@ -113,7 +109,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
         elements.add(element4);
         elements.add(element5);
         elements.add(element6);
-
+        */
 
         finder = (EditText) view.findViewById(R.id.finder);
         finder.setOnKeyListener(new View.OnKeyListener() {
@@ -160,7 +156,6 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
             case R.id.SearchButt:
                 String title = finder.getText().toString();
                 AdapterAPIRequest adapter = new AdapterAPIRequest();
-                JSONObject body = new JSONObject();
                 Map<String, String> headers = new HashMap<>();
                 CurrentUser us = CurrentUser.getInstance();
                 headers.put("token", us.getToken());
@@ -168,7 +163,8 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                 headers.put("Content-Type", "application/json");
 
                 final ArrayList<Element> elements2 = new ArrayList<>();
-                adapter.GETRequestAPI("http://104.236.98.100:3000/elements",
+                //adapter.GETRequestAPI("http://104.236.98.100:3000/elements",
+                adapter.GETRequestAPI("http://10.0.2.2:3000/elements",
                         new Response.Listener<JSONArray>() {
                             @Override
                             public void onResponse(JSONArray response) {
@@ -179,7 +175,6 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                                         for (int i = 0; i < len; i++) {
                                             Element elem = new Element();
                                             elem.setTitol(ja.getJSONObject(i).getString("titol"));
-                                            elem.setCategoria(ja.getJSONObject(i).getString("categoria"));
                                             elem.setDescripcio(ja.getJSONObject(i).getString("descripcio"));
                                             elem.setTipusProducte(ja.getJSONObject(i).getString("tipus_element"));
                                             elem.setId(ja.getJSONObject(i).getString("id"));
@@ -187,11 +182,11 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                                             elem.setFotografiesArray(ja.getJSONObject(i).getJSONArray("imatges"));
                                             elem.setUser(ja.getJSONObject(i).getString("nom_user"));
                                             if (ja.getJSONObject(i).getBoolean("es_temporal"))
-                                                elem.setTipusIntercanvi("Temporal");
+                                                elem.setTemporalitat("Temporal");
                                             else
-                                                elem.setTipusIntercanvi("Permanent");
+                                                elem.setTemporalitat("Permanent");
                                             elem.setComentarisArray(ja.getJSONObject(i).getJSONArray("comentaris"));
-                                            elem.setCoordenadesArray(ja.getJSONObject(i).getJSONArray("coordenades"));
+                                            elem.setCoordenades(ja.getJSONObject(i).getJSONObject("coordenades"));
                                             elements2.add(elem);
                                         }
                                     }

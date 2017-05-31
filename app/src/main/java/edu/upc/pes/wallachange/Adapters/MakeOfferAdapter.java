@@ -45,9 +45,10 @@ public class MakeOfferAdapter extends ArrayAdapter<Element> {
         TextView aux = (TextView) convertView.findViewById(R.id.item_see_profile_title);
         aux.setText(var.getTitol());
         aux = (TextView) convertView.findViewById(R.id.item_see_profile_category);
-        aux.setText(var.getCategoria());
+        aux.setText(var.getTags().toString());
         aux = (TextView) convertView.findViewById(R.id.item_see_profile_temporal);
-        aux.setText(var.getTipusIntercanvi());
+        if (var.getEsTemporal()) aux.setText("No temporal");
+        else aux.setText(var.getTemporalitat());
         return convertView;
     }
 }
