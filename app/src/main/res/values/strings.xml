@@ -20,6 +20,7 @@
     <string name="navigationHome_eng">Home</string>
     <string name="navigationNewItem_eng">New Item</string>
     <string name="navigationProfile_eng">Profile</string>
+    <string name="navigationOffer_eng">Exchange offer</string>
     <string name="navigationSearchItem_eng">Search Items</string>
     <string name="navigationSearchUser_eng">Search Users</string>
     <string name="navigationLogout_eng">Log out</string>
@@ -50,6 +51,10 @@
 
     <!-- VIEW OTHER PROFILE -->
     <string name="viewOtherProfileElement_eng">ELEMENTS:</string>
+
+    <!-- OFFER EXCHANGE -->
+    <string name="offerExchangeElement_eng">YOUR ELEMENTS:</string>
+    <string name="offerExchangeSend_eng">Send offer</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -131,14 +136,6 @@
     <string name="adult_content_eng">Adult content</string>
     <string name="racism_and_xenophobia_eng">Racism and xenophobia</string>
     <string name="incitement_to_hatred_eng">Incitement to hatred</string>
-
-
-
-
-
-
-
-
 
 
 </resources>
