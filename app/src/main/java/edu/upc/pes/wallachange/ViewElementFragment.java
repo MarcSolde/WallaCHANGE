@@ -88,23 +88,22 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         myActivity.setTitle(R.string.advertisements_view);
 
         categories = new ArrayList<>();
-
+        imatges = new ArrayList<>();
+        comentaris = new ArrayList<>();
         botoEdicioClicat = false;
+        us = CurrentUser.getInstance();
+        usuariActual = us.getUsername();
+        usuariAnunci = "Andreu Conesa"; // TODO: AQUESTA LINIA SHA DE TREURE QUAN LELEMENT TINGUI LUSUARI CREADOR
 
-         editButton = (ImageButton) fragmentViewElementView.findViewById(
-                R.id.botoEditar);
+        editButton = (ImageButton) fragmentViewElementView.findViewById(R.id.botoEditar);
         editButton.setOnClickListener(this);
-        saveButton = (ImageButton) fragmentViewElementView.findViewById(
-                R.id.botoGuardar);
+        saveButton = (ImageButton) fragmentViewElementView.findViewById(R.id.botoGuardar);
         saveButton.setOnClickListener(this);
-        ImageButton previousPictureButton = (ImageButton) fragmentViewElementView.findViewById(
-                R.id.previousButton);
+        ImageButton previousPictureButton = (ImageButton) fragmentViewElementView.findViewById(R.id.previousButton);
         previousPictureButton.setOnClickListener(this);
-        ImageButton nextPictureButton = (ImageButton) fragmentViewElementView.findViewById(
-                R.id.nextButton);
+        ImageButton nextPictureButton = (ImageButton) fragmentViewElementView.findViewById(R.id.nextButton);
         nextPictureButton.setOnClickListener(this);
-        ImageButton writeCommentButton = (ImageButton) fragmentViewElementView.findViewById(
-                R.id.writeComment);
+        ImageButton writeCommentButton = (ImageButton) fragmentViewElementView.findViewById(R.id.writeComment);
         writeCommentButton.setOnClickListener(this);
         removeImageButton = (ImageButton) fragmentViewElementView.findViewById(R.id.esborrarImatge);
         removeImageButton.setOnClickListener(this);
@@ -115,19 +114,12 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         editTextWriteComment = (EditText) fragmentViewElementView.findViewById(R.id.editTextComment);
         editTextCategoria = (EditText) fragmentViewElementView.findViewById(R.id.categoria);
         textViewCategoria = (TextView) fragmentViewElementView.findViewById(R.id.textViewCategoria);
-        comentaris = new ArrayList<>();
-
-        us = CurrentUser.getInstance();
-        usuariActual = us.getUsername();
-        // TODO: AQUESTA LINIA SHA DE TREURE QUAN LELEMENT TINGUI LUSUARI CREADOR
-        usuariAnunci = "Andreu Conesa";
 
         AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
         Map<String, String> headers = new HashMap<>();
         headers.put("x-access-token", us.getToken());
         headers.put("Content-Type", "application/json");
         idElement = getArguments().getString("id");
-
         if (idElement != null) {
             //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
             adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/api/element/".concat(idElement),
@@ -150,7 +142,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                         }
                     }, headers);
         }
-        // TODO imatges
+        // TODO imatges, larraylist de bitmaps que es diu imatges s'ha d'omplir a la funcio loadelement
         Animation in = AnimationUtils.loadAnimation(myActivity, android.R.anim.fade_in);
         Animation out = AnimationUtils.loadAnimation(myActivity, android.R.anim.fade_out);
         imageSwitcher = (ImageSwitcher)fragmentViewElementView.findViewById(R.id.imageViewFotoElement);
@@ -214,16 +206,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         editButton.setEnabled(false);
         saveButton.setVisibility(View.VISIBLE);
         saveButton.setEnabled(true);
-        if (!Objects.equals(mElement.getDescripcio(), "")) editTextDescripcio.setText(mElement.getDescripcio());
-        else editTextDescripcio.setText(getResources().getString(R.string.edit_description_here_eng));
-        /*
-        TODO: quan hi hagi la temporalitat afegirla al seu editText corresponent
-        if (esTemporal) {
-            if (!Objects.equals(temporalitat, "")) editTextTemporalitat.setText(temporalitat);
-            else editTextTemporalitat.setText(
-                    getResources().getString(R.string.edit_temporality_here_eng));
-        }
-        */
     }
 
     private void deshabilitarCamps(){
@@ -409,10 +391,11 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         adapter.notifyDataSetChanged();
         editTextWriteComment.setText("");
 
-        final EditText editTextTemporalitat = (EditText) fragmentViewElementView.findViewById(R.id.temporalitat);
-        editTextTemporalitat.setText(e.getTemporalitat());
-
         Boolean esTemporal = e.getEsTemporal();
+        if (esTemporal) {
+            final EditText editTextTemporalitat = (EditText) fragmentViewElementView.findViewById(R.id.temporalitat);
+            editTextTemporalitat.setText(e.getTemporalitat());
+        }
 
         TextView textViewCreatedBy = (TextView) fragmentViewElementView.findViewById(R.id.createdByTextView);
         String createdBy =  getResources().getString(R.string.created_by_eng) + "\n" + mElement.getUser();
@@ -483,11 +466,8 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //TODO: opcions report and help del menu superior
         switch (item.getItemId()){
             case R.id.menu_report:
-                //TODO: report si les imatges i/o els texts son inapropiats
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -501,17 +481,18 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                         int checkedId = radioGroup.getCheckedRadioButtonId();
                         RadioButton radioButton = (RadioButton) mView.findViewById(checkedId);
                         //TODO: procedir amb la denuncia
+                        String tipusDenuncia = radioButton.getText().toString();
+
                     }
                 });
 
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //TODO: boto cancelar denuncia
+
                     }
                 });
 
                 builder.show();
-
                 break;
             case R.id.menu_help:
                 //TODO: informacio sobre casos en que es pot denunciar

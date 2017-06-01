@@ -26,7 +26,7 @@ public class Element {
     private String localitat;
     private Date dataPublicacio;
 
-    public Element(String id, String titol, String descripcio, String tipusProducte, String tipusIntercanvi, String temporalitat, String user, ArrayList<Uri> fotografies) {
+    public Element(String id, String titol, String descripcio, String tipusProducte, String temporalitat, String user, ArrayList<Uri> fotografies) {
         this.id = id;
         this.titol = titol;
         this.descripcio = descripcio;
@@ -156,13 +156,12 @@ public class Element {
     }
 
     public void setTagsArray(JSONArray tagsArray) {
-        ArrayList<String> list = new ArrayList<String>();
-        JSONArray jsonArray = (JSONArray) tagsArray;
-        if (jsonArray != null) {
-            int len = jsonArray.length();
+        ArrayList<String> list = new ArrayList<>();
+        if (tagsArray != null) {
+            int len = tagsArray.length();
             for (int i = 0; i < len; i++) {
                 try {
-                    list.add(jsonArray.get(i).toString());
+                    list.add(tagsArray.get(i).toString());
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -174,12 +173,11 @@ public class Element {
 
     public void setFotografiesArray(JSONArray tagsArray) {
         ArrayList<Uri> list = new ArrayList<>();
-        JSONArray jsonArray = tagsArray;
-        if (jsonArray != null) {
-            int len = jsonArray.length();
+        if (tagsArray != null) {
+            int len = tagsArray.length();
             for (int i = 0; i < len; i++) {
                 try {
-                    Uri uri = Uri.parse(jsonArray.get(i).toString());
+                    Uri uri = Uri.parse(tagsArray.get(i).toString());
                     list.add(uri);
 
                 } catch (JSONException e) {
@@ -192,13 +190,12 @@ public class Element {
 
     public void setComentarisArray(JSONArray comentaris) {
         ArrayList<Comment> list = new ArrayList<>();
-        JSONArray jsonArray = comentaris;
-        if (jsonArray != null) {
-            int len = jsonArray.length();
+        if (comentaris != null) {
+            int len = comentaris.length();
             for (int i = 0; i < len; i++) {
                 try {
                     // TODO els comentaris tindran data
-                    Comment comment = new Comment(jsonArray.getJSONObject(i).getString("nom_user"), jsonArray.getJSONObject(i).getString("text"));
+                    Comment comment = new Comment(comentaris.getJSONObject(i).getString("nom_user"), comentaris.getJSONObject(i).getString("text"));
                     list.add(comment);
                 } catch (JSONException e) {
                     e.printStackTrace();

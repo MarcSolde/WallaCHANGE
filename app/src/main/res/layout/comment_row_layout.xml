@@ -15,6 +15,7 @@
             android:layout_width="20pt"
             android:layout_height="20pt"
             android:layout_gravity="center"
+            android:contentDescription="@string/userPicture"
             />
 
         <LinearLayout
@@ -28,7 +29,7 @@
                 android:textStyle="bold"
                 android:typeface="sans"
                 android:textSize="8pt"
-                android:layout_alignLeft="@id/imatgeUsuari"/>
+                android:layout_alignStart="@id/imatgeUsuari"/>
             <TextView
                 android:id="@+id/nomUsuari"
                 android:layout_width="wrap_content"

@@ -2,6 +2,7 @@ package edu.upc.pes.wallachange.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,10 @@ import edu.upc.pes.wallachange.R;
 
 public class CategoriesAdapter extends ArrayAdapter<String> {
 
-    private Context mContext;
-    private int layoutResourceId;
-    private ArrayList<String> data;
-    private AddElementFragment callBack;
+    private final Context mContext;
+    private final int layoutResourceId;
+    private final ArrayList<String> data;
+    private final AddElementFragment callBack;
 
     public CategoriesAdapter(Context context, int layoutResourceId, ArrayList<String> data, AddElementFragment addElementFragment) {
         super(context, layoutResourceId, data);
@@ -30,8 +31,9 @@ public class CategoriesAdapter extends ArrayAdapter<String> {
         this.callBack = addElementFragment;
     }
 
+    @NonNull
     @Override
-    public View getView(final int position, View convertView, final ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull final ViewGroup parent) {
 
         if(convertView==null){
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();

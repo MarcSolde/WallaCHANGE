@@ -31,21 +31,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.TimeZone;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.CategoriesAdapter;
 import edu.upc.pes.wallachange.Adapters.ImatgesMiniaturaListViewAdapter;
 import edu.upc.pes.wallachange.Models.Comment;
 import edu.upc.pes.wallachange.Models.CurrentUser;
-import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
 
 import static com.android.volley.VolleyLog.TAG;
@@ -79,6 +75,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         myActivity = (MainActivity) getActivity();
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         myActivity.setTitle(R.string.navigationNewItem_eng);
+
         nombreImatges = 0;
         imatgesMiniatura = new ArrayList<>();
         imatgesMiniaturaEnBitmap = new ArrayList<>();
@@ -195,12 +192,6 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                 },nouElement, headers);
     }
 
-    private JSONArray obtenirJSONarrayComentaris(ArrayList<Comment> comentaris){
-        //TODO aqui s'hauria de convertir larraylist de comentaris a vector de parelles textComentari, nom_usuari
-
-        return null;
-    }
-
     private JSONArray obtenirJSONarrayTags(ArrayList<String> tags){
         //TODO
         JSONArray jsonArray = new JSONArray();
@@ -239,12 +230,11 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             case R.id.afegirElement:
                 boolean b = faltenCamps();
                 if (!b){
-                    //TODO:
                     String tipusProducte = obtenirTipusProducte();
                     String tipusIntercanvi = obtenirTipusIntercanvi();
                     Boolean esTemporal = (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng)));
                     String localitat = obtenirLocalitatUsuari(myActivity.getUsername());
-                    //crida POST
+                    //TODO: crida POST
                     publicarElement(editTextTitol.getText().toString(),editTextDescripcio.getText().toString(),
                             categories,
                             tipusProducte,esTemporal,editTextTemporalitat.getText().toString(),
