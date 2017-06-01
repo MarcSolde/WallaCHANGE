@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.android.volley.Response;
@@ -74,6 +75,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private String usuariActual;
     private String usuariAnunci;
     private ImageButton saveButton;
+    private boolean botoEdicioClicat;
 
     public ViewElementFragment() {}
 
@@ -86,6 +88,8 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         myActivity.setTitle(R.string.advertisements_view);
 
         categories = new ArrayList<>();
+
+        botoEdicioClicat = false;
 
          editButton = (ImageButton) fragmentViewElementView.findViewById(
                 R.id.botoEditar);
@@ -115,7 +119,8 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
         us = CurrentUser.getInstance();
         usuariActual = us.getUsername();
-        usuariAnunci = "Andreu Conesa"; // TODO: AQUESTA LINIA SHA DE TREURE QUAN LELEMENT TINGUI LUSUARI CREADOR
+        // TODO: AQUESTA LINIA SHA DE TREURE QUAN LELEMENT TINGUI LUSUARI CREADOR
+        usuariAnunci = "Andreu Conesa";
 
         AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
         Map<String, String> headers = new HashMap<>();
@@ -244,6 +249,15 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         switch(v.getId()) {
             case R.id.botoEditar:
                 habilitarCamps();
+                botoEdicioClicat = true;
+
+                ExpandableHeightGridView gridCategories = (ExpandableHeightGridView) fragmentViewElementView.findViewById(R.id.gridCategories);
+                gridCategories.setExpanded(true);
+                boolean editables = Objects.equals(usuariActual, usuariAnunci) && botoEdicioClicat;
+                categoriesAdapter = new CategoriesViewElementAdapter(myActivity, R.layout.category_list_item, categories, this, editables);
+                gridCategories.setAdapter(categoriesAdapter);
+                categoriesAdapter.notifyDataSetChanged();
+
                 break;
             case R.id.botoGuardar:
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -254,7 +268,10 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                 final EditText finalEditTextDescripcio = (EditText) fragmentViewElementView.findViewById(R.id.editTextDescripcio);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        mElement.setTitol(finalEditTextTitol.getText().toString());
+                        //TODO : de moment nomes controlo que el titol no estigui buit, quan estigui fet lu de les imatges tambe haure de mirar que si es producte com a minim nhi hagi una
+                        boolean faltenCamps = false;
+                        if (Objects.equals(finalEditTextTitol.getText().toString(), "")) faltenCamps = true;
+                        else mElement.setTitol(finalEditTextTitol.getText().toString());
                         mElement.setDescripcio(finalEditTextDescripcio.getText().toString());
                         JSONObject elementModificat = new JSONObject();
                         try {
@@ -265,11 +282,14 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                             elementModificat.put("es_temporal", mElement.getEsTemporal());
                             JSONArray tags = obtenirJSONarrayTags(mElement.getTags());
                             elementModificat.put("tags", tags);
-                            actualitzarElement(elementModificat);
+                            if (!faltenCamps) {
+                                botoEdicioClicat = false;
+                                actualitzarElement(elementModificat);
+                            }else Toast.makeText(myActivity,R.string.the_advertisement_must_have_a_title_eng,Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        deshabilitarCamps();
+                        if (!faltenCamps) deshabilitarCamps();
                     }
                 });
 
@@ -375,7 +395,8 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         categories = e.getTags();
         ExpandableHeightGridView gridCategories = (ExpandableHeightGridView) fragmentViewElementView.findViewById(R.id.gridCategories);
         gridCategories.setExpanded(true);
-        categoriesAdapter = new CategoriesViewElementAdapter(myActivity, R.layout.category_list_item, categories, this, Objects.equals(usuariActual, usuariAnunci));
+        boolean editables = Objects.equals(usuariActual, usuariAnunci) && botoEdicioClicat;
+        categoriesAdapter = new CategoriesViewElementAdapter(myActivity, R.layout.category_list_item, categories, this, editables);
         gridCategories.setAdapter(categoriesAdapter);
         categoriesAdapter.notifyDataSetChanged();
 
@@ -391,7 +412,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         final EditText editTextTemporalitat = (EditText) fragmentViewElementView.findViewById(R.id.temporalitat);
         editTextTemporalitat.setText(e.getTemporalitat());
 
-        //Boolean esTemporal = mElement.getEsTemporal();
+        Boolean esTemporal = e.getEsTemporal();
 
         TextView textViewCreatedBy = (TextView) fragmentViewElementView.findViewById(R.id.createdByTextView);
         String createdBy =  getResources().getString(R.string.created_by_eng) + "\n" + mElement.getUser();
@@ -453,7 +474,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     }
 
     private JSONArray obtenirJSONarrayTags(ArrayList<String> tags){
-        //TODO
         JSONArray jsonArray = new JSONArray();
         for(int i = 0; i < tags.size(); ++i){
             jsonArray.put(tags.get(i));

@@ -141,7 +141,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25pt"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
@@ -204,8 +204,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/editTextComment"
@@ -213,19 +213,22 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="4.97"
                     android:ems="10"
+                    android:gravity="center"
                     android:hint="@string/write_here_your_comment_eng"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:textAlignment="textStart" />
 
                 <ImageButton
                     android:id="@+id/writeComment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@color/tw__transparent"
+                    android:contentDescription="@string/boto_per_enviar_comentari"
                     android:scaleType="fitCenter"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@android:drawable/ic_menu_send"
-                    android:contentDescription="@string/boto_per_enviar_comentari"/>
+                    app:srcCompat="@android:drawable/ic_menu_send" />
             </LinearLayout>
 
                 <edu.upc.pes.wallachange.Others.ExpandableHeightGridView
