@@ -50,11 +50,11 @@ public class FiltersFragment extends Fragment implements View.OnClickListener{
     private String mParam2;
 
     //private OnFragmentInteractionListener mListener;
-
-    public FiltersFragment() {
-        // Required empty public constructor
-        filter = new FilterElement();
-    }
+//
+//    public FiltersFragment() {
+//        // Required empty public constructor
+//        filter = new FilterElement();
+//    }
 
     /**
      * Use this factory method to create a new instance of
@@ -65,14 +65,14 @@ public class FiltersFragment extends Fragment implements View.OnClickListener{
      * @return A new instance of fragment FiltersFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FiltersFragment newInstance(String param1, String param2) {
-        FiltersFragment fragment = new FiltersFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+//    public static FiltersFragment newInstance(String param1, String param2) {
+//        FiltersFragment fragment = new FiltersFragment();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
 //    @Override
 //    public void onCreate(Bundle savedInstanceState) {

@@ -50,6 +50,8 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
     private ListElementsAdapter listElementsAdapter;
     private EditText finder;
 
+    private FragmentManager myFragmentManager;
+    private FiltersFragment filtersFragment;
 
 
 
@@ -65,7 +67,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
         list.add(imgProva);
 
         ListView listElemsView = (ListView) view.findViewById(R.id.listElements);
-
+        filtersFragment = new FiltersFragment();
 
         //Llavors el que em retorna la db ho afegeixo a la llista elements
         elements = new ArrayList<Element>();
@@ -77,7 +79,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
         headers.put("titol", "");
         //headers.put("Content-Type", "application/json");
 
-        adapter.GETJsonArrayRequestAPI("http://10.0.2.2:3000/api/elements", new Response.Listener<JSONArray>() {
+        adapter.GETJsonArrayRequestAPI("/api/elements", new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         JSONArray ja = response;
@@ -160,8 +162,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                 break;
             case R.id.filterButton:
                 //TODO:
-                FragmentManager myFragmentManager = getFragmentManager();
-                FiltersFragment filtersFragment = new FiltersFragment();
+                myFragmentManager = getFragmentManager();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, filtersFragment).commit();
 
                 break;
@@ -175,7 +176,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                 //headers.put("Content-Type", "application/json");
 
                 final ArrayList<Element> elements2 = new ArrayList<>();
-                adapter.GETRequestAPI("http://10.0.2.2:3000/api/elements",
+                adapter.GETRequestAPI("/api/elements",
 
                         new Response.Listener<JSONArray>() {
                             @Override
