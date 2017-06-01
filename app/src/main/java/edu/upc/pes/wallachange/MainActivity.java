@@ -1,9 +1,13 @@
 package edu.upc.pes.wallachange;
 
+import static java.security.AccessController.getContext;
+
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -13,10 +17,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
@@ -38,7 +47,9 @@ import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
+
+
     private HomeFragment homeFragment;
 
     private FragmentManager myFragmentManager;
@@ -78,6 +89,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         textUser.setText(text);
         Log.i("MAIN","Set text ok");
 
+
+        final ImageView button = (ImageView) findViewById(R.id.translateButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                callActivity();
+            }
+        });
+
+
+    }
+    public void callActivity() {
+
+        final String[] items = { "en", "es" , "ca"};
+        int inputSelection = 3;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Language");
+
+        builder.setSingleChoiceItems(items,inputSelection,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        Translate.changeLocale(getResources(), items[item]);
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog levelDialog = builder.create();
+        levelDialog.show();
     }
 
     @Override
@@ -131,9 +170,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ProfileFragment ProfileFragment = new ProfileFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, ProfileFragment).commit();
                 break;
-            case R.id.navigationConfiguration:
-                ConfigurationFragment ConfigurationFragment = new ConfigurationFragment();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, ConfigurationFragment).commit();
             default:
                 break;
         }
@@ -178,5 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         seeProfileFragment.setArguments(args);
         myFragmentManager.beginTransaction().replace(R.id.fragment, seeProfileFragment).commit();
     }
+
+
 
 }

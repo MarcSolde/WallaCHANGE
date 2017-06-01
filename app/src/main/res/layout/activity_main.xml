@@ -22,6 +22,22 @@
         android:fitsSystemWindows="true"
         app:theme="@style/Drawer"
         app:headerLayout="@layout/header_activity_main_navigation"
-        app:menu="@menu/drawer_activity_main_navigation"/>
+        app:menu="@menu/drawer_activity_main_navigation">
+
+        <ImageView
+            android:id="@+id/translateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="5pt"
+            android:layout_marginLeft="5pt"
+            android:background="@color/tw__transparent"
+            app:srcCompat="@drawable/flag" />
+
+        <!--android:layout_marginTop="25pt"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:layout_marginRight="5pt"-->
+
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
