@@ -85,7 +85,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         mRatingBar = (RatingBar) view.findViewById(R.id.ratingBar);
         submitProfile = (Button) view.findViewById(R.id.submitButton);
         editTextPref = (EditText) view.findViewById(R.id.addPreference);
-
+        usernameField.setText(username);
 
 
         fotoPerfil.setImageURI(null);
@@ -152,17 +152,17 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
 
             case R.id.submitButton:
                 location = locationTE.getText().toString();
-                if (location.trim().length() != 0) {
-                    if (!user.getLocation().isEmpty()) {
-                        if (!user.getLocation().equals(location)) user.setLocation(location);
-                    } else {
-                        user.setLocation(location);
-                    }
-
-                } else {
-                    String errorEmpty = getResources().getString(R.string.errorEmptyField_eng);
-                    locationTE.setError(errorEmpty);
-                }
+//                if (location.trim().length() != 0) {
+//                    if (!user.getLocation().isEmpty()) {
+//                        if (!user.getLocation().equals(location)) user.setLocation(location);
+//                    } else {
+//                        user.setLocation(location);
+//                    }
+//
+//                } else {
+//                    String errorEmpty = getResources().getString(R.string.errorEmptyField_eng);
+//                    locationTE.setError(errorEmpty);
+//                }
                 user.setPreferencesArrayList(prefs);String token = user.getToken();
                 String location = user.getLocation();
                 ArrayList<String> prefs = user.getPreferences();
@@ -174,8 +174,8 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
 
                 JSONObject body = new JSONObject();
                 try {
-                    body.put("token", token);
-                    body.put("localitat", location);
+                    body.put("x-access-token", token);
+//                    body.put("localitat", location);
                     body.put("preferencies", ja);
                 } catch (JSONException e) {
                     e.printStackTrace();
