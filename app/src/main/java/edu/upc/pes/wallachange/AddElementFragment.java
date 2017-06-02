@@ -249,7 +249,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     publicarElement(editTextTitol.getText().toString(),editTextDescripcio.getText().toString(),
                             categories,
                             tipusProducte,esTemporal,editTextTemporalitat.getText().toString(),
-                            "JordiFructos",imatgesMiniatura,new ArrayList<Comment>(),
+                            user.getId(),imatgesMiniatura,new ArrayList<Comment>(),
                             localitat);
                 }
                 break;

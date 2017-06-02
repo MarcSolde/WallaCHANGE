@@ -61,7 +61,7 @@ public class MakeOfferFragment extends Fragment {
         String id = getArguments().getString("id");
 
         //TODO: get element 1
-        adapterAPI.GETRequestAPI("http://10.0.2.2:3000/api/element/"+id,
+        adapterAPI.GETRequestAPI("/api/element/"+id,
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -82,7 +82,8 @@ public class MakeOfferFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.i("JSONerror: ","");
                     }
-                }, headers
+                },
+                headers
         );
 
         myListView = (ListView) view.findViewById(R.id.see_your_list);
@@ -101,8 +102,8 @@ public class MakeOfferFragment extends Fragment {
                 //TODO:make offer
             }
         });
-
-        adapterAPI.GETRequestAPI("http://10.0.2.2:3000/api/elements/"+user.getId(),
+        String aux = user.getId();
+        adapterAPI.GETJsonArrayRequestAPI("/api/elements/" + user.getId(),
                 new Response.Listener<JSONArray>() {
 
                     @Override
@@ -126,7 +127,7 @@ public class MakeOfferFragment extends Fragment {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.i("JSONerror: ","");
+                        Log.i("JSONerror: ",error.getMessage());
                     }
                 },
                 headers
