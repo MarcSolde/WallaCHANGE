@@ -11,16 +11,17 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.R;
 import edu.upc.pes.wallachange.SearchUserFragment;
 import edu.upc.pes.wallachange.Models.User;
 
-public class SearchUserAdapter extends ArrayAdapter<User>{
+public class UserListAdapter extends ArrayAdapter<User>{
     private Context myContext;
     private int layoutResourceId;
     private ArrayList<User> data;
 
-    public SearchUserAdapter(Context context, int layoutResourceId, ArrayList<User> data) {
+    public UserListAdapter(Context context, int layoutResourceId, ArrayList<User> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.myContext = context;

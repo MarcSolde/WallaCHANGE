@@ -51,7 +51,7 @@ public class Element {
         this.esTemporal = ej.getString("es_temporal").equals("true");
         //this.esTemporal = ej.getBoolean("es_temporal");
         //this.temporalitat = ej.getString("temporalitat");
-        //this.user = ej.getString("nom_user");
+        //this.user = ej.getString("user_id");
         //setCoordenades(ej.getJSONObject("coordenades"));
         setFotografiesArray(ej.getJSONArray("imatges"));
         setTagsArray(ej.getJSONArray("tags"));

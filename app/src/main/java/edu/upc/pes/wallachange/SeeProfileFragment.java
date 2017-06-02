@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -27,7 +26,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
-import edu.upc.pes.wallachange.Adapters.SeeProfileAdapter;
+import edu.upc.pes.wallachange.Adapters.ElementListAdapter;
+import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Models.User;
 
@@ -35,11 +35,9 @@ import edu.upc.pes.wallachange.Models.User;
 public class SeeProfileFragment extends Fragment {
     private MainActivity myActivity;
 
-    private SeeProfileAdapter adapter;
     private ListView myListView;
     private View myView;
 
-    private User user;
     private ArrayList<Element> elements;
     private static AdapterAPIRequest adapterAPI = new AdapterAPIRequest();
 
@@ -53,7 +51,7 @@ public class SeeProfileFragment extends Fragment {
         myActivity.setTitle(R.string.navigationProfile_eng);
 
         String id = getArguments().getString("id");
-        //TODO: enlace DB
+
         Map<String, String> headers = new HashMap<>();
         //adapterAPI.GETRequestAPI("http://104.236.98.100:3000/user/"+id,
         adapterAPI.GETRequestAPI("http://10.0.2.2:3000/user/"+id,
@@ -68,14 +66,13 @@ public class SeeProfileFragment extends Fragment {
                             for (int j = 0; j < var2.length();++j) {
                                 aux2.add(var2.get(j).toString());
                             }
-                            User u = new User(response.getString("nom_user"),
+                            User u = new User(response.getString("id"),
                                     response.getString("nom"),
                                     response.getString("localitat"),
                                     null,
                                     Float.parseFloat(response.getString("reputacio")),
                                     Uri.parse(response.getString("path")),
                                     aux2);
-                            int a = 0;
                             loadUser(u);
                         }
                         catch (JSONException e) {
@@ -101,37 +98,66 @@ public class SeeProfileFragment extends Fragment {
             }
         });
 
-        loadList();
+        CurrentUser user = CurrentUser.getInstance();
+        headers.put("Content-Type", "application/json");
+        headers.put("x-access-token",user.getToken());
+        adapterAPI.GETJsonArrayRequestAPI("http://10.0.2.2:3000/api/elements/"+"JordiFructos",
+                new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            Log.i("JSON: ",response.toString());
+                            ArrayList<Element> aux = new ArrayList<> ();
+                            for (int i = 0;i < response.length();++i) {
+                                JSONObject var = response.getJSONObject(i);
+                                Element aux2 = new Element(var);
+                                aux.add(aux2);
+                            }
+                            loadList(aux);
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("JSONerror: ",error.getMessage());
+                    }
+                },
+                headers,null
+        );
 
         return view;
     }
 
-    private void loadUser (User user) {
-        this.user = user;
+    private void loadUser (User u) {
+        //this.user = user;
         TextView aux = (TextView) myView.findViewById(R.id.see_user_username);
-        aux.setText(user.getUsername());
+        aux.setText(u.getUsername());
         aux = (TextView) myView.findViewById(R.id.see_user_city);
-        aux.setText(user.getLocation());
+        aux.setText(u.getLocation());
         aux = (TextView) myView.findViewById(R.id.see_user_preference);
-        String aux2 = TextUtils.join(", ", user.getPreferences());
+        String aux2 = TextUtils.join(", ", u.getPreferences());
         aux.setText(aux2);
-        RatingBar aux3 = (RatingBar)myView.findViewById(R.id.see_user_rating);
-        aux3.setRating(user.getRating()/20);
+        aux = (TextView) myView.findViewById(R.id.see_user_rating);
+        aux.setText(u.getRating()/20 +"/5.0");
     }
 
-    private void loadList () {
-
-        //TODO:
+    private void loadList (ArrayList<Element> e) {
         elements = new ArrayList<>();
-        //elements.add(new Element("1","aaa1",null,"aaa2",null,"aaa3",null,null,null));
-        //elements.add(new Element("2","bbb1",null,"bbb2",null,"bbb3",null,null,null));
-        //elements.add(new Element("3","ccc1",null,"ccc2",null,"ccc3",null,null,null));
-        adapter = new SeeProfileAdapter(myActivity,R.layout.item_see_profile,elements,this);
+        elements = e;
+        ElementListAdapter adapter = new ElementListAdapter(myActivity,R.layout.item_default,elements);
         myListView.setAdapter(adapter);
         myListView.deferNotifyDataSetChanged();
     }
 
     private void onClickElement (int i) {
-        myActivity.changeToItem(elements.get(i).getId());
+        //TODO:
+        //myActivity.changeToItem(elements.get(i).getId());
+        myActivity.changeToMakeOffer(elements.get(i).getId());
     }
 }
