@@ -174,7 +174,9 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",currentUser.getToken());
+
         String url = "/api/element";
+
         adapterAPIRequest.POSTRequestAPI(url,
                 new Response.Listener<JSONObject>() {
                     @Override

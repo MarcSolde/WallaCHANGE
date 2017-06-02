@@ -64,6 +64,7 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
         headers.put("Content-Type", "application/json");
 
         adapter.POSTRequestAPI("/loginFB",
+
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -130,7 +131,9 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
             params.put("id", id);
             headers.put("Content-Type", "application/json");
 
+
             adapter.POSTRequestAPI("/loginFB",
+
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
