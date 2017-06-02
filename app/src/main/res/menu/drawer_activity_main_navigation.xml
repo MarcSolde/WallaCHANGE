@@ -4,21 +4,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/navigationMain"
-            android:title="@string/navigationHome_eng" />
-        <item
-            android:id="@+id/navigationNewItem"
-            android:title="@string/navigationNewItem_eng" />
-        <item
-            android:id="@+id/navigationProfile"
-            android:title="@string/navigationProfile_eng" />
+            android:id="@+id/navigationSearchItem"
+            android:title="@string/navigationSearchItem_eng" />
         <item
             android:id="@+id/navigationSearchUser"
             android:title="@string/navigationSearchUser_eng" />
         <item
-            android:id="@+id/navigationSearchItem"
-            android:title="@string/navigationSearchItem_eng" />
-
+            android:id="@+id/navigationProfile"
+            android:title="@string/navigationProfile_eng" />
+        <item
+            android:id="@+id/navigationNewItem"
+            android:title="@string/navigationNewItem_eng" />
         <item
             android:id="@+id/navigationLogout"
             android:title="@string/navigationLogout_eng" />

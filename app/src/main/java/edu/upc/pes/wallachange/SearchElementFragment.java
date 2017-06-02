@@ -61,7 +61,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
         View view;
         view = inflater.inflate(R.layout.fragment_search_element, container, false);
         myActivity = (MainActivity) getActivity();
-        myActivity.setTitle("Home");
+        myActivity.setTitle(R.string.navigationSearchItem_eng);
         ArrayList<Uri> list = new ArrayList<>();
         Uri imgProva=Uri.parse("android.resource://edu.upc.pes.wallachange/"+R.drawable.empty_picture);
         list.add(imgProva);
@@ -151,6 +151,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
 
         Button filterButt = (Button) view.findViewById(R.id.filterButton);
         filterButt.setOnClickListener(this);
+
         return view;
     }
 

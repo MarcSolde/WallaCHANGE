@@ -20,6 +20,14 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2pt"
+                        android:text="@string/offerExchange1_eng"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="10pt" />
                     <ImageView
                         android:id="@+id/item_image_1"
                         android:layout_width="100dp"
@@ -30,7 +38,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="2pt"
-                        android:text="TextView"
                         android:gravity="center"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="10pt" />
@@ -39,7 +46,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="2pt"
-                        android:text="TextView"
                         android:gravity="center"
                         android:textSize="8pt" />
 
@@ -50,6 +56,14 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2pt"
+                        android:text="@string/offerExchange2_eng"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="10pt" />
                     <ImageView
                         android:id="@+id/item_image_2"
                         android:layout_width="100dp"
@@ -60,7 +74,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="2pt"
-                        android:text="TextView"
                         android:gravity="center"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="10pt" />
@@ -69,7 +82,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="2pt"
-                        android:text="TextView"
                         android:gravity="center"
                         android:textSize="8pt" />
 
@@ -82,8 +94,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/offerExchangeSend_eng"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
 
         <TextView
             android:layout_width="match_parent"

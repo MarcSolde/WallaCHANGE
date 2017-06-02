@@ -155,7 +155,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             // TODO : falten les imatges, les coordenades i la temporalitat (en cas que s'afegeixi)
             //nouElement.put("imatges",null);
 
-            nouElement.put("nom_user", username);
+            nouElement.put("nom_user", currentUser.getId());
             Date avui = new Date();
             DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             nouElement.put("data_publicacio", df1.format(avui));
@@ -173,9 +173,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",currentUser.getToken());
 
-        String url = "/api/element";
-
-        adapterAPIRequest.POSTRequestAPI(url,
+        adapterAPIRequest.POSTRequestAPI("/api/element",
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
