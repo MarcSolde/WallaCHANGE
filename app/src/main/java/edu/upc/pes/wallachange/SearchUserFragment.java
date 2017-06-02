@@ -121,7 +121,7 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
 
-                adapterAPI.GETJsonArrayRequestAPI("http://104.236.98.100:3000/allUsers",
+                adapterAPI.GETJsonArrayRequestAPI("/allUsers",
                         new Response.Listener<JSONArray>() {
 
                             @Override
@@ -162,7 +162,7 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                             public void onErrorResponse(VolleyError error) {
                                 Log.i("JSONerror: ","");
                             }
-                        }, null, null
+                        }, headers
                 );
 
                 break;

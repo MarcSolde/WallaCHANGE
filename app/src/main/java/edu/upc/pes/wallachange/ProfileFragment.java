@@ -32,11 +32,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -55,11 +53,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
-import edu.upc.pes.wallachange.APILayer.Proxy;
 import edu.upc.pes.wallachange.Adapters.PreferencesAdapter;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Others.CircleTransform;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
+
+import static com.android.volley.VolleyLog.TAG;
+import static edu.upc.pes.wallachange.R.id.username;
+
+//import edu.upc.pes.wallachange.APILayer.Proxy;
 
 
 public class ProfileFragment extends Fragment  implements View.OnClickListener {
@@ -104,7 +106,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
 
         //get camps del layout
         fotoPerfil = (ImageView) view.findViewById(R.id.userPicture);
-        usernameField = (TextView) view.findViewById(R.id.username);
+        usernameField = (TextView) view.findViewById(username);
         locationTE = (EditText) view.findViewById(R.id.editCity);
         cleanLocation = (ImageView) view.findViewById(R.id.cleanLocation);
         addPref = (ImageView) view.findViewById(R.id.prefAddButton);
@@ -115,6 +117,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         editTextPref = (EditText) view.findViewById(R.id.addPreference);
 
         foto = false;
+        usernameField.setText(username);
 
         usernameField.setText(user.getUsername());
         fotoPerfil.setImageURI(null);
@@ -199,6 +202,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                 ArrayList<String> afegirPreferencies = new ArrayList<>();
                 afegirPreferencies = user.getPreferences();
                 String token = user.getToken();
+
                 String location = user.getLocation();
 
                 JSONArray ja = new JSONArray();
@@ -209,7 +213,8 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                 JSONObject body = new JSONObject();
                 try {
                     body.put("token", token);
-                    body.put("localitat", user.getLocation());
+                    body.put("localitat", location);
+
                     body.put("preferencies", ja);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -218,7 +223,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                 Map<String,String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 AdapterAPIRequest adapter = new AdapterAPIRequest();
-                adapter.PUTRequestAPI("http://104.236.98.100:3000/updateUser/MarcSoldevillaCuartiella",
+                adapter.PUTRequestAPI("/updateUser/"+user.getId(),
 //                adapter.PUTRequestAPI("http://104.236.98.100:3000/updateUser/" + user.getId(),
                         new Response.Listener<JSONObject>() {
                             @Override

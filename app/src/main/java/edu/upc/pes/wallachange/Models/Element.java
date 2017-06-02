@@ -2,41 +2,65 @@ package edu.upc.pes.wallachange.Models;
 
 import android.net.Uri;
 
+
+import java.sql.Struct;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
-
+import java.util.Date;
 
 public class Element {
     private String id;
     private String titol;
     private String descripcio;
-    private String categoria;
     private String tipusProducte;
-    private String tipusIntercanvi;
+    private Boolean esTemporal;
     private String temporalitat;
     private String user;
     private ArrayList<Uri> fotografies;
+
     private ArrayList<String> tags;
     private ArrayList<Comment> comentaris;
-    private ArrayList<Coordenades> coordenades;
+    //private ArrayList<Coordenades> coordenades;
+    private Coordenades coordenades;
+    // TODO localitat sha desborrar
+    private String localitat;
+    private Date dataPublicacio;
 
-    public Element(String id, String titol, String descripcio, String categoria, String tipusProducte, String tipusIntercanvi, String temporalitat, String user, ArrayList<Uri> fotografies) {
+    public Element(String id, String titol, String descripcio, String tipusProducte, String tipusIntercanvi, String temporalitat, String user, ArrayList<Uri> fotografies) {
         this.id = id;
         this.titol = titol;
         this.descripcio = descripcio;
-        this.categoria = categoria;
         this.tipusProducte = tipusProducte;
-        this.tipusIntercanvi = tipusIntercanvi;
+        this.esTemporal = esTemporal;
         this.temporalitat = temporalitat;
         this.user = user;
         this.fotografies = fotografies;
+        this.comentaris = comentaris;
+        this.localitat = localitat;
     }
 
     public Element() {
+    }
+
+    public Element(JSONObject ej) throws JSONException {
+        this.id = ej.getString("_id");
+        this.titol= ej.getString("titol");
+        this.descripcio = ej.getString("descripcio");
+        this.tipusProducte = ej.getString("tipus_element");
+        //TODO: temporalitat, nom_user, coordenades, localitat ara no ho retorna el GET
+        this.esTemporal = ej.getString("es_temporal").equals("true");
+        //this.esTemporal = ej.getBoolean("es_temporal");
+        //this.temporalitat = ej.getString("temporalitat");
+        //this.user = ej.getString("nom_user");
+        //setCoordenades(ej.getJSONObject("coordenades"));
+        setFotografiesArray(ej.getJSONArray("imatges"));
+        setTagsArray(ej.getJSONArray("tags"));
+        setComentarisArray(ej.getJSONArray("comentaris"));
+        //this.localitat = ej.getString("localitat");
     }
 
     public String getId() {
@@ -67,14 +91,6 @@ public class Element {
         this.descripcio = descripcio;
     }
 
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
     public String getTipusProducte() {
         return tipusProducte;
     }
@@ -83,12 +99,12 @@ public class Element {
         this.tipusProducte = tipusProducte;
     }
 
-    public String getTipusIntercanvi() {
-        return tipusIntercanvi;
+    public Boolean getEsTemporal() {
+        return esTemporal;
     }
 
-    public void setTipusIntercanvi(String tipusIntercanvi) {
-        this.tipusIntercanvi = tipusIntercanvi;
+    public void setEsTemporal(Boolean intercanviTemporal) {
+        this.esTemporal = intercanviTemporal;
     }
 
     public String getTemporalitat() {
@@ -99,6 +115,22 @@ public class Element {
         this.temporalitat = temporalitat;
     }
 
+    public ArrayList<Comment> getComentaris() {
+        return comentaris;
+    }
+
+    public void setComentaris(ArrayList<Comment> comentaris) {
+        this.comentaris = comentaris;
+    }
+
+    public String getLocalitat() {
+        return localitat;
+    }
+
+    public void setLocalitat(String localitat) {
+        this.localitat = localitat;
+    }
+
     public ArrayList<Uri> getFotografies() {
         return fotografies;
     }
@@ -106,6 +138,22 @@ public class Element {
 //    public Uri getFotografia() {
 //        return fotografies[0];
 //    }
+
+    public Date getDataPublicacio() {
+        return dataPublicacio;
+    }
+
+    public void setDataPublicacio(Date dataPublicacio) {
+        this.dataPublicacio = dataPublicacio;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public Coordenades getCoordenades() {
+        return coordenades;
+    }
 
     public void setTagsArray(JSONArray tagsArray) {
         ArrayList<String> list = new ArrayList<String>();
@@ -149,6 +197,7 @@ public class Element {
             int len = jsonArray.length();
             for (int i = 0; i < len; i++) {
                 try {
+                    // TODO els comentaris tindran data
                     Comment comment = new Comment(jsonArray.getJSONObject(i).getString("nom_user"), jsonArray.getJSONObject(i).getString("text"));
                     list.add(comment);
                 } catch (JSONException e) {
@@ -159,7 +208,12 @@ public class Element {
         this.comentaris = list;
     }
 
-    public void setCoordenadesArray(JSONArray coords) {
+    public void setCoordenades(JSONObject coords) throws JSONException {
+        this.coordenades.setCoords(Integer.parseInt(coords.getString("x")),
+                Integer.parseInt(coords.getString("y")));
+    }
+
+   /* public void setCoordenadesArray(JSONArray coords) {
         ArrayList<Coordenades> list = new ArrayList<>();
         JSONArray jsonArray = coords;
         if (jsonArray != null) {
@@ -175,11 +229,7 @@ public class Element {
             }
         }
         this.coordenades = list;
-    }
-
-    public void setFotografies(ArrayList<Uri> fotografies) {
-        this.fotografies = fotografies;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -187,11 +237,13 @@ public class Element {
                 "id='" + id + '\'' +
                 ", titol='" + titol + '\'' +
                 ", descripcio='" + descripcio + '\'' +
-                ", categoria='" + categoria + '\'' +
                 ", tipusProducte='" + tipusProducte + '\'' +
-                ", tipusIntercanvi='" + tipusIntercanvi + '\'' +
+                ", intercanviTemporal=" + esTemporal +
                 ", temporalitat='" + temporalitat + '\'' +
+                ", user='" + user + '\'' +
                 ", fotografies=" + fotografies +
+                ", comentaris=" + comentaris +
+                ", localitat='" + localitat + '\'' +
                 '}';
     }
 }

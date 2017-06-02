@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/textViewCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="15pt"
+        android:gravity="fill_vertical"
+        android:textSize="9pt" />
+    <ImageButton
+        android:contentDescription="@string/contentDeleteImage"
+        android:id="@+id/botoEsborrarCategoria"
+        android:layout_width="wrap_content"
+        android:background="@null"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/smaller_delete" />
+
+</GridLayout>

@@ -31,7 +31,6 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
     final public static String MyTokenPref = "MyFBToken";
     final public static String MyFBidPref = "MyFBid";
 
-
     private static LoginActivity myActivity;
     private static AdapterAPIRequest adapter = new AdapterAPIRequest();
     private static SharedPreferences sharedPreferences;
@@ -64,8 +63,7 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
 
         headers.put("Content-Type", "application/json");
 
-        //adapter.POSTSJsonObjectRequestAPI("http://10.0.2.2:3000/loginFB",
-        adapter.POSTRequestAPI("http://104.236.98.100:3000/loginFB",
+        adapter.POSTRequestAPI("/loginFB",
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -114,6 +112,7 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
     public void onError(FacebookException exception) {
         //TODO:
         Toast.makeText(myActivity, "Error login", Toast.LENGTH_LONG).show();
+        Log.e("CAACA", "exceptionKAKA", exception);
     }
 
     public static void checkLogin() throws JSONException {
@@ -131,8 +130,7 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
             params.put("id", id);
             headers.put("Content-Type", "application/json");
 
-            //adapter.POSTRequestAPI("http://10.0.2.2:3000/loginFB",
-            adapter.POSTRequestAPI("http://104.236.98.100:3000/loginFB",
+            adapter.POSTRequestAPI("/loginFB",
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
