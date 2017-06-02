@@ -6,10 +6,14 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -29,6 +34,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +67,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
     private EditText editTextPref;
     private Boolean foto;
     private FragmentManager myFragmentManager;
-    View view;
+    private View view;
     //private int rating;
 
 
@@ -94,15 +101,13 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         submitProfile = (Button) view.findViewById(R.id.submitButton);
         cancelButton = (Button) view.findViewById(R.id.cancelButton);
         editTextPref = (EditText) view.findViewById(R.id.addPreference);
-        usernameField.setText(username);
 
         foto = false;
-        usernameField.setText(username);
 
+        usernameField.setText(username);
         fotoPerfil.setImageURI(null);
         fotoPerfil.setImageURI(user.getPicture());
         locationTE.setText(user.getLocation());
-        //locationTE.setText(location);
 
         mRatingBar.setRating(user.getRating());
         mRatingBar.setEnabled(false);
@@ -155,7 +160,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                 editTextPref.requestFocus();
             case R.id.prefAddButton:
                 String newPref = editTextPref.getText().toString();
-                if (newPref.equals("")) {
+                if (!newPref.equals("")) {
                     if (!user.existsPref(newPref)) {
                         user.setPreference(newPref);
                         preferencesAdapter.notifyDataSetChanged();
@@ -168,6 +173,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                     String errorEmpty = getResources().getString(R.string.errorEmptyField_eng);
                     editTextPref.setError(errorEmpty);
                 }
+                hideSoftKeyboard();
                 break;
 
             case R.id.cleanLocation:
@@ -175,31 +181,21 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                 break;
 
             case R.id.submitButton:
-                location = locationTE.getText().toString();
-//                if (location.trim().length() != 0) {
-//                    if (!user.getLocation().isEmpty()) {
-//                        if (!user.getLocation().equals(location)) user.setLocation(location);
-//                    } else {
-//                        user.setLocation(location);
-//                    }
-//
-//                } else {
-//                    String errorEmpty = getResources().getString(R.string.errorEmptyField_eng);
-//                    locationTE.setError(errorEmpty);
-//                }
-                user.setPreferencesArrayList(prefs);String token = user.getToken();
+                user.setLocation(locationTE.getText().toString());
+                ArrayList<String> afegirPreferencies = new ArrayList<>();
+                afegirPreferencies = user.getPreferences();
+                String token = user.getToken();
                 String location = user.getLocation();
-                ArrayList<String> prefs = user.getPreferences();
 
                 JSONArray ja = new JSONArray();
-                for (String p : prefs) {
+                for (String p : afegirPreferencies) {
                     ja.put(p);
                 }
 
                 JSONObject body = new JSONObject();
                 try {
-                    body.put("x-access-token", token);
-//                    body.put("localitat", location);
+                    body.put("token", token);
+                    body.put("localitat", location);
                     body.put("preferencies", ja);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -208,12 +204,11 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                 Map<String,String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 AdapterAPIRequest adapter = new AdapterAPIRequest();
-                adapter.PUTRequestAPI("http://104.236.98.100:3000/updateUser/"+user.getUsername(),
+                adapter.PUTRequestAPI("/updateUser/"+user.getId(),
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 JSONObject js = response;
-                                //SI voleu aquí comprovar que s'ha fet bé
                             }
                         },
                         new Response.ErrorListener() {
@@ -222,8 +217,53 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
                                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                             }
                         }, body, headers);
+                //COMENTAR LA SEGUENT LINIA PER A IMPLEMENTAR EL POST DE LA FOTO
+                foto = false;
+//                if (foto) {
+//                    JSONObject bodyimatge = new JSONObject();
+//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                    Bitmap bitmap = user.getPictureBitmap();
+//                    bitmap.compress(Bitmap.CompressFormat.PNG, 1, stream);
+//                    byte [] byte_arr = stream.toByteArray();
+//                    String image = Base64.encodeToString(byte_arr, Base64.DEFAULT);
+//                    Log.i("bitmap", image);
+//
+//                    try {
+//                        bodyimatge.put("avatar", image);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Map<String, String> headersimatge = new HashMap<>();
+//                    headersimatge.put("x-access-token", user.getToken());
+////                    headersimatge.put("Content-Type", "application/x-www-form-urlencoded");
+//
+//
+//
+//                    Log.i("token", user.getToken());
+//                    adapter.POSTRequestAPI(
+//                            "http://104.236.98.100:3000/imatge/MarcSoldevillaCuartiella",
+//                            new Response.Listener<JSONObject>() {
+//                                @Override
+//                                public void onResponse(JSONObject response) {
+//                                    JSONObject js = response;
+//                                }
+//                            },
+//                            new Response.ErrorListener() {
+//                                @Override
+//                                public void onErrorResponse(VolleyError error) {
+//                                    VolleyLog.d(TAG, "Error: " + error.getMessage());
+//                                }
+//                            }, bodyimatge, headersimatge);
+//                }
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(myActivity, "Profile changes updated successfully.", duration);
+                toast.show();
+                myActivity.changeFragmentToHome();
                 break;
 
+            case R.id.cancelButton:
+                myActivity.changeFragmentToHome();
+                break;
             default:
                 break;
 
@@ -236,10 +276,22 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
 
             Uri selectedImage = data.getData();
-            System.out.println(selectedImage.toString());
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(myActivity.getContentResolver(), selectedImage);
+
+                user.setPictureBitmap(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
 
             Picasso.with(myActivity).load(selectedImage).resize(100, 100).transform(new CircleTransform()).into(fotoPerfil);
-        }
+
+            user.setPictureBitmap(bitmap);
+
+            }
     }
 
     public void decrementarNombrePrefs (ArrayList<String> newPrefs, String prefToDelete) {
