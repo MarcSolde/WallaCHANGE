@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FragmentManager myFragmentManager;
     private DrawerLayout myDrawer;
 
+    private NavigationView myNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //myDrawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
+        myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.setNavigationItemSelectedListener(this);
 
         Log.i("MAIN","Create ok");
@@ -104,12 +106,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("deprecation")
     public void callActivity() {
 
-        final String[] items = { "en", "es" , "ca"};
+        String eng = getResources().getString(R.string.english_eng);
+        String esp = getResources().getString(R.string.spanish_eng);
+        String cat = getResources().getString(R.string.catalan_eng);
+        final String[] items = {eng, esp, cat};
         int inputSelection = 1;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle("Language");
+        builder.setTitle(getResources().getString(R.string.language_eng));
         Locale current = getResources().getConfiguration().locale;
         String local = current.toString();
         if (local.equals("es")) {
@@ -123,15 +128,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         builder.setSingleChoiceItems(items,inputSelection,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
-                        Translate.changeLocale(getResources(), items[item]);
+                        if (item == 0)
+                            Translate.changeLocale(getResources(), "en_US");
+                        else if (item == 1)
+                            Translate.changeLocale(getResources(), "es");
+                        else if (item == 2) {
+                            Translate.changeLocale(getResources(), "ca");
+                        }
+                        changeNav();
                         dialog.dismiss();
                         final ImageView button = (ImageView) findViewById(R.id.translateButton);
                         button.setImageDrawable(null);   //This will force the image to properly refresh
                         button.setImageResource(R.drawable.prova);
+
                     }
                 });
         AlertDialog levelDialog = builder.create();
         levelDialog.show();
+    }
+
+    public void changeNav() {
+        recreate();
+
     }
 
     @Override
