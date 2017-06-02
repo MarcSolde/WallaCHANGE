@@ -117,7 +117,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         editTextPref = (EditText) view.findViewById(R.id.addPreference);
 
         foto = false;
-        usernameField.setText(username);
+        usernameField.setText(user.getUsername());
 
         usernameField.setText(user.getUsername());
         fotoPerfil.setImageURI(null);
