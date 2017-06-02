@@ -154,12 +154,14 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             nouElement.put("descripcio", descripcio);
             // TODO : falten les imatges, les coordenades i la temporalitat (en cas que s'afegeixi)
             //nouElement.put("imatges",null);
+
             nouElement.put("nom_user", username);
             Date avui = new Date();
             DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             nouElement.put("data_publicacio", df1.format(avui));
             nouElement.put("tipus_element", tipusProducte);
             nouElement.put("es_temporal", temporal);
+
             JSONArray tags = obtenirJSONarrayTags(categories);
             nouElement.put("tags", tags);
             //nouElement.put("localitat", localitat);
@@ -170,8 +172,9 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",currentUser.getToken());
-        String url = "http://10.0.2.2:3000/".concat("api/element");
-        //adapter.POSTRequestAPI("http://104.236.98.100:3000/loginFB"
+
+        String url = "/api/element";
+
         adapterAPIRequest.POSTRequestAPI(url,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -232,11 +235,13 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     String tipusProducte = obtenirTipusProducte();
                     String tipusIntercanvi = obtenirTipusIntercanvi();
                     Boolean esTemporal = (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng)));
+
                     String localitat = currentUser.getLocation();
                     publicarElement(editTextTitol.getText().toString(),editTextDescripcio.getText().toString(),
                             categories,
                             tipusProducte,esTemporal,editTextTemporalitat.getText().toString(),
                             currentUser.getUsername(),imatgesMiniatura,
+
                             localitat);
                 }
                 break;

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">WallaCHANGE</string>
 
-    <string name="facebook_app_id">331745477228111</string>
+    <string name="facebook_app_id" translatable="false">331745477228111</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <!--<string name="hello_blank_fragment">Hello blank fragment</string>-->
@@ -11,6 +11,11 @@
 
     <string name="lenguage_eng">eng</string>
     <string name="lenguage_esp">esp</string>
+    <string name="english_eng">English</string>
+    <string name="spanish_eng">Spanish</string>
+    <string name="catalan_eng">Catalan</string>
+    <string name="language_eng">Language</string>
+
 
     <!--MAIN-->
     <string name="user_eng">User:</string>
@@ -20,25 +25,27 @@
     <string name="navigationHome_eng">Home</string>
     <string name="navigationNewItem_eng">New Item</string>
     <string name="navigationProfile_eng">Profile</string>
+    <string name="navigationOffer_eng">Exchange offer</string>
     <string name="navigationSearchItem_eng">Search Items</string>
     <string name="navigationSearchUser_eng">Search Users</string>
     <string name="navigationLogout_eng">Log out</string>
+    <string name="navigationConfiguration_eng">Configuration</string>
 
-    <string name="navigationOpen">Open navigation drawer</string>
+    <string name="navigationOpen" translatable="false">Open navigation drawer</string>
     <string name="navigationClose">Close navigation drawer</string>
 
-    <string name="logout_dialog_1">Log out</string>
-    <string name="logout_dialog_2">Desea salir?</string>
-    <string name="logout_dialog_3">Salir</string>
-    <string name="logout_dialog_4">Cancelar</string>
+    <string name="logout_dialog_1" translatable="false">Log out</string>
+    <string name="logout_dialog_2">Do you wanna leave?</string>
+    <string name="logout_dialog_3">Exit</string>
+    <string name="logout_dialog_4">Cancel</string>
 
     <!-- LOGIN ACTIVITY -->
     <string name="twitterKey">ZtNlSehcYLlv24mPgXqqlvRyU</string>
     <string name="twitterSecret">u2HaRQ3dwxiXzqf03tnsrWrLOIvKzHmKlx1HElPDWEHt1m2w5u</string>
 
-    <string name="errorIncorrectLogin_eng">Login with Twitter failure</string>
-    <string name="errorAuthEmail_eng">Email not authorited</string>
-    <string name="loginWallachange">WALLACHANGE</string>
+    <string name="errorIncorrectLogin_eng" translatable="false">Login with Twitter failure</string>
+    <string name="errorAuthEmail_eng" translatable="false">Email not authorited</string>
+    <string name="loginWallachange" translatable="false">WALLACHANGE</string>
 
     <!-- SEARCH  -->
     <string name="searchButton_eng">SEARCH</string>
@@ -50,6 +57,10 @@
 
     <!-- VIEW OTHER PROFILE -->
     <string name="viewOtherProfileElement_eng">ELEMENTS:</string>
+
+    <!-- OFFER EXCHANGE -->
+    <string name="offerExchangeElement_eng">YOUR ELEMENTS:</string>
+    <string name="offerExchangeSend_eng">Send offer</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -96,9 +107,9 @@
     <string name="errorExistingPref_eng">Existing preference</string>
     <string name="errorEmptyField_eng">This field is empty</string>
     <string name="add_image_button_eng">Add image button</string>
-    <string name="contentDeleteImage">contentDeleteImage</string>
+    <string name="contentDeleteImage" translatable="false">contentDeleteImage</string>
     <string name="userPicture">user picture</string>
-    <string name="clearEditText">clear edit text</string>
+    <string name="clearEditText" translatable="false">clear edit text</string>
     <string name="addPreference">add preference</string>
 
 
@@ -131,8 +142,10 @@
     <string name="adult_content_eng">Adult content</string>
     <string name="racism_and_xenophobia_eng">Racism and xenophobia</string>
     <string name="incitement_to_hatred_eng">Incitement to hatred</string>
+
     <string name="add_category">Add category</string>
     <string name="errorExistingCategory_eng">Existing category</string>
+
     <string name="boto_de_la_imatge_anterior">Boto de la imatge anterior</string>
     <string name="boto_de_la_imatge_posterior">Boto de la imatge posterior</string>
     <string name="boto_per_esborrar_la_imatge_actual">Boto per esborrar la imatge actual</string>
@@ -147,6 +160,7 @@
     <string name="clear_title_edit_text_button_eng">clear title edit text button</string>
     <string name="clear_description_edit_text_button_eng">clear description edit text button</string>
     <string name="clear_temporality_edit_text_button_eng">clear temporality edit text button</string>
+
 
 
 </resources>

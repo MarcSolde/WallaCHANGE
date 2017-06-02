@@ -31,7 +31,7 @@ public class Proxy {
         final User newUser = new User();
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
-        adapter.GETRequestAPI("http://10.0.2.2:3000/userser/"+username,
+        adapter.GETRequestAPI("http://104.236.98.100:3000/userser/"+username,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -80,7 +80,7 @@ public class Proxy {
         Map<String,String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
-        adapter.PUTRequestAPI("http://10.0.2.2:3000/updateUser/"+user.getUsername(),
+        adapter.PUTRequestAPI("http://104.236.98.100:3000/updateUser/"+user.getUsername(),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -107,7 +107,7 @@ public class Proxy {
         headers.put("Content-Type", "application/json");
 
         final ArrayList<Element> elements2 = new ArrayList<>();
-        adapter.GETRequestAPI("http://10.0.2.2:3000/elements", new Response.Listener<JSONArray>() {
+        adapter.GETRequestAPI("http://104.236.98.100:3000/elements", new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         JSONArray ja = response;

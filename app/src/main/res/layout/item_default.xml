@@ -7,7 +7,7 @@
     android:layout_marginBottom="5dp">
     
     <ImageView
-        android:id="@+id/item_search_user_image"
+        android:id="@+id/item_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:srcCompat="@drawable/empty_picture"/>
@@ -18,7 +18,7 @@
         android:layout_marginStart="5pt"
         android:layout_marginTop="2pt">
         <TextView
-            android:id="@+id/item_search_user_name"
+            android:id="@+id/item_text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2pt"
@@ -26,7 +26,7 @@
             android:textSize="10pt"
             android:maxLines="1"/>
         <TextView
-            android:id="@+id/item_search_user_preference"
+            android:id="@+id/item_text2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2pt"
@@ -34,7 +34,7 @@
             android:textSize="8pt"
             android:maxLines="1"/>
         <TextView
-            android:id="@+id/item_search_user_rating"
+            android:id="@+id/item_text3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2pt"

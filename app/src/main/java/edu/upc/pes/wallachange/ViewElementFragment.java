@@ -136,6 +136,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                                 e1.printStackTrace();
                             }
 
+
                         }
                     },
                     new Response.ErrorListener() {

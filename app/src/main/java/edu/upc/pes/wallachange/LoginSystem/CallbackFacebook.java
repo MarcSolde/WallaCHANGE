@@ -2,6 +2,7 @@ package edu.upc.pes.wallachange.LoginSystem;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -62,15 +63,15 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
 
         headers.put("Content-Type", "application/json");
 
-        adapter.POSTRequestAPI("http://10.0.2.2:3000/loginFB",
-        //adapter.POSTRequestAPI("http://104.236.98.100:3000/loginFB",
+        adapter.POSTRequestAPI("/loginFB",
+
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             CurrentUser user = CurrentUser.getInstance();
                             user.setToken(response.getString("token"));
-                            user.setId("nom_user");
+                            user.setId(response.getString("id"));
                             user.setUsername(response.getString("nom"));
 //                            user.setLocation(js.getString("localitat"));
 //                            user.setPreferencesArray(js.getJSONArray("prefs"));
@@ -112,6 +113,7 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
     public void onError(FacebookException exception) {
         //TODO:
         Toast.makeText(myActivity, "Error login", Toast.LENGTH_LONG).show();
+        Log.e("CAACA", "exceptionKAKA", exception);
     }
 
     public static void checkLogin() throws JSONException {
@@ -129,8 +131,9 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
             params.put("id", id);
             headers.put("Content-Type", "application/json");
 
-            adapter.POSTRequestAPI("http://10.0.2.2:3000/loginFB",
-            //adapter.POSTRequestAPI("http://104.236.98.100:3000/loginFB",
+
+            adapter.POSTRequestAPI("/loginFB",
+
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -138,7 +141,7 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
                             try {
                                 CurrentUser user = CurrentUser.getInstance();
                                 user.setToken(js.getString("token"));
-                                user.setId("nom_user");
+                                user.setId(js.getString("id"));
                                 user.setUsername(js.getString("nom"));
 //                                user.setLocation(js.getString("localitat"));
 //                                user.setPreferencesArray(js.getJSONArray("prefs"));

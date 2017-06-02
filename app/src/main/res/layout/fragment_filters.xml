@@ -1,0 +1,130 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="edu.upc.pes.wallachange.FiltersFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:text="Tags:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/multiAutoCompleteTextView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:ems="10" >
+    </MultiAutoCompleteTextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Tipus d'element:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+    <RadioGroup
+        android:id="@+id/radiosTipusTemp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="right"
+        android:inputType="text"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <RadioButton
+            android:id="@+id/radioButtonTemporal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:button="@null"
+            android:drawablePadding="10dp"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:text="Temporal"
+            android:textSize="20dip" />
+
+        <RadioButton
+            android:id="@+id/radioButtonPermanent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawablePadding="10dp"
+            android:layout_alignLeft="@+id/first"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:text="Permanent"
+            android:textSize="20dp" />
+    </RadioGroup>
+    <RadioGroup
+        android:id="@+id/radiosTipusElm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="right"
+        android:inputType="text"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <RadioButton
+            android:id="@+id/radioButtonExp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:button="@null"
+            android:drawablePadding="10dp"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:text="Experiencia"
+            android:textSize="20dip" />
+
+        <RadioButton
+            android:id="@+id/radioButtonProd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawablePadding="10dp"
+            android:layout_alignLeft="@+id/first"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:text="Producte"
+            android:textSize="20dp" />
+    </RadioGroup>
+    <!--<FrameLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--android:name="com.google.android.gms.maps.MapFragment"-->
+            <!--android:id="@+id/map"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"/>-->
+    <!--</FrameLayout>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancelButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.50"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/submitButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.50"
+            android:text="Apply" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
+

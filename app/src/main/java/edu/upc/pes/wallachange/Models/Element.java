@@ -2,14 +2,20 @@ package edu.upc.pes.wallachange.Models;
 
 import android.net.Uri;
 
+
+import java.sql.Struct;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
+
 import java.util.Date;
 
 public class Element {
@@ -21,6 +27,7 @@ public class Element {
     private String temporalitat;
     private String user;
     private ArrayList<Uri> fotografies;
+
     private ArrayList<String> tags;
     private ArrayList<Comment> comentaris;
     //private ArrayList<Coordenades> coordenades;
@@ -64,6 +71,7 @@ public class Element {
         this.dataPublicacio = result1;
 
         //this.temporalitat = ej.getString("temporalitat");
+
         this.user = ej.getString("nom_user");
         //setCoordenades(ej.getJSONObject("coordenades"));
         setFotografiesArray(ej.getJSONArray("imatges"));
@@ -182,6 +190,10 @@ public class Element {
             }
         }
         this.tags = list;
+    }
+
+    public ArrayList<String> getTagsArray() {
+        return tags;
     }
 
     public void setFotografiesArray(JSONArray tagsArray) {
