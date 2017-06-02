@@ -21,5 +21,8 @@
         <item
             android:id="@+id/navigationLogout"
             android:title="@string/navigationLogout_eng" />
+        <item
+            android:id="@+id/navigationFilters"
+            android:title="juajuajua" />
     </group>
 </menu>

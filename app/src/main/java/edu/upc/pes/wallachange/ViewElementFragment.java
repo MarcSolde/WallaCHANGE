@@ -102,10 +102,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
         String id = getArguments().getString("id");
 
-        //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
-        adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/api/element/".concat(id),
-
-        //adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/api/element/591f424f8d47ad08bc958a44",
+        adapterAPIRequest.GETRequestAPI("/api/element/".concat(id),
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response){
