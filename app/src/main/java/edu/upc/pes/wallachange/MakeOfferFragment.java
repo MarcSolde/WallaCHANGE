@@ -162,9 +162,8 @@ public class MakeOfferFragment extends Fragment {
         //TODO:img
         title1.setText(element1.getTitol());
         String var;
-        if (element1.getEsTemporal()) var = "No";
-        else var = element1.getTemporalitat();
-        temporal1.setText(var);
+        if (element1.getEsTemporal()) temporal1.setText(element1.getTemporalitat());
+        else temporal1.setText(R.string.temporal_eng);
     }
 
     private void loadElement2(Element e) {
@@ -172,9 +171,8 @@ public class MakeOfferFragment extends Fragment {
         //TODO:img
         title2.setText(element2.getTitol());
         String var;
-        if (element2.getEsTemporal()) var = "No";
-        else var = element2.getTemporalitat();
-        temporal2.setText(var);
+        if (element2.getEsTemporal()) temporal2.setText(element2.getTemporalitat());
+        else temporal2.setText(R.string.temporal_eng);
     }
 
 

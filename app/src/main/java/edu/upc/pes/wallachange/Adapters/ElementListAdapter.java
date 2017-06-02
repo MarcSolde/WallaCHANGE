@@ -45,8 +45,8 @@ public class ElementListAdapter extends ArrayAdapter<Element> {
         aux = (TextView) convertView.findViewById(R.id.item_text2);
         aux.setText(var.getTags().toString());
         aux = (TextView) convertView.findViewById(R.id.item_text3);
-        if (var.getEsTemporal()) aux.setText("No temporal");
-        else aux.setText(var.getTemporalitat());
+        if (var.getEsTemporal()) var.getTemporalitat();
+        else aux.setText(R.string.temporal_eng);
         return convertView;
     }
 }

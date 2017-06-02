@@ -48,8 +48,6 @@ import edu.upc.pes.wallachange.Models.Element;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private SearchElementFragment homeFragment;
-
     private FragmentManager myFragmentManager;
     private DrawerLayout myDrawer;
 
@@ -62,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         myFragmentManager = getFragmentManager();
-        homeFragment = new SearchElementFragment();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
@@ -76,18 +73,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.setNavigationItemSelectedListener(this);
 
-        Log.i("MAIN","Create ok");
-        //TODO:lenguage
-
+        SearchElementFragment homeFragment = new SearchElementFragment();
         myFragmentManager.beginTransaction().replace(R.id.fragment,homeFragment).commit();
-        Log.i("MAIN","Transaction ok");
         TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
 
         CurrentUser user = CurrentUser.getInstance();
         String text = getResources().getString(R.string.user_eng);
         text = text + " "+ user.getUsername();
         textUser.setText(text);
-        Log.i("MAIN","Set text ok");
 
 
         final ImageView button = (ImageView) findViewById(R.id.translateButton);
@@ -158,9 +151,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.navigationMain:
-                myFragmentManager.beginTransaction().replace(R.id.fragment,homeFragment).commit();
-                break;
             case R.id.navigationLogout:
                 AlertDialog.Builder alertBuilder2 = new AlertDialog.Builder(this);
                 alertBuilder2.setTitle(R.string.logout_dialog_1);
@@ -223,16 +213,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void changeFragmentToHome () {
-        //TODO:
-        homeFragment = new SearchElementFragment();
+        SearchElementFragment homeFragment = new SearchElementFragment();
         myFragmentManager.beginTransaction().replace(R.id.fragment, homeFragment).commit();
         NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.getMenu().getItem(0).setChecked(true);
-    }
-
-    public String getUsername() {
-        //TODO: eliminar
-        return "quitar esto";
     }
 
     public void hideKeyboard() {

@@ -220,7 +220,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                     Date date = new Date();
                     String data = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("es","ES")).format(date);
                     data += "  " + DateFormat.getTimeInstance(DateFormat.MEDIUM, new Locale("es","ES")).format(date);
-                    String nomUsuari = myActivity.getUsername();
+                    String nomUsuari = "";
                     Comment nouComentari = new Comment(path,nomUsuari,comentari,data);
                     comentaris.add(0,nouComentari);
 

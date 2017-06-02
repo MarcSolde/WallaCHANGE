@@ -245,7 +245,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     String tipusProducte = obtenirTipusProducte();
                     String tipusIntercanvi = obtenirTipusIntercanvi();
                     Boolean esTemporal = (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng)));
-                    String localitat = obtenirLocalitatUsuari(myActivity.getUsername());
+                    String localitat = obtenirLocalitatUsuari("");
                     //crida POST
                     CurrentUser user = CurrentUser.getInstance();
                     publicarElement(editTextTitol.getText().toString(),editTextDescripcio.getText().toString(),
