@@ -141,7 +141,7 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                             public void onErrorResponse(VolleyError error) {
                                 Log.i("JSONerror: ","");
                             }
-                        }, null, null
+                        }, headers
                 );
                 break;
             case R.id.search_user_filter:

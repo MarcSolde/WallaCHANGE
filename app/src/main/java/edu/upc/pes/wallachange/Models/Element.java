@@ -2,11 +2,14 @@ package edu.upc.pes.wallachange.Models;
 
 import android.net.Uri;
 
+
+import java.sql.Struct;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
+
 import java.util.Date;
 
 public class Element {
@@ -18,6 +21,7 @@ public class Element {
     private String temporalitat;
     private String user;
     private ArrayList<Uri> fotografies;
+
     private ArrayList<String> tags;
     private ArrayList<Comment> comentaris;
     //private ArrayList<Coordenades> coordenades;
