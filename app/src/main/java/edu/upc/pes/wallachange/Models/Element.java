@@ -6,6 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -44,14 +47,24 @@ public class Element {
 
     public Element(JSONObject ej) throws JSONException {
         this.id = ej.getString("_id");
-        this.titol= ej.getString("titol");
+        this.titol = ej.getString("titol");
         this.descripcio = ej.getString("descripcio");
         this.tipusProducte = ej.getString("tipus_element");
-        //TODO: temporalitat, nom_user, coordenades, localitat ara no ho retorna el GET
+        //TODO: temporalitat, coordenades, localitat ara no ho retorna el GET
         this.esTemporal = ej.getString("es_temporal").equals("true");
-        //this.esTemporal = ej.getBoolean("es_temporal");
+
+        DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        String string1 = ej.getString("data_publicacio");
+        Date result1 = null;
+        try {
+            result1 = df1.parse(string1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.dataPublicacio = result1;
+
         //this.temporalitat = ej.getString("temporalitat");
-        //this.user = ej.getString("nom_user");
+        this.user = ej.getString("nom_user");
         //setCoordenades(ej.getJSONObject("coordenades"));
         setFotografiesArray(ej.getJSONArray("imatges"));
         setTagsArray(ej.getJSONArray("tags"));

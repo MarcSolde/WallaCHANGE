@@ -31,11 +31,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.CategoriesAdapter;
@@ -139,30 +145,24 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
 
     private void publicarElement(String titol, String descripcio, ArrayList<String> categories, String tipusProducte,
             Boolean temporal, String temporalitat, String username, ArrayList<Uri> imatgesMiniatura,
-            ArrayList<Comment> comentaris, String localitat) {
+            String localitat) {
         AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
 
         JSONObject nouElement = new JSONObject();
         try {
-            nouElement.put("titol",titol);
-            nouElement.put("descripcio",descripcio);
+            nouElement.put("titol", titol);
+            nouElement.put("descripcio", descripcio);
+            // TODO : falten les imatges, les coordenades i la temporalitat (en cas que s'afegeixi)
             //nouElement.put("imatges",null);
-            //nouElement.put("nom_user",username);
-
-            //DateFormat df = DateFormat.getTimeInstance();
-            //1df.setTimeZone(TimeZone.getTimeZone("UTC"));
-            //String avui = df.format(new Date());
-
-            //nouElement.put("data_publicacio",avui);
-            nouElement.put("tipus_element",tipusProducte);
-            nouElement.put("es_temporal",temporal);
+            nouElement.put("nom_user", username);
+            Date avui = new Date();
+            DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            nouElement.put("data_publicacio", df1.format(avui));
+            nouElement.put("tipus_element", tipusProducte);
+            nouElement.put("es_temporal", temporal);
             JSONArray tags = obtenirJSONarrayTags(categories);
-            nouElement.put("tags",tags);
-            //int i = 0;
-            //JSONArray coments = null;
-            //nouElement.put("comentaris",coments);
-            //nouElement.put("localitat",localitat);
-            // params ara sera un JSON
+            nouElement.put("tags", tags);
+            //nouElement.put("localitat", localitat);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -193,7 +193,6 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
     }
 
     private JSONArray obtenirJSONarrayTags(ArrayList<String> tags){
-        //TODO
         JSONArray jsonArray = new JSONArray();
         for(int i = 0; i < tags.size(); ++i){
             jsonArray.put(tags.get(i));
@@ -233,12 +232,11 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     String tipusProducte = obtenirTipusProducte();
                     String tipusIntercanvi = obtenirTipusIntercanvi();
                     Boolean esTemporal = (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng)));
-                    String localitat = obtenirLocalitatUsuari(myActivity.getUsername());
-                    //TODO: crida POST
+                    String localitat = currentUser.getLocation();
                     publicarElement(editTextTitol.getText().toString(),editTextDescripcio.getText().toString(),
                             categories,
                             tipusProducte,esTemporal,editTextTemporalitat.getText().toString(),
-                            myActivity.getUsername(),imatgesMiniatura,new ArrayList<Comment>(),
+                            currentUser.getUsername(),imatgesMiniatura,
                             localitat);
                 }
                 break;
@@ -288,11 +286,6 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             default:
                 break;
         }
-    }
-
-    private String obtenirLocalitatUsuari(String username) {
-        //TODO
-        return null;
     }
 
     private String obtenirTipusIntercanvi() {

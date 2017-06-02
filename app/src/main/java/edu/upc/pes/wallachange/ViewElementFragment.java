@@ -36,6 +36,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -76,6 +78,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private String usuariAnunci;
     private ImageButton saveButton;
     private boolean botoEdicioClicat;
+    private Button tradeButton;
 
     public ViewElementFragment() {}
 
@@ -93,7 +96,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         botoEdicioClicat = false;
         us = CurrentUser.getInstance();
         usuariActual = us.getUsername();
-        usuariAnunci = "Andreu Conesa"; // TODO: AQUESTA LINIA SHA DE TREURE QUAN LELEMENT TINGUI LUSUARI CREADOR
 
         editButton = (ImageButton) fragmentViewElementView.findViewById(R.id.botoEditar);
         editButton.setOnClickListener(this);
@@ -109,7 +111,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         removeImageButton.setOnClickListener(this);
         afegeixCategoria = (ImageView) fragmentViewElementView.findViewById(R.id.botoAfegirCategoria);
         afegeixCategoria.setOnClickListener(this);
-        Button tradeButton = (Button) fragmentViewElementView.findViewById(R.id.tradeButton);
+        tradeButton = (Button) fragmentViewElementView.findViewById(R.id.tradeButton);
         tradeButton.setOnClickListener(this);
         editTextWriteComment = (EditText) fragmentViewElementView.findViewById(R.id.editTextComment);
         editTextCategoria = (EditText) fragmentViewElementView.findViewById(R.id.categoria);
@@ -128,6 +130,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                         public void onResponse(JSONObject response) {
                             try {
                                 mElement = new Element(response);
+                                usuariAnunci = mElement.getUser();
                                 loadElement(mElement);
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
@@ -167,17 +170,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         }
 
         deshabilitarCamps();
-
-        if (Objects.equals(usuariAnunci, usuariActual)) {
-            editButton.setEnabled(true);
-            tradeButton.setEnabled(false);
-            tradeButton.setVisibility(View.GONE);
-        }else {
-            editButton.setEnabled(false);
-            editButton.setVisibility(View.GONE);
-            tradeButton.setEnabled(true);
-            tradeButton.setVisibility(View.VISIBLE);
-        }
 
         setHasOptionsMenu(true);
 
@@ -257,11 +249,9 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                         mElement.setDescripcio(finalEditTextDescripcio.getText().toString());
                         JSONObject elementModificat = new JSONObject();
                         try {
+                            // TODO falta poder afegir i esborrar imatges
                             elementModificat.put("titol", mElement.getTitol());
                             elementModificat.put("descripcio", mElement.getDescripcio());
-                            // TODO: falten coses de l'element
-                            elementModificat.put("tipus_element", mElement.getTipusProducte());
-                            elementModificat.put("es_temporal", mElement.getEsTemporal());
                             JSONArray tags = obtenirJSONarrayTags(mElement.getTags());
                             elementModificat.put("tags", tags);
                             if (!faltenCamps) {
@@ -369,6 +359,18 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     }
 
     private void loadElement(Element e){
+
+        if (Objects.equals(usuariAnunci, usuariActual)) {
+            editButton.setEnabled(true);
+            tradeButton.setEnabled(false);
+            tradeButton.setVisibility(View.GONE);
+        }else {
+            editButton.setEnabled(false);
+            editButton.setVisibility(View.GONE);
+            tradeButton.setEnabled(true);
+            tradeButton.setVisibility(View.VISIBLE);
+        }
+
         EditText editTextTitol = (EditText) fragmentViewElementView.findViewById(R.id.titolAnunci);
         editTextTitol.setText(e.getTitol());
         EditText editTextDescripcio = (EditText) fragmentViewElementView.findViewById(R.id.editTextDescripcio);
@@ -397,9 +399,15 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
             editTextTemporalitat.setText(e.getTemporalitat());
         }
 
+
         TextView textViewCreatedBy = (TextView) fragmentViewElementView.findViewById(R.id.createdByTextView);
-        String createdBy =  getResources().getString(R.string.created_by_eng) + "\n" + mElement.getUser();
+        String createdBy =  getResources().getString(R.string.created_by_eng) + " " + mElement.getUser();
         textViewCreatedBy.setText(createdBy);
+
+        DateFormat df1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String dia = df1.format(mElement.getDataPublicacio());
+        EditText editTextTemporalitat = (EditText) fragmentViewElementView.findViewById(R.id.temporalitat);
+        editTextTemporalitat.setText(dia);
     }
 
     private void actualitzarElement(JSONObject elementModificat){
