@@ -124,7 +124,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         idElement = getArguments().getString("id");
         if (idElement != null) {
             //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
-            adapterAPIRequest.GETRequestAPI("http://10.0.2.2:3000/api/element/".concat(idElement),
+            adapterAPIRequest.GETRequestAPI("/api/element/".concat(idElement),
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -416,7 +416,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",us.getToken());
-        String url = "http://10.0.2.2:3000/api/owner/element/"+idElement;
+        String url = "/api/owner/element/"+idElement;
         //adapter.PUTRequestAPI("http://104.236.98.100:3000/loginFB"
         adapterAPIRequest.PUTRequestAPI(url,
                 new Response.Listener<JSONObject>() {
@@ -443,7 +443,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",us.getToken());
-        String url = "http://10.0.2.2:3000/api/owner/element/"+idElement+"/comment";
+        String url = "/api/owner/element/"+idElement+"/comment";
         //adapter.POSTRequestAPI("http://104.236.98.100:3000/loginFB"
         adapterAPIRequest.POSTRequestAPI(url,
                 new Response.Listener<JSONObject>() {
