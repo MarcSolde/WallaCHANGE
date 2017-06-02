@@ -24,11 +24,6 @@ import android.widget.ListView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
-
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,19 +31,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
-import edu.upc.pes.wallachange.APILayer.AppSingleton;
-import edu.upc.pes.wallachange.Adapters.SearchUserAdapter;
+import edu.upc.pes.wallachange.Adapters.UserListAdapter;
 import edu.upc.pes.wallachange.Models.User;
 
 
 public class SearchUserFragment extends Fragment implements View.OnClickListener{
     private MainActivity myActivity;
 
-    private SearchUserAdapter adapter;
+    private UserListAdapter adapter;
     private ListView myListView;
     private EditText myText;
 
@@ -100,7 +93,7 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
         users = new ArrayList<> ();
         users = al;
 
-        adapter = new SearchUserAdapter(myActivity,R.layout.item_search_user,users,this);
+        adapter = new UserListAdapter(myActivity,R.layout.item_default,users);
         myListView.setAdapter(adapter);
         myListView.deferNotifyDataSetChanged();
     }
@@ -138,7 +131,7 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                                             aux2.add(var2.get(j).toString());
                                         }
                                         if (aux2.size() == 0) aux2.add("No preference recorded");
-                                        User u = new User(var.getString("nom_user"),
+                                        User u = new User(var.getString("id"),
                                                 var.getString("nom"),
                                                 null,
                                                 null,

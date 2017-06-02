@@ -60,15 +60,7 @@
             >
 
         </edu.upc.pes.wallachange.Others.ExpandableHeightGridView>
-        <!--
-        <GridView
-            android:id="@+id/gridViewImatgesMiniatura"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:numColumns="5"
-            android:stretchMode="columnWidth"
-            />
-        -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30pt"
@@ -95,7 +87,8 @@
                 android:layout_height="15pt"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/delete"
-                android:id="@+id/neteja_edittext_titol"/>
+                android:id="@+id/neteja_edittext_titol"
+                android:contentDescription="@string/clear_title_edit_text_button_eng"/>
         </LinearLayout>
 
         <LinearLayout
@@ -120,23 +113,24 @@
 
             <EditText
                 android:id="@+id/descripcio"
-                android:layout_width="310dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top|left"
+                android:layout_weight="1.05"
+                android:gravity="top|start"
+                android:hint="@string/advertisements_description_eng"
                 android:inputType="textMultiLine"
                 android:lines="2"
                 android:maxLines="2"
                 android:minLines="2"
-                android:scrollbars="vertical"
-                android:layout_weight="1.05"
-                android:hint="@string/advertisements_description_eng"/>
+                android:scrollbars="vertical" />
             <ImageView
                 android:layout_width="15pt"
                 android:layout_height="15pt"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/delete"
                 android:id="@+id/neteja_edittext_descripcio"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/clear_description_edit_text_button_eng"/>
         </LinearLayout>
 
         <LinearLayout
@@ -160,7 +154,7 @@
                 android:hint="@string/advertisements_category_eng"
                 android:layout_weight="0.37"
                 android:maxLines="1"
-                android:inputType="textPersonName"></EditText>
+                android:inputType="textPersonName" />
 
             <ImageView
                 android:contentDescription="@string/add_category"
@@ -284,7 +278,7 @@
                 android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:hint="2 weeks, 1 day..."
+                android:hint="@string/_2_weeks_1_day"
                 android:layout_weight="0.5"
                 android:maxLines="1"
                 android:inputType="text"
@@ -297,6 +291,7 @@
                 android:id="@+id/neteja_edittext_temporalitat"
                 android:visibility="gone"
                 android:layout_gravity="center_vertical"
+                android:contentDescription="@string/clear_temporality_edit_text_button_eng"
                 />
         </LinearLayout>
 
@@ -304,15 +299,17 @@
             android:id="@+id/botons_cancel_save"
             android:layout_width="match_parent"
             android:layout_height="30pt"
-            android:gravity="right"
-            android:orientation="horizontal">
+            android:gravity="end"
+            android:orientation="horizontal"
+            >
 
             <Button
                 android:id="@+id/cancelarElement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cancelProfile_eng"
-                android:layout_weight="0.50" />
+                android:layout_weight="0.50"
+                />
 
             <Button
                 android:id="@+id/afegirElement"

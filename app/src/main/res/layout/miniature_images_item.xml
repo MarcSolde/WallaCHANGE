@@ -3,13 +3,12 @@
      android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     >
-
-
             <ImageView
                 android:id="@+id/imatgeMiniatura"
                 android:layout_width="22pt"
                 android:layout_height="22pt"
                 android:background="@null"
+                android:contentDescription="@string/miniature_image_eng"
                 />
             <ImageButton
                 android:id="@+id/botoEsborrarImatge"
@@ -17,5 +16,6 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:src="@drawable/clear_picture"
+                android:contentDescription="@string/delete_miniature_image_button_eng"
                 />
 </GridLayout>

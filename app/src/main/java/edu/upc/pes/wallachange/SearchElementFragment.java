@@ -177,6 +177,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                 //headers.put("Content-Type", "application/json");
 
                 final ArrayList<Element> elements2 = new ArrayList<>();
+
                 adapter.GETRequestAPI("/api/elements",
 
                         new Response.Listener<JSONArray>() {

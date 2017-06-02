@@ -12,22 +12,21 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.R;
 import edu.upc.pes.wallachange.SearchUserFragment;
 import edu.upc.pes.wallachange.Models.User;
 
-public class SearchUserAdapter extends ArrayAdapter<User>{
+public class UserListAdapter extends ArrayAdapter<User>{
     private Context myContext;
     private int layoutResourceId;
     private ArrayList<User> data;
-    private SearchUserFragment callBack;
 
-    public SearchUserAdapter(Context context, int layoutResourceId, ArrayList<User> data, SearchUserFragment callBack) {
+    public UserListAdapter(Context context, int layoutResourceId, ArrayList<User> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.myContext = context;
         this.data = data;
-        this.callBack = callBack;
     }
 
     @Override
@@ -42,14 +41,14 @@ public class SearchUserAdapter extends ArrayAdapter<User>{
 
         //ImageView image = (ImageView) convertView.findViewById(R.id.item_search_user_image);
         //image.setImage
-        TextView user = (TextView) convertView.findViewById(R.id.item_search_user_name);
+        TextView user = (TextView) convertView.findViewById(R.id.item_text1);
         user.setText(var.getUsername());
-        TextView preference = (TextView) convertView.findViewById(R.id.item_search_user_preference);
+        TextView preference = (TextView) convertView.findViewById(R.id.item_text2);
         ArrayList<String> preferences = var.getPreferences();
         String pref = "Preferences: ";
         for (int i = 0;i < preferences.size();++i) pref = pref + preferences.get(i) + " ";
         preference.setText(pref);
-        TextView rating = (TextView) convertView.findViewById(R.id.item_search_user_rating);
+        TextView rating = (TextView) convertView.findViewById(R.id.item_text3);
         String rat = "Rating: " + var.getRating()/20 + "/5.0";
         rating.setText(rat);
         if (var.getPictureBitmap() != null) {

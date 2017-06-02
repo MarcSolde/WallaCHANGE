@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">WallaCHANGE</string>
 
-    <string name="facebook_app_id">331745477228111</string>
+    <string name="facebook_app_id" translatable="false">331745477228111</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <!--<string name="hello_blank_fragment">Hello blank fragment</string>-->
@@ -11,6 +11,7 @@
 
     <string name="lenguage_eng">eng</string>
     <string name="lenguage_cat">cat</string>
+    <string name="lenguage_esp">esp</string>
 
     <!--MAIN-->
     <string name="user_eng">User:</string>
@@ -22,9 +23,11 @@
     <string name="navigationHome_eng">Home</string>
     <string name="navigationNewItem_eng">New Item</string>
     <string name="navigationProfile_eng">Profile</string>
+    <string name="navigationOffer_eng">Exchange offer</string>
     <string name="navigationSearchItem_eng">Search Items</string>
     <string name="navigationSearchUser_eng">Search Users</string>
     <string name="navigationLogout_eng">Log out</string>
+    <string name="navigationConfiguration_eng">Configuration</string>
 
     <string name="navigationHome_cat">Inici</string>
     <string name="navigationNewItem_cat">Nou ítem</string>
@@ -73,6 +76,10 @@
     <string name="viewOtherProfileElement_eng">ELEMENTS:</string>
     <string name="viewOtherProfileElement_cat">ELEMENTS:</string>
 
+
+    <!-- OFFER EXCHANGE -->
+    <string name="offerExchangeElement_eng">YOUR ELEMENTS:</string>
+    <string name="offerExchangeSend_eng">Send offer</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -142,9 +149,9 @@
     <string name="errorExistingPref_eng">Existing preference</string>
     <string name="errorEmptyField_eng">This field is empty</string>
     <string name="add_image_button_eng">Add image button</string>
-    <string name="contentDeleteImage">contentDeleteImage</string>
+    <string name="contentDeleteImage" translatable="false">contentDeleteImage</string>
     <string name="userPicture">user picture</string>
-    <string name="clearEditText">clear edit text</string>
+    <string name="clearEditText" translatable="false">clear edit text</string>
     <string name="addPreference">add preference</string>
     <string name="messageOK_eng">Profile changes updated successfully</string>
 
@@ -216,9 +223,22 @@
 
     <string name="add_category">Add category</string>
     <string name="errorExistingCategory_eng">Existing category</string>
+
     <string name="boto_de_la_imatge_anterior">Boto de la imatge anterior</string>
     <string name="boto_de_la_imatge_posterior">Boto de la imatge posterior</string>
     <string name="boto_per_esborrar_la_imatge_actual">Boto per esborrar la imatge actual</string>
     <string name="boto_per_enviar_comentari">Boto per enviar comentari</string>
+    <string name="save_changes_eng">Save changes?</string>
+    <string name="are_you_sure_you_want_to_save_the_changes_eng">Are you sure you want to save the changes?</string>
+    <string name="miniature_image_eng">miniature image</string>
+    <string name="delete_miniature_image_button_eng">delete miniature image button</string>
+    <string name="edit_button_eng">edit button</string>
+    <string name="save_button_eng">save button</string>
+    <string name="_2_weeks_1_day">2 weeks, 1 day...</string>
+    <string name="clear_title_edit_text_button_eng">clear title edit text button</string>
+    <string name="clear_description_edit_text_button_eng">clear description edit text button</string>
+    <string name="clear_temporality_edit_text_button_eng">clear temporality edit text button</string>
+
+
 
 </resources>
