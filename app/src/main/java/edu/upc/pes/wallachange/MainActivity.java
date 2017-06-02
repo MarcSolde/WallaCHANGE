@@ -1,9 +1,13 @@
 package edu.upc.pes.wallachange;
 
+import static java.security.AccessController.getContext;
+
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -13,10 +17,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
@@ -43,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private FragmentManager myFragmentManager;
     private DrawerLayout myDrawer;
+
+    private NavigationView myNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //myDrawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
+        myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.setNavigationItemSelectedListener(this);
 
         Log.i("MAIN","Create ok");
@@ -77,6 +88,65 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         text = text + " "+ user.getUsername();
         textUser.setText(text);
         Log.i("MAIN","Set text ok");
+
+
+        final ImageView button = (ImageView) findViewById(R.id.translateButton);
+        button.setImageDrawable(null);   //This will force the image to properly refresh
+        button.setImageResource(R.drawable.prova);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                callActivity();
+            }
+        });
+
+
+    }
+    @SuppressWarnings("deprecation")
+    public void callActivity() {
+
+        String eng = getResources().getString(R.string.english_eng);
+        String esp = getResources().getString(R.string.spanish_eng);
+        String cat = getResources().getString(R.string.catalan_eng);
+        final String[] items = {eng, esp, cat};
+        int inputSelection = 1;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(getResources().getString(R.string.language_eng));
+        Locale current = getResources().getConfiguration().locale;
+        String local = current.toString();
+        if (local.equals("es")) {
+            inputSelection = 1;
+        }
+        else if (local.equals("ca")) {
+            inputSelection = 2;
+        }
+        else inputSelection = 0;
+
+        builder.setSingleChoiceItems(items,inputSelection,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0)
+                            Translate.changeLocale(getResources(), "en_US");
+                        else if (item == 1)
+                            Translate.changeLocale(getResources(), "es");
+                        else if (item == 2) {
+                            Translate.changeLocale(getResources(), "ca");
+                        }
+                        changeNav();
+                        dialog.dismiss();
+                        final ImageView button = (ImageView) findViewById(R.id.translateButton);
+                        button.setImageDrawable(null);   //This will force the image to properly refresh
+                        button.setImageResource(R.drawable.prova);
+
+                    }
+                });
+        AlertDialog levelDialog = builder.create();
+        levelDialog.show();
+    }
+
+    public void changeNav() {
+        recreate();
 
     }
 
@@ -180,5 +250,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         seeProfileFragment.setArguments(args);
         myFragmentManager.beginTransaction().replace(R.id.fragment, seeProfileFragment).commit();
     }
+
+
 
 }

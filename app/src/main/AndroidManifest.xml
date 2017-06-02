@@ -26,6 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Translate"
+            android:label="idioma"
+            android:configChanges="locale" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
