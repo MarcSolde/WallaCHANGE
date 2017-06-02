@@ -151,7 +151,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             nouElement.put("titol",titol);
             nouElement.put("descripcio",descripcio);
             //nouElement.put("imatges",null);
-            //nouElement.put("nom_user",username);
+            nouElement.put("nom_user",username);
 
             //DateFormat df = DateFormat.getTimeInstance();
             //1df.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -247,10 +247,11 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     Boolean esTemporal = (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng)));
                     String localitat = obtenirLocalitatUsuari(myActivity.getUsername());
                     //crida POST
+                    CurrentUser user = CurrentUser.getInstance();
                     publicarElement(editTextTitol.getText().toString(),editTextDescripcio.getText().toString(),
                             categories,
                             tipusProducte,esTemporal,editTextTemporalitat.getText().toString(),
-                            myActivity.getUsername(),imatgesMiniatura,new ArrayList<Comment>(),
+                            user.getId(),imatgesMiniatura,new ArrayList<Comment>(),
                             localitat);
                 }
                 break;

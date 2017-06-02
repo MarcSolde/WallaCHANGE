@@ -252,5 +252,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    public void changeToMakeOffer (String id) {
+        MakeOfferFragment makeOfferFragment = new MakeOfferFragment();
+        Bundle args = new Bundle();
+        args.putString("id",id);
+        makeOfferFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, makeOfferFragment).commit();
+    }
 
 }
