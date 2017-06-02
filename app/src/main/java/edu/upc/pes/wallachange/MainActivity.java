@@ -91,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         final ImageView button = (ImageView) findViewById(R.id.translateButton);
+        button.setImageDrawable(null);   //This will force the image to properly refresh
+        button.setImageResource(R.drawable.prova);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 callActivity();
@@ -99,20 +101,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+    @SuppressWarnings("deprecation")
     public void callActivity() {
 
         final String[] items = { "en", "es" , "ca"};
-        int inputSelection = 3;
+        int inputSelection = 1;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("Language");
+        Locale current = getResources().getConfiguration().locale;
+        String local = current.toString();
+        if (local.equals("es")) {
+            inputSelection = 1;
+        }
+        else if (local.equals("ca")) {
+            inputSelection = 2;
+        }
+        else inputSelection = 0;
 
         builder.setSingleChoiceItems(items,inputSelection,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         Translate.changeLocale(getResources(), items[item]);
                         dialog.dismiss();
+                        final ImageView button = (ImageView) findViewById(R.id.translateButton);
+                        button.setImageDrawable(null);   //This will force the image to properly refresh
+                        button.setImageResource(R.drawable.prova);
                     }
                 });
         AlertDialog levelDialog = builder.create();

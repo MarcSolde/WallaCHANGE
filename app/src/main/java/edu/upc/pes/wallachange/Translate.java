@@ -23,23 +23,6 @@ public class Translate extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        setContentView(R.layout.configuration_fragment);
-//        RadioGroup rg = (RadioGroup) findViewById(R.id.radiogroup);
-//        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                switch (checkedId) {
-//                    case R.id.butEng:
-//                        changeLocale(getResources(), "en");
-//                        break;
-//                    case R.id.butCat:
-//                        Log.i("hola", "estic a ca");
-//                        changeLocale(getResources(), "ca");
-//                        break;
-//                    case R.id.butEsp:
-//                        changeLocale(getResources(), "es");
-//                }
-//            }
-//        });
     }
     @SuppressWarnings("deprecation")
     public static void changeLocale(Resources res, String locale) {
