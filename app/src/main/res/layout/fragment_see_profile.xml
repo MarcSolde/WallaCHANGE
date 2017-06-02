@@ -44,7 +44,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25pt"
+                android:layout_height="16pt"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -61,6 +61,7 @@
                     android:id="@+id/see_user_city"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textSize="8pt"
                     android:singleLine="true"
                     android:inputType="textPersonName"
                     android:layout_weight="0.591" />
@@ -68,7 +69,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25pt"
+                android:layout_height="16pt"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -85,6 +86,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.591"
+                    android:textSize="8pt"
                     android:singleLine="true"
                     android:inputType="textPersonName" />
             </LinearLayout>
@@ -92,7 +94,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25pt"
+                android:layout_height="16pt"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -103,18 +105,14 @@
                     android:text="@string/rating_eng"
                     android:textSize="8pt"
                     android:textStyle="bold" />
-
-
-                <RatingBar
+                <TextView
                     android:id="@+id/see_user_rating"
-                    style="?attr/ratingBarStyle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:numStars="5"
-                    android:stepSize="0.5"
-                    android:theme="@style/RatingBar"
-                    android:isIndicator="true"/>
+                    android:layout_weight="0.591"
+                    android:textSize="8pt"
+                    android:singleLine="true"
+                    android:inputType="textPersonName" />
 
             </LinearLayout>
 
@@ -132,7 +130,7 @@
             <ListView
                 android:id="@+id/see_user_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
             </ListView>
 
