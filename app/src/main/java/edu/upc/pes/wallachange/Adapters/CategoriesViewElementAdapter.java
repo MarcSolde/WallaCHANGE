@@ -2,7 +2,6 @@ package edu.upc.pes.wallachange.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,26 +13,31 @@ import java.util.ArrayList;
 
 import edu.upc.pes.wallachange.AddElementFragment;
 import edu.upc.pes.wallachange.R;
+import edu.upc.pes.wallachange.ViewElementFragment;
 
+/**
+ * Created by Usuario on 31/05/2017.
+ */
 
-public class CategoriesAdapter extends ArrayAdapter<String> {
+public class CategoriesViewElementAdapter extends ArrayAdapter<String> {
 
-    private final Context mContext;
-    private final int layoutResourceId;
-    private final ArrayList<String> data;
-    private final AddElementFragment callBack;
+    private Context mContext;
+    private int layoutResourceId;
+    private ArrayList<String> data;
+    private ViewElementFragment callBack;
+    private Boolean editables;
 
-    public CategoriesAdapter(Context context, int layoutResourceId, ArrayList<String> data, AddElementFragment addElementFragment) {
+    public CategoriesViewElementAdapter(Context context, int layoutResourceId, ArrayList<String> data, ViewElementFragment viewElementFragment, boolean tagsEditables) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.mContext = context;
         this.data = data;
-        this.callBack = addElementFragment;
+        this.callBack = viewElementFragment;
+        this.editables = tagsEditables;
     }
 
-    @NonNull
     @Override
-    public View getView(final int position, View convertView, @NonNull final ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
 
         if(convertView==null){
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
@@ -45,6 +49,10 @@ public class CategoriesAdapter extends ArrayAdapter<String> {
         TextView textViewCategoria = (TextView) convertView.findViewById(R.id.textViewCategory);
         textViewCategoria.setText(categoria);
         ImageButton botoEsborrarCategoria = (ImageButton) convertView.findViewById(R.id.botoEsborrarCategoria);
+        if (!editables){
+            botoEsborrarCategoria.setVisibility(View.GONE);
+            botoEsborrarCategoria.setEnabled(false);
+        }
         botoEsborrarCategoria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

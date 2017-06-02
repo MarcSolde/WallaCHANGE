@@ -147,9 +147,22 @@
 
     <string name="add_category">Add category</string>
     <string name="errorExistingCategory_eng">Existing category</string>
-    <string name="boto_de_la_imatge_anterior" translatable="false">Boto de la imatge anterior</string>
-    <string name="boto_de_la_imatge_posterior" translatable="false">Boto de la imatge posterior</string>
-    <string name="boto_per_esborrar_la_imatge_actual" translatable="false">Boto per esborrar la imatge actual</string>
-    <string name="boto_per_enviar_comentari" translatable="false">Boto per enviar comentari</string>
+
+    <string name="boto_de_la_imatge_anterior">Boto de la imatge anterior</string>
+    <string name="boto_de_la_imatge_posterior">Boto de la imatge posterior</string>
+    <string name="boto_per_esborrar_la_imatge_actual">Boto per esborrar la imatge actual</string>
+    <string name="boto_per_enviar_comentari">Boto per enviar comentari</string>
+    <string name="save_changes_eng">Save changes?</string>
+    <string name="are_you_sure_you_want_to_save_the_changes_eng">Are you sure you want to save the changes?</string>
+    <string name="miniature_image_eng">miniature image</string>
+    <string name="delete_miniature_image_button_eng">delete miniature image button</string>
+    <string name="edit_button_eng">edit button</string>
+    <string name="save_button_eng">save button</string>
+    <string name="_2_weeks_1_day">2 weeks, 1 day...</string>
+    <string name="clear_title_edit_text_button_eng">clear title edit text button</string>
+    <string name="clear_description_edit_text_button_eng">clear description edit text button</string>
+    <string name="clear_temporality_edit_text_button_eng">clear temporality edit text button</string>
+
+
 
 </resources>

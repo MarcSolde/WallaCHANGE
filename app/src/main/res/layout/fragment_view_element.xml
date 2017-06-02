@@ -19,17 +19,48 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/titolAnunci"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:background="@android:color/transparent"
-                android:maxLines="1"
-                android:inputType="text"
-                tools:ignore="LabelFor" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <EditText
+                    android:id="@+id/titolAnunci"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    tools:ignore="LabelFor" />
+
+                <ImageButton
+                    android:id="@+id/botoEditar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dp"
+                    app:srcCompat="@android:drawable/ic_menu_edit"
+                    android:background="@null"
+                    android:contentDescription="@string/edit_button_eng"/>
+
+                <ImageButton
+                    android:id="@+id/botoGuardar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dp"
+                    app:srcCompat="@android:drawable/ic_menu_save"
+                    android:background="@null"
+                    android:visibility="gone"
+                    android:contentDescription="@string/save_button_eng"/>
+            </RelativeLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,7 +71,6 @@
                     android:id="@+id/createdByTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/created_by_eng"
                     android:layout_weight="1"/>
 
                 <EditText
@@ -61,18 +91,6 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-
-
-                <!--
-                <ImageView
-                    android:id="@+id/imageViewFotoElement"
-                    android:layout_width="100pt"
-                    android:layout_height="100pt"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/empty_picture" />
-
-                    -->
-
 
                 <ImageButton
                     android:id="@+id/previousButton"
@@ -123,21 +141,56 @@
                 android:hint="@string/description_eng"
                 tools:ignore="LabelFor" />
 
-            <EditText
-                android:id="@+id/editTextCategoria"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="6pt"
-                android:background="@android:color/transparent"
-                android:maxLines="1"
-                android:inputType="text"
-                tools:ignore="LabelFor" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/textViewCategoria"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_eng"
+                    android:textStyle="bold"
+                    android:textSize="8pt"
+                    android:layout_weight="0.63" />
+
+                <EditText
+                    android:id="@+id/categoria"
+                    android:layout_width="215dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/advertisements_category_eng"
+                    android:layout_weight="0.37"
+                    android:maxLines="1"
+                    android:inputType="textPersonName" />
+
+                <ImageView
+                    android:contentDescription="@string/add_category"
+                    android:id="@+id/botoAfegirCategoria"
+                    android:layout_width="15pt"
+                    android:layout_height="15pt"
+                    android:layout_gravity="center_vertical"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/add" />
+            </LinearLayout>
+
+            <edu.upc.pes.wallachange.Others.ExpandableHeightGridView
+                android:id="@+id/gridCategories"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="15pt"
+                android:layout_weight="0.63"
+                android:horizontalSpacing="5dp"
+                android:isScrollContainer="false"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="5dp" />
 
             <LinearLayout
                 android:id="@+id/botons_cancel_save"
                 android:layout_width="match_parent"
-                android:layout_height="30pt"
+                android:layout_height="wrap_content"
                 android:gravity="end"
                 android:orientation="horizontal"
                 android:weightSum="1">
@@ -152,7 +205,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="horizontal">
 
                 <EditText
@@ -162,18 +216,21 @@
                     android:layout_weight="4.97"
                     android:ems="10"
                     android:hint="@string/write_here_your_comment_eng"
-                    android:singleLine="true"/>
+                    android:textAlignment="textStart"
+                    android:maxLines="1"/>
+                <!-- android:singleLine="true" -->
 
                 <ImageButton
                     android:id="@+id/writeComment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@color/tw__transparent"
+                    android:contentDescription="@string/boto_per_enviar_comentari"
                     android:scaleType="fitCenter"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@android:drawable/ic_menu_send"
-                    android:contentDescription="@string/boto_per_enviar_comentari"/>
+                    app:srcCompat="@android:drawable/ic_menu_send" />
             </LinearLayout>
 
                 <edu.upc.pes.wallachange.Others.ExpandableHeightGridView
