@@ -8,6 +8,12 @@ import java.sql.Struct;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 
 import java.util.Date;
@@ -30,7 +36,7 @@ public class Element {
     private String localitat;
     private Date dataPublicacio;
 
-    public Element(String id, String titol, String descripcio, String tipusProducte, String tipusIntercanvi, String temporalitat, String user, ArrayList<Uri> fotografies) {
+    public Element(String id, String titol, String descripcio, String tipusProducte, String temporalitat, String user, ArrayList<Uri> fotografies) {
         this.id = id;
         this.titol = titol;
         this.descripcio = descripcio;
@@ -48,14 +54,25 @@ public class Element {
 
     public Element(JSONObject ej) throws JSONException {
         this.id = ej.getString("_id");
-        this.titol= ej.getString("titol");
+        this.titol = ej.getString("titol");
         this.descripcio = ej.getString("descripcio");
         this.tipusProducte = ej.getString("tipus_element");
-        //TODO: temporalitat, nom_user, coordenades, localitat ara no ho retorna el GET
+        //TODO: temporalitat, coordenades, localitat ara no ho retorna el GET
         this.esTemporal = ej.getString("es_temporal").equals("true");
-        //this.esTemporal = ej.getBoolean("es_temporal");
+
+        DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        String string1 = ej.getString("data_publicacio");
+        Date result1 = null;
+        try {
+            result1 = df1.parse(string1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.dataPublicacio = result1;
+
         //this.temporalitat = ej.getString("temporalitat");
-        //this.user = ej.getString("user_id");
+
+        this.user = ej.getString("nom_user");
         //setCoordenades(ej.getJSONObject("coordenades"));
         setFotografiesArray(ej.getJSONArray("imatges"));
         setTagsArray(ej.getJSONArray("tags"));
@@ -151,18 +168,21 @@ public class Element {
         return tags;
     }
 
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
     public Coordenades getCoordenades() {
         return coordenades;
     }
 
     public void setTagsArray(JSONArray tagsArray) {
-        ArrayList<String> list = new ArrayList<String>();
-        JSONArray jsonArray = (JSONArray) tagsArray;
-        if (jsonArray != null) {
-            int len = jsonArray.length();
+        ArrayList<String> list = new ArrayList<>();
+        if (tagsArray != null) {
+            int len = tagsArray.length();
             for (int i = 0; i < len; i++) {
                 try {
-                    list.add(jsonArray.get(i).toString());
+                    list.add(tagsArray.get(i).toString());
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -178,12 +198,11 @@ public class Element {
 
     public void setFotografiesArray(JSONArray tagsArray) {
         ArrayList<Uri> list = new ArrayList<>();
-        JSONArray jsonArray = tagsArray;
-        if (jsonArray != null) {
-            int len = jsonArray.length();
+        if (tagsArray != null) {
+            int len = tagsArray.length();
             for (int i = 0; i < len; i++) {
                 try {
-                    Uri uri = Uri.parse(jsonArray.get(i).toString());
+                    Uri uri = Uri.parse(tagsArray.get(i).toString());
                     list.add(uri);
 
                 } catch (JSONException e) {
@@ -196,13 +215,12 @@ public class Element {
 
     public void setComentarisArray(JSONArray comentaris) {
         ArrayList<Comment> list = new ArrayList<>();
-        JSONArray jsonArray = comentaris;
-        if (jsonArray != null) {
-            int len = jsonArray.length();
+        if (comentaris != null) {
+            int len = comentaris.length();
             for (int i = 0; i < len; i++) {
                 try {
                     // TODO els comentaris tindran data
-                    Comment comment = new Comment(jsonArray.getJSONObject(i).getString("nom_user"), jsonArray.getJSONObject(i).getString("text"));
+                    Comment comment = new Comment(comentaris.getJSONObject(i).getString("nom_user"), comentaris.getJSONObject(i).getString("text"));
                     list.add(comment);
                 } catch (JSONException e) {
                     e.printStackTrace();
