@@ -8,4 +8,6 @@
     <color name="colorAccent">#66BB6A</color> <!--green 400-->
     <color name="colorGrey">#606060</color> <!--grey-->
     <color name="colorWallachange">#ED1C40</color> <!--color icono wallachange-->
+    <color name="colorSentMessage">#006666</color> <!--color mensajes enviados-->
+
 </resources>

@@ -39,6 +39,7 @@
         <string name="navigationNewItem_eng">Nou ítem</string>
         <string name="navigationLogout_eng">Sortir</string>
         <string name="navigationHome_eng">Inici</string>
+        <string name="navigationChat_eng">Xat</string>
         <string name="logout_dialog_4">Cancel·lar</string>
         <string name="logout_dialog_2">Vols tancar sessió?</string>
         <string name="logout_dialog_3">Sortir</string>
@@ -77,4 +78,6 @@
         <string name="add_image_button_eng"></string>
         <string name="add_category">Afegir categoria</string>
         <string name="addPreference"></string>
+        <string name="stringChatMessage">Escriu un missatge...</string>
+
 </resources>

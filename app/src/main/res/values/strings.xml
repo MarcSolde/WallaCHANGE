@@ -29,7 +29,7 @@
     <string name="navigationSearchItem_eng">Search Items</string>
     <string name="navigationSearchUser_eng">Search Users</string>
     <string name="navigationLogout_eng">Log out</string>
-    <string name="navigationConfiguration_eng">Configuration</string>
+    <string name="navigationChat_eng">Chat</string>
 
     <string name="navigationOpen" translatable="false">Open navigation drawer</string>
     <string name="navigationClose">Close navigation drawer</string>
@@ -162,7 +162,7 @@
     <string name="clear_title_edit_text_button_eng">clear title edit text button</string>
     <string name="clear_description_edit_text_button_eng">clear description edit text button</string>
     <string name="clear_temporality_edit_text_button_eng">clear temporality edit text button</string>
-
+    <string name="stringChatMessage">Write your message...</string>
 
 
 </resources>

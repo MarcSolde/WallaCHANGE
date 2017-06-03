@@ -196,6 +196,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FiltersFragment FiltersFragment = new FiltersFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, FiltersFragment).commit();
                 break;
+            case R.id.navigationChat:
+                ChatFragment ChatFragment = new ChatFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, ChatFragment).commit();
             default:
                 break;
         }
