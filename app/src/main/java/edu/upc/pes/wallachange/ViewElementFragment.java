@@ -6,9 +6,11 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,9 +39,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -51,6 +55,7 @@ import edu.upc.pes.wallachange.Adapters.CommentListViewAdapter;
 import edu.upc.pes.wallachange.Models.Comment;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
+import edu.upc.pes.wallachange.Models.User;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
 
 import static com.android.volley.VolleyLog.TAG;
@@ -74,8 +79,8 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private ImageView afegeixCategoria;
     private ImageButton removeImageButton;
     private ImageButton editButton;
-    private String usuariActual;
-    private String usuariAnunci;
+    private String idUsuariAnunci;
+    private User usuariAnunci;
     private ImageButton saveButton;
     private boolean botoEdicioClicat;
     private Button tradeButton;
@@ -95,7 +100,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         comentaris = new ArrayList<>();
         botoEdicioClicat = false;
         us = CurrentUser.getInstance();
-        usuariActual = us.getUsername();
 
         editButton = (ImageButton) fragmentViewElementView.findViewById(R.id.botoEditar);
         editButton.setOnClickListener(this);
@@ -130,7 +134,8 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                         public void onResponse(JSONObject response) {
                             try {
                                 mElement = new Element(response);
-                                usuariAnunci = mElement.getUser();
+                                idUsuariAnunci = mElement.getUser();
+                                obtenirUsuariAnunci(idUsuariAnunci);
                                 loadElement(mElement);
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
@@ -228,7 +233,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
                 ExpandableHeightGridView gridCategories = (ExpandableHeightGridView) fragmentViewElementView.findViewById(R.id.gridCategories);
                 gridCategories.setExpanded(true);
-                boolean editables = Objects.equals(usuariActual, usuariAnunci) && botoEdicioClicat;
+                boolean editables = Objects.equals(idUsuariAnunci, us.getId()) && botoEdicioClicat;
                 categoriesAdapter = new CategoriesViewElementAdapter(myActivity, R.layout.category_list_item, categories, this, editables);
                 gridCategories.setAdapter(categoriesAdapter);
                 categoriesAdapter.notifyDataSetChanged();
@@ -336,18 +341,17 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                 if (!Objects.equals(editTextWriteComment.getText().toString(), "")){
                     String comentari = editTextWriteComment.getText().toString();
                     // TODO: falta poder pujar la data del comentari
-                JSONObject nouComentari = new JSONObject();
-                try {
-                    nouComentari.put("text",comentari);
-                    nouComentari.put("nom_user",us.getUsername());
-                    //DateFormat df = DateFormat.getTimeInstance();
-                    //1df.setTimeZone(TimeZone.getTimeZone("UTC"));
-                    //String avui = df.format(new Date());
-                    //nouElement.put("data_publicacio",avui);
-                    publicarComentari(nouComentari);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    JSONObject nouComentari = new JSONObject();
+                    try {
+                        nouComentari.put("text",comentari);
+                        nouComentari.put("user_id",us.getId());
+                        /*Date avui = new Date();
+                        DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                        nouComentari.put("data", df1.format(avui));*/
+                        publicarComentari(nouComentari);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                 }else{
                     String errorCommentCanNotBeEmpty = getResources().getString(R.string.this_field_is_required_eng);
@@ -361,7 +365,8 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
     private void loadElement(Element e){
 
-        if (Objects.equals(usuariAnunci, usuariActual)) {
+
+        if (Objects.equals(idUsuariAnunci, us.getId())) {
             editButton.setEnabled(true);
             tradeButton.setEnabled(false);
             tradeButton.setVisibility(View.GONE);
@@ -380,7 +385,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         categories = e.getTags();
         ExpandableHeightGridView gridCategories = (ExpandableHeightGridView) fragmentViewElementView.findViewById(R.id.gridCategories);
         gridCategories.setExpanded(true);
-        boolean editables = Objects.equals(usuariActual, usuariAnunci) && botoEdicioClicat;
+        boolean editables = Objects.equals(idUsuariAnunci, us.getId()) && botoEdicioClicat;
         categoriesAdapter = new CategoriesViewElementAdapter(myActivity, R.layout.category_list_item, categories, this, editables);
         gridCategories.setAdapter(categoriesAdapter);
         categoriesAdapter.notifyDataSetChanged();
@@ -400,15 +405,57 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
             editTextTemporalitat.setText(e.getTemporalitat());
         }
 
-
-        TextView textViewCreatedBy = (TextView) fragmentViewElementView.findViewById(R.id.createdByTextView);
-        String createdBy =  getResources().getString(R.string.created_by_eng) + " " + mElement.getUser();
-        textViewCreatedBy.setText(createdBy);
-
-        DateFormat df1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        DateFormat df1 = new SimpleDateFormat("dd/MM/yyyy\nHH:mm:ss");
         String dia = df1.format(mElement.getDataPublicacio());
         EditText editTextTemporalitat = (EditText) fragmentViewElementView.findViewById(R.id.temporalitat);
         editTextTemporalitat.setText(dia);
+    }
+
+    private void obtenirUsuariAnunci(String id) {
+        Map<String, String> headers = new HashMap<>();
+        AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
+        adapterAPIRequest.GETRequestAPI("/user/"+id,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.i("JSON: ",response.toString());
+                            JSONArray var2 = response.getJSONArray("preferencies");
+                            ArrayList<String> aux2 = new ArrayList<> ();
+                            for (int j = 0; j < var2.length();++j) {
+                                aux2.add(var2.get(j).toString());
+                            }
+                            User u = new User(response.getString("id"),
+                                    response.getString("nom"),
+                                    response.getString("localitat"),
+                                    null,
+                                    response.getInt("reputacio"),
+                                    Uri.parse(response.getString("path")),
+                                    aux2);
+                            setUsuariAnunci(u);
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    }
+                },
+                headers
+        );
+    }
+
+    public void setUsuariAnunci(User u) {
+        this.usuariAnunci = u;
+        TextView textViewCreatedBy = (TextView) fragmentViewElementView.findViewById(R.id.createdByTextView);
+        String createdBy =  getResources().getString(R.string.created_by_eng) + " " + usuariAnunci.getUsername();
+        textViewCreatedBy.setText(createdBy);
     }
 
     private void actualitzarElement(JSONObject elementModificat){
@@ -416,7 +463,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",us.getToken());
-        String url = "/api/owner/element/"+idElement;
+        String url = "/api/element/"+idElement;
         //adapter.PUTRequestAPI("http://104.236.98.100:3000/loginFB"
         adapterAPIRequest.PUTRequestAPI(url,
                 new Response.Listener<JSONObject>() {
@@ -443,7 +490,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",us.getToken());
-        String url = "/api/owner/element/"+idElement+"/comment";
+        String url = "/api/element/".concat(idElement).concat("/comment");
         //adapter.POSTRequestAPI("http://104.236.98.100:3000/loginFB"
         adapterAPIRequest.POSTRequestAPI(url,
                 new Response.Listener<JSONObject>() {

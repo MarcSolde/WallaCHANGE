@@ -8,4 +8,7 @@
     <color name="colorAccent">#66BB6A</color> <!--green 400-->
     <color name="colorGrey">#606060</color> <!--grey-->
     <color name="colorWallachange">#ED1C40</color> <!--color icono wallachange-->
+
+    <color name="enabled_color">#000000</color>
+    <color name="disabled_color">#606060</color>
 </resources>
