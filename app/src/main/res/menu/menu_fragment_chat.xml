@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/see_profile_user"
+        android:title="@string/See_its_profile"/>
+    <item
+        android:id="@+id/see_elements_user"
+        android:title="@string/See_its_elements"/>
+</menu>

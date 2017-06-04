@@ -9,6 +9,6 @@
         android:bottomRightRadius="8dp"
         android:bottomLeftRadius="8dp" />
     <solid
-        android:color="@color/colorSentMessage" />
+        android:color="@color/tw__solid_white" />
 
 </shape>

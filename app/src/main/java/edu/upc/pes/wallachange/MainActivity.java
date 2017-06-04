@@ -222,6 +222,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myNavigationView.getMenu().getItem(0).setChecked(true);
     }
 
+
+
     public void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -246,5 +248,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         makeOfferFragment.setArguments(args);
         myFragmentManager.beginTransaction().replace(R.id.fragment, makeOfferFragment).commit();
     }
+
+    public void changeToChat (String id) {
+        ChatFragment chatFragment = new ChatFragment();
+        Bundle args = new Bundle();
+        args.putString("alterUserId", id);
+        chatFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, chatFragment).commit();
+        NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
+        myNavigationView.getMenu().getItem(4).setChecked(true);
+    }
+
+
 
 }

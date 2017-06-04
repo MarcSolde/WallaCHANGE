@@ -163,6 +163,12 @@
     <string name="clear_description_edit_text_button_eng">clear description edit text button</string>
     <string name="clear_temporality_edit_text_button_eng">clear temporality edit text button</string>
     <string name="stringChatMessage">Write your message...</string>
+    <string name="See_its_elements">See its elements</string>
+    <string name="See_its_profile">See its profile</string>
+    <string name="action_menu">Options</string>
+
+
+
 
 
 </resources>

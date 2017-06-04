@@ -79,5 +79,9 @@
         <string name="add_category">Afegir categoria</string>
         <string name="addPreference"></string>
         <string name="stringChatMessage">Escriu un missatge...</string>
+        <string name="See_its_elements">Veure els seus elements</string>
+        <string name="See_its_profile">Veure el seu perfil</string>
+        <string name="action_menu">Opcions</string>
+
 
 </resources>

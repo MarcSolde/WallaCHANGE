@@ -36,9 +36,12 @@ public class MakeOfferFragment extends Fragment {
 
     private ListView myListView;
 
+    private String alterUserId;
     private Element element1, element2;
     private ArrayList<Element> elements;
     private static AdapterAPIRequest adapterAPI = new AdapterAPIRequest();
+
+
 
     private ImageView img1, img2;
     private TextView title1, title2, temporal1, temporal2;
@@ -52,6 +55,7 @@ public class MakeOfferFragment extends Fragment {
         myActivity = (MainActivity) getActivity();
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         myActivity.setTitle(R.string.navigationOffer_eng);
+
 
         CurrentUser user = CurrentUser.getInstance();
         Map<String, String> headers = new HashMap<>();
@@ -96,10 +100,10 @@ public class MakeOfferFragment extends Fragment {
 
         Button myButton = (Button) view.findViewById(R.id.make_offer_button);
         myButton.setOnClickListener( new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 //TODO:make offer
+                myActivity.changeToChat(alterUserId);
             }
         });
         String aux = user.getId();
@@ -161,6 +165,7 @@ public class MakeOfferFragment extends Fragment {
         element1 = e;
         //TODO:img
         title1.setText(element1.getTitol());
+        alterUserId = element1.getUser();
         String var;
         if (element1.getEsTemporal()) temporal1.setText(element1.getTemporalitat());
         else temporal1.setText(R.string.temporal_eng);
@@ -174,6 +179,7 @@ public class MakeOfferFragment extends Fragment {
         if (element2.getEsTemporal()) temporal2.setText(element2.getTemporalitat());
         else temporal2.setText(R.string.temporal_eng);
     }
+
 
 
 }

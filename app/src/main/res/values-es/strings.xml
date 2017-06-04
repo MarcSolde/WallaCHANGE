@@ -72,5 +72,9 @@
         <string name="add_picture_eng">Añadir imágenes</string>
         <string name="add_category">Añadir categoria</string>
         <string name="stringChatMessage">Escribe un mensaje...</string>
+        <string name="See_its_elements">Ver sus elementos</string>
+        <string name="See_its_profile">Ver su perfil</string>
+        <string name="action_menu">Opciones</string>
+
 
 </resources>
