@@ -11,12 +11,25 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Models.Comment;
 import edu.upc.pes.wallachange.R;
+
+import static com.android.volley.VolleyLog.TAG;
 
 
 public class CommentListViewAdapter extends ArrayAdapter<Comment>{
@@ -48,8 +61,8 @@ public class CommentListViewAdapter extends ArrayAdapter<Comment>{
     }
 
     @NonNull
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        ViewHolder holder;
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
+        final ViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
             convertView = inflater.inflate(layoutResourceId, parent, false);
@@ -65,10 +78,39 @@ public class CommentListViewAdapter extends ArrayAdapter<Comment>{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.reportedDateView.setText(data.get(position).getData());
-        String comentarista = mContext.getString(R.string.by_eng) + ", " + data.get(position).getNomUsuari();
-        holder.reporterNameView.setText(comentarista);
-        holder.headlineView.setText(data.get(position).getTextComentari());
+        DateFormat df1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String dia = df1.format(data.get(position).getDia());
+        dia = dia.replace(" "," " + getContext().getResources().getString(R.string.at_eng) + " ");
+        holder.reportedDateView.setText(dia);
+
+        Map<String, String> headers = new HashMap<>();
+        AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
+        adapterAPIRequest.GETRequestAPI("/user/"+data.get(position).getNomUsuari(),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String nomUsuari = response.getString("nom");
+                            String comentarista = mContext.getString(R.string.by_eng) + ", " + nomUsuari;
+                            holder.reporterNameView.setText(comentarista);
+                            holder.headlineView.setText(data.get(position).getTextComentari());
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    }
+                },
+                headers
+        );
+
         return convertView;
     }
 
@@ -77,4 +119,5 @@ public class CommentListViewAdapter extends ArrayAdapter<Comment>{
         TextView reporterNameView;
         TextView reportedDateView;
     }
+
 }
