@@ -2,6 +2,7 @@ package edu.upc.pes.wallachange.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +12,16 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import edu.upc.pes.wallachange.AddElementFragment;
 import edu.upc.pes.wallachange.R;
 import edu.upc.pes.wallachange.ViewElementFragment;
 
-/**
- * Created by Usuario on 31/05/2017.
- */
-
 public class CategoriesViewElementAdapter extends ArrayAdapter<String> {
 
-    private Context mContext;
-    private int layoutResourceId;
-    private ArrayList<String> data;
-    private ViewElementFragment callBack;
-    private Boolean editables;
+    private final Context mContext;
+    private final int layoutResourceId;
+    private final ArrayList<String> data;
+    private final ViewElementFragment callBack;
+    private final Boolean editables;
 
     public CategoriesViewElementAdapter(Context context, int layoutResourceId, ArrayList<String> data, ViewElementFragment viewElementFragment, boolean tagsEditables) {
         super(context, layoutResourceId, data);
@@ -36,8 +32,9 @@ public class CategoriesViewElementAdapter extends ArrayAdapter<String> {
         this.editables = tagsEditables;
     }
 
+    @NonNull
     @Override
-    public View getView(final int position, View convertView, final ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull final ViewGroup parent) {
 
         if(convertView==null){
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();

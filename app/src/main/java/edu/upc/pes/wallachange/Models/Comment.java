@@ -2,6 +2,8 @@ package edu.upc.pes.wallachange.Models;
 
 import android.net.Uri;
 
+import java.util.Date;
+
 /**
  * Andreu Conesa 28/04/2017.
  */
@@ -12,11 +14,13 @@ public class Comment {
     private String nomUsuari;
     private String textComentari;
     private String data;
+    private Date dia;
 
-    public Comment(String nomUsuari, String textComentari) {
+    public Comment(String nomUsuari, String textComentari, Date dia) {
         this.nomUsuari = nomUsuari;
         this.textComentari = textComentari;
         //TODO obtenir data i foto usuari
+        this.dia = dia;
     }
     public Comment(Uri fotoUsuari, String nomUsuari, String textComentari, String data) {
         this.fotoUsuari = fotoUsuari;
@@ -55,5 +59,13 @@ public class Comment {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public Date getDia() {
+        return dia;
+    }
+
+    public void setDia(Date dia) {
+        this.dia = dia;
     }
 }

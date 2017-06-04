@@ -26,7 +26,6 @@
                 android:id="@+id/textComentari"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:typeface="sans"
                 android:textSize="8pt"
                 android:layout_alignStart="@id/imatgeUsuari"/>

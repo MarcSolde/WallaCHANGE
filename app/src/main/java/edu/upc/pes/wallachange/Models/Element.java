@@ -3,8 +3,6 @@ package edu.upc.pes.wallachange.Models;
 import android.net.Uri;
 
 
-import java.sql.Struct;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,13 +51,13 @@ public class Element {
     }
 
     public Element(JSONObject ej) throws JSONException {
-        this.id = ej.getString("_id");
+        this.id = ej.getString("id");
         this.titol = ej.getString("titol");
         this.descripcio = ej.getString("descripcio");
         this.tipusProducte = ej.getString("tipus_element");
         //TODO: temporalitat, coordenades, localitat ara no ho retorna el GET
-        this.esTemporal = ej.getString("es_temporal").equals("true");
-
+        this.esTemporal = ej.getJSONObject("es_temporal").getBoolean("temporalitat");
+        this.temporalitat = ej.getJSONObject("es_temporal").getString("periode");
         DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         String string1 = ej.getString("data_publicacio");
         Date result1 = null;
@@ -69,10 +67,7 @@ public class Element {
             e.printStackTrace();
         }
         this.dataPublicacio = result1;
-
-        //this.temporalitat = ej.getString("temporalitat");
-
-        this.user = ej.getString("nom_user");
+        this.user = ej.getString("user_id");
         //setCoordenades(ej.getJSONObject("coordenades"));
         setFotografiesArray(ej.getJSONArray("imatges"));
         setTagsArray(ej.getJSONArray("tags"));
@@ -176,7 +171,7 @@ public class Element {
         return coordenades;
     }
 
-    public void setTagsArray(JSONArray tagsArray) {
+    private void setTagsArray(JSONArray tagsArray) {
         ArrayList<String> list = new ArrayList<>();
         if (tagsArray != null) {
             int len = tagsArray.length();
@@ -196,7 +191,7 @@ public class Element {
         return tags;
     }
 
-    public void setFotografiesArray(JSONArray tagsArray) {
+    private void setFotografiesArray(JSONArray tagsArray) {
         ArrayList<Uri> list = new ArrayList<>();
         if (tagsArray != null) {
             int len = tagsArray.length();
@@ -213,14 +208,22 @@ public class Element {
         this.fotografies = list;
     }
 
-    public void setComentarisArray(JSONArray comentaris) {
+    private void setComentarisArray(JSONArray comentaris) {
         ArrayList<Comment> list = new ArrayList<>();
         if (comentaris != null) {
             int len = comentaris.length();
             for (int i = 0; i < len; i++) {
                 try {
-                    // TODO els comentaris tindran data
-                    Comment comment = new Comment(comentaris.getJSONObject(i).getString("nom_user"), comentaris.getJSONObject(i).getString("text"));
+
+                    DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    String string1 = comentaris.getJSONObject(i).getString("data");
+                    Date dataComentari = null;
+                    try {
+                        dataComentari = df1.parse(string1);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Comment comment = new Comment(comentaris.getJSONObject(i).getString("user_id"), comentaris.getJSONObject(i).getString("text"),dataComentari);
                     list.add(comment);
                 } catch (JSONException e) {
                     e.printStackTrace();

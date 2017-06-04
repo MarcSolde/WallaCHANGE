@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -152,18 +153,21 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         try {
             nouElement.put("titol", titol);
             nouElement.put("descripcio", descripcio);
-            // TODO : falten les imatges, les coordenades i la temporalitat (en cas que s'afegeixi)
+            // TODO : falten les imatges, les coordenades
             //nouElement.put("imatges",null);
-
-            nouElement.put("nom_user", currentUser.getId());
+            nouElement.put("user_id", currentUser.getId());
             Date avui = new Date();
             DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             nouElement.put("data_publicacio", df1.format(avui));
             nouElement.put("tipus_element", tipusProducte);
-            nouElement.put("es_temporal", temporal);
+            JSONObject esTemporal = new JSONObject();
+            esTemporal.put("temporalitat",temporal);
+            esTemporal.put("periode", temporalitat);
+            nouElement.put("es_temporal", esTemporal);
 
             JSONArray tags = obtenirJSONarrayTags(categories);
             nouElement.put("tags", tags);
+
             //nouElement.put("localitat", localitat);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -179,7 +183,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     public void onResponse(JSONObject response) {
                         //TODO: LOAD imagenes
                         try {
-                            myActivity.changeToItem(response.getString("_id"));
+                            myActivity.changeToItem(response.getString("id"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -327,6 +331,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         // minim 1 imatge per producte
         if (nombreImatges == 0 && Objects.equals(tp, getResources().getString(R.string.product_eng))){
             falten = true;
+            Toast.makeText(myActivity,R.string.at_least_one_image_eng,Toast.LENGTH_LONG).show();
         }
         return falten;
     }
