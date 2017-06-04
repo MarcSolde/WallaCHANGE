@@ -1,5 +1,7 @@
 package edu.upc.pes.wallachange;
 
+import static com.android.volley.VolleyLog.TAG;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.net.Uri;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +56,9 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     private Calendar c;
     private ArrayList<Message> messages;
     private AdapterAPIRequest adapterAPI;
+    private CurrentUser currentUser;
+    private String alterUserId;
+    private Boolean existeix;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -62,13 +68,17 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_chat_layout, container, false);
         myActivity = (MainActivity) getActivity();
-        CurrentUser currentUser = CurrentUser.getInstance();
+        currentUser = CurrentUser.getInstance();
 
 
-        String alterUserId = getArguments().getString("alterUserId");
+        alterUserId = getArguments().getString("alterUserId");
         Map<String, String> headers = new HashMap<>();
 
+        //TODO: mirar a bd si existeix conversa. Si existeix, obtenir-la. Sino, crearne una de nova en el moment de enviar un missatge
 
+        existeix = false;
+
+        adapterAPI = new AdapterAPIRequest();
         final User u = new User();
         adapterAPI.GETRequestAPI("/user/"+alterUserId,
                 new Response.Listener<JSONObject>() {
@@ -76,14 +86,10 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Log.i("JSON: ",response.toString());
-                            JSONArray var2 = response.getJSONArray("preferencies");
-                            ArrayList<String> aux2 = new ArrayList<> ();
-                            for (int j = 0; j < var2.length();++j) {
-                                aux2.add(var2.get(j).toString());
-                            }
+                            Log.i("JSONbooo ",response.toString());
                             u.setUsername(response.getString("nom"));
                             u.setId(response.getString("id"));
+                            setTitle(u.getUsername());
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
@@ -99,8 +105,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 },
                 headers
         );
-        String username = u.getUsername();
-        myActivity.setTitle(username);
+
 
         recview = (RecyclerView) view.findViewById(R.id.recyclerViewChat);
         editTextChat = (EditText) view.findViewById(R.id.editTextChat);
@@ -111,25 +116,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
         LinearLayoutManager llm = new LinearLayoutManager(myActivity);
         llm.setStackFromEnd(true);
-//        llm.setReverseLayout(true);
         recview.setLayoutManager(llm);
-
-        Message mes = new Message("hola", 1, getTime());
-        messages.add(mes);
-        Message mes5 = new Message("ei!!", 0, getTime());
-        messages.add(mes5);
-        Message mes2 = new Message("k tal", 1, getTime());
-        messages.add(mes2);
-        Message mes3 = new Message("b i tu", 0, getTime());
-        messages.add(mes3);
-        Message mes4 = new Message("tb", 1, getTime());
-        messages.add(mes4);
-
-//        messages =;
-
-
-
-
 
         chatAdapter = new ChatAdapter(messages);
         recview.setAdapter(chatAdapter);
@@ -151,7 +138,65 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 String textMessage = editTextChat.getText().toString();
                 if (!textMessage.equals("")) {
                     Message mes6 = new Message(textMessage, 1, getTime());
-                    Log.i("time", mes6.getTime());
+
+                    //TODO: mirar a bd si existeix conversa. si no exissteix crearne una de nova aqui
+                    if (!existeix) {
+                        JSONObject body = new JSONObject();
+                        try {
+                            body.put("message", mes6.getMessage());
+                            body.put("author", currentUser.getId());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("x-access-token", currentUser.getToken());
+                        adapterAPI.POSTRequestAPI(
+                                "/chat/?from:" + currentUser.getId() + "&to:" + alterUserId,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        JSONObject js = response;
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                                    }
+                                }, body, headers);
+
+
+                        //                    POST http://localhost:3000/chat/?from:user_id&to:user_id
+
+                        //                    body: JSON: {“message”: “missatge”}
+                        //                    header: x-access-token
+                        //                    return: conversation.id
+                    }
+                    else {
+
+
+//                    Send message
+//                    POST http://localhost:3000/chat/conversation_id
+//                    body: JSON: {“message”: “missatge”, “author”: “user_id”}
+//                    header: x-access-token
+//                    return: empty
+//
+//                    Get conversation
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("message", mes6.getMessage());
+                            jsonObject.put("author", currentUser.getId());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("x-access-token", currentUser.getToken());
+
+                        //TODO: crida x enviar missatge
+//                    adapterAPI.POSTRequestAPI("/chat/" );
+                    }
                     messages.add(mes6);
                     chatAdapter.notifyDataSetChanged();
                     recview.scrollToPosition(messages.size() - 1);
@@ -192,6 +237,10 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         }
         else time = hour + "." + min;
         return time;
+    }
+
+    public void setTitle(String string) {
+        myActivity.setTitle(string);
     }
 
 

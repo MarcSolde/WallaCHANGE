@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.vision.barcode.Barcode;
 
 import edu.upc.pes.wallachange.Models.Message;
 import edu.upc.pes.wallachange.R;
