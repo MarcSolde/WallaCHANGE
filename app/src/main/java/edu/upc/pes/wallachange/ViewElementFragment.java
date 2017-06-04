@@ -84,6 +84,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private Button tradeButton;
     private EditText editTextTemporalitat;
     private boolean esTemporal;
+    private ImageButton addImageButton;
 
     public ViewElementFragment() {}
 
@@ -113,6 +114,8 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         writeCommentButton.setOnClickListener(this);
         removeImageButton = (ImageButton) fragmentViewElementView.findViewById(R.id.esborrarImatge);
         removeImageButton.setOnClickListener(this);
+        addImageButton = (ImageButton) fragmentViewElementView.findViewById(R.id.afegirImatge);
+        addImageButton.setOnClickListener(this);
         afegeixCategoria = (ImageView) fragmentViewElementView.findViewById(R.id.botoAfegirCategoria);
         afegeixCategoria.setOnClickListener(this);
         tradeButton = (Button) fragmentViewElementView.findViewById(R.id.tradeButton);
@@ -205,6 +208,8 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         afegeixCategoria.setEnabled(true);
         removeImageButton.setVisibility(View.VISIBLE);
         removeImageButton.setEnabled(true);
+        addImageButton.setVisibility(View.VISIBLE);
+        addImageButton.setEnabled(true);
         editButton.setVisibility(View.GONE);
         editButton.setEnabled(false);
         saveButton.setVisibility(View.VISIBLE);
@@ -224,6 +229,8 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         afegeixCategoria.setEnabled(false);
         removeImageButton.setVisibility(View.GONE);
         removeImageButton.setEnabled(false);
+        addImageButton.setVisibility(View.GONE);
+        addImageButton.setEnabled(false);
         editButton.setVisibility(View.VISIBLE);
         editButton.setEnabled(true);
         saveButton.setVisibility(View.GONE);
@@ -307,8 +314,12 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                     imageSwitcher.setImageDrawable(drawable);
                 }
                 break;
+            case R.id.afegirImatge:
+                // TODO possibilitat d'afegir una imatge
+                Toast.makeText(myActivity,"boto afegir",Toast.LENGTH_LONG).show();
+                break;
             case R.id.esborrarImatge:
-
+                //TODO possibilitat d'esborra una imatge
                 if (imatgeActual > 0){
                     imatges.remove(imatges.get(imatgeActual));
                     imatgeActual--;
@@ -400,6 +411,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         gridCategories.setAdapter(categoriesAdapter);
         categoriesAdapter.notifyDataSetChanged();
 
+        // TODO: al CommentListViewAdapter HE DAFEGIR LA FOTO DE L'USUARI
         comentaris = mElement.getComentaris();
         Collections.reverse(comentaris);
         ExpandableHeightGridView listViewComentaris = (ExpandableHeightGridView) fragmentViewElementView.findViewById(R.id.comments_list);

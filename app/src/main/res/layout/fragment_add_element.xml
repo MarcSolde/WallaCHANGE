@@ -41,8 +41,9 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:contentDescription="@string/add_image_button_eng"
-                android:paddingLeft="5pt"
-                android:paddingRight="5pt"
+                android:padding="5pt"
+
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_photo_camera_black_24dp" />
             <TextView
                 android:layout_width="wrap_content"

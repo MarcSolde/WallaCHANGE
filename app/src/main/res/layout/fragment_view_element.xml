@@ -134,15 +134,35 @@
 
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/esborrarImatge"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/tw__transparent"
-                android:padding="5pt"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/clear_picture"
-                android:contentDescription="@string/boto_per_esborrar_la_imatge_actual"/>
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/afegirImatge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/tw__transparent"
+                    android:contentDescription="@string/add_image_button_eng"
+                    android:padding="5pt"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_photo_camera_black_24dp" />
+
+                <ImageButton
+                    android:id="@+id/esborrarImatge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/tw__transparent"
+                    android:contentDescription="@string/boto_per_esborrar_la_imatge_actual"
+                    android:padding="5pt"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/clear_picture"
+                    />
+
+            </LinearLayout>
+
 
             <EditText
                 android:id="@+id/editTextDescripcio"
@@ -179,7 +199,8 @@
                     android:hint="@string/advertisements_category_eng"
                     android:layout_weight="0.37"
                     android:maxLines="1"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:textColor="@drawable/edit_text_selector"/>
 
                 <ImageView
                     android:contentDescription="@string/add_category"

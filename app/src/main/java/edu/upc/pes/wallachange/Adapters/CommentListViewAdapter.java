@@ -111,6 +111,8 @@ public class CommentListViewAdapter extends ArrayAdapter<Comment>{
                 headers
         );
 
+        // TODO aqui hauria de fer la crida per obtenir la foto de lusuari del comentari
+
         return convertView;
     }
 
