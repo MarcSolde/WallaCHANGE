@@ -39,7 +39,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,10 +79,11 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private ImageButton removeImageButton;
     private ImageButton editButton;
     private String idUsuariAnunci;
-    private User usuariAnunci;
     private ImageButton saveButton;
     private boolean botoEdicioClicat;
     private Button tradeButton;
+    private EditText editTextTemporalitat;
+    private boolean esTemporal;
 
     public ViewElementFragment() {}
 
@@ -120,6 +120,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         editTextWriteComment = (EditText) fragmentViewElementView.findViewById(R.id.editTextComment);
         editTextCategoria = (EditText) fragmentViewElementView.findViewById(R.id.categoria);
         textViewCategoria = (TextView) fragmentViewElementView.findViewById(R.id.textViewCategoria);
+        editTextTemporalitat = (EditText) fragmentViewElementView.findViewById(R.id.temporalitat);
 
         AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
         Map<String, String> headers = new HashMap<>();
@@ -195,6 +196,10 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         editTextDescripcio.setEnabled(true);
         editTextCategoria.setEnabled(true);
         editTextCategoria.setVisibility(View.VISIBLE);
+        if (esTemporal) {
+            editTextTemporalitat.setEnabled(true);
+            editTextTemporalitat.setVisibility(View.VISIBLE);
+        }
         textViewCategoria.setVisibility(View.VISIBLE);
         afegeixCategoria.setVisibility(View.VISIBLE);
         afegeixCategoria.setEnabled(true);
@@ -213,6 +218,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         editTextDescripcio.setEnabled(false);
         editTextCategoria.setEnabled(false);
         editTextCategoria.setVisibility(View.GONE);
+        editTextTemporalitat.setEnabled(false);
         textViewCategoria.setVisibility(View.GONE);
         afegeixCategoria.setVisibility(View.GONE);
         afegeixCategoria.setEnabled(false);
@@ -246,6 +252,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                 builder.setMessage(R.string.are_you_sure_you_want_to_save_the_changes_eng);
                 final EditText finalEditTextTitol = (EditText) fragmentViewElementView.findViewById(R.id.titolAnunci);
                 final EditText finalEditTextDescripcio = (EditText) fragmentViewElementView.findViewById(R.id.editTextDescripcio);
+                final EditText finalEditTextTemporalitat = (EditText) fragmentViewElementView.findViewById(R.id.temporalitat);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //TODO : de moment nomes controlo que el titol no estigui buit, quan estigui fet lu de les imatges tambe haure de mirar que si es producte com a minim nhi hagi una
@@ -253,11 +260,16 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                         if (Objects.equals(finalEditTextTitol.getText().toString(), "")) faltenCamps = true;
                         else mElement.setTitol(finalEditTextTitol.getText().toString());
                         mElement.setDescripcio(finalEditTextDescripcio.getText().toString());
+                        mElement.setTemporalitat(finalEditTextTemporalitat.getText().toString());
                         JSONObject elementModificat = new JSONObject();
                         try {
                             // TODO falta poder afegir i esborrar imatges
                             elementModificat.put("titol", mElement.getTitol());
                             elementModificat.put("descripcio", mElement.getDescripcio());
+                            JSONObject esTemp = new JSONObject();
+                            esTemp.put("temporalitat",mElement.getEsTemporal());
+                            esTemp.put("periode",mElement.getTemporalitat());
+                            elementModificat.put("es_temporal",esTemp);
                             JSONArray tags = obtenirJSONarrayTags(mElement.getTags());
                             elementModificat.put("tags", tags);
                             if (!faltenCamps) {
@@ -340,14 +352,13 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
             case R.id.writeComment:
                 if (!Objects.equals(editTextWriteComment.getText().toString(), "")){
                     String comentari = editTextWriteComment.getText().toString();
-                    // TODO: falta poder pujar la data del comentari
                     JSONObject nouComentari = new JSONObject();
                     try {
                         nouComentari.put("text",comentari);
                         nouComentari.put("user_id",us.getId());
-                        /*Date avui = new Date();
+                        Date avui = new Date();
                         DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                        nouComentari.put("data", df1.format(avui));*/
+                        nouComentari.put("data", df1.format(avui));
                         publicarComentari(nouComentari);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -364,7 +375,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     }
 
     private void loadElement(Element e){
-
 
         if (Objects.equals(idUsuariAnunci, us.getId())) {
             editButton.setEnabled(true);
@@ -399,16 +409,18 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         adapter.notifyDataSetChanged();
         editTextWriteComment.setText("");
 
-        Boolean esTemporal = e.getEsTemporal();
+        esTemporal = mElement.getEsTemporal();
         if (esTemporal) {
-            final EditText editTextTemporalitat = (EditText) fragmentViewElementView.findViewById(R.id.temporalitat);
-            editTextTemporalitat.setText(e.getTemporalitat());
+            if (!Objects.equals(e.getTemporalitat(), "")){
+                editTextTemporalitat.setText(e.getTemporalitat());
+            }else{
+                editTextTemporalitat.setText(getResources().getString(R.string.edit_temporality_here_eng));
+            }
+        }else{
+            TextView textViewDurada = (TextView) fragmentViewElementView.findViewById(R.id.textViewDurada);
+            textViewDurada.setVisibility(View.GONE);
         }
 
-        DateFormat df1 = new SimpleDateFormat("dd/MM/yyyy\nHH:mm:ss");
-        String dia = df1.format(mElement.getDataPublicacio());
-        EditText editTextTemporalitat = (EditText) fragmentViewElementView.findViewById(R.id.temporalitat);
-        editTextTemporalitat.setText(dia);
     }
 
     private void obtenirUsuariAnunci(String id) {
@@ -451,11 +463,13 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         );
     }
 
-    public void setUsuariAnunci(User u) {
-        this.usuariAnunci = u;
+    private void setUsuariAnunci(User u) {
         TextView textViewCreatedBy = (TextView) fragmentViewElementView.findViewById(R.id.createdByTextView);
-        String createdBy =  getResources().getString(R.string.created_by_eng) + " " + usuariAnunci.getUsername();
-        textViewCreatedBy.setText(createdBy);
+        String createdBy =  getResources().getString(R.string.created_by_eng) + " " + u.getUsername();
+        DateFormat df1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String dia = df1.format(mElement.getDataPublicacio());
+        dia = dia.replace(" "," " + getResources().getString(R.string.at_eng) + " ");
+        textViewCreatedBy.setText(createdBy +"\n" + dia);
     }
 
     private void actualitzarElement(JSONObject elementModificat){
@@ -492,7 +506,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         headers.put("x-access-token",us.getToken());
         String url = "/api/element/".concat(idElement).concat("/comment");
         //adapter.POSTRequestAPI("http://104.236.98.100:3000/loginFB"
-        adapterAPIRequest.POSTRequestAPI(url,
+        adapterAPIRequest.PUTRequestAPI(url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
