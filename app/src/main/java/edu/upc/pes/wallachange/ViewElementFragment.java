@@ -416,7 +416,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         Collections.reverse(comentaris);
         ExpandableHeightGridView listViewComentaris = (ExpandableHeightGridView) fragmentViewElementView.findViewById(R.id.comments_list);
         listViewComentaris.setExpanded(true);
-        CommentListViewAdapter adapter = new CommentListViewAdapter(myActivity, R.layout.comment_row_layout, comentaris);
+        CommentListViewAdapter adapter = new CommentListViewAdapter(myActivity, R.layout.comment_row_layout, comentaris, idElement);
         listViewComentaris.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         editTextWriteComment.setText("");

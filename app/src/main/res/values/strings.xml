@@ -163,6 +163,9 @@
     <string name="clear_description_edit_text_button_eng">clear description edit text button</string>
     <string name="clear_temporality_edit_text_button_eng">clear temporality edit text button</string>
     <string name="at_eng">at</string>
+    <string name="boto_per_esborrar_el_comentari">boto per esborrar el comentari</string>
+    <string name="are_you_sure_you_want_delete_your_comment_eng">Are you sure you want to delete your comment?</string>
+    <string name="delete_comment_eng">Delete comment?</string>
 
 
 </resources>
