@@ -223,7 +223,7 @@ public class Element {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    Comment comment = new Comment(comentaris.getJSONObject(i).getString("user_id"), comentaris.getJSONObject(i).getString("text"),dataComentari);
+                    Comment comment = new Comment(comentaris.getJSONObject(i).getString("id"), comentaris.getJSONObject(i).getString("user_id"), comentaris.getJSONObject(i).getString("text"),dataComentari);
                     list.add(comment);
                 } catch (JSONException e) {
                     e.printStackTrace();
