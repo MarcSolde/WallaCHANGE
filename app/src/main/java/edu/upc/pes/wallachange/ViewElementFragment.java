@@ -380,6 +380,9 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                     editTextWriteComment.setError(errorCommentCanNotBeEmpty);
                 }
                 break;
+            case R.id.tradeButton:
+                myActivity.changeToMakeOffer(idElement);
+                break;
             default:
                 break;
         }
