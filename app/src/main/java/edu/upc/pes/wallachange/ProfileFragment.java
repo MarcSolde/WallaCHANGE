@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,6 +136,39 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
 
         addPref.setOnClickListener(this);
 
+
+        locationTE.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (i) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            myActivity.hideKeyboard();
+                            return true;
+                        default: break;
+                    }
+                }
+                return false;
+            }
+        });
+
+        editTextPref.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (i) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            myActivity.hideKeyboard();
+                            return true;
+                        default: break;
+                    }
+                }
+                return false;
+            }
+        });
+
         return view;
     }
 
@@ -158,6 +192,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
             case R.id.addPreference:
                 showSoftKeyboard(view);
                 editTextPref.requestFocus();
+                break;
             case R.id.prefAddButton:
                 String newPref = editTextPref.getText().toString();
                 if (!newPref.equals("")) {
