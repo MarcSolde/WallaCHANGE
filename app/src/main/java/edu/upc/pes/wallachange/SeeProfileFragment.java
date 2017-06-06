@@ -101,7 +101,7 @@ public class SeeProfileFragment extends Fragment {
         CurrentUser user = CurrentUser.getInstance();
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",user.getToken());
-        adapterAPI.GETJsonArrayRequestAPI("/api/elements/"+id,
+        adapterAPI.GETJsonArrayRequestAPI("/api/element/user/"+id,
                 new Response.Listener<JSONArray>() {
 
                     @Override

@@ -80,7 +80,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
         headers.put("titol", "");
         //headers.put("Content-Type", "application/json");
 
-        adapter.GETJsonArrayRequestAPI("/api/elements", new Response.Listener<JSONArray>() {
+        adapter.GETJsonArrayRequestAPI("/api/element", new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         JSONArray ja = response;
@@ -100,7 +100,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                                     if (ja.getJSONObject(i).getBoolean("es_temporal"))
                                         elem.setTemporalitat("Temporal");
                                     else
-                                        elem.setTipusProducte("Permanent");
+                                        elem.setTipusProducte(true);
                                     //elem.setComentarisArray(ja.getJSONObject(i).getJSONArray("comentaris"));
                                     //elem.setCoordenadesArray(ja.getJSONObject(i).getJSONArray("coordenades"));
                                     elements.add(elem);
@@ -181,7 +181,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
 
                 final ArrayList<Element> elements2 = new ArrayList<>();
 
-                adapter.GETRequestAPI("/api/elements",
+                adapter.GETRequestAPI("/api/element",
 
                         new Response.Listener<JSONArray>() {
                             @Override

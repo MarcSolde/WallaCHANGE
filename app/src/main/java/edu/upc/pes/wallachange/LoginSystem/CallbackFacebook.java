@@ -94,9 +94,9 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
     private static void setCurrentUser(JSONObject response) throws JSONException {
         CurrentUser user = CurrentUser.getInstance();
         user.setToken(response.getString("token"));
-        user.setId(response.getString("facebookId"));
+        user.setId(response.getString("id"));
         user.setUsername(response.getString("nom"));
-//      user.setLocation(js.getString("localitat"));
+        user.setLocation(response.getString("localitat"));
         user.setPreferencesArray(response.getJSONArray("preferencies"));
         user.setIntercanvisArray(response.getJSONArray("intercanvis"));
         user.setProductesArray(response.getJSONArray("productes"));
