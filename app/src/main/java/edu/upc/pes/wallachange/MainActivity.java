@@ -21,6 +21,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -140,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void changeNav() {
         recreate();
-
     }
 
     @Override
@@ -219,14 +219,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myNavigationView.getMenu().getItem(0).setChecked(true);
     }
 
-    public void hideKeyboard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
     public  void changeToOtherUserProfile (String id) {
         SeeProfileFragment seeProfileFragment = new SeeProfileFragment();
         Bundle args = new Bundle();
@@ -242,6 +234,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         args.putString("id",id);
         makeOfferFragment.setArguments(args);
         myFragmentManager.beginTransaction().replace(R.id.fragment, makeOfferFragment).commit();
+    }
+
+    public void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    public void hideKeyboardStart() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
 }
