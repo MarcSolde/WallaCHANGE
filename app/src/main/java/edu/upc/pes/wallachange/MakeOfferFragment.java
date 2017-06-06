@@ -161,6 +161,7 @@ public class MakeOfferFragment extends Fragment {
         element1 = e;
         //TODO:img
         title1.setText(element1.getTitol());
+        String aux = e.getTipusProducte();
         if (e.getEsTemporal()) {
             temporal1.setText(e.getTipusProducte() + " - " + e.getTemporalitat());
         }

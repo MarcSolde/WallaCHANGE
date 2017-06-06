@@ -44,8 +44,8 @@
         <string name="incitement_to_hatred_eng">Incitación al odio</string>
         <string name="if_product_at_least_one_image_eng">Mínimo una imagen</string>
         <string name="from_you_eng">de ti</string>
-        <string name="filter_eng">FILTRA</string>
-        <string name="filterButton_eng">FILTRA</string>
+        <string name="filter_eng">FILTRAR</string>
+        <string name="filterButton_eng">FILTRAR</string>
         <string name="experience_eng">Experiencia</string>
         <string name="errorExistingPref_eng">Ya existe</string>
         <string name="errorExistingCategory_eng">Ya existe</string>
@@ -70,4 +70,9 @@
         <string name="adult_content_eng">Contenido adulto</string>
         <string name="add_picture_eng">Añadir imágenes</string>
         <string name="add_category">Añadir categoria</string>
+        <string name="navigationOffer_eng">Realizar intercambio</string>
+        <string name="offerExchange1_eng">Quieres:</string>
+        <string name="offerExchange2_eng">Ofreces:</string>
+        <string name="offerExchangeElement_eng">TUS ELEMENTOS:</string>
+        <string name="offerExchangeSend_eng">Enviar oferta</string>
 </resources>
