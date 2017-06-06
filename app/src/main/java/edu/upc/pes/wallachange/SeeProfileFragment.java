@@ -48,7 +48,7 @@ public class SeeProfileFragment extends Fragment {
         myView = view;
         myActivity = (MainActivity) getActivity();
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        myActivity.setTitle(R.string.navigationProfile_eng);
+        myActivity.setTitle(R.string.navigationOthersProfile_eng);
 
         String id = getArguments().getString("id");
 

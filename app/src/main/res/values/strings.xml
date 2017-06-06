@@ -25,6 +25,7 @@
     <string name="navigationHome_eng">Home</string>
     <string name="navigationNewItem_eng">New Item</string>
     <string name="navigationProfile_eng">Profile</string>
+    <string name="navigationOthersProfile_eng">Others profile</string>
     <string name="navigationOffer_eng">Exchange offer</string>
     <string name="navigationSearchItem_eng">Search Items</string>
     <string name="navigationSearchUser_eng">Search Users</string>
@@ -57,6 +58,7 @@
 
     <!-- VIEW OTHER PROFILE -->
     <string name="viewOtherProfileElement_eng">ELEMENTS:</string>
+
 
     <!-- OFFER EXCHANGE -->
     <string name="offerExchange1_eng">Their product:</string>

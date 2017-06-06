@@ -28,6 +28,7 @@ import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.UserListAdapter;
+import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.User;
 
 
@@ -108,25 +109,27 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                             @Override
                             public void onResponse(JSONArray response) {
                                 try {
+                                    CurrentUser user = CurrentUser.getInstance();
                                     Log.i("JSON: ",response.toString());
                                     ArrayList<User> aux = new ArrayList<> ();
                                     for (int i = 0;i < response.length();++i) {
                                         JSONObject var = response.getJSONObject(i);
-
-                                        JSONArray var2 = var.getJSONArray("preferencies");
-                                        ArrayList<String> aux2 = new ArrayList<> ();
-                                        for (int j = 0; j < var2.length();++j) {
-                                            aux2.add(var2.get(j).toString());
+                                        if (!user.getId().equals(var.getString("id"))) {
+                                            JSONArray var2 = var.getJSONArray("preferencies");
+                                            ArrayList<String> aux2 = new ArrayList<> ();
+                                            for (int j = 0; j < var2.length();++j) {
+                                                aux2.add(var2.get(j).toString());
+                                            }
+                                            if (aux2.size() == 0) aux2.add("No preference recorded");
+                                            User u = new User(var.getString("id"),
+                                                    var.getString("nom"),
+                                                    null,
+                                                    null,
+                                                    Float.parseFloat(var.getString("reputacio")),
+                                                    Uri.parse(var.getString("path")),
+                                                    aux2);
+                                            aux.add(u);
                                         }
-                                        if (aux2.size() == 0) aux2.add("No preference recorded");
-                                        User u = new User(var.getString("id"),
-                                                var.getString("nom"),
-                                                null,
-                                                null,
-                                                Float.parseFloat(var.getString("reputacio")),
-                                                Uri.parse(var.getString("path")),
-                                                aux2);
-                                        aux.add(u);
                                     }
                                     loadList(aux);
                                 }
