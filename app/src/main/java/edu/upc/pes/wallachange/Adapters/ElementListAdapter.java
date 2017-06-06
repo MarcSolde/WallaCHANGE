@@ -49,10 +49,13 @@ public class ElementListAdapter extends ArrayAdapter<Element> {
         else aux.setText(var.getTags().toString());
 
         aux = (TextView) convertView.findViewById(R.id.item_text3);
+        String aux3;
+        if (var.getTipusProducte()) aux3 = myContext.getString(R.string.product_eng);
+        else aux3 = myContext.getString(R.string.experience_eng);
         if (var.getEsTemporal()) {
-            aux.setText(var.getTipusProducte() + " - " + var.getTemporalitat());
+            aux.setText(aux3 + " - " + var.getTemporalitat());
         }
-        else aux.setText(var.getTipusProducte() + " - " + myContext.getString(R.string.permanent_eng));
+        else aux.setText(aux3 + " - " + myContext.getString(R.string.permanent_eng));
         return convertView;
     }
 }

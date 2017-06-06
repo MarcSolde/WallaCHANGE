@@ -141,7 +141,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
     }
 
 
-    private void publicarElement(String titol, String descripcio, ArrayList<String> categories, String tipusProducte,
+    private void publicarElement(String titol, String descripcio, ArrayList<String> categories, boolean tipusProducte,
                                  Boolean temporal, String temporalitat, String username, ArrayList<Uri> imatgesMiniatura,
                                  String localitat) {
         AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
@@ -231,7 +231,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             case R.id.afegirElement:
                 boolean b = faltenCamps();
                 if (!b) {
-                    String tipusProducte = obtenirTipusProducte();
+                    boolean tipusProducte = obtenirTipusProducte();
                     String tipusIntercanvi = obtenirTipusIntercanvi();
                     Boolean esTemporal = (Objects.equals(tipusIntercanvi, getResources().getString(R.string.temporal_eng)));
 
@@ -305,7 +305,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
         return tipusIntercanvi;
     }
 
-    private String obtenirTipusProducte() {
+    private boolean obtenirTipusProducte() {
         String tipusProducte = getResources().getString(R.string.product_eng);
         if (radioGroupTipusProducte.getCheckedRadioButtonId() != -1) {
             int id = radioGroupTipusProducte.getCheckedRadioButtonId();
@@ -314,7 +314,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             RadioButton btn = (RadioButton) radioGroupTipusProducte.getChildAt(radioId);
             tipusProducte = (String) btn.getText();
         }
-        return tipusProducte;
+        return tipusProducte.equals(getResources().getString(R.string.product_eng));
     }
 
     private boolean faltenCamps() {
@@ -325,9 +325,8 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             String errorTitleMustBeFilled = getResources().getString(R.string.this_field_is_required_eng);
             editTextTitol.setError(errorTitleMustBeFilled);
         }
-        String tp = obtenirTipusProducte();
         // minim 1 imatge per producte
-        if (nombreImatges == 0 && Objects.equals(tp, getResources().getString(R.string.product_eng))) {
+        if (nombreImatges == 0 && obtenirTipusProducte()) {
             falten = true;
             Toast.makeText(myActivity, R.string.at_least_one_image_eng, Toast.LENGTH_LONG).show();
         }

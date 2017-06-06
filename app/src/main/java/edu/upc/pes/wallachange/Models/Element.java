@@ -20,7 +20,7 @@ public class Element {
     private String id;
     private String titol;
     private String descripcio;
-    private String tipusProducte;
+    private Boolean tipusProducte;
     private Boolean esTemporal;
     private String temporalitat;
     private String user;
@@ -34,7 +34,7 @@ public class Element {
     private String localitat;
     private Date dataPublicacio;
 
-    public Element(String id, String titol, String descripcio, String tipusProducte, String temporalitat, String user, ArrayList<Uri> fotografies) {
+    public Element(String id, String titol, String descripcio, boolean tipusProducte, String temporalitat, String user, ArrayList<Uri> fotografies) {
         this.id = id;
         this.titol = titol;
         this.descripcio = descripcio;
@@ -54,7 +54,7 @@ public class Element {
         this.id = ej.getString("id");
         this.titol = ej.getString("titol");
         this.descripcio = ej.getString("descripcio");
-        this.tipusProducte = ej.getString("tipus_element");
+        this.tipusProducte = ej.getBoolean("tipus_element");
         //TODO: temporalitat, coordenades, localitat ara no ho retorna el GET
         this.esTemporal = ej.getJSONObject("es_temporal").getBoolean("temporalitat");
         this.temporalitat = ej.getJSONObject("es_temporal").getString("periode");
@@ -103,11 +103,11 @@ public class Element {
         this.descripcio = descripcio;
     }
 
-    public String getTipusProducte() {
+    public boolean getTipusProducte() {
         return tipusProducte;
     }
 
-    public void setTipusProducte(String tipusProducte) {
+    public void setTipusProducte(boolean tipusProducte) {
         this.tipusProducte = tipusProducte;
     }
 
