@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -124,6 +125,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
 
 
         finder = (EditText) view.findViewById(R.id.finder);
+        //finder.setInputType(InputType.TYPE_NULL); //impide k salga el teclado permanentemente
         finder.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -152,6 +154,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
         Button filterButt = (Button) view.findViewById(R.id.filterButton);
         filterButt.setOnClickListener(this);
 
+        myActivity.hideKeyboardStart();
         return view;
     }
 

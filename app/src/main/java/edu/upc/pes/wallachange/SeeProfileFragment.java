@@ -48,7 +48,7 @@ public class SeeProfileFragment extends Fragment {
         myView = view;
         myActivity = (MainActivity) getActivity();
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        myActivity.setTitle(R.string.navigationProfile_eng);
+        myActivity.setTitle("");
 
         String id = getArguments().getString("id");
 
@@ -156,8 +156,7 @@ public class SeeProfileFragment extends Fragment {
     }
 
     private void onClickElement (int i) {
-        //TODO:
-        //myActivity.changeToItem(elements.get(i).getId());
-        myActivity.changeToMakeOffer(elements.get(i).getId());
+        myActivity.changeToItem(elements.get(i).getId());
+        //myActivity.changeToMakeOffer(elements.get(i).getId());
     }
 }

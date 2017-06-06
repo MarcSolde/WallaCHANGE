@@ -161,18 +161,21 @@ public class MakeOfferFragment extends Fragment {
         element1 = e;
         //TODO:img
         title1.setText(element1.getTitol());
-        String var;
-        if (element1.getEsTemporal()) temporal1.setText(element1.getTemporalitat());
-        else temporal1.setText(R.string.temporal_eng);
+        String aux = e.getTipusProducte();
+        if (e.getEsTemporal()) {
+            temporal1.setText(e.getTipusProducte() + " - " + e.getTemporalitat());
+        }
+        else temporal1.setText(e.getTipusProducte() + " - " + myActivity.getString(R.string.permanent_eng));
     }
 
     private void loadElement2(Element e) {
         element2 = e;
         //TODO:img
         title2.setText(element2.getTitol());
-        String var;
-        if (element2.getEsTemporal()) temporal2.setText(element2.getTemporalitat());
-        else temporal2.setText(R.string.temporal_eng);
+        if (e.getEsTemporal()) {
+            temporal2.setText(e.getTipusProducte() + " - " + e.getTemporalitat());
+        }
+        else temporal2.setText(e.getTipusProducte() + " - " + myActivity.getString(R.string.permanent_eng));
     }
 
 

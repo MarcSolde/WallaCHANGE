@@ -44,11 +44,11 @@ public class UserListAdapter extends ArrayAdapter<User>{
         user.setText(var.getUsername());
         TextView preference = (TextView) convertView.findViewById(R.id.item_text2);
         ArrayList<String> preferences = var.getPreferences();
-        String pref = "Preferences: ";
+        String pref = myContext.getString(R.string.preferences_eng) + ": ";
         for (int i = 0;i < preferences.size();++i) pref = pref + preferences.get(i) + " ";
         preference.setText(pref);
         TextView rating = (TextView) convertView.findViewById(R.id.item_text3);
-        String rat = "Rating: " + var.getRating()/20 + "/5.0";
+        String rat = myContext.getString(R.string.rating_eng) + ": " + var.getRating()/20 + "/5.0";
         rating.setText(rat);
         return convertView;
     }
