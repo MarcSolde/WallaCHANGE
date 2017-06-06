@@ -1,21 +1,12 @@
 package edu.upc.pes.wallachange.Models;
 
-import static com.android.volley.VolleyLog.TAG;
-
 import android.graphics.Bitmap;
 import android.net.Uri;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 
@@ -155,4 +146,7 @@ public class CurrentUser {
         user.setFacebookId(fbId);
     }
 
+    public void setRating(String rating) {
+        user.setRating(Float.valueOf(rating));
+    }
 }

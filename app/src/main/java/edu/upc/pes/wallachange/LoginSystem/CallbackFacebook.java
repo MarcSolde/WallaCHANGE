@@ -68,21 +68,9 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+
                         try {
-                            CurrentUser user = CurrentUser.getInstance();
-                            user.setToken(response.getString("token"));
-                            user.setId(response.getString("id"));
-                            user.setUsername(response.getString("nom"));
-//                            user.setLocation(js.getString("localitat"));
-//                            user.setPreferencesArray(js.getJSONArray("prefs"));
-//                                user.setIntercanvisArray(js.getJSONArray("intercanvis"));
-//                                user.setProductesArray(js.getJSONArray("productes"));
-//                                user.setRating(js.getString("reputacio"));
-//                                user.setPicture(js.getString("path"));
-                            myActivity.login();
-
-
-
+                            setCurrentUser(response);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -101,6 +89,20 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
 //        parameters.putString("fields", "id,name,email,gender,birthday");
 //        request.setParameters(parameters);
 //        request.executeAsync();
+    }
+
+    private static void setCurrentUser(JSONObject response) throws JSONException {
+        CurrentUser user = CurrentUser.getInstance();
+        user.setToken(response.getString("token"));
+        user.setId(response.getString("facebookId"));
+        user.setUsername(response.getString("nom"));
+//      user.setLocation(js.getString("localitat"));
+        user.setPreferencesArray(response.getJSONArray("preferencies"));
+        user.setIntercanvisArray(response.getJSONArray("intercanvis"));
+        user.setProductesArray(response.getJSONArray("productes"));
+        user.setRating(response.getString("reputacio"));
+//      user.setPicture(js.getString("path"));
+        myActivity.login();
     }
 
     @Override
@@ -137,19 +139,9 @@ public class CallbackFacebook implements FacebookCallback<LoginResult> {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            JSONObject js = response;
+
                             try {
-                                CurrentUser user = CurrentUser.getInstance();
-                                user.setToken(js.getString("token"));
-                                user.setId(js.getString("id"));
-                                user.setUsername(js.getString("nom"));
-//                                user.setLocation(js.getString("localitat"));
-//                                user.setPreferencesArray(js.getJSONArray("prefs"));
-//                                user.setIntercanvisArray(js.getJSONArray("intercanvis"));
-//                                user.setProductesArray(js.getJSONArray("productes"));
-//                                user.setRating(js.getString("reputacio"));
-//                                user.setPicture(js.getString("path"));
-                                myActivity.login();
+                                setCurrentUser(response);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
