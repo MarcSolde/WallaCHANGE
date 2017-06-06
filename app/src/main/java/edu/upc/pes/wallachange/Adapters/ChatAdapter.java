@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Message;
 import edu.upc.pes.wallachange.R;
 
@@ -41,13 +42,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
         final int itemType = getItemViewType(i);
         myViewHolder.message.setText(messages.get(i).getMessage());
-        myViewHolder.time.setText(messages.get(i).getTime());
+//        myViewHolder.time.setText(messages.get(i).getTime());
     }
 
     @Override
     public int getItemViewType(int position) {
         Message mess = messages.get(position);
-        if (mess.getOwner() == 1){
+        CurrentUser cu = CurrentUser.getInstance();
+        String currentId = cu.getId();
+        if (mess.getOwner().equals(currentId)){
             return 1;
         }
         else {

@@ -4,6 +4,7 @@ import static com.android.volley.VolleyLog.TAG;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -13,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +30,7 @@ public class CurrentUser {
     private String token;
     private User user;
     private static AdapterAPIRequest adapter = new AdapterAPIRequest();
+    private ArrayList<Conversa> converses;
 
 
     private static final CurrentUser ourInstance = new CurrentUser();
@@ -37,6 +40,7 @@ public class CurrentUser {
     }
 
     private CurrentUser() {
+        converses = new ArrayList<>();
         user = new User();
     }
 
@@ -155,4 +159,30 @@ public class CurrentUser {
         user.setFacebookId(fbId);
     }
 
+    public String existsConversa(String userId) {
+        for (Conversa c : converses) {
+            String id_other_conversa=c.getId_other();
+            if (id_other_conversa.equals(userId)) {
+                return c.getConv_id();
+            }
+        }
+        return "no";
+    }
+
+    public void addConversa(String userId, String convId) {
+        Conversa conversa = new Conversa(user.getId(), userId, convId);
+        converses.add(conversa);
+    }
+
+    public void deleteConversa(String userId) {
+        for (int i = 0; i < converses.size(); ++i) {
+            if (converses.get(i).getId_other().equals(userId)) {
+                converses.remove(i);
+            }
+        }
+    }
+
+    public ArrayList<Conversa> getConverses() {
+        return converses;
+    }
 }

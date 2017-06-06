@@ -158,6 +158,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
             case R.id.addPreference:
                 showSoftKeyboard(view);
                 editTextPref.requestFocus();
+                break;
             case R.id.prefAddButton:
                 String newPref = editTextPref.getText().toString();
                 if (!newPref.equals("")) {

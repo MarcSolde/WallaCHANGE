@@ -6,21 +6,21 @@ package edu.upc.pes.wallachange.Models;
 
 public class Message {
     private String message;
-    private int owner;
-    private String time;
+    private String owner;
+//    private String time;
     //1 = currentuser, 0 = persona amb qui parlem
 
     public Message() {
 
     }
-    public Message(String message, int owner) {
+    public Message(String message, String owner) {
         this.message = message;
         this.owner = owner;
     }
-    public Message(String message, int owner, String time) {
+    public Message(String message, String owner, String time) {
         this.message = message;
         this.owner = owner;
-        this.time = time;
+//        this.time = time;
     }
 
     public String getMessage() {
@@ -31,14 +31,14 @@ public class Message {
         this.message = message;
     }
 
-    public void setOwner(int owner) {
+    public void setOwner(String owner) {
         this.owner = owner;
     }
-    public int getOwner() {
+    public String getOwner() {
         return owner;
     }
 
-    public String getTime() {
-        return time;
-    }
+//    public String getTime() {
+//        return time;
+//    }
 }
