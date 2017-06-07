@@ -85,6 +85,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private EditText editTextTemporalitat;
     private boolean esTemporal;
     private ImageButton addImageButton;
+    private boolean esOffer;
 
     public ViewElementFragment() {}
 
@@ -130,6 +131,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         headers.put("x-access-token", us.getToken());
         headers.put("Content-Type", "application/json");
         idElement = getArguments().getString("id");
+        esOffer = getArguments().getBoolean("chat",false);
         if (idElement != null) {
             //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
             adapterAPIRequest.GETRequestAPI("/api/element/".concat(idElement),
@@ -390,7 +392,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
     private void loadElement(Element e){
 
-        if (Objects.equals(idUsuariAnunci, us.getId())) {
+        if (Objects.equals(idUsuariAnunci, us.getId()) && !esOffer) {
             editButton.setEnabled(true);
             tradeButton.setEnabled(false);
             tradeButton.setVisibility(View.GONE);

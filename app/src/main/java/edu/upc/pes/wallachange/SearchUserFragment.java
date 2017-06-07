@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -103,7 +104,15 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
 
-                adapterAPI.GETJsonArrayRequestAPI("/users",
+                String aux = myText.getText().toString();
+                if (aux.isEmpty()) {
+                    aux = "/users";
+
+                } else {
+                    headers.put("preferencies", aux);
+                    aux = "/user";
+                }
+                adapterAPI.GETJsonArrayRequestAPI(aux,
                         new Response.Listener<JSONArray>() {
 
                             @Override
