@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="5pt"
+    android:layout_marginStart="5pt"
+    android:layout_marginBottom="5pt"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/alterUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5pt"
+        android:layout_marginTop="5pt"
+        android:layout_marginBottom="5pt"
+        android:text="TextView"
+        android:textSize="9pt"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+
+
+        <TextView
+            android:id="@+id/myElement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5pt"
+            android:text="TextView"
+            android:textSize="9pt" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5pt"
+            android:text="@string/for_message"
+            android:textSize="9pt"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/alterElement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="9pt" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5pt"
+        android:layout_marginBottom="5pt"
+        android:text="hola!"
+
+        android:textSize="7pt"
+        android:textStyle="italic" />
+</LinearLayout>

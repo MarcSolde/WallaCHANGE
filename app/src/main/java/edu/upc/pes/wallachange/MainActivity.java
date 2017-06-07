@@ -43,6 +43,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.Models.Conversa;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
 
@@ -197,8 +198,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 myFragmentManager.beginTransaction().replace(R.id.fragment, FiltersFragment).commit();
                 break;
             case R.id.navigationChat:
-                ChatFragment ChatFragment = new ChatFragment();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, ChatFragment).commit();
+                MainChatFragment mainChatFragment = new MainChatFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, mainChatFragment).commit();
             default:
                 break;
         }
@@ -249,14 +250,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myFragmentManager.beginTransaction().replace(R.id.fragment, makeOfferFragment).commit();
     }
 
-    public void changeToChat (String id) {
+    public void changeToChat (Conversa c) {
         ChatFragment chatFragment = new ChatFragment();
         Bundle args = new Bundle();
-        args.putString("alterUserId", id);
+        args.putString("conversa", c.getConv_id());
         chatFragment.setArguments(args);
         myFragmentManager.beginTransaction().replace(R.id.fragment, chatFragment).commit();
         NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
-        myNavigationView.getMenu().getItem(4).setChecked(true);
     }
 
 

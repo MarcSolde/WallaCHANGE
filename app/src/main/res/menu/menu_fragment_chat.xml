@@ -2,9 +2,12 @@
 
     <!-- "Mark Favorite", should appear as action button if possible -->
     <item
-        android:id="@+id/see_profile_user"
-        android:title="@string/See_its_profile"/>
+        android:id="@+id/do_interchange"
+        android:title="@string/do_interchange"/>
     <item
-        android:id="@+id/see_elements_user"
+        android:id="@+id/see_element"
         android:title="@string/See_its_elements"/>
+    <item
+        android:id="@+id/cancel_interchange"
+        android:title="@string/cancel_interchange"/>
 </menu>

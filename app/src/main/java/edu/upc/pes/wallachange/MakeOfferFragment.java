@@ -102,8 +102,10 @@ public class MakeOfferFragment extends Fragment {
         myButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO:make offer
-                myActivity.changeToChat(alterUserId);
+                //TODO: crear conversa referenciada amb 2 ids d'usuari
+                //TODO: afegir la conversa al currentUser
+                //TODO: afegir el nom de laltre usuari i de cada element (elem1nom = elem2.getnom, elem2.nom = elem1.getnom)
+//                myActivity.changeToChat(conv_id);
             }
         });
         String aux = user.getId();

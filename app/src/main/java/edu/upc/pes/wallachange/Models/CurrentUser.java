@@ -159,14 +159,14 @@ public class CurrentUser {
         user.setFacebookId(fbId);
     }
 
-    public String existsConversa(String userId) {
+    public Conversa getConversa(String convId) {
         for (Conversa c : converses) {
-            String id_other_conversa=c.getId_other();
-            if (id_other_conversa.equals(userId)) {
-                return c.getConv_id();
+            String id_conversa=c.getConv_id();
+            if (id_conversa.equals(convId)) {
+                return c;
             }
         }
-        return "no";
+        return null;
     }
 
     public void addConversa(String userId, String convId) {
