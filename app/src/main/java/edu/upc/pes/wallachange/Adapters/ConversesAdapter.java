@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -46,8 +47,13 @@ public class ConversesAdapter extends ArrayAdapter<Conversa> {
 
 
         Conversa conv = data.get(position);
+
+        Boolean confirmat = conv.getConfirmat();
+
         TextView myElement = (TextView) convertView.findViewById(R.id.myElement);
+//        myElement.setText("ola");
         myElement.setText(conv.getNomElem1());
+
 
         TextView yourElement = (TextView) convertView.findViewById(R.id.alterElement);
         yourElement.setText(conv.getNomElem2());
@@ -57,19 +63,11 @@ public class ConversesAdapter extends ArrayAdapter<Conversa> {
 
         TextView message = (TextView) convertView.findViewById(R.id.message);
         message.setText(conv.getLastMessage());
+        if (confirmat) {
+            LinearLayout linlay = (LinearLayout) convertView.findViewById(R.id.layout_c);
+            linlay.setBackgroundColor(0xFFCBF9CE);
+        }
 
-//        //ImageView image = (ImageView) convertView.findViewById(R.id.item_search_user_image);
-//        //image.setImage
-//        TextView conv = (TextView) convertView.findViewById(R.id.chat_item);
-//        user.setText(var.getUsername());
-//        TextView preference = (TextView) convertView.findViewById(R.id.item_text2);
-//        ArrayList<String> preferences = var.getPreferences();
-//        String pref = "Preferences: ";
-//        for (int i = 0;i < preferences.size();++i) pref = pref + preferences.get(i) + " ";
-//        preference.setText(pref);
-//        TextView rating = (TextView) convertView.findViewById(R.id.item_text3);
-//        String rat = "Rating: " + var.getRating()/20 + "/5.0";
-//        rating.setText(rat);
         return convertView;
 
     }

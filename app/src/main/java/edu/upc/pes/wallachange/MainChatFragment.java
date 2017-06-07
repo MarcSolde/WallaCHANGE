@@ -43,7 +43,7 @@ import edu.upc.pes.wallachange.Models.User;
  */
 
 public class MainChatFragment extends Fragment {
-    private Activity myActivity;
+    private MainActivity myActivity;
     private View view;
     private CurrentUser currentUser;
     private AdapterAPIRequest adapterAPI;
@@ -61,19 +61,27 @@ public class MainChatFragment extends Fragment {
 
         adapterAPI = new AdapterAPIRequest();
 
-        getConverses(currentUser.getToken(), currentUser.getId());
+//        getConverses(currentUser.getToken(), currentUser.getId());
 
         Conversa provaconv = new Conversa();
         provaconv.setId_owner(currentUser.getId());
-        provaconv.setId_other("id de laltre");
-        provaconv.setConv_id("jsdfa");
-        provaconv.setElem1("elemMeu");
-        provaconv.setElem2("elemSeu");
+        provaconv.setNomUserOther("id de laltre");
+        provaconv.setLastMessage("jsdfa");
+        provaconv.setNomElem1("elemMeu");
+        provaconv.setNomElem2("elemSeu");
+        Conversa provaconv2 = new Conversa();
+        provaconv2.setId_owner(currentUser.getId());
+        provaconv2.setNomUserOther("id de laltre");
+        provaconv2.setLastMessage("jsdfa");
+        provaconv2.setNomElem1("elemMeu");
+        provaconv2.setNomElem2("elemSeu");
+        provaconv2.setConfirmat();
 
         convs = new ArrayList<Conversa>();
         convs.add(provaconv);
-        conversesAdapter = new ConversesAdapter(myActivity, R.layout.item_converses, convs);
+        convs.add(provaconv2);
         listconvs = (ListView) view.findViewById(R.id.listConverses);
+        conversesAdapter = new ConversesAdapter(myActivity, R.layout.item_converses, convs);
         listconvs.setAdapter(conversesAdapter);
         conversesAdapter.notifyDataSetChanged();
 
@@ -89,7 +97,7 @@ public class MainChatFragment extends Fragment {
     }
 
     private void onClickConversa (int i) {
-//        myActivity.changeToChat(convs.get(i));
+        myActivity.changeToChat(convs.get(i));
     }
 
     public void getUsername(String id, final Conversa con) {

@@ -14,8 +14,10 @@ public class Conversa {
     private String nomElem1;
     private String nomElem2;
     private String lastMessage;
+    private Boolean confirmat;
 
     public Conversa () {
+        confirmat = false;
 
     }
 
@@ -23,6 +25,7 @@ public class Conversa {
         this.id_other = id_other;
         this.id_owner = id_owner;
         this.conv_id = conv_id;
+        confirmat = false;
     }
 
     public String getId_owner() {
@@ -87,5 +90,12 @@ public class Conversa {
     }
     public String getLastMessage() {
         return lastMessage;
+    }
+
+    public void setConfirmat() {
+        confirmat = true;
+    }
+    public Boolean getConfirmat() {
+        return confirmat;
     }
 }

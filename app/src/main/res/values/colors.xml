@@ -11,4 +11,7 @@
     <color name="enabled_color">#000000</color>
     <color name="disabled_color">#606060</color>
     <color name="colorSentMessage">#66BB6A</color> <!--color mensajes enviados-->
+    <color name="colorConfirmed">#CBF9CE</color> <!--color mensajes enviados-->
+
+
 </resources>

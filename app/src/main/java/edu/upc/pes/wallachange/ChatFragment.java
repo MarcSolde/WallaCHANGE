@@ -3,11 +3,15 @@ package edu.upc.pes.wallachange;
 import static com.android.volley.VolleyLog.TAG;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.NavigationView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -50,7 +55,7 @@ import edu.upc.pes.wallachange.Models.User;
 
 public class ChatFragment extends Fragment implements View.OnClickListener {
 
-    private Activity myActivity;
+    private MainActivity myActivity;
     private ChatAdapter chatAdapter;
     private EditText editTextChat;
     private ImageView buttonSendChat;
@@ -67,6 +72,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     private String myElementName;
     private String yourElementName;
     private String otherUserName;
+    private View dialogView;
+    private Conversa conversa;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -75,6 +82,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_chat_layout, container, false);
+        dialogView = inflater.inflate(R.layout.custom_dialog_chat, null);
+
         myActivity = (MainActivity) getActivity();
         currentUser = CurrentUser.getInstance();
 
@@ -96,7 +105,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         buttonSendChat.setOnClickListener(this);
 
         conv_id = getArguments().getString("conversa");
-        Conversa conversa = currentUser.getConversa(conv_id);
+        conversa = currentUser.getConversa(conv_id);
         alterUserId = conversa.getId_other();
         otherUserName = conversa.getNomUserOther();
         myElementId = conversa.getElem1();
@@ -165,8 +174,64 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        float rating;
         switch (item.getItemId()) {
             case R.id.do_interchange:
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity(), R.style.CustomAlertDialog);
+                        alert.setView(dialogView);
+                        RatingBar valoration = (RatingBar) dialogView.findViewById(R.id.ratingFinal);
+                        rating = valoration.getRating();
+                        alert.setPositiveButton("Ok",  new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //TODO: updateIntercanvi
+                                conversa.setConfirmat();
+                            }
+                        });
+
+                AlertDialog dialog = alert.create();
+                dialog.show();
+
+
+//                        alert.setPositiveButton("Ok", new DialogInterface.onClickListener() {
+
+//                alert.setView(R.layout.custom_dialog_chat);
+//                final RatingBar evaluation = (RatingBar) alertLayout.findViewById(R.id.ratingBar);
+//                if (index == 0) evaluation.setRating(1.0f);
+//                else if (index == 1) evaluation.setRating(2.0f);
+//                else if (index == 2) evaluation.setRating(3.0f);
+//                else if(index == 3) evaluation.setRating(4.0f);
+//                else if (index == 4) evaluation.setRating(5.0f);
+//                else evaluation.setRating(3.0f);
+//
+//                alert.setNegativeButton("Cancel", null);
+//
+//                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        int e = Integer.parseInt(String.valueOf(Math.round(evaluation.getRating())));
+//
+//                        eval = "Regular";
+//                        switch (e) {
+//                            case 1:
+//                                eval = "Very Bad";
+//                                break;
+//                            case 2:
+//                                eval = "Bad";
+//                                break;
+//                            case 3:
+//                                eval = "Regular";
+//                                break;
+//                            case 4:
+//                                eval = "Great";
+//                                break;
+//                            case 5:
+//                                eval = "Very Great";
+//                                break;
+//                        }
+//                        updateOp();
+//                    }
+//                });
+//                AlertDialog dialog = alert.create();
+//                dialog.show();
                 // do s.th.
                 return true;
             case R.id.see_element:
@@ -309,6 +374,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         chatAdapter.notifyDataSetChanged();
         recview.scrollToPosition(messages.size() - 1);
     }
+
+
 
 
 
