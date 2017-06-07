@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -35,13 +34,13 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.APILayer.ServiceGenerator;
 import edu.upc.pes.wallachange.Adapters.CategoriesAdapter;
 import edu.upc.pes.wallachange.Adapters.ImatgesMiniaturaListViewAdapter;
 import edu.upc.pes.wallachange.Models.CurrentUser;
@@ -178,6 +177,8 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        String id = null;
+                        uploadImages(id);
                         //TODO: LOAD imagenes
                         try {
                             myActivity.changeToItem(response.getString("id"));
@@ -194,7 +195,12 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                 }, nouElement, headers);
     }
 
-    private JSONArray obtenirJSONarrayTags(ArrayList<String> tags) {
+
+    void uploadImages(String id){
+        ServiceGenerator.uploadFile(imatgesMiniatura.get(0));
+    }
+
+    private JSONArray obtenirJSONarrayTags(ArrayList<String> tags){
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < tags.size(); ++i) {
             jsonArray.put(tags.get(i));
