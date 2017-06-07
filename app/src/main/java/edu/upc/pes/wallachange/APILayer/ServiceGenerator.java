@@ -1,9 +1,13 @@
 package edu.upc.pes.wallachange.APILayer;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -14,8 +18,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by sejo on 6/06/17.
@@ -40,39 +42,60 @@ public class ServiceGenerator {
         return retrofit.create(serviceClass);
     }
 
+    @NonNull
+    private static RequestBody createPartFromString(String descriptionString) {
+        return RequestBody.create(
+                okhttp3.MultipartBody.FORM, descriptionString);
+    }
 
-    public static void uploadFile(Uri fileUri) {
-        // create upload service client
-        FileUploadService service =
-               createService(FileUploadService.class);
-
+    @NonNull
+    private static MultipartBody.Part prepareFilePart(String partName, Uri fileUri) {
         // https://github.com/iPaulPro/aFileChooser/blob/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
         // use the FileUtils to get the actual file by uri
         File file = new File(fileUri.getPath());
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        String extension = mimeTypeMap.getFileExtensionFromUrl(fileUri.getPath());
+        String memeType = mimeTypeMap.getMimeTypeFromExtension(extension);
 
         // create RequestBody instance from file
         RequestBody requestFile =
                 RequestBody.create(
-                        MediaType.parse(getApplicationContext().getContentResolver().getType(fileUri)),
+                        MediaType.parse(memeType),
                         file
                 );
 
         // MultipartBody.Part is used to send also the actual file name
-        MultipartBody.Part body =
-                MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+        return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
+    }
 
-        // add another part within the multipart request
-        String descriptionString = "hello, this is description speaking";
-        RequestBody description =
-                RequestBody.create(
-                        okhttp3.MultipartBody.FORM, descriptionString);
 
-        // finally, execute the request
-        Call<ResponseBody> call = service.upload(description, body);
+
+    public static void uploadFile(ArrayList<Uri> fileUris, String element, String token) {
+        // create upload service client
+        FileUploadService service =
+               createService(FileUploadService.class);
+
+        List<MultipartBody.Part> photo = new ArrayList<>();
+
+
+        for (Uri fileUri : fileUris) {
+            // add dynamic amount
+            if (fileUri != null) {
+
+                photo.add(prepareFilePart("photo", fileUri));
+            }
+        }
+
+
+        Call<ResponseBody> call = service.upload(element, token, photo);
         call.enqueue(new Callback<ResponseBody>() {
 
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                System.out.println(response.code());
+                System.out.println(response.message());
+                System.out.println(response.body());
+
                 Log.v("Upload", "success");
             }
 

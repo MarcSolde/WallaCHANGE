@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -34,6 +35,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +47,7 @@ import edu.upc.pes.wallachange.Adapters.CategoriesAdapter;
 import edu.upc.pes.wallachange.Adapters.ImatgesMiniaturaListViewAdapter;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
+import edu.upc.pes.wallachange.Others.FileUtils;
 
 import static com.android.volley.VolleyLog.TAG;
 
@@ -177,11 +180,11 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        String id = null;
-                        uploadImages(id);
                         //TODO: LOAD imagenes
                         try {
-                            myActivity.changeToItem(response.getString("id"));
+                            String id = response.getString("id");
+                            myActivity.changeToItem(id);
+                            uploadImages(id);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -197,7 +200,8 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
 
 
     void uploadImages(String id){
-        ServiceGenerator.uploadFile(imatgesMiniatura.get(0));
+        FileUtils fileUtils = new FileUtils(myActivity);
+        ServiceGenerator.uploadFile(fileUtils.getPath(imatgesMiniatura), id, currentUser.getToken());
     }
 
     private JSONArray obtenirJSONarrayTags(ArrayList<String> tags){
