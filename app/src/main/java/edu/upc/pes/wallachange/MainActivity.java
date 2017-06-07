@@ -182,6 +182,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 AddElementFragment myAddElementFragment = new AddElementFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myAddElementFragment).commit();
                 break;
+            case R.id.navigationYourItems:
+                YourItemsFragment myYourItemsFragment = new YourItemsFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, myYourItemsFragment).commit();
+                break;
             case R.id.navigationSearchUser:
                 SearchUserFragment searchUserFragment= new SearchUserFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, searchUserFragment).commit();
@@ -194,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ProfileFragment ProfileFragment = new ProfileFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, ProfileFragment).commit();
                 break;
-
+            //TODO:quitar
             case R.id.navigationFilters:
                 FiltersFragment FiltersFragment = new FiltersFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, FiltersFragment).commit();
@@ -207,7 +211,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void changeToItem(String id) {
-        //TODO:
         Bundle bundleViewElement = new Bundle();
         bundleViewElement.putString("id",id);
         ViewElementFragment myViewElementFragment = new ViewElementFragment();

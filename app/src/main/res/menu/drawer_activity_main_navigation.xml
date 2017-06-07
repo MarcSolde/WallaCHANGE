@@ -16,6 +16,9 @@
             android:id="@+id/navigationNewItem"
             android:title="@string/navigationNewItem_eng" />
         <item
+            android:id="@+id/navigationYourItems"
+            android:title="@string/navigationYourItems_eng" />
+        <item
             android:id="@+id/navigationLogout"
             android:title="@string/navigationLogout_eng" />
         <item

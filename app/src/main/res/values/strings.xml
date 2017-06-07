@@ -24,6 +24,7 @@
 
     <string name="navigationHome_eng">Home</string>
     <string name="navigationNewItem_eng">New Item</string>
+    <string name="navigationYourItems_eng">Your Items</string>
     <string name="navigationProfile_eng">Profile</string>
     <string name="navigationOffer_eng">Exchange offer</string>
     <string name="navigationSearchItem_eng">Search Items</string>

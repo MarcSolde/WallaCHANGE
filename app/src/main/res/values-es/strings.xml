@@ -36,6 +36,7 @@
         <string name="navigationSearchItem_eng">Búsqueda de ítems</string>
         <string name="navigationProfile_eng">Perfil</string>
         <string name="navigationNewItem_eng">Nuevo ítem</string>
+        <string name="navigationYourItems_eng">Tus ítems</string>
         <string name="navigationLogout_eng">Salir</string>
         <string name="navigationHome_eng">Inicio</string>
         <string name="logout_dialog_4">Cancelar</string>
