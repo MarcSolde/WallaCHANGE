@@ -38,10 +38,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.twitter.sdk.android.core.models.Search;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -56,6 +58,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout myDrawer;
 
     private NavigationView myNavigationView;
+
+    //OnBack
+    private ArrayList<Integer> backFlow;
+    private AddElementFragment myAddElementFragment;        //id:1
+    private ViewElementFragment myViewElementFragment;      //id:2
+    private YourItemsFragment myYourItemsFragment;          //id:3
+    private ProfileFragment myProfileFragment;              //id:4
+    private SearchUserFragment mySearchUserFragment;        //id:5
+    private SeeProfileFragment mySeeProfileFragment;        //id:6
+    private MakeOfferFragment myMakeOfferFragment;          //id:7
+    private SearchElementFragment mySearchElementFragment;  //id:8
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +90,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.setNavigationItemSelectedListener(this);
 
-        SearchElementFragment homeFragment = new SearchElementFragment();
-        myFragmentManager.beginTransaction().replace(R.id.fragment,homeFragment).commit();
-        TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
+        mySearchElementFragment = new SearchElementFragment();
+        myFragmentManager.beginTransaction().replace(R.id.fragment,mySearchElementFragment).commit();
 
+        backFlow = new ArrayList<>();
+        resetOnBackFlow(8);
+
+        TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
         CurrentUser user = CurrentUser.getInstance();
         String text = getResources().getString(R.string.user_eng);
         text = text + " "+ user.getUsername();
@@ -147,11 +163,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onBackPressed () {
-        if (myDrawer.isDrawerOpen(GravityCompat.START)) myDrawer.closeDrawer(GravityCompat.START);
-    }
-
-    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigationLogout:
@@ -179,24 +190,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog2.show();
                 break;
             case R.id.navigationNewItem:
-                AddElementFragment myAddElementFragment = new AddElementFragment();
+                backFlow.add(1);
+                myAddElementFragment = new AddElementFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myAddElementFragment).commit();
                 break;
             case R.id.navigationYourItems:
-                YourItemsFragment myYourItemsFragment = new YourItemsFragment();
+                backFlow.add(3);
+                myYourItemsFragment = new YourItemsFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myYourItemsFragment).commit();
                 break;
             case R.id.navigationSearchUser:
-                SearchUserFragment searchUserFragment= new SearchUserFragment();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, searchUserFragment).commit();
+                backFlow.add(5);
+                mySearchUserFragment= new SearchUserFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchUserFragment).commit();
                 break;
             case R.id.navigationSearchItem:
-                SearchElementFragment ElementsFragment = new SearchElementFragment();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, ElementsFragment).commit();
+                backFlow.add(8);
+                mySearchElementFragment = new SearchElementFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
                 break;
             case R.id.navigationProfile:
-                ProfileFragment ProfileFragment = new ProfileFragment();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, ProfileFragment).commit();
+                backFlow.add(4);
+                myProfileFragment = new ProfileFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, myProfileFragment).commit();
                 break;
             //TODO:quitar
             case R.id.navigationFilters:
@@ -211,35 +227,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void changeToItem(String id) {
+        backFlow.add(2);
         Bundle bundleViewElement = new Bundle();
         bundleViewElement.putString("id",id);
-        ViewElementFragment myViewElementFragment = new ViewElementFragment();
+        myViewElementFragment = new ViewElementFragment();
         myViewElementFragment.setArguments(bundleViewElement);
         myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
     }
 
     public void changeFragmentToHome () {
-        SearchElementFragment homeFragment = new SearchElementFragment();
-        myFragmentManager.beginTransaction().replace(R.id.fragment, homeFragment).commit();
+        backFlow.add(8);
+        mySearchElementFragment = new SearchElementFragment();
+        myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
         NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.getMenu().getItem(0).setChecked(true);
     }
 
     public  void changeToOtherUserProfile (String id) {
-        SeeProfileFragment seeProfileFragment = new SeeProfileFragment();
+        backFlow.add(6);
+        mySeeProfileFragment = new SeeProfileFragment();
         Bundle args = new Bundle();
         args.putString("id",id);
-        seeProfileFragment.setArguments(args);
-        myFragmentManager.beginTransaction().replace(R.id.fragment, seeProfileFragment).commit();
+        mySeeProfileFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, mySeeProfileFragment).commit();
     }
 
-
     public void changeToMakeOffer (String id) {
-        MakeOfferFragment makeOfferFragment = new MakeOfferFragment();
+        backFlow.add(7);
+        myMakeOfferFragment = new MakeOfferFragment();
         Bundle args = new Bundle();
         args.putString("id",id);
-        makeOfferFragment.setArguments(args);
-        myFragmentManager.beginTransaction().replace(R.id.fragment, makeOfferFragment).commit();
+        myMakeOfferFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, myMakeOfferFragment).commit();
     }
 
     public void hideKeyboard() {
@@ -268,4 +287,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.dispatchTouchEvent(ev);
     }
 
+    @Override
+    public void onBackPressed () {
+        if (myDrawer.isDrawerOpen(GravityCompat.START)) myDrawer.closeDrawer(GravityCompat.START);
+        if (!backFlow.isEmpty()) {
+            int aux = backFlow.size() - 2;
+            if (backFlow.get(aux) != 0) {
+                //TODO: revisar transiciones
+                switch (backFlow.get(aux)) {
+                    case 1:
+                        resetOnBackFlow(aux+1);  //AddElement
+                        break;
+                    case 2:
+                        backFlow.remove(aux+1);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
+                        break;
+                    case 3:
+                        backFlow.remove(aux+1);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, myYourItemsFragment).commit();
+                        break;
+                    case 4:
+                        backFlow.remove(aux+1);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, myProfileFragment).commit();
+                        break;
+                    case 5:
+                        backFlow.remove(aux+1);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchUserFragment).commit();
+                        break;
+                    case 6:
+                        backFlow.remove(aux+1);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, mySeeProfileFragment).commit();
+                        break;
+                    case 7:
+                        resetOnBackFlow(aux+1); //MakeOffer
+                        break;
+                    case 8:
+                        backFlow.remove(aux+1);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    private void resetOnBackFlow(int i) {
+        backFlow.clear();
+        backFlow.add(0);
+        backFlow.add(i);
+    }
 }
