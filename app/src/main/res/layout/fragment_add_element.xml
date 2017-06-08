@@ -44,7 +44,7 @@
                     android:padding="5pt"
 
                     android:scaleType="fitXY"
-                    android:src="@drawable/ic_photo_camera_black_24dp" />
+                    android:src="@drawable/ic_action_camera" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
                     android:layout_height="15pt"
                     android:contentDescription="@string/clear_title_edit_text_button_eng"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/delete" />
+                    app:srcCompat="@drawable/ic_action_delete" />
             </LinearLayout>
 
             <LinearLayout
@@ -134,7 +134,7 @@
                     android:layout_gravity="center_vertical"
                     android:contentDescription="@string/clear_description_edit_text_button_eng"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/delete" />
+                    app:srcCompat="@drawable/ic_action_delete" />
             </LinearLayout>
 
             <LinearLayout
@@ -167,7 +167,7 @@
                     android:layout_gravity="center_vertical"
                     android:contentDescription="@string/add_category"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/add" />
+                    app:srcCompat="@drawable/ic_action_add" />
             </LinearLayout>
 
             <edu.upc.pes.wallachange.Others.ExpandableHeightGridView
@@ -285,7 +285,7 @@
                     android:contentDescription="@string/clear_temporality_edit_text_button_eng"
                     android:scaleType="fitXY"
                     android:visibility="gone"
-                    app:srcCompat="@drawable/delete" />
+                    app:srcCompat="@drawable/ic_action_delete" />
             </LinearLayout>
 
             <LinearLayout

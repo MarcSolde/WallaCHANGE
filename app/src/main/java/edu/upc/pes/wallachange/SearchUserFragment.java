@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -23,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,9 +68,9 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                 return false;
             }
         });
-        Button auxButton = (Button) view.findViewById(R.id.search_user_search);
+        ImageButton auxButton = (ImageButton) view.findViewById(R.id.search_user_search);
         auxButton.setOnClickListener(this);
-        auxButton = (Button) view.findViewById(R.id.search_user_filter) ;
+        auxButton = (ImageButton) view.findViewById(R.id.search_user_reset) ;
         auxButton.setOnClickListener(this);
         myListView = (ListView) view.findViewById(R.id.search_user_list);
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,10 +83,11 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
     }
 
     private void loadList (ArrayList<User> al) {
-        ArrayList<String> aux = new ArrayList<> ();
+        if (al.isEmpty()) {
+            Toast.makeText(myActivity,R.string.search_no_result,Toast.LENGTH_SHORT).show();
+        }
         users = new ArrayList<> ();
         users = al;
-
         adapter = new UserListAdapter(myActivity,R.layout.item_default,users);
         myListView.setAdapter(adapter);
         myListView.deferNotifyDataSetChanged();
@@ -103,30 +107,41 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
 
-                adapterAPI.GETJsonArrayRequestAPI("/users",
+                String aux = myText.getText().toString();
+                if (aux.isEmpty()) {
+                    aux = "/users";
+
+                } else {
+                    headers.put("preferencies", aux);
+                    aux = "/user";
+                }
+                adapterAPI.GETJsonArrayRequestAPI(aux,
                         new Response.Listener<JSONArray>() {
 
                             @Override
                             public void onResponse(JSONArray response) {
                                 try {
                                     CurrentUser user = CurrentUser.getInstance();
-                                    Log.i("JSON: ",response.toString());
+                                    Log.i("JSONAAAAAA   : ",response.toString());
                                     ArrayList<User> aux = new ArrayList<> ();
                                     for (int i = 0;i < response.length();++i) {
                                         JSONObject var = response.getJSONObject(i);
                                         if (!user.getId().equals(var.getString("id"))) {
-                                            JSONArray var2 = var.getJSONArray("preferencies");
+                                            //TODO:revisar preferences
+                                            //JSONArray var2 = var.getJSONArray("preferencies");
                                             ArrayList<String> aux2 = new ArrayList<> ();
+                                            /*
                                             for (int j = 0; j < var2.length();++j) {
                                                 aux2.add(var2.get(j).toString());
                                             }
+                                            */
                                             if (aux2.size() == 0) aux2.add("No preference recorded");
                                             User u = new User(var.getString("id"),
                                                     var.getString("nom"),
                                                     null,
                                                     null,
                                                     Float.parseFloat(var.getString("reputacio")),
-                                                    Uri.parse(var.getString("path")),
+                                                    null,
                                                     aux2);
                                             aux.add(u);
                                         }
@@ -147,7 +162,8 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                         }, headers
                 );
                 break;
-            case R.id.search_user_filter:
+            case R.id.search_user_reset:
+                myText.setText("");
                 break;
             default:
                 break;

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -85,6 +86,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private EditText editTextTemporalitat;
     private boolean esTemporal;
     private ImageButton addImageButton;
+    private boolean esOffer;
 
     public ViewElementFragment() {}
 
@@ -130,6 +132,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         headers.put("x-access-token", us.getToken());
         headers.put("Content-Type", "application/json");
         idElement = getArguments().getString("id");
+        esOffer = getArguments().getBoolean("chat",false);
         if (idElement != null) {
             //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
             adapterAPIRequest.GETRequestAPI("/api/element/".concat(idElement),
@@ -182,6 +185,23 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         deshabilitarCamps();
 
         setHasOptionsMenu(true);
+
+
+        editTextCategoria.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (i) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            myActivity.hideKeyboard();
+                            return true;
+                        default: break;
+                    }
+                }
+                return false;
+            }
+        });
 
         return fragmentViewElementView;
     }
@@ -390,7 +410,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
     private void loadElement(Element e){
 
-        if (Objects.equals(idUsuariAnunci, us.getId())) {
+        if (Objects.equals(idUsuariAnunci, us.getId()) && !esOffer) {
             editButton.setEnabled(true);
             tradeButton.setEnabled(false);
             tradeButton.setVisibility(View.GONE);

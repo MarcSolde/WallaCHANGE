@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.08"
                 android:contentDescription="@string/clearEditText"
-                app:srcCompat="@drawable/delete" />
+                app:srcCompat="@drawable/ic_action_delete" />
 
             <ImageView
                 android:id="@+id/SearchButt"
