@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,7 +80,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
         headers.put("titol", "");
         //headers.put("Content-Type", "application/json");
 
-        adapter.GETJsonArrayRequestAPI("/api/elements", new Response.Listener<JSONArray>() {
+        adapter.GETJsonArrayRequestAPI("/api/element", new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         JSONArray ja = response;
@@ -99,7 +100,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                                     if (ja.getJSONObject(i).getBoolean("es_temporal"))
                                         elem.setTemporalitat("Temporal");
                                     else
-                                        elem.setTipusProducte("Permanent");
+                                        elem.setTipusProducte(true);
                                     //elem.setComentarisArray(ja.getJSONObject(i).getJSONArray("comentaris"));
                                     //elem.setCoordenadesArray(ja.getJSONObject(i).getJSONArray("coordenades"));
                                     elements.add(elem);
@@ -124,6 +125,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
 
 
         finder = (EditText) view.findViewById(R.id.finder);
+        //finder.setInputType(InputType.TYPE_NULL); //impide k salga el teclado permanentemente
         finder.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -152,6 +154,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
         Button filterButt = (Button) view.findViewById(R.id.filterButton);
         filterButt.setOnClickListener(this);
 
+        myActivity.hideKeyboardStart();
         return view;
     }
 
@@ -178,7 +181,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
 
                 final ArrayList<Element> elements2 = new ArrayList<>();
 
-                adapter.GETRequestAPI("/api/elements",
+                adapter.GETRequestAPI("/api/element",
 
                         new Response.Listener<JSONArray>() {
                             @Override

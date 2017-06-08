@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static void logOut() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        sharedPreferences.edit().clear().commit();
+        sharedPreferences.edit().clear().apply();
         LoginManager.getInstance().logOut();
         Log.i("LOGIN","Logout from Main");
     }

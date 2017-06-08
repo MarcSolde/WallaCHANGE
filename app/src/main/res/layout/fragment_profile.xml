@@ -86,7 +86,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.09"
-                    app:srcCompat="@drawable/delete" />
+                    app:srcCompat="@drawable/ic_action_delete" />
             </LinearLayout>
 
             <!--<View-->
@@ -126,7 +126,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.09"
-                    app:srcCompat="@drawable/add" />
+                    app:srcCompat="@drawable/ic_action_add" />
             </LinearLayout>
 
 

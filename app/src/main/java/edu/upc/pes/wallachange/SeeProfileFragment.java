@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -48,7 +49,7 @@ public class SeeProfileFragment extends Fragment {
         myView = view;
         myActivity = (MainActivity) getActivity();
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        myActivity.setTitle(R.string.navigationProfile_eng);
+        myActivity.setTitle("");
 
         String id = getArguments().getString("id");
 
@@ -101,7 +102,7 @@ public class SeeProfileFragment extends Fragment {
         CurrentUser user = CurrentUser.getInstance();
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",user.getToken());
-        adapterAPI.GETJsonArrayRequestAPI("/api/elements/"+id,
+        adapterAPI.GETJsonArrayRequestAPI("/api/element/user/"+id,
                 new Response.Listener<JSONArray>() {
 
                     @Override
@@ -148,6 +149,9 @@ public class SeeProfileFragment extends Fragment {
     }
 
     private void loadList (ArrayList<Element> e) {
+        if (e.isEmpty()) {
+            Toast.makeText(myActivity,R.string.viewOtherProfileNoResult,Toast.LENGTH_SHORT).show();
+        }
         elements = new ArrayList<>();
         elements = e;
         ElementListAdapter adapter = new ElementListAdapter(myActivity,R.layout.item_default,elements);
@@ -156,8 +160,7 @@ public class SeeProfileFragment extends Fragment {
     }
 
     private void onClickElement (int i) {
-        //TODO:
-        //myActivity.changeToItem(elements.get(i).getId());
-        myActivity.changeToMakeOffer(elements.get(i).getId());
+        myActivity.changeToItem(elements.get(i).getId());
+        //myActivity.changeToMakeOffer(elements.get(i).getId());
     }
 }

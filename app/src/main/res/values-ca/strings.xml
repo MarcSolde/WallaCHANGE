@@ -6,7 +6,7 @@
         <string name="language_eng">Idioma</string>
         <string name="app_name">WallaCHANGE</string>
         <string name="write_here_your_comment_eng">Escriu aquí el teu comentari</string>
-        <string name="viewOtherProfileElement_eng">ELEMENTS:</string>
+        <string name="viewOtherProfileElement_eng">ÍTEMS:</string>
         <string name="viewElementHelp_eng">Ajuda</string>
         <string name="user_eng">Usuari:</string>
         <string name="userPicture">foto d\'usuari</string>
@@ -37,6 +37,7 @@
         <string name="navigationSearchItem_eng">Cerca d\'ítems</string>
         <string name="navigationProfile_eng">Perfil</string>
         <string name="navigationNewItem_eng">Nou ítem</string>
+        <string name="navigationYourItems_eng">Els teus ítems</string>
         <string name="navigationLogout_eng">Sortir</string>
         <string name="navigationHome_eng">Inici</string>
         <string name="navigationChat_eng">Xat</string>
@@ -87,9 +88,13 @@
         <string name="cancel_interchange">Cancel·lar intercanvi</string>
 
         <string name="which_rating">Com ha anat l\'intercanvi?</string>
-
-
-
-
-
+        <string name="navigationOffer_eng">Realitzar intercanvi</string>
+        <string name="offerExchange2_eng">Ofereixes:</string>
+        <string name="offerExchange1_eng">Vols:</string>
+        <string name="offerExchangeElement_eng">ELS TEUS ÍTEMS:</string>
+        <string name="offerExchangeSend_eng">Enviar oferta</string>
+        <string name="search_no_result">No s"'"han trobat resultats</string>
+        <string name="viewOtherProfileNoResult">L"'"usuari no te ítems</string>
+        <string name="seeYourItmeNoResult">No tens cap ítem</string>
+        <string name="language_warning">Canviar l"'"idioma reiniciarà l"'"app</string>
 </resources>

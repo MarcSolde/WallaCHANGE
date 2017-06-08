@@ -1,23 +1,14 @@
 package edu.upc.pes.wallachange.Models;
 
-import static com.android.volley.VolleyLog.TAG;
-
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 
@@ -159,29 +150,7 @@ public class CurrentUser {
         user.setFacebookId(fbId);
     }
 
-//    public Conversa getConversa(String convId) {
-//        for (Conversa c : converses) {
-//            String id_conversa=c.getConv_id();
-//            if (id_conversa.equals(convId)) {
-//                return c;
-//            }
-//        }
-//        return null;
-//    }
-
-//    public void addConversa(Conversa c) {
-//        converses.add(c);
-//    }
-
-//    public void deleteConversa(String userId) {
-//        for (int i = 0; i < converses.size(); ++i) {
-//            if (converses.get(i).getId_other().equals(userId)) {
-//                converses.remove(i);
-//            }
-//        }
-//    }
-
-//    public ArrayList<Conversa> getConverses() {
-//        return converses;
-//    }
+    public void setRating(String rating) {
+        user.setRating(Float.valueOf(rating));
+    }
 }

@@ -11,20 +11,23 @@ import java.util.Date;
 public class Comment {
     // foto, nom d'usuari, text del comentari, data
     private Uri fotoUsuari;
-    private String nomUsuari;
+    private String idComentari;
+    private String idUsuari;
     private String textComentari;
-    private String data;
     private Date dia;
+    private String data;
 
-    public Comment(String nomUsuari, String textComentari, Date dia) {
-        this.nomUsuari = nomUsuari;
+
+    public Comment(String idComentari, String idUsuari, String textComentari, Date dia) {
+        this.idComentari = idComentari;
+        this.idUsuari = idUsuari;
         this.textComentari = textComentari;
-        //TODO obtenir data i foto usuari
         this.dia = dia;
+        //TODO obtenir foto usuari
     }
-    public Comment(Uri fotoUsuari, String nomUsuari, String textComentari, String data) {
+    public Comment(Uri fotoUsuari, String idUsuari, String textComentari, String data) {
         this.fotoUsuari = fotoUsuari;
-        this.nomUsuari = nomUsuari;
+        this.idUsuari = idUsuari;
         this.textComentari = textComentari;
         this.data = data;
     }
@@ -33,16 +36,24 @@ public class Comment {
         return fotoUsuari;
     }
 
+    public String getIdComentari() {
+        return idComentari;
+    }
+
+    public void setIdComentari(String idComentari) {
+        this.idComentari = idComentari;
+    }
+
     public void setFotoUsuari(Uri fotoUsuari) {
         this.fotoUsuari = fotoUsuari;
     }
 
-    public String getNomUsuari() {
-        return nomUsuari;
+    public String getIdUsuari() {
+        return idUsuari;
     }
 
-    public void setNomUsuari(String nomUsuari) {
-        this.nomUsuari = nomUsuari;
+    public void setIdUsuari(String idUsuari) {
+        this.idUsuari = idUsuari;
     }
 
     public String getTextComentari() {

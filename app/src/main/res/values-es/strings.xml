@@ -5,7 +5,7 @@
         <string name="catalan_eng">Catalán</string>
         <string name="language_eng">Idioma</string>
         <string name="app_name">WallaCHANGE</string>
-        <string name="viewOtherProfileElement_eng">ELEMENTOS:</string>
+        <string name="viewOtherProfileElement_eng">ÍTEMS:</string>
         <string name="write_here_your_comment_eng">Escribe aquí tu comentario</string>
         <string name="user_eng">Usuario</string>
         <string name="type_of_product_eng">Tipo de producto</string>
@@ -36,6 +36,7 @@
         <string name="navigationSearchItem_eng">Búsqueda de ítems</string>
         <string name="navigationProfile_eng">Perfil</string>
         <string name="navigationNewItem_eng">Nuevo ítem</string>
+        <string name="navigationYourItems_eng">Tus ítems</string>
         <string name="navigationLogout_eng">Salir</string>
         <string name="navigationHome_eng">Inicio</string>
         <string name="navigationChat_eng">Chat</string>
@@ -45,8 +46,8 @@
         <string name="incitement_to_hatred_eng">Incitación al odio</string>
         <string name="if_product_at_least_one_image_eng">Mínimo una imagen</string>
         <string name="from_you_eng">de ti</string>
-        <string name="filter_eng">FILTRA</string>
-        <string name="filterButton_eng">FILTRA</string>
+        <string name="filter_eng">FILTRAR</string>
+        <string name="filterButton_eng">FILTRAR</string>
         <string name="experience_eng">Experiencia</string>
         <string name="errorExistingPref_eng">Ya existe</string>
         <string name="errorExistingCategory_eng">Ya existe</string>
@@ -76,12 +77,16 @@
         <string name="See_its_profile">Ver su perfil</string>
         <string name="action_menu">Opciones</string>
 
-        <string name="for_message">por</string>
-        <string name="cancel_interchange">Cancelar intercambio</string>
         <string name="which_rating">Cómo ha ido el intercambio?</string>
-
-
-
-
-
+        <string name="cancel_interchange">Cancelar intercambio</string>
+        <string name="for_message">por</string>
+        <string name="navigationOffer_eng">Realizar intercambio</string>
+        <string name="offerExchange1_eng">Quieres:</string>
+        <string name="offerExchange2_eng">Ofreces:</string>
+        <string name="offerExchangeElement_eng">TUS ÍTEMS:</string>
+        <string name="offerExchangeSend_eng">Enviar oferta</string>
+        <string name="search_no_result">No se han encontrado resultados</string>
+        <string name="viewOtherProfileNoResult">El usuario no tiene ítems</string>
+        <string name="seeYourItmeNoResult">No tienes ningún ítem</string>
+        <string name="language_warning">Cambiar el idioma reiniciará la app</string>
 </resources>

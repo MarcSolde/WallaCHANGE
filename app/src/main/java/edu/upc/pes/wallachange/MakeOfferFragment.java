@@ -159,8 +159,7 @@ public class MakeOfferFragment extends Fragment {
                         },body, headers);
             }
         });
-        String aux = user.getId();
-        adapterAPI.GETJsonArrayRequestAPI("/api/elements/" + user.getId(),
+        adapterAPI.GETJsonArrayRequestAPI("/api/element/user/" + user.getId(),
                 new Response.Listener<JSONArray>() {
 
                     @Override
@@ -219,18 +218,26 @@ public class MakeOfferFragment extends Fragment {
         //TODO:img
         title1.setText(element1.getTitol());
         alterUserId = element1.getUser();
-        String var;
-        if (element1.getEsTemporal()) temporal1.setText(element1.getTemporalitat());
-        else temporal1.setText(R.string.temporal_eng);
+        String aux;
+        if (e.getTipusProducte()) aux = myActivity.getString(R.string.product_eng);
+        else aux = myActivity.getString(R.string.experience_eng);
+        if (e.getEsTemporal()) {
+            temporal1.setText(aux + " - " + e.getTemporalitat());
+        }
+        else temporal1.setText(aux + " - " + myActivity.getString(R.string.permanent_eng));
     }
 
     private void loadElement2(Element e) {
         element2 = e;
         //TODO:img
         title2.setText(element2.getTitol());
-        String var;
-        if (element2.getEsTemporal()) temporal2.setText(element2.getTemporalitat());
-        else temporal2.setText(R.string.temporal_eng);
+        String aux;
+        if (e.getTipusProducte()) aux = myActivity.getString(R.string.product_eng);
+        else aux = myActivity.getString(R.string.experience_eng);
+        if (e.getEsTemporal()) {
+            temporal2.setText(aux + " - " + e.getTemporalitat());
+        }
+        else temporal2.setText(aux + " - " + myActivity.getString(R.string.permanent_eng));
     }
 
 

@@ -42,11 +42,20 @@ public class ElementListAdapter extends ArrayAdapter<Element> {
         //image.setImage
         TextView aux = (TextView) convertView.findViewById(R.id.item_text1);
         aux.setText(var.getTitol());
+
         aux = (TextView) convertView.findViewById(R.id.item_text2);
-        aux.setText(var.getTags().toString());
+        ArrayList<String> aux2 = var.getTags();
+        if (aux2.size() == 0) aux.setText("[...]");
+        else aux.setText(var.getTags().toString());
+
         aux = (TextView) convertView.findViewById(R.id.item_text3);
-        if (var.getEsTemporal()) var.getTemporalitat();
-        else aux.setText(R.string.temporal_eng);
+        String aux3;
+        if (var.getTipusProducte()) aux3 = myContext.getString(R.string.product_eng);
+        else aux3 = myContext.getString(R.string.experience_eng);
+        if (var.getEsTemporal()) {
+            aux.setText(aux3 + " - " + var.getTemporalitat());
+        }
+        else aux.setText(aux3 + " - " + myContext.getString(R.string.permanent_eng));
         return convertView;
     }
 }

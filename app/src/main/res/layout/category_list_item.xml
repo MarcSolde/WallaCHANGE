@@ -2,20 +2,30 @@
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
-    <TextView
-        android:id="@+id/textViewCategory"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="15pt"
-        android:gravity="fill_vertical"
-        android:textSize="9pt" />
-    <ImageButton
-        android:contentDescription="@string/contentDeleteImage"
-        android:id="@+id/botoEsborrarCategoria"
-        android:layout_width="wrap_content"
-        android:background="@null"
-        android:layout_height="match_parent"
-        app:srcCompat="@drawable/smaller_delete" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/textViewCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:textSize="8pt" />
+
+        <ImageButton
+            android:id="@+id/botoEsborrarCategoria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:background="@null"
+            android:contentDescription="@string/contentDeleteImage"
+            app:srcCompat="@drawable/smaller_delete" />
+    </LinearLayout>
 
 </GridLayout>

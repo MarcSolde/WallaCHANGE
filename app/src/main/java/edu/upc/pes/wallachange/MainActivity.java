@@ -1,51 +1,33 @@
 package edu.upc.pes.wallachange;
 
-import static java.security.AccessController.getContext;
-
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Models.Conversa;
 import edu.upc.pes.wallachange.Models.CurrentUser;
-import edu.upc.pes.wallachange.Models.Element;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,6 +35,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout myDrawer;
 
     private NavigationView myNavigationView;
+
+    //OnBack
+    private ArrayList<Integer> backFlow;
+    private AddElementFragment myAddElementFragment;        //id:1
+    private ViewElementFragment myViewElementFragment;      //id:2
+    private YourItemsFragment myYourItemsFragment;          //id:3
+    private ProfileFragment myProfileFragment;              //id:4
+    private SearchUserFragment mySearchUserFragment;        //id:5
+    private SeeProfileFragment mySeeProfileFragment;        //id:6
+    private MakeOfferFragment myMakeOfferFragment;          //id:7
+    private SearchElementFragment mySearchElementFragment;  //id:8
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +67,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.setNavigationItemSelectedListener(this);
 
-        SearchElementFragment homeFragment = new SearchElementFragment();
-        myFragmentManager.beginTransaction().replace(R.id.fragment,homeFragment).commit();
-        TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
+        mySearchElementFragment = new SearchElementFragment();
+        myFragmentManager.beginTransaction().replace(R.id.fragment,mySearchElementFragment).commit();
+        myNavigationView.getMenu().getItem(0).setChecked(true);
 
+        backFlow = new ArrayList<>();
+        resetOnBackFlow(8);
+
+        TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
         CurrentUser user = CurrentUser.getInstance();
         String text = getResources().getString(R.string.user_eng);
         text = text + " "+ user.getUsername();
@@ -93,8 +90,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
     }
+
     @SuppressWarnings("deprecation")
     public void callActivity() {
 
@@ -141,12 +138,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void changeNav() {
         recreate();
-
-    }
-
-    @Override
-    public void onBackPressed () {
-        if (myDrawer.isDrawerOpen(GravityCompat.START)) myDrawer.closeDrawer(GravityCompat.START);
     }
 
     @Override
@@ -177,22 +168,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog2.show();
                 break;
             case R.id.navigationNewItem:
-                AddElementFragment myAddElementFragment = new AddElementFragment();
+                resetOnBackFlow(1);
+                myAddElementFragment = new AddElementFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myAddElementFragment).commit();
                 break;
+            case R.id.navigationYourItems:
+                resetOnBackFlow(3);
+                myYourItemsFragment = new YourItemsFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, myYourItemsFragment).commit();
+                break;
             case R.id.navigationSearchUser:
-                SearchUserFragment searchUserFragment= new SearchUserFragment();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, searchUserFragment).commit();
+                resetOnBackFlow(5);
+                mySearchUserFragment= new SearchUserFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchUserFragment).commit();
                 break;
             case R.id.navigationSearchItem:
-                SearchElementFragment ElementsFragment = new SearchElementFragment();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, ElementsFragment).commit();
+                resetOnBackFlow(8);
+                mySearchElementFragment = new SearchElementFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
                 break;
             case R.id.navigationProfile:
-                ProfileFragment ProfileFragment = new ProfileFragment();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, ProfileFragment).commit();
+                resetOnBackFlow(4);
+                myProfileFragment = new ProfileFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, myProfileFragment).commit();
                 break;
-
+            //TODO:quitar
             case R.id.navigationFilters:
                 FiltersFragment FiltersFragment = new FiltersFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, FiltersFragment).commit();
@@ -208,23 +208,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void changeToItem(String id) {
-        //TODO:
+        backFlow.add(2);
         Bundle bundleViewElement = new Bundle();
         bundleViewElement.putString("id",id);
-        ViewElementFragment myViewElementFragment = new ViewElementFragment();
+        myViewElementFragment = new ViewElementFragment();
+        myViewElementFragment.setArguments(bundleViewElement);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
+    }
+
+    public void changeToItemChat(String id) {
+        backFlow.add(2);
+        Bundle bundleViewElement = new Bundle();
+        bundleViewElement.putString("id",id);
+        bundleViewElement.putBoolean("chat",true);
+        myViewElementFragment = new ViewElementFragment();
         myViewElementFragment.setArguments(bundleViewElement);
         myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
     }
 
     public void changeFragmentToHome () {
-        SearchElementFragment homeFragment = new SearchElementFragment();
-        myFragmentManager.beginTransaction().replace(R.id.fragment, homeFragment).commit();
+        backFlow.add(8);
+        mySearchElementFragment = new SearchElementFragment();
+        myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
         NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.getMenu().getItem(0).setChecked(true);
     }
 
+    public  void changeToOtherUserProfile (String id) {
+        backFlow.add(6);
+        mySeeProfileFragment = new SeeProfileFragment();
+        Bundle args = new Bundle();
+        args.putString("id",id);
+        mySeeProfileFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, mySeeProfileFragment).commit();
+    }
 
-
+    public void changeToMakeOffer (String id) {
+        backFlow.add(7);
+        myMakeOfferFragment = new MakeOfferFragment();
+        Bundle args = new Bundle();
+        args.putString("id",id);
+        myMakeOfferFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, myMakeOfferFragment).commit();
+    }
     public void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -233,32 +259,80 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public  void changeToOtherUserProfile (String id) {
-        SeeProfileFragment seeProfileFragment = new SeeProfileFragment();
-        Bundle args = new Bundle();
-        args.putString("id",id);
-        seeProfileFragment.setArguments(args);
-        myFragmentManager.beginTransaction().replace(R.id.fragment, seeProfileFragment).commit();
+    public void hideKeyboardStart() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View view = getCurrentFocus();
+        if (view != null && (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) && view instanceof EditText && !view.getClass().getName().startsWith("android.webkit.")) {
+            int scrcoords[] = new int[2];
+            view.getLocationOnScreen(scrcoords);
+            float x = ev.getRawX() + view.getLeft() - scrcoords[0];
+            float y = ev.getRawY() + view.getTop() - scrcoords[1];
+            if (x < view.getLeft() || x > view.getRight() || y < view.getTop() || y > view.getBottom())
+                ((InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 
-    public void changeToMakeOffer (String id) {
-        MakeOfferFragment makeOfferFragment = new MakeOfferFragment();
-        Bundle args = new Bundle();
-        args.putString("id",id);
-        makeOfferFragment.setArguments(args);
-        myFragmentManager.beginTransaction().replace(R.id.fragment, makeOfferFragment).commit();
+    @Override
+    public void onBackPressed () {
+        if (myDrawer.isDrawerOpen(GravityCompat.START)) myDrawer.closeDrawer(GravityCompat.START);
+        if (!backFlow.isEmpty()) {
+            int aux = backFlow.size() - 2;
+            if (backFlow.get(aux) != 0) {
+                //TODO: revisar transiciones
+                switch (backFlow.get(aux)) {
+                    case 1:
+                        resetOnBackFlow(aux+1);  //AddElement
+                        break;
+                    case 2:
+                        backFlow.remove(aux+1);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
+                        break;
+                    case 3:
+                        backFlow.remove(aux+1);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, myYourItemsFragment).commit();
+                        break;
+                    case 4:
+                        backFlow.remove(aux+1);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, myProfileFragment).commit();
+                        break;
+                    case 5:
+                        backFlow.remove(aux+1);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchUserFragment).commit();
+                        break;
+                    case 6:
+                        backFlow.remove(aux+1);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, mySeeProfileFragment).commit();
+                        break;
+                    case 7:
+                        resetOnBackFlow(aux+1); //MakeOffer
+                        break;
+                    case 8:
+                        backFlow.remove(aux+1);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
     public void changeToChat (String c) {
         ChatFragment chatFragment = new ChatFragment();
-        Bundle args = new Bundle();
         args.putString("conversa", c);
+        Bundle args = new Bundle();
         chatFragment.setArguments(args);
-        myFragmentManager.beginTransaction().replace(R.id.fragment, chatFragment).commit();
         NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, chatFragment).commit();
     }
-
-
-
+    private void resetOnBackFlow(int i) {
+        backFlow.clear();
+        backFlow.add(0);
+        backFlow.add(i);
+    }
 }
