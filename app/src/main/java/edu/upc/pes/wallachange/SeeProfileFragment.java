@@ -141,9 +141,15 @@ public class SeeProfileFragment extends Fragment {
         aux.setText(u.getUsername());
         aux = (TextView) myView.findViewById(R.id.see_user_city);
         aux.setText(u.getLocation());
+
         aux = (TextView) myView.findViewById(R.id.see_user_preference);
-        String aux2 = TextUtils.join(", ", u.getPreferences());
-        aux.setText(aux2);
+        ArrayList<String> aux2 = u.getPreferences();
+        if (aux2.size() <= 2) {
+            aux.setText(aux2.toString());
+        }
+        else {
+            aux.setText("[" + aux2.get(0) + ", " + aux2.get(1) + ", ...]");
+        }
         aux = (TextView) myView.findViewById(R.id.see_user_rating);
         aux.setText(u.getRating()/20 +"/5.0");
     }

@@ -1,13 +1,103 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.upc.pes.wallachange.CloseOfferFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow android:weightSum="2">
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2pt"
+                        android:text="@string/offerExchange1_eng"
+                        android:gravity="center"
+                        android:textSize="12pt"
+                        android:textStyle="bold"/>
+                    <ImageView
+                        android:id="@+id/close_trade_image_1"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:srcCompat="@drawable/empty_picture" />
+                    <TextView
+                        android:id="@+id/close_trade_title_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2pt"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="10pt" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2pt"
+                        android:text="@string/offerExchange2_eng"
+                        android:gravity="center"
+                        android:textSize="12pt"
+                        android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/close_tradeimage_2"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:srcCompat="@drawable/empty_picture" />
+                    <TextView
+                        android:id="@+id/close_trade_title_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2pt"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="10pt" />
+                </LinearLayout>
+            </TableRow>
+        </TableLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5pt"
+            android:layout_marginBottom="5pt"
+            android:text="@string/offerExchangeQuestion_eng"
+            android:gravity="center"
+            android:textSize="12pt"
+            android:textStyle="bold"/>
+
+        <RatingBar
+            android:id="@+id/close_trade_ratingBar"
+            style="?attr/ratingBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:theme="@style/RatingBar" />
+
+        <Button
+            android:id="@+id/close_trade_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/offerExchangeClose_eng"
+            android:editable="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"/>
+    </LinearLayout>
 </FrameLayout>

@@ -40,6 +40,7 @@
         <string name="navigationYourItems_eng">Els teus ítems</string>
         <string name="navigationLogout_eng">Sortir</string>
         <string name="navigationHome_eng">Inici</string>
+        <string name="navigationClose_eng">Tancar intercanvi</string>
         <string name="logout_dialog_4">Cancel·lar</string>
         <string name="logout_dialog_2">Vols tancar sessió?</string>
         <string name="logout_dialog_3">Sortir</string>
@@ -87,4 +88,6 @@
         <string name="viewOtherProfileNoResult">L"'"usuari no te ítems</string>
         <string name="seeYourItmeNoResult">No tens cap ítem</string>
         <string name="language_warning">Canviar l"'"idioma reiniciarà l"'"app</string>
+        <string name="offerExchangeQuestion_eng">Pots puntuar l"'"intercanvi?</string>
+        <string name="offerExchangeClose_eng">Enviar puntuació</string>
 </resources>

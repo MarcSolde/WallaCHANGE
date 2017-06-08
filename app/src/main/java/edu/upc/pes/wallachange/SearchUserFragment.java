@@ -127,14 +127,11 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                                     for (int i = 0;i < response.length();++i) {
                                         JSONObject var = response.getJSONObject(i);
                                         if (!user.getId().equals(var.getString("id"))) {
-                                            //TODO:revisar preferences
-                                            //JSONArray var2 = var.getJSONArray("preferencies");
+                                            JSONArray var2 = var.getJSONArray("preferencies");
                                             ArrayList<String> aux2 = new ArrayList<> ();
-                                            /*
                                             for (int j = 0; j < var2.length();++j) {
                                                 aux2.add(var2.get(j).toString());
                                             }
-                                            */
                                             if (aux2.size() == 0) aux2.add("No preference recorded");
                                             User u = new User(var.getString("id"),
                                                     var.getString("nom"),

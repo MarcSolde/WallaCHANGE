@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SeeProfileFragment mySeeProfileFragment;        //id:6
     private MakeOfferFragment myMakeOfferFragment;          //id:7
     private SearchElementFragment mySearchElementFragment;  //id:8
+    private CloseOfferFragment myCloseOfferFragment;        //id: 9
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -245,6 +246,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         args.putString("id",id);
         myMakeOfferFragment.setArguments(args);
         myFragmentManager.beginTransaction().replace(R.id.fragment, myMakeOfferFragment).commit();
+    }
+
+    public void changeToCloseOffer (String id) {
+        //TODO:onback
+        myCloseOfferFragment = new CloseOfferFragment();
+        Bundle args = new Bundle();
+        args.putString("id",id);
+        myCloseOfferFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, myCloseOfferFragment).commit();
     }
 
     public void hideKeyboard() {

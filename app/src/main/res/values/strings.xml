@@ -32,6 +32,7 @@
     <string name="navigationSearchUser_eng">Search Users</string>
     <string name="navigationLogout_eng">Log out</string>
     <string name="navigationConfiguration_eng">Configuration</string>
+    <string name="navigationClose_eng">End offer</string>
 
     <string name="navigationOpen" translatable="false">Open navigation drawer</string>
     <string name="navigationClose">Close navigation drawer</string>
@@ -68,6 +69,8 @@
     <string name="offerExchange2_eng">You offer:</string>
     <string name="offerExchangeElement_eng">YOUR ITEMS:</string>
     <string name="offerExchangeSend_eng">Send offer</string>
+    <string name="offerExchangeQuestion_eng">Can you rate the exchange?</string>
+    <string name="offerExchangeClose_eng">Send score</string>
 
     <!-- YOUR ITEMS -->
     <string name="seeYourItmeNoResult">Yo don"'"t have any items</string>
@@ -170,6 +173,9 @@
     <string name="boto_per_esborrar_el_comentari">boto per esborrar el comentari</string>
     <string name="are_you_sure_you_want_delete_your_comment_eng">Are you sure you want to delete your comment?</string>
     <string name="delete_comment_eng">Delete comment?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
