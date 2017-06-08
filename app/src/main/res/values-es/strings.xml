@@ -79,4 +79,5 @@
         <string name="search_no_result">No se han encontrado resultados</string>
         <string name="viewOtherProfileNoResult">El usuario no tiene ítems</string>
         <string name="seeYourItmeNoResult">No tienes ningún ítem</string>
+        <string name="language_warning">Cambiar el idioma reiniciará la app</string>
 </resources>

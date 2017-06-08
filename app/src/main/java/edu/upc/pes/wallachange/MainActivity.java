@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
     }
+
     @SuppressWarnings("deprecation")
     public void callActivity() {
 
