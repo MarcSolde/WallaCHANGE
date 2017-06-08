@@ -219,4 +219,11 @@ public class AdapterAPIRequest   {
         AppSingleton.getInstance(getApplicationContext()).getRequestQueue().getCache().clear();
     }
 
+
+
+
+    /////////////////////////////////////////////////////////
+
+
+
 }

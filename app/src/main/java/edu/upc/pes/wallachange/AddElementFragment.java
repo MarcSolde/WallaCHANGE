@@ -43,10 +43,12 @@ import java.util.Map;
 import java.util.Objects;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.APILayer.ServiceGenerator;
 import edu.upc.pes.wallachange.Adapters.CategoriesAdapter;
 import edu.upc.pes.wallachange.Adapters.ImatgesMiniaturaListViewAdapter;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
+import edu.upc.pes.wallachange.Others.FileUtils;
 
 import static com.android.volley.VolleyLog.TAG;
 
@@ -213,7 +215,9 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     public void onResponse(JSONObject response) {
                         //TODO: LOAD imagenes
                         try {
-                            myActivity.changeToItem(response.getString("id"));
+                            String id = response.getString("id");
+                            myActivity.changeToItem(id);
+                            uploadImages(id);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -227,7 +231,13 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                 }, nouElement, headers);
     }
 
-    private JSONArray obtenirJSONarrayTags(ArrayList<String> tags) {
+
+    void uploadImages(String id){
+        FileUtils fileUtils = new FileUtils(myActivity);
+        ServiceGenerator.uploadFile(fileUtils.getPath(imatgesMiniatura), id, currentUser.getToken());
+    }
+
+    private JSONArray obtenirJSONarrayTags(ArrayList<String> tags){
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < tags.size(); ++i) {
             jsonArray.put(tags.get(i));
