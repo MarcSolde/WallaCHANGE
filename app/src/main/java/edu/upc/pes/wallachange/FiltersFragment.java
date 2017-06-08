@@ -12,6 +12,21 @@ import android.widget.Button;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.RadioButton;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.Models.CurrentUser;
+import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Models.FilterElement;
 
 import static com.twitter.sdk.android.core.TwitterCore.TAG;
@@ -29,6 +44,9 @@ public class FiltersFragment extends Fragment implements View.OnClickListener{
     private FragmentManager myFragmentManager;
     private SearchElementFragment searchElemFragment;
 
+    private AdapterAPIRequest APIadapter = new AdapterAPIRequest();
+    private Map<String, String> headers = new HashMap<>();
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -38,9 +56,7 @@ public class FiltersFragment extends Fragment implements View.OnClickListener{
 //    }
 
 
-    private static final String[] countries = new String[] {
-            "Belgium", "France", "Italy", "Germany", "Spain"
-    };
+    private static final ArrayList tags = new ArrayList();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,8 +75,44 @@ public class FiltersFragment extends Fragment implements View.OnClickListener{
         submitButton = (Button) view.findViewById(R.id.submitButton1);
         cancelButton = (Button) view.findViewById(R.id.cancelButton1);
         searchElemFragment = new SearchElementFragment();
+//        tags.add("Belgium");
+//        tags.add("France");
+
+        final LinkedHashSet<String> hashSet = new LinkedHashSet<>();
+        CurrentUser us = CurrentUser.getInstance();
+        headers.put("x-access-token", us.getToken());
+        APIadapter.GETJsonArrayRequestAPI("/api/tags", new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        JSONArray ja = response;
+                        try {
+                            if (ja != null) {
+                                int len = ja.length();
+                                tags.clear();
+                                for (int i = 0; i < len; i++) {
+                                    String[] auxString = ja.getJSONObject(i).getString("_id").split(",");
+                                    for (int j = 0; j < auxString.length; j++) {
+                                        if (hashSet.add(auxString[j])) tags.add(auxString[j]);
+                                    }
+
+                                }
+
+                            }
+                        } catch(JSONException e){
+                            e.printStackTrace();
+                        }
+
+                    }},
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(VolleyLog.TAG, "Error: " + error.getMessage());
+
+                    }
+                },headers);
+
         ArrayAdapter<String> adapter = new ArrayAdapter
-                (myActivity, android.R.layout.simple_list_item_1, countries);
+                (myActivity, android.R.layout.simple_list_item_1, tags);
         auto.setAdapter(adapter);
         auto.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
         submitButton.setOnClickListener(this);
