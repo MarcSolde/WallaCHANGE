@@ -196,8 +196,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.navigationFilters:
-                FiltersFragment FiltersFragment = new FiltersFragment();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, FiltersFragment).commit();
+                changeFragmentToFilters();
                 break;
             default:
                 break;
@@ -237,6 +236,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         args.putString("id",id);
         makeOfferFragment.setArguments(args);
         myFragmentManager.beginTransaction().replace(R.id.fragment, makeOfferFragment).commit();
+    }
+
+    public void changeFragmentToFilters () {
+        FiltersFragment filtersFragment = new FiltersFragment();
+        myFragmentManager.beginTransaction().replace(R.id.fragment, filtersFragment).commit();
     }
 
     public void hideKeyboard() {
