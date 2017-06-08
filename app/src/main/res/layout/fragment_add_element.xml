@@ -139,7 +139,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30pt"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 >
@@ -149,7 +149,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/category_eng"
                     android:textSize="8pt"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_weight="0.43"/>
 
                 <EditText
                     android:id="@+id/categoria"
@@ -158,7 +159,8 @@
                     android:hint="@string/advertisements_category_eng"
                     android:inputType="textPersonName"
                     android:maxLines="1"
-                    android:maxLength="20"/>
+                    android:maxLength="25"
+                    android:layout_weight="0.37"/>
 
                 <ImageView
                     android:id="@+id/botoAfegirCategoria"
@@ -167,19 +169,21 @@
                     android:layout_gravity="center_vertical"
                     android:contentDescription="@string/add_category"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/ic_action_add" />
+                    app:srcCompat="@drawable/ic_action_add"
+                    />
             </LinearLayout>
 
             <edu.upc.pes.wallachange.Others.ExpandableHeightGridView
                 android:id="@+id/gridCategories"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="5pt"
+                android:layout_marginEnd="10pt"
                 android:layout_marginStart="5pt"
                 android:horizontalSpacing="5dp"
                 android:isScrollContainer="false"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="5dp" />
+                android:verticalSpacing="5dp"
+                android:gravity="end"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

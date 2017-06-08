@@ -72,6 +72,7 @@
                     android:id="@+id/createdByTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/created_by_eng"
                     android:gravity="start" />
 
                 <LinearLayout
@@ -180,48 +181,51 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                >
 
                 <TextView
-                    android:id="@+id/textViewCategoria"
-                    android:layout_width="85dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/category_eng"
-                    android:textStyle="bold"
                     android:textSize="8pt"
-                    android:layout_weight="0.63" />
+                    android:textStyle="bold"
+                    android:layout_weight="0.43"
+                    android:id="@+id/textViewCategoria"/>
 
                 <EditText
                     android:id="@+id/categoria"
-                    android:layout_width="215dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/advertisements_category_eng"
-                    android:layout_weight="0.37"
-                    android:maxLines="1"
                     android:inputType="textPersonName"
-                    android:textColor="@drawable/edit_text_selector"/>
+                    android:maxLines="1"
+                    android:maxLength="25"
+                    android:layout_weight="0.37"/>
 
                 <ImageView
-                    android:contentDescription="@string/add_category"
                     android:id="@+id/botoAfegirCategoria"
                     android:layout_width="15pt"
                     android:layout_height="15pt"
                     android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/add_category"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/add" />
+                    app:srcCompat="@drawable/ic_action_add"
+                    />
             </LinearLayout>
 
             <edu.upc.pes.wallachange.Others.ExpandableHeightGridView
                 android:id="@+id/gridCategories"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginEnd="5pt"
+                android:layout_marginEnd="10pt"
                 android:layout_marginStart="5pt"
                 android:horizontalSpacing="5dp"
                 android:isScrollContainer="false"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="5dp" />
+                android:verticalSpacing="5dp"
+                android:gravity="end"/>
 
             <LinearLayout
                 android:id="@+id/botons_cancel_save"

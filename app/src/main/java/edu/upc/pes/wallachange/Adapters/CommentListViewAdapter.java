@@ -90,7 +90,7 @@ public class CommentListViewAdapter extends ArrayAdapter<Comment>{
 
         DateFormat df1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String dia = df1.format(data.get(position).getDia());
-        dia = dia.replace(" "," " + getContext().getResources().getString(R.string.at_eng) + " ");
+        dia = dia.replace(" "," - ");
         holder.dataComentariTextView.setText(dia);
         holder.textComentariTextView.setText(data.get(position).getTextComentari());
 
