@@ -14,7 +14,6 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
@@ -26,8 +25,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class AdapterAPIRequest   {
 
-    private static final String BASE_URL_LOCAL = "http://10.0.2.2:3000";
-    private static final String BASE_URL_SERVER = "http://104.236.98.100:3000";
+    private static final String BASE_URL = "http://10.0.2.2:3000";
+    //private static final String BASE_URL = "http://104.236.98.100:3000";
 
     // GETERS
 //    public void GETRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener){
@@ -44,7 +43,7 @@ public class AdapterAPIRequest   {
 
     public void GETRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final Map<String,String> headers){
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
-        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, BASE_URL_LOCAL+url, null, responseListener, errorListener) {
+        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(Request.Method.GET, BASE_URL+url, null, responseListener, errorListener) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String>  params = new HashMap<String, String>();
@@ -60,7 +59,7 @@ public class AdapterAPIRequest   {
     public void GETJsonArrayRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final Map<String, String> headers){
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonArrayRequest";
 
-        JsonArrayRequest jsonArrayReq = new JsonArrayRequest(Request.Method.GET, BASE_URL_LOCAL+url, null, responseListener, errorListener){
+        JsonArrayRequest jsonArrayReq = new JsonArrayRequest(Request.Method.GET, BASE_URL+url, null, responseListener, errorListener){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String>  params = new HashMap<>();
@@ -97,7 +96,7 @@ public class AdapterAPIRequest   {
     public void POSTRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener,  final JSONObject body, final Map<String,String>  headers) {
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyPOSTRequest";
 
-        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL_LOCAL+url, body, responseListener, errorListener) {
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL+url, body, responseListener, errorListener) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -147,7 +146,7 @@ public class AdapterAPIRequest   {
     //PUT
     public void PUTRequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final JSONObject body, final Map<String,String> headers){
         String  REQUEST_TAG = "com.androidtutorialpoint.putRequest";
-        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, BASE_URL_LOCAL+url, body, responseListener, errorListener) {
+        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, BASE_URL+url, body, responseListener, errorListener) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -162,7 +161,7 @@ public class AdapterAPIRequest   {
     public void DELETERequestAPI(String url, Response.Listener responseListener, Response.ErrorListener errorListener, final Map<String,String> headers){
         String  REQUEST_TAG = "com.androidtutorialpoint.Delete";
 
-        JsonObjectRequest deleteRequest = new JsonObjectRequest(Request.Method.DELETE, BASE_URL_LOCAL+url, null, responseListener, errorListener) {
+        JsonObjectRequest deleteRequest = new JsonObjectRequest(Request.Method.DELETE, BASE_URL+url, null, responseListener, errorListener) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -192,7 +191,7 @@ public class AdapterAPIRequest   {
 
     public void volleyCacheRequest(String url){
         Cache cache = AppSingleton.getInstance(getApplicationContext()).getRequestQueue().getCache();
-        Cache.Entry reqEntry = cache.get(BASE_URL_LOCAL+url);
+        Cache.Entry reqEntry = cache.get(BASE_URL+url);
         if(reqEntry != null){
             try {
                 String data = new String(reqEntry.data, "UTF-8");
