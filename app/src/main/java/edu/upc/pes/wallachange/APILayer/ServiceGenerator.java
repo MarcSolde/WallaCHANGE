@@ -1,6 +1,7 @@
 package edu.upc.pes.wallachange.APILayer;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -9,6 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.upc.pes.wallachange.Others.FileUtils;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -16,8 +18,11 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by sejo on 6/06/17.
@@ -71,7 +76,7 @@ public class ServiceGenerator {
 
 
 
-    public static void uploadFile(ArrayList<Uri> fileUris, String element, String token) {
+    public static void UploadFile(ArrayList<Uri> fileUris, String element, String token) {
         // create upload service client
         FileUploadService service =
                createService(FileUploadService.class);
@@ -103,6 +108,45 @@ public class ServiceGenerator {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("Upload error:", t.getMessage());
+            }
+        });
+    }
+
+
+
+    public static void DownloadFile(String fileUrl, final String elementId, final AsyncTask<Void, Void, Void> mostrarImatge){
+        final FileDownloadService downloadService =
+                ServiceGenerator.createService(FileDownloadService.class);
+        String[] aux = fileUrl.split("/");
+        final String nameFile = aux[aux.length-1];
+
+        Call<ResponseBody> call = downloadService.downloadFileWithDynamicUrlSync(fileUrl);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, final Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "server contacted and has file");
+
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            boolean writtenToDisk = FileUtils.writeResponseBodyToDisk(response.body(), elementId, nameFile);
+
+                            Log.d(TAG, "file download was a success? " + writtenToDisk);
+                            return null;
+                        }
+                    }.execute();
+
+                    mostrarImatge.execute();
+                }
+                else {
+                    Log.d(TAG, "server contact failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "error");
             }
         });
     }

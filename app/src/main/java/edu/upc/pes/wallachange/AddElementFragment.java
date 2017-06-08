@@ -234,7 +234,7 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
 
     void uploadImages(String id){
         FileUtils fileUtils = new FileUtils(myActivity);
-        ServiceGenerator.uploadFile(fileUtils.getPath(imatgesMiniatura), id, currentUser.getToken());
+        ServiceGenerator.UploadFile(fileUtils.getPath(imatgesMiniatura), id, currentUser.getToken());
     }
 
     private JSONArray obtenirJSONarrayTags(ArrayList<String> tags){

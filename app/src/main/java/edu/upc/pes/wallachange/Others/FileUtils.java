@@ -2,15 +2,25 @@ package edu.upc.pes.wallachange.Others;
 
 import android.content.ContentUris;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import edu.upc.pes.wallachange.MainActivity;
+import okhttp3.ResponseBody;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by sejo on 7/06/17.
@@ -22,40 +32,6 @@ public class FileUtils {
     public FileUtils(MainActivity activity){
         myActivity = activity;
     }
-/*
-    public String getPath(Uri uri)
-    {
-        if (isDownloadsDocument(uri)) {
-            final String id = DocumentsContract.getDocumentId(uri);
-            final Uri contentUri = ContentUris.withAppendedId(
-                    Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-
-            return getDataColumn(contentUri, null, null);
-        }
-        else {
-            String wholeID = DocumentsContract.getDocumentId(uri);
-            String id = wholeID.split(":")[1];
-            String sel = MediaStore.Images.Media._ID + "=?";
-            String[] projection = { MediaStore.Images.Media.DATA };
-
-            //Cursor cursor = MediaStore.Images.Media.query(myActivity.getContentResolver(), uri, projection);
-            Cursor cursor = myActivity.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, sel, new String[]{ id }, null);
-            if (cursor == null) return null;
-            cursor.moveToFirst();
-            String filePath = "";
-
-            int columnIndex = cursor.getColumnIndex(projection[0]);
-
-            if (cursor.moveToFirst()) {
-                filePath = cursor.getString(columnIndex);
-            }
-
-            cursor.close();
-
-            return filePath;
-        }
-    }
-    */
 
     public String getPath(final Uri uri) {
 
@@ -120,24 +96,20 @@ public class FileUtils {
     }
 
 
-
-
-
-
-
-
-
     public static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
+
 
     public static boolean isExternalStorageDocument(Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
+
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
+
 
     public static String getDataColumn(Uri uri, String selection,
                                        String[] selectionArgs) {
@@ -172,4 +144,78 @@ public class FileUtils {
 
         return pathUris;
     }
+
+
+    public static boolean writeResponseBodyToDisk(ResponseBody body, String elementId, String nameFile) {
+        try {
+            // todo change the file location/name according to your needs
+            //File futureStudioIconFile = new File(getExternalFilesDir(null) + File.separator + "Future Studio Icon.png");
+            String elementPath = createPathLocale(elementId);
+            File futureStudioIconFile = new File(elementPath + File.separator + nameFile);
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+                byte[] fileReader = new byte[4096];
+
+                long fileSize = body.contentLength();
+                long fileSizeDownloaded = 0;
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(futureStudioIconFile);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+
+                    if (read == -1) {
+                        break;
+                    }
+
+                    outputStream.write(fileReader, 0, read);
+
+                    fileSizeDownloaded += read;
+
+                    Log.d(TAG, "file download: " + fileSizeDownloaded + " of " + fileSize);
+                }
+
+                outputStream.flush();
+
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    private static String createPathLocale(String elementId) {
+        File folder = new File(Environment.getExternalStorageDirectory() +
+                File.separator + "WallaCHANGE"+ File.separator + elementId);
+        boolean success = true;
+        if (!folder.exists()) {
+            success = folder.mkdirs();
+        }
+        if (success) {
+            return folder.getPath();
+        } else {
+            return null;
+        }
+    }
+
+
+    public static ArrayList<Bitmap> readFotosLocal(String elementPath){
+        
+        return null;
+    }
+
 }

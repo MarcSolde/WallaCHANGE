@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -48,8 +49,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.APILayer.ServiceGenerator;
 import edu.upc.pes.wallachange.Adapters.CategoriesViewElementAdapter;
 import edu.upc.pes.wallachange.Adapters.CommentListViewAdapter;
 import edu.upc.pes.wallachange.Models.Comment;
@@ -57,6 +58,7 @@ import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Models.User;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
+import edu.upc.pes.wallachange.Others.FileUtils;
 
 import static com.android.volley.VolleyLog.TAG;
 
@@ -158,7 +160,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                         }
                     }, headers);
         }
-        // TODO imatges, larraylist de bitmaps que es diu imatges s'ha d'omplir a la funcio loadelement
         Animation in = AnimationUtils.loadAnimation(myActivity, android.R.anim.fade_in);
         Animation out = AnimationUtils.loadAnimation(myActivity, android.R.anim.fade_out);
         imageSwitcher = (ImageSwitcher)fragmentViewElementView.findViewById(R.id.imageViewFotoElement);
@@ -175,12 +176,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                 return myView;
             }
         });
-        imatgeActual = 0;
-        if (imatges != null && imatges.size() > 0) {
-            //noinspection deprecation
-            Drawable drawable = new BitmapDrawable(imatges.get(imatgeActual));
-            imageSwitcher.setImageDrawable(drawable);
-        }
 
         deshabilitarCamps();
 
@@ -408,6 +403,15 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    void carregaImatges(){
+        imatgeActual = 0;
+        if (imatges != null && imatges.size() > 0) {
+            //noinspection deprecation
+            Drawable drawable = new BitmapDrawable(imatges.get(imatgeActual));
+            imageSwitcher.setImageDrawable(drawable);
+        }
+    }
+
     private void loadElement(Element e){
 
         if (Objects.equals(idUsuariAnunci, us.getId()) && !esOffer) {
@@ -425,6 +429,20 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         editTextTitol.setText(e.getTitol());
         EditText editTextDescripcio = (EditText) fragmentViewElementView.findViewById(R.id.editTextDescripcio);
         editTextDescripcio.setText(e.getDescripcio());
+
+        // TODO imatges, larraylist de bitmaps que es diu imatges s'ha d'omplir a la funcio loadelement
+
+        ArrayList<Uri> serverFotos = e.getFotografies();
+        for (Uri uri : serverFotos){
+            ServiceGenerator.DownloadFile(uri.toString(), e.getId(), new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    imatges = FileUtils.read
+                    carregaImatges();
+                    return null;
+                }
+            });
+        }
 
         categories = e.getTags();
         ExpandableHeightGridView gridCategories = (ExpandableHeightGridView) fragmentViewElementView.findViewById(R.id.gridCategories);
