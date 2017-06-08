@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -184,6 +185,23 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         deshabilitarCamps();
 
         setHasOptionsMenu(true);
+
+
+        editTextCategoria.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (i) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            myActivity.hideKeyboard();
+                            return true;
+                        default: break;
+                    }
+                }
+                return false;
+            }
+        });
 
         return fragmentViewElementView;
     }

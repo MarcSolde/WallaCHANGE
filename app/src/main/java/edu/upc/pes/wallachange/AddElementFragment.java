@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,6 +136,38 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                         netejaTemporalitat.setVisibility(View.GONE);
                         break;
                 }
+            }
+        });
+
+        editTextTitol.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (i) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            myActivity.hideKeyboard();
+                            return true;
+                        default: break;
+                    }
+                }
+                return false;
+            }
+        });
+
+        editTextCategoria.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (i) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            myActivity.hideKeyboard();
+                            return true;
+                        default: break;
+                    }
+                }
+                return false;
             }
         });
         return fragmentAddElementView;
