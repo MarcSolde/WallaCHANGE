@@ -166,27 +166,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog2.show();
                 break;
             case R.id.navigationNewItem:
-                backFlow.add(1);
+                resetOnBackFlow(1);
                 myAddElementFragment = new AddElementFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myAddElementFragment).commit();
                 break;
             case R.id.navigationYourItems:
-                backFlow.add(3);
+                resetOnBackFlow(3);
                 myYourItemsFragment = new YourItemsFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myYourItemsFragment).commit();
                 break;
             case R.id.navigationSearchUser:
-                backFlow.add(5);
+                resetOnBackFlow(5);
                 mySearchUserFragment= new SearchUserFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchUserFragment).commit();
                 break;
             case R.id.navigationSearchItem:
-                backFlow.add(8);
+                resetOnBackFlow(8);
                 mySearchElementFragment = new SearchElementFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
                 break;
             case R.id.navigationProfile:
-                backFlow.add(4);
+                resetOnBackFlow(4);
                 myProfileFragment = new ProfileFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myProfileFragment).commit();
                 break;
