@@ -247,6 +247,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myFragmentManager.beginTransaction().replace(R.id.fragment, myMakeOfferFragment).commit();
     }
 
+    public void changeToYourItems(){
+        resetOnBackFlow(3);
+        myYourItemsFragment = new YourItemsFragment();
+        myFragmentManager.beginTransaction().replace(R.id.fragment, myYourItemsFragment).commit();
+    }
     public void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
