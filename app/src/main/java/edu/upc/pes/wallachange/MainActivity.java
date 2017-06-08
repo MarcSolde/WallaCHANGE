@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mySearchElementFragment = new SearchElementFragment();
         myFragmentManager.beginTransaction().replace(R.id.fragment,mySearchElementFragment).commit();
+        myNavigationView.getMenu().getItem(0).setChecked(true);
 
         backFlow = new ArrayList<>();
         resetOnBackFlow(8);

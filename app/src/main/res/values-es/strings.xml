@@ -5,7 +5,7 @@
         <string name="catalan_eng">Catalán</string>
         <string name="language_eng">Idioma</string>
         <string name="app_name">WallaCHANGE</string>
-        <string name="viewOtherProfileElement_eng">ELEMENTOS:</string>
+        <string name="viewOtherProfileElement_eng">ÍTEMS:</string>
         <string name="write_here_your_comment_eng">Escribe aquí tu comentario</string>
         <string name="user_eng">Usuario</string>
         <string name="type_of_product_eng">Tipo de producto</string>
@@ -74,6 +74,9 @@
         <string name="navigationOffer_eng">Realizar intercambio</string>
         <string name="offerExchange1_eng">Quieres:</string>
         <string name="offerExchange2_eng">Ofreces:</string>
-        <string name="offerExchangeElement_eng">TUS ELEMENTOS:</string>
+        <string name="offerExchangeElement_eng">TUS ÍTEMS:</string>
         <string name="offerExchangeSend_eng">Enviar oferta</string>
+        <string name="search_no_result">No se han encontrado resultados</string>
+        <string name="viewOtherProfileNoResult">El usuario no tiene ítems</string>
+        <string name="seeYourItmeNoResult">No tienes ningún ítem</string>
 </resources>

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -92,6 +93,9 @@ public class YourItemsFragment extends Fragment {
     }
 
     private void loadList (ArrayList<Element> e) {
+        if (e.isEmpty()) {
+            Toast.makeText(myActivity,R.string.search_no_result,Toast.LENGTH_SHORT).show();
+        }
         elements = new ArrayList<>();
         elements = e;
         ElementListAdapter adapter = new ElementListAdapter(myActivity,R.layout.item_default,elements);
