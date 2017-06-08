@@ -96,4 +96,6 @@
         <string name="delete_comment_eng">Esborrar comentari"?"</string>
         <string name="viewElementReport_eng">Denunciar</string>
         <string name="are_you_sure_you_want_to_save_the_changes_eng">Segur que vols guardar els canvis"?"</string>
+        <string name="closest_products_eng">Productes més propers</string>
+        <string name="max_distance_from_you_eng">Màxima distància de tu en km</string>
 </resources>

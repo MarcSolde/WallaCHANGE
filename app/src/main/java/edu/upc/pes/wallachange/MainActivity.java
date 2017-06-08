@@ -1,12 +1,19 @@
 package edu.upc.pes.wallachange;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,14 +28,26 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 import edu.upc.pes.wallachange.Models.CurrentUser;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private FragmentManager myFragmentManager;
     private DrawerLayout myDrawer;
 
@@ -44,6 +63,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SeeProfileFragment mySeeProfileFragment;        //id:6
     private MakeOfferFragment myMakeOfferFragment;          //id:7
     private SearchElementFragment mySearchElementFragment;  //id:8
+
+
+    Location mLocation;
+    private double latitude;
+    private double longitude;
+    GoogleApiClient mGoogleApiClient;
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
+    private LocationRequest mLocationRequest;
+    private long UPDATE_INTERVAL = 15000;  /* 15 secs */
+    private long FASTEST_INTERVAL = 5000; /* 5 secs */
+
+    private ArrayList permissionsToRequest;
+    private ArrayList permissionsRejected = new ArrayList();
+    private ArrayList permissions = new ArrayList();
+
+    private final static int ALL_PERMISSIONS_RESULT = 101;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myNavigationView.setNavigationItemSelectedListener(this);
 
         mySearchElementFragment = new SearchElementFragment();
-        myFragmentManager.beginTransaction().replace(R.id.fragment,mySearchElementFragment).commit();
+        myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
         myNavigationView.getMenu().getItem(0).setChecked(true);
 
         backFlow = new ArrayList<>();
@@ -75,9 +112,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
         CurrentUser user = CurrentUser.getInstance();
         String text = getResources().getString(R.string.user_eng);
-        text = text + " "+ user.getUsername();
+        text = text + " " + user.getUsername();
         textUser.setText(text);
-
 
         final ImageView button = (ImageView) findViewById(R.id.translateButton);
         button.setImageDrawable(null);   //This will force the image to properly refresh
@@ -87,6 +123,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 callActivity();
             }
         });
+
+        //--------------__________________________________
+
+        permissions.add(ACCESS_FINE_LOCATION);
+        permissions.add(ACCESS_COARSE_LOCATION);
+
+        permissionsToRequest = findUnAskedPermissions(permissions);
+        //get the permissions we have asked for before but are not granted..
+        //we will store this in a global list to access later.
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+
+            if (permissionsToRequest.size() > 0)
+                requestPermissions((String[]) permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
+        }
+
+
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
 
     }
 
@@ -106,13 +168,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String local = current.toString();
         if (local.equals("es")) {
             inputSelection = 1;
-        }
-        else if (local.equals("ca")) {
+        } else if (local.equals("ca")) {
             inputSelection = 2;
-        }
-        else inputSelection = 0;
+        } else inputSelection = 0;
 
-        builder.setSingleChoiceItems(items,inputSelection,
+        builder.setSingleChoiceItems(items, inputSelection,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         if (item == 0)
@@ -148,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .setPositiveButton(R.string.logout_dialog_3, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -177,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.navigationSearchUser:
                 resetOnBackFlow(5);
-                mySearchUserFragment= new SearchUserFragment();
+                mySearchUserFragment = new SearchUserFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchUserFragment).commit();
                 break;
             case R.id.navigationSearchItem:
@@ -205,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void changeToItem(String id) {
         backFlow.add(2);
         Bundle bundleViewElement = new Bundle();
-        bundleViewElement.putString("id",id);
+        bundleViewElement.putString("id", id);
         myViewElementFragment = new ViewElementFragment();
         myViewElementFragment.setArguments(bundleViewElement);
         myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
@@ -214,14 +274,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void changeToItemChat(String id) {
         backFlow.add(2);
         Bundle bundleViewElement = new Bundle();
-        bundleViewElement.putString("id",id);
-        bundleViewElement.putBoolean("chat",true);
+        bundleViewElement.putString("id", id);
+        bundleViewElement.putBoolean("chat", true);
         myViewElementFragment = new ViewElementFragment();
         myViewElementFragment.setArguments(bundleViewElement);
         myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
     }
 
-    public void changeFragmentToHome () {
+    public void changeFragmentToHome() {
         backFlow.add(8);
         mySearchElementFragment = new SearchElementFragment();
         myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
@@ -229,29 +289,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myNavigationView.getMenu().getItem(0).setChecked(true);
     }
 
-    public  void changeToOtherUserProfile (String id) {
+    public void changeToOtherUserProfile(String id) {
         backFlow.add(6);
         mySeeProfileFragment = new SeeProfileFragment();
         Bundle args = new Bundle();
-        args.putString("id",id);
+        args.putString("id", id);
         mySeeProfileFragment.setArguments(args);
         myFragmentManager.beginTransaction().replace(R.id.fragment, mySeeProfileFragment).commit();
     }
 
-    public void changeToMakeOffer (String id) {
+    public void changeToMakeOffer(String id) {
         backFlow.add(7);
         myMakeOfferFragment = new MakeOfferFragment();
         Bundle args = new Bundle();
-        args.putString("id",id);
+        args.putString("id", id);
         myMakeOfferFragment.setArguments(args);
         myFragmentManager.beginTransaction().replace(R.id.fragment, myMakeOfferFragment).commit();
     }
 
-    public void changeToYourItems(){
+    public void changeToYourItems() {
         resetOnBackFlow(3);
         myYourItemsFragment = new YourItemsFragment();
         myFragmentManager.beginTransaction().replace(R.id.fragment, myYourItemsFragment).commit();
     }
+
     public void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -273,13 +334,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             float x = ev.getRawX() + view.getLeft() - scrcoords[0];
             float y = ev.getRawY() + view.getTop() - scrcoords[1];
             if (x < view.getLeft() || x > view.getRight() || y < view.getTop() || y > view.getBottom())
-                ((InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
+                ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
         }
         return super.dispatchTouchEvent(ev);
     }
 
     @Override
-    public void onBackPressed () {
+    public void onBackPressed() {
         if (myDrawer.isDrawerOpen(GravityCompat.START)) myDrawer.closeDrawer(GravityCompat.START);
         if (!backFlow.isEmpty()) {
             int aux = backFlow.size() - 2;
@@ -287,33 +348,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //TODO: revisar transiciones
                 switch (backFlow.get(aux)) {
                     case 1:
-                        resetOnBackFlow(aux+1);  //AddElement
+                        resetOnBackFlow(aux + 1);  //AddElement
                         break;
                     case 2:
-                        backFlow.remove(aux+1);
+                        backFlow.remove(aux + 1);
                         myFragmentManager.beginTransaction().replace(R.id.fragment, myViewElementFragment).commit();
                         break;
                     case 3:
-                        backFlow.remove(aux+1);
+                        backFlow.remove(aux + 1);
                         myFragmentManager.beginTransaction().replace(R.id.fragment, myYourItemsFragment).commit();
                         break;
                     case 4:
-                        backFlow.remove(aux+1);
+                        backFlow.remove(aux + 1);
                         myFragmentManager.beginTransaction().replace(R.id.fragment, myProfileFragment).commit();
                         break;
                     case 5:
-                        backFlow.remove(aux+1);
+                        backFlow.remove(aux + 1);
                         myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchUserFragment).commit();
                         break;
                     case 6:
-                        backFlow.remove(aux+1);
+                        backFlow.remove(aux + 1);
                         myFragmentManager.beginTransaction().replace(R.id.fragment, mySeeProfileFragment).commit();
                         break;
                     case 7:
-                        resetOnBackFlow(aux+1); //MakeOffer
+                        resetOnBackFlow(aux + 1); //MakeOffer
                         break;
                     case 8:
-                        backFlow.remove(aux+1);
+                        backFlow.remove(aux + 1);
                         myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
                         break;
                     default:
@@ -327,5 +388,203 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         backFlow.clear();
         backFlow.add(0);
         backFlow.add(i);
+    }
+
+    private ArrayList findUnAskedPermissions(ArrayList wanted) {
+        ArrayList result = new ArrayList();
+
+        for (Object perm : wanted) {
+            if (!hasPermission((String) perm)) {
+                result.add(perm);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!checkPlayServices()) {
+            Toast.makeText(this,"Please install Google Play services.",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+
+        if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        if(mLocation!=null)
+        {
+            this.latitude = mLocation.getLatitude();
+            this.longitude = mLocation.getLongitude();
+        }
+
+        startLocationUpdates();
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        //if(location!=null)
+            //Toast.makeText(this,"Latitude : "+location.getLatitude()+" , Longitude : "+location.getLongitude(),Toast.LENGTH_LONG).show();
+
+
+
+    }
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else
+                finish();
+
+            return false;
+        }
+        return true;
+    }
+
+    protected void startLocationUpdates() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(UPDATE_INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(getApplicationContext(), "Enable Permissions", Toast.LENGTH_LONG).show();
+        }
+
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient, mLocationRequest, this);
+
+
+    }
+
+    private boolean hasPermission(String permission) {
+        if (canMakeSmores()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                return (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
+            }
+        }
+        return true;
+    }
+
+    private boolean canMakeSmores() {
+        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        switch (requestCode) {
+
+            case ALL_PERMISSIONS_RESULT:
+                for (Object perms : permissionsToRequest) {
+                    if (!hasPermission((String) perms)) {
+                        permissionsRejected.add(perms);
+                    }
+                }
+
+                if (permissionsRejected.size() > 0) {
+
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (shouldShowRequestPermissionRationale((String) permissionsRejected.get(0))) {
+                            showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                requestPermissions((String[]) permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
+                                            }
+                                        }
+                                    });
+                            return;
+                        }
+                    }
+
+                }
+
+                break;
+        }
+
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(MainActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopLocationUpdates();
+    }
+
+
+    public void stopLocationUpdates()
+    {
+        if (mGoogleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi
+                    .removeLocationUpdates(mGoogleApiClient, this);
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

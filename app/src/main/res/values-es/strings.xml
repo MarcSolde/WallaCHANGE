@@ -90,4 +90,6 @@
         <string name="delete_comment_eng">Eliminar comentario"?"</string>
         <string name="viewElementReport_eng">Denunciar</string>
         <string name="are_you_sure_you_want_to_save_the_changes_eng">Seguro que quieres guardar los cambios"?"</string>
+        <string name="closest_products_eng">Productos más cercanos</string>
+        <string name="max_distance_from_you_eng">Máxima distancia de ti en km</string>
 </resources>

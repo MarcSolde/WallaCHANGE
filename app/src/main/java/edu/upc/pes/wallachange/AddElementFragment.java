@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -179,6 +180,11 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
     private void publicarElement(String titol, String descripcio, ArrayList<String> categories, boolean tipusProducte,
                                  Boolean temporal, String temporalitat, String username, ArrayList<Uri> imatgesMiniatura,
                                  String localitat) {
+
+        double latitud = myActivity.getLatitude();
+        double longitud = myActivity.getLongitude();
+        // coordenades: [Number] // [<longitude>, <latitude>]
+
         AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
 
         JSONObject nouElement = new JSONObject();
@@ -196,6 +202,10 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
             esTemporal.put("temporalitat", temporal);
             esTemporal.put("periode", temporalitat);
             nouElement.put("es_temporal", esTemporal);
+            JSONArray coordenades = new JSONArray();
+            coordenades.put(longitud);
+            coordenades.put(latitud);
+            nouElement.put("coordenades", coordenades);
 
             JSONArray tags = obtenirJSONarrayTags(categories);
             nouElement.put("tags", tags);
