@@ -61,14 +61,18 @@ public class ConversesAdapter extends ArrayAdapter<Conversa> {
         TextView alterUser = (TextView) convertView.findViewById(R.id.alterUser);
         alterUser.setText(conv.getNomUserOther());
 
-        TextView message = (TextView) convertView.findViewById(R.id.message);
-        message.setText(conv.getLastMessage());
         if (confirmat) {
             LinearLayout linlay = (LinearLayout) convertView.findViewById(R.id.layout_c);
             linlay.setBackgroundColor(0xFFCBF9CE);
+        }
+        if (conv.getCancelat()) {
+            LinearLayout linlay = (LinearLayout) convertView.findViewById(R.id.layout_c);
+            linlay.setBackgroundColor(0xFFFFCCCC);
         }
 
         return convertView;
 
     }
+
+
 }

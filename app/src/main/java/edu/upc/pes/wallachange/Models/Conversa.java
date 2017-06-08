@@ -15,9 +15,11 @@ public class Conversa {
     private String nomElem2;
     private String lastMessage;
     private Boolean confirmat;
+    private Boolean cancelat;
 
     public Conversa () {
         confirmat = false;
+        cancelat = false;
 
     }
 
@@ -92,10 +94,17 @@ public class Conversa {
         return lastMessage;
     }
 
-    public void setConfirmat() {
-        confirmat = true;
+    public void setConfirmat(Boolean b) {
+        confirmat = b;
     }
     public Boolean getConfirmat() {
         return confirmat;
+    }
+
+    public void setCancelat(Boolean b) {
+        cancelat = b;
+    }
+    public Boolean getCancelat() {
+        return cancelat;
     }
 }

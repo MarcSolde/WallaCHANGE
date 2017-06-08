@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_marginLeft="5pt"
-    android:layout_marginRight="5pt"
-    android:layout_marginBottom="5pt"
-    android:layout_marginTop="5pt"
+    android:paddingLeft="5pt"
+    android:paddingRight="5pt"
+    android:paddingBottom="5pt"
+    android:paddingTop="5pt"
+    android:id="@+id/fondochat"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 

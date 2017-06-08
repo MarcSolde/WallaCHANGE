@@ -4,7 +4,9 @@ package edu.upc.pes.wallachange;
 import static com.android.volley.VolleyLog.TAG;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -64,25 +67,53 @@ public class MainChatFragment extends Fragment {
 
         getConverses(currentUser.getToken(), currentUser.getId());
 
-        Conversa provaconv = new Conversa();
-        provaconv.setId_owner(currentUser.getId());
-        provaconv.setNomUserOther("id de laltre");
-        provaconv.setLastMessage("jsdfa");
-        provaconv.setNomElem1("elemMeu");
-        provaconv.setNomElem2("elemSeu");
-        Conversa provaconv2 = new Conversa();
-        provaconv2.setId_owner(currentUser.getId());
-        provaconv2.setNomUserOther("id de laltre");
-        provaconv2.setLastMessage("jsdfa");
-        provaconv2.setNomElem1("elemMeu");
-        provaconv2.setNomElem2("elemSeu");
-        provaconv2.setConfirmat();
-
         convs = new ArrayList<Conversa>();
         listconvs = (ListView) view.findViewById(R.id.listConverses);
         conversesAdapter = new ConversesAdapter(myActivity, R.layout.item_converses, convs);
         listconvs.setAdapter(conversesAdapter);
         conversesAdapter.notifyDataSetChanged();
+
+        listconvs.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                    final int pos, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                builder.setTitle(getResources().getString(R.string.wanna_delete));
+
+                builder.setPositiveButton(R.string.yes,  new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        Conversa c = convs.get(pos);
+                        String conv_id = c.getConv_id();
+                        Map<String,String> headers2 = new HashMap<String, String>();
+                        headers2.put("x-access-token", currentUser.getToken());
+                        adapterAPI.DELETERequestAPI("/chat/" + conv_id,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    convs.remove(pos);
+                                    conversesAdapter.notifyDataSetChanged();
+                                 }
+                            },new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    VolleyLog.d(TAG,error.getMessage());
+                                }
+                            }, headers2);
+                    }
+                });
+                builder.setNegativeButton(R.string.no,  new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog2 = builder.create();
+                dialog2.show();
+
+                return true;
+            }
+        });
 
 
         listconvs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,6 +125,8 @@ public class MainChatFragment extends Fragment {
 
         return view;
     }
+
+
 
     private void onClickConversa (int i) {
         Conversa c = convs.get(i);
@@ -111,6 +144,7 @@ public class MainChatFragment extends Fragment {
                         try {
                             String username = response.getString("nom");
                             con.setNomUserOther(username);
+                            conversesAdapter.notifyDataSetChanged();
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
@@ -132,20 +166,18 @@ public class MainChatFragment extends Fragment {
 
         Map<String, String> headers = new HashMap<>();
         headers.put("x-access-token", currentUser.getToken());
-        headers.put("Content-Type", "application/json");
-            //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
-            adapterAPI.GETRequestAPI("/api/element/"+id,
+
+            adapterAPI.GETRequestAPI("/api/element/".concat(id),
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
-                                String nomElem1 = response.getString("titol");
-                                con.setNomElem1(nomElem1);
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
+                                String nomElem = response.getString("titol");
+                                con.setNomElem1(nomElem);
+                                conversesAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-
-
                         }
                     },
                     new Response.ErrorListener() {
@@ -155,26 +187,24 @@ public class MainChatFragment extends Fragment {
                         }
                     }, headers);
 
+
     }
 
     public void getElement2Name(String id, final Conversa con) {
 
         Map<String, String> headers = new HashMap<>();
         headers.put("x-access-token", currentUser.getToken());
-        headers.put("Content-Type", "application/json");
-        //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
-        adapterAPI.GETRequestAPI("/api/element/"+id,
+        adapterAPI.GETRequestAPI("/api/element/".concat(id),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            String nomElem2 = response.getString("titol");
-                            con.setNomElem2(nomElem2);
+                            String nomElem = response.getString("titol");
+                            con.setNomElem2(nomElem);
+                            conversesAdapter.notifyDataSetChanged();
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
-
-
                     }
                 },
                 new Response.ErrorListener() {
@@ -183,7 +213,6 @@ public class MainChatFragment extends Fragment {
                         VolleyLog.d(TAG, "Error: " + error.getMessage());
                     }
                 }, headers);
-
     }
 
 
@@ -206,15 +235,17 @@ public class MainChatFragment extends Fragment {
                                 JSONObject var = response.getJSONObject(i);
                                 Conversa c = new Conversa();
                                 c.setConv_id(var.getString("idIntercanvi"));
+                                c.setConfirmat(var.getBoolean("confirmat"));
+                                c.setCancelat(var.getBoolean("acceptat"));
                                 String prov = var.getString("id1");
                                 if (prov.equals(id)) {
                                     c.setId_owner(prov);
                                     c.setId_other(var.getString("id2"));
                                     c.setElem1(var.getString("idProd1"));
                                     c.setElem2(var.getString("idProd2"));
-                                    getUsername("id2", c);
-                                    getElement1Name("idProd1", c);
-                                    getElement2Name("idProd2", c);
+                                    getUsername(c.getId_other(), c);
+                                    getElement1Name(c.getElem1(), c);
+                                    getElement2Name(c.getElem2(), c);
                                 }
                                 else {
                                     c.setId_owner(var.getString("id2"));
@@ -222,12 +253,15 @@ public class MainChatFragment extends Fragment {
                                     c.setElem1(var.getString("idProd2"));
                                     c.setElem2(var.getString("idProd1"));
                                     getUsername(prov, c);
-                                    getElement1Name("idProd2", c);
-                                    getElement2Name("idProd1", c);
+                                    getElement1Name(c.getElem2(), c);
+                                    getElement2Name(c.getElem1(), c);
                                 }
-                                aux.add(c);
+                                convs.add(c);
+//                                aux.add(c);
                             }
-                            inflateConverses(aux);
+//                            inflateConverses(convs);
+                            conversesAdapter.notifyDataSetChanged();
+
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
@@ -244,11 +278,26 @@ public class MainChatFragment extends Fragment {
                 }, headers
         );
     }
-
-    public void inflateConverses(ArrayList<Conversa> cs) {
-        convs = cs;
-        listconvs.setAdapter(conversesAdapter);
-        conversesAdapter.notifyDataSetChanged();
-    }
+//TODO
+//    Map<String,String> headers2 = new HashMap<String, String>();
+//                        headers2.put("x-access-token", currentUser.getToken());
+//                        adapterAPI.DELETERequestAPI("/chat/" + conv_id,
+//            new Response.Listener<JSONObject>() {
+//        @Override
+//        public void onResponse(JSONObject response) {
+//
+//        }
+//    },new Response.ErrorListener() {
+//        @Override
+//        public void onErrorResponse(VolleyError error) {
+//            VolleyLog.d(TAG,error.getMessage());
+//        }
+//    }, headers2);
+//
+//    public void inflateConverses(ArrayList<Conversa> cs) {
+////        convs = cs;
+//        listconvs.setAdapter(conversesAdapter);
+//        conversesAdapter.notifyDataSetChanged();
+//    }
 
 }

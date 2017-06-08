@@ -97,4 +97,10 @@
         <string name="viewOtherProfileNoResult">L"'"usuari no te ítems</string>
         <string name="seeYourItmeNoResult">No tens cap ítem</string>
         <string name="language_warning">Canviar l"'"idioma reiniciarà l"'"app</string>
+
+        <string name="yes">SÍ</string>
+        <string name="no">NO</string>
+        <string name="wanna_cancel">Segur que vols cancel·lar l\'intercanvi?</string>
+        <string name="wanna_delete">Segur que vols eliminar aquesta conversa?</string>
+
 </resources>

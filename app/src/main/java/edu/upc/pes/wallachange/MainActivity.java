@@ -324,8 +324,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void changeToChat (String c) {
         ChatFragment chatFragment = new ChatFragment();
-        args.putString("conversa", c);
         Bundle args = new Bundle();
+        args.putString("conversa", c);
         chatFragment.setArguments(args);
         NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myFragmentManager.beginTransaction().replace(R.id.fragment, chatFragment).commit();

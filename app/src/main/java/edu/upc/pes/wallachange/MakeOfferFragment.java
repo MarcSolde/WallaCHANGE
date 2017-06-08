@@ -43,6 +43,8 @@ public class MakeOfferFragment extends Fragment {
     private String alterUserId;
     private Element element1, element2;
     private ArrayList<Element> elements;
+    private Button myButton;
+    private CurrentUser user;
     private static AdapterAPIRequest adapterAPI = new AdapterAPIRequest();
 
 
@@ -61,7 +63,7 @@ public class MakeOfferFragment extends Fragment {
         myActivity.setTitle(R.string.navigationOffer_eng);
 
 
-        CurrentUser user = CurrentUser.getInstance();
+        user = CurrentUser.getInstance();
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",user.getToken());
@@ -102,7 +104,8 @@ public class MakeOfferFragment extends Fragment {
             }
         });
 
-        Button myButton = (Button) view.findViewById(R.id.make_offer_button);
+        myButton = (Button) view.findViewById(R.id.make_offer_button);
+        myButton.setEnabled(false);
         myButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,7 +204,7 @@ public class MakeOfferFragment extends Fragment {
 
 
     private void onClickElement (int i) {
-        loadElement2(elements.get(i));
+        getConverses(i);
     }
 
 
@@ -238,6 +241,71 @@ public class MakeOfferFragment extends Fragment {
             temporal2.setText(aux + " - " + e.getTemporalitat());
         }
         else temporal2.setText(aux + " - " + myActivity.getString(R.string.permanent_eng));
+    }
+
+    public void getConverses(final int j) {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("x-access-token", user.getToken());
+        adapterAPI.GETJsonArrayRequestAPI("/intercanvi/user/" + user.getId(),
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            ArrayList<Conversa> aux = new ArrayList<> ();
+                            Boolean bool = false;
+                            Element el = elements.get(j);
+                            for (int i = 0;i < response.length();++i) {
+                                JSONObject var = response.getJSONObject(i);
+
+                                if (var.getString("id1").equals(user.getId()) &&
+                                        var.getString("id2").equals(alterUserId) &&
+                                        var.getString("idProd1").equals(element1.getId()) &&
+                                        var.getString("idProd2").equals(el.getId())) {
+                                    bool = true;
+                                }
+                                if (var.getString("id2").equals(user.getId()) &&
+                                                var.getString("id1").equals(alterUserId) &&
+                                                var.getString("idProd2").equals(element1.getId()) &&
+                                                var.getString("idProd1").equals(el.getId())) {
+                                    bool = true;
+                                }
+                                if (var.getString("id2").equals(user.getId()) &&
+                                        var.getString("id1").equals(alterUserId) &&
+                                        var.getString("idProd1").equals(element1.getId()) &&
+                                        var.getString("idProd2").equals(el.getId())) {
+                                    bool = true;
+                                }
+                                if (var.getString("id1").equals(user.getId()) &&
+                                        var.getString("id2").equals(alterUserId) &&
+                                        var.getString("idProd2").equals(element1.getId()) &&
+                                        var.getString("idProd1").equals(el.getId())) {
+                                    bool = true;
+                                }
+
+                            }
+                            if (bool) {
+                                myButton.setEnabled(false);
+                            }
+                            else {
+                                myButton.setEnabled(true);
+                                loadElement2(el);
+                            }
+
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("JSONerror: ","");
+                    }
+                }, headers
+        );
     }
 
 

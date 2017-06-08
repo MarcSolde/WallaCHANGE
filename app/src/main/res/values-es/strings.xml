@@ -89,4 +89,10 @@
         <string name="viewOtherProfileNoResult">El usuario no tiene ítems</string>
         <string name="seeYourItmeNoResult">No tienes ningún ítem</string>
         <string name="language_warning">Cambiar el idioma reiniciará la app</string>
+
+        <string name="yes">SI</string>
+        <string name="no">NO</string>
+        <string name="wanna_cancel">Seguro que quieres cancelar el intercambio?</string>
+        <string name="wanna_delete">Seguro que quieres eliminar esta conversación?</string>
+
 </resources>

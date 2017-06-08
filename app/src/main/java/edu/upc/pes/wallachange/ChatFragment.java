@@ -23,7 +23,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -74,11 +76,14 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     private String otherUserName;
     private View dialogView;
     private Conversa conversa;
+    private User otherUser;
+    private Boolean confirmat;
+    private Boolean cancelat;
+    View view;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View view;
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_chat_layout, container, false);
@@ -92,6 +97,10 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         buttonSendChat = (ImageView) view.findViewById(R.id.buttonSendChat);
 
         messages = new ArrayList<Message>();
+        cancelat = false;
+        confirmat = false;
+
+        adapterAPI = new AdapterAPIRequest();
 
         LinearLayoutManager llm = new LinearLayoutManager(myActivity);
         llm.setStackFromEnd(true);
@@ -105,14 +114,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         buttonSendChat.setOnClickListener(this);
 
         conv_id = getArguments().getString("conversa");
-//        conversa = currentUser.getConversa(conv_id);
-        alterUserId = conversa.getId_other();
-        otherUserName = conversa.getNomUserOther();
-        myElementId = conversa.getElem1();
-        yourElementId = conversa.getElem2();
-        myElementName = conversa.getNomElem1();
-        yourElementName = conversa.getNomElem2();
-        setTitle(otherUserName);
+        getParamsConversa();
         getConversa();
 
         return view;
@@ -127,11 +129,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
             case R.id.buttonSendChat:
                 String textMessage = editTextChat.getText().toString();
                 if (!textMessage.equals("")) {
-//                    Message mes6 = new Message(textMessage, 1, getTime());
-//                    if (!existeix) {
-//                        crearConversa(alterUserId, mes6, currentUser.getId());
-//                    }
-//                    else {
                     Message mes6 = new Message(textMessage, currentUser.getId());
                     sendMissage(mes6);
                     editTextChat.setText("");
@@ -147,6 +144,22 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_fragment_chat, menu);
+//            MenuItem item = menu.getItem(0);
+//            MenuItem item2 = menu.getItem(2);
+//            item.setVisible(false);
+//            item2.setVisible(false);
+//            myActivity.invalidateOptionsMenu();
+
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        if (cancelat || confirmat) {
+            menu.getItem(0).setEnabled(false); // here pass the index of save menu item
+            menu.getItem(2).setEnabled(false); // here pass the index of save menu item
+
+        }
+
     }
 
     @Override
@@ -160,20 +173,77 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                         rating = valoration.getRating();
                         alert.setPositiveButton("Ok",  new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                //TODO: updateIntercanvi
-                                conversa.setConfirmat();
+                                Map<String,String> headers5 = new HashMap<>();
+                                headers5.put("Content-Type", "application/json");
+                                JSONObject body = new JSONObject();
+                                try {
+                                    body.put("token", currentUser.getToken());
+                                    body.put("confirmat", true);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                adapterAPI.PUTRequestAPI("/intercanvi/" + conv_id,
+                                        new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject response) {
+                                                JSONObject js = response;
+                                            }
+                                        },
+                                        new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                                            }
+                                        }, body, headers5);
                             }
                         });
-
+                cancelat = false;
+                confirmat = true;
+                canviaFons(cancelat, confirmat);
                 AlertDialog dialog = alert.create();
                 dialog.show();
-
-
-
                 return true;
             case R.id.see_element:
                 return true;
             case R.id.cancel_interchange:
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(getResources().getString(R.string.wanna_cancel));
+                builder.setPositiveButton(R.string.yes,  new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        Map<String,String> headers3 = new HashMap<>();
+                        headers3.put("Content-Type", "application/json");
+                        JSONObject body = new JSONObject();
+                        try {
+                            body.put("token", currentUser.getToken());
+                            body.put("acceptat", true);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        adapterAPI.PUTRequestAPI("/intercanvi/" + conv_id,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        JSONObject js = response;
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                                    }
+                                }, body, headers3);
+                        cancelat = true;
+                        myActivity.changeFragmentToHome();
+                    }
+                });
+                builder.setNegativeButton(R.string.no,  new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog2 = builder.create();
+                dialog2.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -187,14 +257,55 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         myActivity.setTitle(string);
     }
 
-    public void getConversa() {
+    public void getParamsConversa() {
 
-//        Get chat
-//        GET http://localhost:3000/chat/idIntercanvi
+        Map<String, String> headers = new HashMap<>();
+        headers.put("x-access-token", currentUser.getToken());
+        adapterAPI.GETRequestAPI("/intercanvi/" + conv_id,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String prov = response.getString("id1");
+                            cancelat = response.getBoolean("acceptat");
+                            confirmat = response.getBoolean("confirmat");
+                            canviaFons(cancelat, confirmat);
+                            if (prov.equals(currentUser.getId())) {
+                                alterUserId = response.getString("id2");
+                                myElementId = response.getString("idProd1");
+                                yourElementId = response.getString("idProd2");
+                            }
+                            else {
+                                alterUserId = response.getString("id1");
+                                myElementId = response.getString("idProd2");
+                                yourElementId = response.getString("idProd1");
+                            }
+                            getUsername(alterUserId);
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("JSONerror: ","");
+                    }
+                },
+                headers
+        );
+
+//        GET http://localhost:3000/intercanvi/idIntercanvi
 //        body: -
 //                header: x-access-token
-//        return: Array de missatges relacionats amb l’intercanvi amb id: idIntercanvi
-//
+//        return: JSON de l’intercanvi amb id = idIntercanv
+    }
+
+
+    public void getConversa() {
+
         Map<String, String> headers = new HashMap<>();
         headers.put("x-access-token", currentUser.getToken());
         adapterAPI.GETJsonArrayRequestAPI("/chat/"+conv_id,
@@ -272,7 +383,43 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    public void getUsername(String alterUserId) {
+        Map<String, String> headers1 = new HashMap<>();
+        adapterAPI.GETRequestAPI("/user/"+alterUserId,
+                new Response.Listener<JSONObject>() {
 
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            setTitle(response.getString("nom"));
+
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("JSONerror: ","");
+                    }
+                },
+                headers1
+        );
+
+    }
+
+    public void canviaFons(Boolean cancelat, Boolean confirmat) {
+        RelativeLayout linlay = (RelativeLayout) view.findViewById(R.id.fondochat);
+        if (cancelat) {
+            linlay.setBackgroundColor(0xFFFFCCCC);
+        }
+        else if (confirmat) {
+            linlay.setBackgroundColor(0xFFCBF9CE);
+        }
+    }
 
 
 
