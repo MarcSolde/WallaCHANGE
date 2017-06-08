@@ -250,10 +250,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myFragmentManager.beginTransaction().replace(R.id.fragment, makeOfferFragment).commit();
     }
 
-    public void changeToChat (Conversa c) {
+    public void changeToChat (String c) {
         ChatFragment chatFragment = new ChatFragment();
         Bundle args = new Bundle();
-        args.putString("conversa", c.getConv_id());
+        args.putString("conversa", c);
         chatFragment.setArguments(args);
         myFragmentManager.beginTransaction().replace(R.id.fragment, chatFragment).commit();
         NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);

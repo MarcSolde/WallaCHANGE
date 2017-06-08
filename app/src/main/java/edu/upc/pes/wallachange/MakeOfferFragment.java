@@ -1,6 +1,8 @@
 package edu.upc.pes.wallachange;
 
 
+import static com.android.volley.VolleyLog.TAG;
+
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +30,7 @@ import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.ElementListAdapter;
+import edu.upc.pes.wallachange.Models.Conversa;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
 
@@ -102,9 +106,57 @@ public class MakeOfferFragment extends Fragment {
         myButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: crear conversa referenciada amb 2 ids d'usuari
-                //TODO: afegir el nom de laltre usuari i de cada element (elem1nom = elem2.getnom, elem2.nom = elem1.getnom)
-//                myActivity.changeToChat(conv_id);
+                final CurrentUser curUs = CurrentUser.getInstance();
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("x-access-token", curUs.getToken());
+                JSONObject body = new JSONObject();
+                try {
+                    body.put("id1", curUs.getId());
+                    body.put("id2", alterUserId);
+                    body.put("idProd1", element2.getId());
+                    body.put("idProd2", element1.getId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                adapterAPI.POSTRequestAPI("/intercanvi",
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                //TODO: LOAD imagenes
+                                try {
+                                    Conversa c = new Conversa();
+                                    String prova = response.getString("id1");
+                                    if (prova.equals(curUs.getId())) {
+                                        c.setId_owner(prova);
+                                        c.setId_other(response.getString("id2"));
+                                        c.setElem1(response.getString("idProd1"));
+                                        c.setNomElem1(element2.getTitol());
+                                        c.setElem2(response.getString("idProd2"));
+                                        c.setNomElem2(element1.getTitol());
+                                    }
+                                    else {
+                                        c.setId_owner(response.getString("id2"));
+                                        c.setId_other(prova);
+                                        c.setElem1(response.getString("idProd2"));
+                                        c.setNomElem1(element1.getTitol());
+                                        c.setElem2(response.getString("idProd1"));
+                                        c.setNomElem2(element2.getTitol());
+                                    }
+                                    c.setConv_id(response.getString("idIntercanvi"));
+                                    c.setNomUserOther("no");
+//                                    curUs.addConversa(c);
+                                    myActivity.changeToChat(c.getConv_id());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                VolleyLog.d(TAG,error.getMessage());
+                            }
+                        },body, headers);
             }
         });
         String aux = user.getId();

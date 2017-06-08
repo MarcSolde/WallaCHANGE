@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class MainChatFragment extends Fragment {
 
         adapterAPI = new AdapterAPIRequest();
 
-//        getConverses(currentUser.getToken(), currentUser.getId());
+        getConverses(currentUser.getToken(), currentUser.getId());
 
         Conversa provaconv = new Conversa();
         provaconv.setId_owner(currentUser.getId());
@@ -78,8 +79,6 @@ public class MainChatFragment extends Fragment {
         provaconv2.setConfirmat();
 
         convs = new ArrayList<Conversa>();
-        convs.add(provaconv);
-        convs.add(provaconv2);
         listconvs = (ListView) view.findViewById(R.id.listConverses);
         conversesAdapter = new ConversesAdapter(myActivity, R.layout.item_converses, convs);
         listconvs.setAdapter(conversesAdapter);
@@ -97,7 +96,8 @@ public class MainChatFragment extends Fragment {
     }
 
     private void onClickConversa (int i) {
-        myActivity.changeToChat(convs.get(i));
+        Conversa c = convs.get(i);
+        myActivity.changeToChat(c.getConv_id());
     }
 
     public void getUsername(String id, final Conversa con) {
@@ -185,10 +185,17 @@ public class MainChatFragment extends Fragment {
                 }, headers);
 
     }
-    public void getConverses(String token, String id) {
+
+
+//    Get user’s intercanvis
+//    GET http://localhost:3000/intercanvi/user/user_id
+//    body: -
+//    header: x-access-token
+//return: array of a user’s intercanvis (sense missatges)
+    public void getConverses(String token, final String id) {
         Map<String, String> headers = new HashMap<>();
         headers.put("x-access-token", token);
-        adapterAPI.GETJsonArrayRequestAPI("/chat/conversations/" + id,
+        adapterAPI.GETJsonArrayRequestAPI("/intercanvi/user/" + id,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -197,13 +204,30 @@ public class MainChatFragment extends Fragment {
                             ArrayList<Conversa> aux = new ArrayList<> ();
                             for (int i = 0;i < response.length();++i) {
                                 JSONObject var = response.getJSONObject(i);
-                                //TODO: obtenir els parametres
-                                currentUser.addConversa(var.getString("user_id"), "asf");
-//                                getElement1Name(elem1, var);
-//                                getElement2Name(elem2, var);
-//                                getUsername(user_id, var);
+                                Conversa c = new Conversa();
+                                c.setConv_id(var.getString("idIntercanvi"));
+                                String prov = var.getString("id1");
+                                if (prov.equals(id)) {
+                                    c.setId_owner(prov);
+                                    c.setId_other(var.getString("id2"));
+                                    c.setElem1(var.getString("idProd1"));
+                                    c.setElem2(var.getString("idProd2"));
+                                    getUsername("id2", c);
+                                    getElement1Name("idProd1", c);
+                                    getElement2Name("idProd2", c);
+                                }
+                                else {
+                                    c.setId_owner(var.getString("id2"));
+                                    c.setId_other(prov);
+                                    c.setElem1(var.getString("idProd2"));
+                                    c.setElem2(var.getString("idProd1"));
+                                    getUsername(prov, c);
+                                    getElement1Name("idProd2", c);
+                                    getElement2Name("idProd1", c);
+                                }
+                                aux.add(c);
                             }
-                            inflateConverses();
+                            inflateConverses(aux);
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
@@ -221,8 +245,8 @@ public class MainChatFragment extends Fragment {
         );
     }
 
-    public void inflateConverses() {
-        convs = currentUser.getConverses();
+    public void inflateConverses(ArrayList<Conversa> cs) {
+        convs = cs;
         listconvs.setAdapter(conversesAdapter);
         conversesAdapter.notifyDataSetChanged();
     }

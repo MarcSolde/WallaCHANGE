@@ -30,7 +30,7 @@ public class CurrentUser {
     private String token;
     private User user;
     private static AdapterAPIRequest adapter = new AdapterAPIRequest();
-    private ArrayList<Conversa> converses;
+//    private ArrayList<Conversa> converses;
 
 
     private static final CurrentUser ourInstance = new CurrentUser();
@@ -40,7 +40,7 @@ public class CurrentUser {
     }
 
     private CurrentUser() {
-        converses = new ArrayList<>();
+//        converses = new ArrayList<>();
         user = new User();
     }
 
@@ -159,30 +159,29 @@ public class CurrentUser {
         user.setFacebookId(fbId);
     }
 
-    public Conversa getConversa(String convId) {
-        for (Conversa c : converses) {
-            String id_conversa=c.getConv_id();
-            if (id_conversa.equals(convId)) {
-                return c;
-            }
-        }
-        return null;
-    }
+//    public Conversa getConversa(String convId) {
+//        for (Conversa c : converses) {
+//            String id_conversa=c.getConv_id();
+//            if (id_conversa.equals(convId)) {
+//                return c;
+//            }
+//        }
+//        return null;
+//    }
 
-    public void addConversa(String userId, String convId) {
-        Conversa conversa = new Conversa(user.getId(), userId, convId);
-        converses.add(conversa);
-    }
+//    public void addConversa(Conversa c) {
+//        converses.add(c);
+//    }
 
-    public void deleteConversa(String userId) {
-        for (int i = 0; i < converses.size(); ++i) {
-            if (converses.get(i).getId_other().equals(userId)) {
-                converses.remove(i);
-            }
-        }
-    }
+//    public void deleteConversa(String userId) {
+//        for (int i = 0; i < converses.size(); ++i) {
+//            if (converses.get(i).getId_other().equals(userId)) {
+//                converses.remove(i);
+//            }
+//        }
+//    }
 
-    public ArrayList<Conversa> getConverses() {
-        return converses;
-    }
+//    public ArrayList<Conversa> getConverses() {
+//        return converses;
+//    }
 }

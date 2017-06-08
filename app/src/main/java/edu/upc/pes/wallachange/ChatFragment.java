@@ -105,39 +105,16 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         buttonSendChat.setOnClickListener(this);
 
         conv_id = getArguments().getString("conversa");
-        conversa = currentUser.getConversa(conv_id);
+//        conversa = currentUser.getConversa(conv_id);
         alterUserId = conversa.getId_other();
         otherUserName = conversa.getNomUserOther();
         myElementId = conversa.getElem1();
         yourElementId = conversa.getElem2();
         myElementName = conversa.getNomElem1();
         yourElementName = conversa.getNomElem2();
+        setTitle(otherUserName);
         getConversa();
 
-//        getAlterUser(alterUserId);
-
-//        getConverses(currentUser.getToken(), currentUser.getId());
-
-
-//        conv_id = currentUser.existsConversa(alterUserId);
-//        ArrayList<Conversa> auxi = currentUser.getConverses();
-//        if (auxi.size() == 0) {
-//            Log.i("size", "buit");
-//        }
-//        for (Conversa c : auxi) {
-//            Log.i("convid", c.getConv_id());
-//            Log.i("idowner", c.getId_owner());
-//            Log.i("idother", c.getId_other());
-//        }
-//        Log.i("conv_id", conv_id);
-//        if (conv_id.equals("no")) {
-//            existeix = false;
-//        }
-//        else {
-//            existeix = true;
-//            Log.i("alter id", conv_id);
-//            getConversa();
-//        }
         return view;
     }
 
@@ -192,47 +169,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 dialog.show();
 
 
-//                        alert.setPositiveButton("Ok", new DialogInterface.onClickListener() {
 
-//                alert.setView(R.layout.custom_dialog_chat);
-//                final RatingBar evaluation = (RatingBar) alertLayout.findViewById(R.id.ratingBar);
-//                if (index == 0) evaluation.setRating(1.0f);
-//                else if (index == 1) evaluation.setRating(2.0f);
-//                else if (index == 2) evaluation.setRating(3.0f);
-//                else if(index == 3) evaluation.setRating(4.0f);
-//                else if (index == 4) evaluation.setRating(5.0f);
-//                else evaluation.setRating(3.0f);
-//
-//                alert.setNegativeButton("Cancel", null);
-//
-//                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        int e = Integer.parseInt(String.valueOf(Math.round(evaluation.getRating())));
-//
-//                        eval = "Regular";
-//                        switch (e) {
-//                            case 1:
-//                                eval = "Very Bad";
-//                                break;
-//                            case 2:
-//                                eval = "Bad";
-//                                break;
-//                            case 3:
-//                                eval = "Regular";
-//                                break;
-//                            case 4:
-//                                eval = "Great";
-//                                break;
-//                            case 5:
-//                                eval = "Very Great";
-//                                break;
-//                        }
-//                        updateOp();
-//                    }
-//                });
-//                AlertDialog dialog = alert.create();
-//                dialog.show();
-                // do s.th.
                 return true;
             case R.id.see_element:
                 return true;
@@ -242,13 +179,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 return super.onOptionsItemSelected(item);
         }
     }
-//    android:id="@+id/do_interchange"
-//    android:title="@string/do_interchange"/>
-//    <item
-//    android:id="@+id/see_element"
-//    android:title="@string/See_its_elements"/>
-//    <item
-//    android:id="@+id/cancel_interchange"
+
 
 
 
@@ -257,12 +188,17 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     }
 
     public void getConversa() {
-        Log.i("crida getConversa", alterUserId);
-        Map<String, String> headers2 = new HashMap<>();
-        headers2.put("x-access-token", currentUser.getToken());
+
+//        Get chat
+//        GET http://localhost:3000/chat/idIntercanvi
+//        body: -
+//                header: x-access-token
+//        return: Array de missatges relacionats amb l’intercanvi amb id: idIntercanvi
+//
+        Map<String, String> headers = new HashMap<>();
+        headers.put("x-access-token", currentUser.getToken());
         adapterAPI.GETJsonArrayRequestAPI("/chat/"+conv_id,
                 new Response.Listener<JSONArray>() {
-
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
@@ -290,14 +226,12 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                         Log.i("JSONerror: ","");
                     }
                 },
-                headers2
+                headers
         );
     }
 
 
     public void sendMissage(final Message mes) {
-        Log.i("crida sendMissage", mes.getMessage());
-        Log.i("id conversa", conv_id);
         JSONObject body3 = new JSONObject();
         try {
             body3.put("message", mes.getMessage());
@@ -311,7 +245,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-//                        JSONObject js = response;
                         messages.add(mes);
                         loadMessages(messages);
                     }
@@ -324,44 +257,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 }, body3, headers4);
     }
 
-    public void crearConversa(final String alterUserId, final Message mes, final String ownId) {
-        Log.i("crida crearConversa", mes.getMessage());
-        JSONObject body2 = new JSONObject();
-        try {
-            body2.put("message", mes.getMessage());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Map<String, String> headers3 = new HashMap<>();
-        headers3.put("x-access-token", currentUser.getToken());
-        ///chat/?from:user_id&to:user_id
-        adapterAPI.POSTRequestAPI(
-                "/chat?from=" + ownId + "&to=" + alterUserId,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        JSONObject js = response;
-                        try {
-                            Log.i("owner", ownId);
-                            Log.i("alter", alterUserId);
-                            conv_id = response.getString("conversation_id");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        existeix = true;
-                        currentUser.addConversa(alterUserId, conv_id);
-                        ArrayList<Message> arraymes = new ArrayList<Message>();
-                        arraymes.add(mes);
-                        loadMessages(arraymes);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(TAG, "Error: " + error.getMessage());
-                    }
-                }, body2, headers3);
-    }
+
 
 
 
