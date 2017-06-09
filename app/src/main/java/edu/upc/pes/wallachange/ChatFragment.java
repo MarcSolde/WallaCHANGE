@@ -80,7 +80,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     private com.github.nkzawa.socketio.client.Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://10.0.2.2:80/");
+            //mSocket = IO.socket("http://10.0.2.2:80/");
+            mSocket = IO.socket("http://104.236.98.100:80/");
         } catch (URISyntaxException e) {}
     }
 
