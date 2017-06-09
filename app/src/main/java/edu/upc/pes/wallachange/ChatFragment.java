@@ -80,7 +80,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     private com.github.nkzawa.socketio.client.Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://10.0.2.2:80/");
+            //mSocket = IO.socket("http://10.0.2.2:80/");
+            mSocket = IO.socket("http://104.236.98.100:80/");
         } catch (URISyntaxException e) {}
     }
 
@@ -235,8 +236,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
             case R.id.do_interchange:
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity(), R.style.CustomAlertDialog);
                         alert.setView(dialogView);
-                        RatingBar valoration = (RatingBar) dialogView.findViewById(R.id.ratingFinal);
-                        rating = valoration.getRating();
+                        final RatingBar valoration = (RatingBar) dialogView.findViewById(R.id.ratingFinal);
                         alert.setPositiveButton("Ok",  new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Map<String,String> headers5 = new HashMap<>();
@@ -264,6 +264,34 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                                                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                                             }
                                         }, body, headers5);
+
+                                body = new JSONObject();
+                                try {
+                                    body.put("reputacio", valoration.getRating()*20);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                CurrentUser user = CurrentUser.getInstance();
+                                Map<String, String> headers = new HashMap<>();
+                                headers.put("Content-Type", "application/json");
+                                headers.put("x-access-token",user.getToken());
+                                adapterAPI.PUTRequestAPI("/user/"+alterUserId,
+                                        new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject response) {
+                                                JSONObject js = response;
+                                            }
+                                        },
+                                        new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                                            }
+                                        }, body, headers);
+
+
+
+
                             }
                         });
 

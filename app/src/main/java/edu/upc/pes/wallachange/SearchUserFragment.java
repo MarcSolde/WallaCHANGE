@@ -210,7 +210,6 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                                                     for (int j = 0; j < var2.length();++j) {
                                                         aux2.add(var2.get(j).toString());
                                                     }
-                                                    if (aux2.size() == 0) aux2.add("No preference recorded");
                                                     User u = new User(var.getString("id"),
                                                             var.getString("nom"),
                                                             null,
