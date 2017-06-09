@@ -47,9 +47,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
+import java.util.concurrent.ExecutionException;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.APILayer.DownloadImageTask;
 import edu.upc.pes.wallachange.Adapters.CategoriesViewElementAdapter;
 import edu.upc.pes.wallachange.Adapters.CommentListViewAdapter;
 import edu.upc.pes.wallachange.Models.Comment;
@@ -66,6 +67,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private MainActivity myActivity;
     private Integer imatgeActual;
     private ArrayList<Bitmap> imatges;
+    private ArrayList<Boolean> imagesDownloaded;
     private EditText editTextWriteComment;
     private ArrayList<Comment> comentaris;
     private ImageSwitcher imageSwitcher;
@@ -101,6 +103,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
         categories = new ArrayList<>();
         imatges = new ArrayList<>();
+        imagesDownloaded = new ArrayList<>();
         comentaris = new ArrayList<>();
         botoEdicioClicat = false;
         us = CurrentUser.getInstance();
@@ -142,11 +145,21 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                         public void onResponse(JSONObject response) {
                             try {
                                 mElement = new Element(response);
+                                imatgeActual = 0;
+                                ArrayList<Uri> fotos = mElement.getFotografies();
+                                for (Uri imageUrl : fotos){
+                                    DownloadImageTask downloadImageTask = new DownloadImageTask(imatges);
+                                    downloadImageTask.execute(imageUrl.toString()).get();
+                                }
                                 idUsuariAnunci = mElement.getUser();
                                 obtenirUsuariAnunci(idUsuariAnunci);
                                 loadElement(mElement);
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
                             }
 
 
@@ -176,12 +189,29 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                 return myView;
             }
         });
+
+
+
+
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////
+
         imatgeActual = 0;
         if (imatges != null && imatges.size() > 0) {
             //noinspection deprecation
             Drawable drawable = new BitmapDrawable(imatges.get(imatgeActual));
             imageSwitcher.setImageDrawable(drawable);
         }
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
 
         deshabilitarCamps();
 
@@ -345,7 +375,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                 Toast.makeText(myActivity,"boto afegir",Toast.LENGTH_LONG).show();
                 break;
             case R.id.esborrarImatge:
-                //TODO possibilitat d'esborra una imatge
+                //TODO possibilitat d'esborrar una imatge
                 if (imatgeActual > 0){
                     imatges.remove(imatges.get(imatgeActual));
                     imatgeActual--;
