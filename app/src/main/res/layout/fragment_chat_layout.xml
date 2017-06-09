@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingLeft="5pt"
+    android:paddingRight="5pt"
+    android:paddingBottom="5pt"
+    android:paddingTop="5pt"
+    android:id="@+id/fondochat"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewChat"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/linearLayout">
+        </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30pt"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:id="@+id/linearLayout">
+
+            <EditText
+                android:id="@+id/editTextChat"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:inputType="textMultiLine|textCapSentences"
+                android:hint="@string/stringChatMessage"/>
+            <ImageView
+                android:id="@+id/buttonSendChat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:background="@mipmap/send"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+</RelativeLayout>

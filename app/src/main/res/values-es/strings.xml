@@ -39,7 +39,11 @@
         <string name="navigationYourItems_eng">Tus ítems</string>
         <string name="navigationLogout_eng">Salir</string>
         <string name="navigationHome_eng">Inicio</string>
+
+        <string name="navigationChat_eng">Chat</string>
+
         <string name="navigationClose_eng">Cerrar intercambio</string>
+
         <string name="logout_dialog_4">Cancelar</string>
         <string name="logout_dialog_3">Salir</string>
         <string name="logout_dialog_2">Quieres cerrar sesión?</string>
@@ -73,6 +77,14 @@
         <string name="adult_content_eng">Contenido adulto</string>
         <string name="add_picture_eng">Añadir imágenes</string>
         <string name="add_category">Añadir categoria</string>
+        <string name="stringChatMessage">Escribe un mensaje...</string>
+        <string name="See_its_elements">Ver elemento</string>
+        <string name="See_its_profile">Ver su perfil</string>
+        <string name="action_menu">Opciones</string>
+
+        <string name="which_rating">Cómo ha ido el intercambio?</string>
+        <string name="cancel_interchange">Cancelar intercambio</string>
+        <string name="for_message">por</string>
         <string name="navigationOffer_eng">Realizar intercambio</string>
         <string name="offerExchange1_eng">Quieres:</string>
         <string name="offerExchange2_eng">Ofreces:</string>
@@ -82,6 +94,14 @@
         <string name="viewOtherProfileNoResult">El usuario no tiene ítems</string>
         <string name="seeYourItmeNoResult">No tienes ningún ítem</string>
         <string name="language_warning">Cambiar el idioma reiniciará la app</string>
+
+
+        <string name="yes">SI</string>
+        <string name="no">NO</string>
+        <string name="wanna_cancel">Seguro que quieres cancelar el intercambio?</string>
+        <string name="wanna_delete">Seguro que quieres eliminar esta conversación?</string>
+
+
         <string name="offerExchangeQuestion_eng">Puedes puntuar el intercambio?</string>
         <string name="offerExchangeClose_eng">Enviar puntuación</string>
         <string name="offerExchangeError_eng">Es necesario ofrecer un ítem</string>
@@ -98,4 +118,5 @@
         <string name="delete_comment_eng">Eliminar comentario"?"</string>
         <string name="viewElementReport_eng">Denunciar</string>
         <string name="are_you_sure_you_want_to_save_the_changes_eng">Seguro que quieres guardar los cambios"?"</string>
+
 </resources>

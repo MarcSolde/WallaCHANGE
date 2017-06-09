@@ -25,6 +25,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.Models.Conversa;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 
 import edu.upc.pes.wallachange.Models.Element;
@@ -191,6 +193,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 myProfileFragment = new ProfileFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myProfileFragment).commit();
                 break;
+            case R.id.navigationChat:
+                MainChatFragment mainChatFragment = new MainChatFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, mainChatFragment).commit();
+
             default:
                 break;
         }
@@ -246,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myFragmentManager.beginTransaction().replace(R.id.fragment, myMakeOfferFragment).commit();
     }
 
+
     public void changeFragmentToFilters () {
         FiltersFragment filtersFragment = new FiltersFragment();
         myFragmentManager.beginTransaction().replace(R.id.fragment, filtersFragment).commit();
@@ -281,6 +288,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myYourItemsFragment = new YourItemsFragment();
         myFragmentManager.beginTransaction().replace(R.id.fragment, myYourItemsFragment).commit();
     }
+
 
     public void hideKeyboard() {
         View view = this.getCurrentFocus();
@@ -353,6 +361,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    public void changeToChat (String c) {
+        ChatFragment chatFragment = new ChatFragment();
+        Bundle args = new Bundle();
+        args.putString("conversa", c);
+        chatFragment.setArguments(args);
+        NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, chatFragment).commit();
+    }
     private void resetOnBackFlow(int i) {
         backFlow.clear();
         backFlow.add(0);

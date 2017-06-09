@@ -31,8 +31,12 @@
     <string name="navigationSearchItem_eng">Search Items</string>
     <string name="navigationSearchUser_eng">Search Users</string>
     <string name="navigationLogout_eng">Log out</string>
+
+    <string name="navigationChat_eng">Chat</string>
+
     <string name="navigationConfiguration_eng">Configuration</string>
     <string name="navigationClose_eng">End offer</string>
+
 
     <string name="navigationOpen" translatable="false">Open navigation drawer</string>
     <string name="navigationClose">Close navigation drawer</string>
@@ -175,6 +179,10 @@
     <string name="clear_description_edit_text_button_eng">clear description edit text button</string>
     <string name="clear_temporality_edit_text_button_eng">clear temporality edit text button</string>
     <string name="at_eng">at</string>
+    <string name="stringChatMessage">Write your message...</string>
+    <string name="See_its_elements">Watch element</string>
+    <string name="See_its_profile">See its profile</string>
+    <string name="action_menu">Options</string>
     <string name="boto_per_esborrar_el_comentari">boto per esborrar el comentari</string>
     <string name="are_you_sure_you_want_delete_your_comment_eng">Are you sure you want to delete your comment"?"</string>
     <string name="delete_comment_eng">Delete comment"?"</string>
@@ -184,6 +192,23 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="for_message">for</string>
+    <string name="do_interchange">Let\'s WALLACHANGE!</string>
+    <string name="cancel_interchange">Cancel the interchange</string>
+    <string name="which_rating">How has the interchange been?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="wanna_cancel">Do you really wanna cancel the interchange?</string>
+    <string name="wanna_delete">Do you really wanna delete this conversation?</string>
+
+
+
+
+
+
+
+
 
 
 </resources>

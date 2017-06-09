@@ -28,6 +28,9 @@
             android:title="@string/navigationYourItems_eng"
             android:icon="@drawable/ic_nav_your_item"/>
         <item
+            android:id="@+id/navigationChat"
+            android:title="@string/navigationChat_eng" />
+        <item
             android:id="@+id/navigationLogout"
             android:title="@string/navigationLogout_eng" />
             android:title="@string/navigationLogout_eng"

@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/do_interchange"
+        android:title="@string/do_interchange"/>
+    <item
+        android:id="@+id/see_element"
+        android:title="@string/See_its_elements"/>
+    <item
+        android:id="@+id/cancel_interchange"
+        android:title="@string/cancel_interchange"/>
+</menu>

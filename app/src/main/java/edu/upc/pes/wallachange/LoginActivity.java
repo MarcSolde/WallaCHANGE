@@ -3,9 +3,13 @@ package edu.upc.pes.wallachange;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
@@ -14,14 +18,22 @@ import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
+import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.LoginSystem.CallbackFacebook;
 import edu.upc.pes.wallachange.LoginSystem.CallbackTwitter;
+import edu.upc.pes.wallachange.Models.Conversa;
 import edu.upc.pes.wallachange.Models.CurrentUser;
+import edu.upc.pes.wallachange.Models.User;
 import io.fabric.sdk.android.Fabric;
 
 
@@ -96,6 +108,8 @@ public class LoginActivity extends AppCompatActivity {
     public void login() {
         CurrentUser user = CurrentUser.getInstance();
 
+//        getConverses(user.getToken(), user.getId());
+
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("user",user.getUsername());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -111,4 +125,6 @@ public class LoginActivity extends AppCompatActivity {
         LoginManager.getInstance().logOut();
         Log.i("LOGIN","Logout from Main");
     }
+
+
 }
