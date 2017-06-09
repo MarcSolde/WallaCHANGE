@@ -80,16 +80,18 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     private com.github.nkzawa.socketio.client.Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://10.0.3.2:3002/");
+            mSocket = IO.socket("http://10.0.3.2:80/");
         } catch (URISyntaxException e) {}
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        conv_id = getArguments().getString("conversa");
+//        mSocket.on("room", conv_id);
         mSocket.on("msg", onNewMessage);
         mSocket.connect();
+        mSocket.emit("room", conv_id);
     }
 
     @Override
@@ -152,14 +154,15 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         try {
             js.put("room", conv_id);
             js.put("msg", message);
+            js.put("author", currentUser.getId());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Message mes = new Message();
-        mes.setMessage(message);
-        mes.setOwner(currentUser.getId());
-        messages.add(mes);
-        loadMessages(messages);
+//        Message mes = new Message();
+//        mes.setMessage(message);
+//        mes.setOwner(currentUser.getId());
+//        messages.add(mes);
+//        loadMessages(messages);
         mSocket.emit("msg", js);
     }
 
@@ -179,12 +182,14 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                     } catch (JSONException e) {
                         return;
                     }
-
+                    Log.i("message", message);
                     Message m = new Message();
                     m.setMessage(message);
                     m.setOwner(username);
                     messages.add(m);
-                    loadMessages(messages);
+                    chatAdapter.notifyDataSetChanged();
+                    recview.scrollToPosition(messages.size() - 1);
+//                    loadMessages(messages);
                 }
             });
         }
