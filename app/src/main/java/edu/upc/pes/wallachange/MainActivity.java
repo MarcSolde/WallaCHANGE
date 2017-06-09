@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.setNavigationItemSelectedListener(this);
+        hideKeyboardStart();
 
         changeToHomeAndSetFilter("fin", "", "");
 
@@ -217,13 +218,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void changeFragmentToHome () {
         backFlow.add(8);
-        SearchElementFragment searchElementFragment = new SearchElementFragment();
+        mySearchElementFragment = new SearchElementFragment();
         Bundle args = new Bundle();
         args.putString("tags",filterElement.getTags());
         args.putString("temporalitat", filterElement.getTemporalitat());
         args.putString("es_producte", filterElement.getTipus_element());
-        searchElementFragment.setArguments(args);
-        myFragmentManager.beginTransaction().replace(R.id.fragment, searchElementFragment).commit();
+        mySearchElementFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
     }
 
     public  void changeToOtherUserProfile (String id) {
@@ -253,13 +254,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         filterElement.setTags(tags);
         filterElement.setTemporalitat(temporalitat);
         filterElement.setEs_producte(es_producte);
-        SearchElementFragment searchElementFragment = new SearchElementFragment();
+        mySearchElementFragment = new SearchElementFragment();
         Bundle args = new Bundle();
         args.putString("tags",tags);
         args.putString("temporalitat", temporalitat);
         args.putString("es_producte", es_producte);
-        searchElementFragment.setArguments(args);
-        myFragmentManager.beginTransaction().replace(R.id.fragment, searchElementFragment).commit();
+        mySearchElementFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
         myNavigationView.getMenu().getItem(0).setChecked(true);
         backFlow = new ArrayList<>();
         resetOnBackFlow(8);

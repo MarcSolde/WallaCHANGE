@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -76,6 +77,12 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
         list.add(imgProva);
 
         listElemsView = (ListView) view.findViewById(R.id.listElements);
+        listElemsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                onClickElement(i);
+            }
+        });
 
         finder = (EditText) view.findViewById(R.id.finder);
         finder.setOnKeyListener(new View.OnKeyListener() {
@@ -158,7 +165,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                         },
                         headers
                 );
-
+                myActivity.hideKeyboard();
                 break;
         }
     }
@@ -167,6 +174,10 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
         filterElement.setTags(tags);
         filterElement.setEs_producte(es_producte);
         filterElement.setTemporalitat(temporalitat);
+    }
+
+    private void onClickElement (int i) {
+        myActivity.changeToItem(elements.get(i).getId());
     }
 
     private void loadList (ArrayList<Element> e) {
