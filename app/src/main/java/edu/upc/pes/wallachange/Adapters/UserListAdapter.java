@@ -53,7 +53,7 @@ public class UserListAdapter extends ArrayAdapter<User>{
         }
         preference.setText(pref);
         TextView rating = (TextView) convertView.findViewById(R.id.item_text3);
-        String rat = myContext.getString(R.string.rating_eng) + ": " + var.getRating()/20 + "/5.0";
+        String rat = myContext.getString(R.string.rating_eng) + ": " + String.format(java.util.Locale.US,"%.01f",var.getRating()/20) + "/5.0";
         rating.setText(rat);
         return convertView;
     }
