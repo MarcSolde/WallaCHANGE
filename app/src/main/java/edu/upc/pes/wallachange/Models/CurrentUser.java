@@ -2,10 +2,12 @@ package edu.upc.pes.wallachange.Models;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
@@ -19,6 +21,7 @@ public class CurrentUser {
     private String token;
     private User user;
     private static AdapterAPIRequest adapter = new AdapterAPIRequest();
+//    private ArrayList<Conversa> converses;
 
 
     private static final CurrentUser ourInstance = new CurrentUser();
@@ -28,6 +31,7 @@ public class CurrentUser {
     }
 
     private CurrentUser() {
+//        converses = new ArrayList<>();
         user = new User();
     }
 

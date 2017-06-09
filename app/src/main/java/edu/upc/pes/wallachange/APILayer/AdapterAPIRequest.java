@@ -105,6 +105,16 @@ public class AdapterAPIRequest   {
                 return params;
             }
 
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+
+                if (response.data == null || response.data.length == 0) {
+                    return Response.success(null, HttpHeaderParser.parseCacheHeaders(response));
+                } else {
+                    return super.parseNetworkResponse(response);
+                }
+            }
         };
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(postRequest, REQUEST_TAG);
     }

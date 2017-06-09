@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Tipus d'element:"
+        android:text="@string/type_of_element"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     <RadioGroup
@@ -46,7 +46,7 @@
             android:button="@null"
             android:drawablePadding="10dp"
             android:drawableRight="@android:drawable/btn_radio"
-            android:text="Temporal"
+            android:text="@string/temporal_eng"
             android:textSize="20dip" />
 
         <RadioButton
@@ -57,7 +57,7 @@
             android:drawablePadding="10dp"
             android:layout_alignLeft="@+id/first"
             android:drawableRight="@android:drawable/btn_radio"
-            android:text="Permanent"
+            android:text="@string/permanent_eng"
             android:textSize="20dp" />
     </RadioGroup>
     <RadioGroup
@@ -78,7 +78,7 @@
             android:button="@null"
             android:drawablePadding="10dp"
             android:drawableRight="@android:drawable/btn_radio"
-            android:text="Experiencia"
+            android:text="@string/experience_eng"
             android:textSize="20dip" />
 
         <RadioButton
@@ -89,17 +89,17 @@
             android:drawablePadding="10dp"
             android:layout_alignLeft="@+id/first"
             android:drawableRight="@android:drawable/btn_radio"
-            android:text="Producte"
+            android:text="@string/product_eng"
             android:textSize="20dp" />
     </RadioGroup>
     <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-        <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
-            <!--android:name="com.google.android.gms.maps.MapFragment"-->
-            <!--android:id="@+id/map"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"/>-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+    <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:name="com.google.android.gms.maps.MapFragment"-->
+    <!--android:id="@+id/map"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"/>-->
     <!--</FrameLayout>-->
     <LinearLayout
         android:layout_width="match_parent"

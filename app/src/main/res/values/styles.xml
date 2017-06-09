@@ -33,4 +33,10 @@
         <item name="colorControlActivated">@color/colorStars</item>
     </style>
 
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <!--<item name="android:colorBackground">@color/colorNew</item>-->
+    </style>
+
 </resources>

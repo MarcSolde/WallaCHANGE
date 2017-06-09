@@ -1,6 +1,8 @@
 package edu.upc.pes.wallachange;
 
 
+import static com.android.volley.VolleyLog.TAG;
+
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -13,9 +15,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +31,7 @@ import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.ElementListAdapter;
+import edu.upc.pes.wallachange.Models.Conversa;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
 
@@ -36,9 +41,14 @@ public class MakeOfferFragment extends Fragment {
 
     private ListView myListView;
 
+    private String alterUserId;
     private Element element1, element2;
     private ArrayList<Element> elements;
+    private Button myButton;
+    private CurrentUser user;
     private static AdapterAPIRequest adapterAPI = new AdapterAPIRequest();
+
+
 
     private ImageView img1, img2;
     private TextView title1, title2, temporal1, temporal2;
@@ -53,14 +63,17 @@ public class MakeOfferFragment extends Fragment {
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         myActivity.setTitle(R.string.navigationOffer_eng);
 
-        CurrentUser user = CurrentUser.getInstance();
+
+        user = CurrentUser.getInstance();
+
+        element1 = element2 = null;
+
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",user.getToken());
 
         String id = getArguments().getString("id");
 
-        //TODO: get element 1
         adapterAPI.GETRequestAPI("/api/element/"+id,
                 new Response.Listener<JSONObject>() {
 
@@ -94,12 +107,62 @@ public class MakeOfferFragment extends Fragment {
             }
         });
 
-        Button myButton = (Button) view.findViewById(R.id.make_offer_button);
+        myButton = (Button) view.findViewById(R.id.make_offer_button);
+        myButton.setEnabled(false);
         myButton.setOnClickListener( new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                //TODO:make offer
+                final CurrentUser curUs = CurrentUser.getInstance();
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("x-access-token", curUs.getToken());
+                JSONObject body = new JSONObject();
+                try {
+                    body.put("id1", curUs.getId());
+                    body.put("id2", alterUserId);
+                    body.put("idProd1", element2.getId());
+                    body.put("idProd2", element1.getId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                adapterAPI.POSTRequestAPI("/intercanvi",
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                //TODO: LOAD imagenes
+                                try {
+                                    Conversa c = new Conversa();
+                                    String prova = response.getString("id1");
+                                    if (prova.equals(curUs.getId())) {
+                                        c.setId_owner(prova);
+                                        c.setId_other(response.getString("id2"));
+                                        c.setElem1(response.getString("idProd1"));
+                                        c.setNomElem1(element2.getTitol());
+                                        c.setElem2(response.getString("idProd2"));
+                                        c.setNomElem2(element1.getTitol());
+                                    }
+                                    else {
+                                        c.setId_owner(response.getString("id2"));
+                                        c.setId_other(prova);
+                                        c.setElem1(response.getString("idProd2"));
+                                        c.setNomElem1(element1.getTitol());
+                                        c.setElem2(response.getString("idProd1"));
+                                        c.setNomElem2(element2.getTitol());
+                                    }
+                                    c.setConv_id(response.getString("idIntercanvi"));
+                                    c.setNomUserOther("no");
+//                                    curUs.addConversa(c);
+                                    myActivity.changeToChat(c.getConv_id());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                VolleyLog.d(TAG,error.getMessage());
+                            }
+                        },body, headers);
             }
         });
         adapterAPI.GETJsonArrayRequestAPI("/api/element/user/" + user.getId(),
@@ -144,7 +207,7 @@ public class MakeOfferFragment extends Fragment {
 
 
     private void onClickElement (int i) {
-        loadElement2(elements.get(i));
+        getConverses(i);
     }
 
 
@@ -160,6 +223,7 @@ public class MakeOfferFragment extends Fragment {
         element1 = e;
         //TODO:img
         title1.setText(element1.getTitol());
+        alterUserId = element1.getUser();
         String aux;
         if (e.getTipusProducte()) aux = myActivity.getString(R.string.product_eng);
         else aux = myActivity.getString(R.string.experience_eng);
@@ -181,6 +245,72 @@ public class MakeOfferFragment extends Fragment {
         }
         else temporal2.setText(aux + " - " + myActivity.getString(R.string.permanent_eng));
     }
+
+    public void getConverses(final int j) {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("x-access-token", user.getToken());
+        adapterAPI.GETJsonArrayRequestAPI("/intercanvi/user/" + user.getId(),
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            ArrayList<Conversa> aux = new ArrayList<> ();
+                            Boolean bool = false;
+                            Element el = elements.get(j);
+                            for (int i = 0;i < response.length();++i) {
+                                JSONObject var = response.getJSONObject(i);
+
+                                if (var.getString("id1").equals(user.getId()) &&
+                                        var.getString("id2").equals(alterUserId) &&
+                                        var.getString("idProd1").equals(element1.getId()) &&
+                                        var.getString("idProd2").equals(el.getId())) {
+                                    bool = true;
+                                }
+                                if (var.getString("id2").equals(user.getId()) &&
+                                                var.getString("id1").equals(alterUserId) &&
+                                                var.getString("idProd2").equals(element1.getId()) &&
+                                                var.getString("idProd1").equals(el.getId())) {
+                                    bool = true;
+                                }
+                                if (var.getString("id2").equals(user.getId()) &&
+                                        var.getString("id1").equals(alterUserId) &&
+                                        var.getString("idProd1").equals(element1.getId()) &&
+                                        var.getString("idProd2").equals(el.getId())) {
+                                    bool = true;
+                                }
+                                if (var.getString("id1").equals(user.getId()) &&
+                                        var.getString("id2").equals(alterUserId) &&
+                                        var.getString("idProd2").equals(element1.getId()) &&
+                                        var.getString("idProd1").equals(el.getId())) {
+                                    bool = true;
+                                }
+
+                            }
+                            if (bool) {
+                                myButton.setEnabled(false);
+                            }
+                            else {
+                                myButton.setEnabled(true);
+                                loadElement2(el);
+                            }
+
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("JSONerror: ","");
+                    }
+                }, headers
+        );
+    }
+
 
 
 }

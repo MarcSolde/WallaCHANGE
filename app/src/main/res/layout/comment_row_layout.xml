@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_horizontal"
         android:weightSum="1"
         android:padding="3dp"
         >
@@ -59,11 +60,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/tw__transparent"
+            android:background="@null"
             android:contentDescription="@string/boto_per_esborrar_el_comentari"
             android:scaleType="fitXY"
             android:padding="3dp"
-            app:srcCompat="@drawable/clear_picture"
+            app:srcCompat="@drawable/ic_action_delete3"
             android:layout_weight="0.05"/>
 
     </LinearLayout>

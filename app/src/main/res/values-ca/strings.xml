@@ -40,6 +40,11 @@
         <string name="navigationYourItems_eng">Els teus ítems</string>
         <string name="navigationLogout_eng">Sortir</string>
         <string name="navigationHome_eng">Inici</string>
+
+        <string name="navigationChat_eng">Xat</string>
+
+        <string name="navigationClose_eng">Tancar intercanvi</string>
+
         <string name="logout_dialog_4">Cancel·lar</string>
         <string name="logout_dialog_2">Vols tancar sessió?</string>
         <string name="logout_dialog_3">Sortir</string>
@@ -78,15 +83,39 @@
         <string name="add_image_button_eng"></string>
         <string name="add_category">Afegir categoria</string>
         <string name="addPreference"></string>
+        <string name="stringChatMessage">Escriu un missatge...</string>
+        <string name="See_its_elements">Veure l\'element</string>
+        <string name="See_its_profile">Veure el seu perfil</string>
+        <string name="action_menu">Opcions</string>
+
+        <string name="for_message">per</string>
+        <string name="cancel_interchange">Cancel·lar intercanvi</string>
+
+        <string name="which_rating">Com ha anat l\'intercanvi?</string>
         <string name="navigationOffer_eng">Realitzar intercanvi</string>
-        <string name="offerExchange1_eng">Vols:</string>
         <string name="offerExchange2_eng">Ofereixes:</string>
+        <string name="offerExchange1_eng">Vols:</string>
         <string name="offerExchangeElement_eng">ELS TEUS ÍTEMS:</string>
         <string name="offerExchangeSend_eng">Enviar oferta</string>
         <string name="search_no_result">No s"'"han trobat resultats</string>
         <string name="viewOtherProfileNoResult">L"'"usuari no te ítems</string>
         <string name="seeYourItmeNoResult">No tens cap ítem</string>
         <string name="language_warning">Canviar l"'"idioma reiniciarà l"'"app</string>
+
+
+        <string name="yes">SÍ</string>
+        <string name="no">NO</string>
+        <string name="wanna_cancel">Segur que vols cancel·lar l\'intercanvi?</string>
+        <string name="wanna_delete">Segur que vols eliminar aquesta conversa?</string>
+
+
+        <string name="offerExchangeQuestion_eng">Pots puntuar l"'"intercanvi?</string>
+        <string name="offerExchangeClose_eng">Enviar puntuació</string>
+        <string name="offerExchangeError_eng">És necessari oferir un ítem</string>
+        <string name="offerExchange_user">Usuari</string>
+        <string name="offerExchange_item">Ítem</string>
+        <string name="search_by_user">Buscar per nom d"'"usuari</string>
+        <string name="search_by_pref">Buscar per preferències</string>
         <string name="_2_weeks_1_day">2 setmanes, 1 dia...</string>
         <string name="are_you_sure_you_want_delete_your_comment_eng">Segur que vols esborrar el comentari"?"</string>
         <string name="viewElementDelete_eng">Esborrar</string>
@@ -96,4 +125,7 @@
         <string name="delete_comment_eng">Esborrar comentari"?"</string>
         <string name="viewElementReport_eng">Denunciar</string>
         <string name="are_you_sure_you_want_to_save_the_changes_eng">Segur que vols guardar els canvis"?"</string>
+
+        <string name="type_of_element">Tipus d"'"element:</string>
+
 </resources>
