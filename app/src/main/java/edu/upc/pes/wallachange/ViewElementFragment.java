@@ -415,8 +415,13 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     }
 
     private void loadElement(Element e){
-
-        if (Objects.equals(idUsuariAnunci, us.getId()) && !esOffer) {
+        if (esOffer) {
+            editButton.setEnabled(false);
+            editButton.setVisibility(View.GONE);
+            tradeButton.setEnabled(false);
+            tradeButton.setVisibility(View.GONE);
+        }
+        else if (Objects.equals(idUsuariAnunci, us.getId())) {
             editButton.setEnabled(true);
             tradeButton.setEnabled(false);
             tradeButton.setVisibility(View.GONE);

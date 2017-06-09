@@ -34,6 +34,7 @@ import edu.upc.pes.wallachange.Models.FilterElement;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private MainActivity myActivity;
     private FragmentManager myFragmentManager;
     private DrawerLayout myDrawer;
     private FilterElement filterElement = new FilterElement();
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SeeProfileFragment mySeeProfileFragment;        //id:6
     private MakeOfferFragment myMakeOfferFragment;          //id:7
     private SearchElementFragment mySearchElementFragment;  //id:8
-    private CloseOfferFragment myCloseOfferFragment;        //id: 9
+    private MainChatFragment myMainChatFragment;            //id:9
+    private ChatFragment myChatFragment;                    //id:10
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,8 +196,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myProfileFragment).commit();
                 break;
             case R.id.navigationChat:
-                MainChatFragment mainChatFragment = new MainChatFragment();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, mainChatFragment).commit();
+                resetOnBackFlow(9);
+                myMainChatFragment = new MainChatFragment();
+                myFragmentManager.beginTransaction().replace(R.id.fragment, myMainChatFragment).commit();
 
             default:
                 break;
@@ -264,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         filterElement.setEs_producte(es_producte);
         mySearchElementFragment = new SearchElementFragment();
         Bundle args = new Bundle();
-        args.putString("tags",tags);
+        args.putString("tags", tags);
         args.putString("temporalitat", temporalitat);
         args.putString("es_producte", es_producte);
         mySearchElementFragment.setArguments(args);
@@ -272,15 +275,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myNavigationView.getMenu().getItem(0).setChecked(true);
         backFlow = new ArrayList<>();
         resetOnBackFlow(8);
-
-    public void changeToCloseOffer (String id) {
-        //TODO:onback
-        myCloseOfferFragment = new CloseOfferFragment();
-        Bundle args = new Bundle();
-        args.putString("id",id);
-        myCloseOfferFragment.setArguments(args);
-        myFragmentManager.beginTransaction().replace(R.id.fragment, myCloseOfferFragment).commit();
-
     }
 
     public void changeToYourItems(){
@@ -354,6 +348,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         backFlow.remove(aux+1);
                         myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
                         break;
+                    case 9:
+                        backFlow.remove(aux+1);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, myMainChatFragment).commit();
+                        break;
+                    case 10:
+                        backFlow.remove(aux+1);
+                        myFragmentManager.beginTransaction().replace(R.id.fragment, myChatFragment).commit();
+                        break;
                     default:
                         break;
                 }
@@ -362,12 +364,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void changeToChat (String c) {
-        ChatFragment chatFragment = new ChatFragment();
+        backFlow.add(10);
+        myChatFragment = new ChatFragment();
         Bundle args = new Bundle();
         args.putString("conversa", c);
-        chatFragment.setArguments(args);
-        NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
-        myFragmentManager.beginTransaction().replace(R.id.fragment, chatFragment).commit();
+        myChatFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, myChatFragment).commit();
     }
     private void resetOnBackFlow(int i) {
         backFlow.clear();

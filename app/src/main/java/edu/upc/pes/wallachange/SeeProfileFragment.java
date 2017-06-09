@@ -143,7 +143,10 @@ public class SeeProfileFragment extends Fragment {
 
         aux = (TextView) myView.findViewById(R.id.see_user_preference);
         ArrayList<String> aux2 = u.getPreferences();
-        if (aux2.size() <= 2) {
+        if (aux2.size() == 0) {
+            aux.setText("[...]");
+        }
+        else if (aux2.size() <= 2) {
             aux.setText(aux2.toString());
         }
         else {

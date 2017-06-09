@@ -80,7 +80,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     private com.github.nkzawa.socketio.client.Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://10.0.3.2:3002/");
+            mSocket = IO.socket("http://10.0.2.2:3002/");
         } catch (URISyntaxException e) {}
     }
 
@@ -108,6 +108,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         dialogView = inflater.inflate(R.layout.custom_dialog_chat, null);
 
         myActivity = (MainActivity) getActivity();
+        myActivity.setTitle(R.string.navigationChat_eng);
         currentUser = CurrentUser.getInstance();
 
         recview = (RecyclerView) view.findViewById(R.id.recyclerViewChat);
@@ -265,6 +266,9 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 dialog.show();
                 return true;
             case R.id.see_element:
+                myActivity.changeToItemChat(yourElementId);
+
+
                 return true;
             case R.id.cancel_interchange:
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
