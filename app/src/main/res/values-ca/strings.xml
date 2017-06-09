@@ -93,4 +93,6 @@
         <string name="offerExchangeError_eng">És necessari oferir un ítem</string>
         <string name="offerExchange_user">Usuari</string>
         <string name="offerExchange_item">Ítem</string>
+        <string name="search_by_user">Buscar per nom d"'"usuari</string>
+        <string name="search_by_pref">Buscar per preferències</string>
 </resources>

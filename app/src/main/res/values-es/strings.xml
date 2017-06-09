@@ -86,4 +86,6 @@
         <string name="offerExchangeError_eng">Es necesario ofrecer un ítem</string>
         <string name="offerExchange_user">Usuario</string>
         <string name="offerExchange_item">Ítem</string>
+        <string name="search_by_user">Buscar por nombre de usuario</string>
+        <string name="search_by_pref">Buscar por preferencias</string>
 </resources>

@@ -54,6 +54,8 @@
     <string name="searchButton_eng">SEARCH</string>
     <string name="filterButton_eng">FILTER</string>
     <string name="search_no_result">No results found</string>
+    <string name="search_by_user">Search by username</string>
+    <string name="search_by_pref">Search by preferences</string>
 
     <!-- VIEW ELEMENT -->
     <string name="viewElementReport_eng">Report</string>
