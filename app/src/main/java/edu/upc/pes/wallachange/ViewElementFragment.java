@@ -3,12 +3,8 @@ package edu.upc.pes.wallachange;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,8 +14,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,16 +23,18 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,6 +53,9 @@ import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.Models.User;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 import static com.android.volley.VolleyLog.TAG;
 
@@ -65,10 +64,9 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private View fragmentViewElementView;
     private MainActivity myActivity;
     private Integer imatgeActual;
-    private ArrayList<Bitmap> imatges;
+    private ArrayList<Uri> imatges;
     private EditText editTextWriteComment;
     private ArrayList<Comment> comentaris;
-    private ImageSwitcher imageSwitcher;
     private String idElement;
     private Element mElement;
     private ArrayList<String> categories;
@@ -77,7 +75,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private CurrentUser us;
     private TextView textViewCategoria;
     private ImageView afegeixCategoria;
-    private ImageButton removeImageButton;
     private ImageButton editButton;
     private String idUsuariAnunci;
     private ImageButton saveButton;
@@ -85,11 +82,14 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private Button tradeButton;
     private EditText editTextTemporalitat;
     private boolean esTemporal;
-    private ImageButton addImageButton;
     private boolean esOffer;
     private MenuItem deleteElementItem;
+    private ImageView imageViewFoto;
+    private OkHttpClient client;
 
     public ViewElementFragment() {}
+    //private static final String BASE_URL = "http://10.0.2.2:3000";
+    private static final String BASE_URL = "http://104.236.98.100:3000";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -115,10 +115,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         nextPictureButton.setOnClickListener(this);
         ImageButton writeCommentButton = (ImageButton) fragmentViewElementView.findViewById(R.id.writeComment);
         writeCommentButton.setOnClickListener(this);
-        removeImageButton = (ImageButton) fragmentViewElementView.findViewById(R.id.esborrarImatge);
-        removeImageButton.setOnClickListener(this);
-        addImageButton = (ImageButton) fragmentViewElementView.findViewById(R.id.afegirImatge);
-        addImageButton.setOnClickListener(this);
         afegeixCategoria = (ImageView) fragmentViewElementView.findViewById(R.id.botoAfegirCategoria);
         afegeixCategoria.setOnClickListener(this);
         tradeButton = (Button) fragmentViewElementView.findViewById(R.id.tradeButton);
@@ -159,29 +155,10 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                         }
                     }, headers);
         }
-        // TODO imatges, larraylist de bitmaps que es diu imatges s'ha d'omplir a la funcio loadelement
-        Animation in = AnimationUtils.loadAnimation(myActivity, android.R.anim.fade_in);
-        Animation out = AnimationUtils.loadAnimation(myActivity, android.R.anim.fade_out);
-        imageSwitcher = (ImageSwitcher)fragmentViewElementView.findViewById(R.id.imageViewFotoElement);
-        imageSwitcher.setInAnimation(in);
-        imageSwitcher.setOutAnimation(out);
-        imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                ImageView myView = new ImageView(myActivity);
-                myView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                myView.setLayoutParams(new
-                        ImageSwitcher.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
-                        ActionBar.LayoutParams.WRAP_CONTENT));
-                return myView;
-            }
-        });
+
+        imageViewFoto = (ImageView) fragmentViewElementView.findViewById(R.id.imageViewFoto);
+
         imatgeActual = 0;
-        if (imatges != null && imatges.size() > 0) {
-            //noinspection deprecation
-            Drawable drawable = new BitmapDrawable(imatges.get(imatgeActual));
-            imageSwitcher.setImageDrawable(drawable);
-        }
 
         deshabilitarCamps();
 
@@ -232,10 +209,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         textViewCategoria.setVisibility(View.VISIBLE);
         afegeixCategoria.setVisibility(View.VISIBLE);
         afegeixCategoria.setEnabled(true);
-        removeImageButton.setVisibility(View.VISIBLE);
-        removeImageButton.setEnabled(true);
-        addImageButton.setVisibility(View.VISIBLE);
-        addImageButton.setEnabled(true);
         editButton.setVisibility(View.GONE);
         editButton.setEnabled(false);
         saveButton.setVisibility(View.VISIBLE);
@@ -253,10 +226,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         textViewCategoria.setVisibility(View.GONE);
         afegeixCategoria.setVisibility(View.GONE);
         afegeixCategoria.setEnabled(false);
-        removeImageButton.setVisibility(View.GONE);
-        removeImageButton.setEnabled(false);
-        addImageButton.setVisibility(View.GONE);
-        addImageButton.setEnabled(false);
         editButton.setVisibility(View.VISIBLE);
         editButton.setEnabled(true);
         saveButton.setVisibility(View.GONE);
@@ -288,7 +257,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                 final EditText finalEditTextTemporalitat = (EditText) fragmentViewElementView.findViewById(R.id.temporalitat);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //TODO : de moment nomes controlo que el titol no estigui buit, quan estigui fet lu de les imatges tambe haure de mirar que si es producte com a minim nhi hagi una
                         boolean faltenCamps = false;
                         if (Objects.equals(finalEditTextTitol.getText().toString(), "")) faltenCamps = true;
                         else mElement.setTitol(finalEditTextTitol.getText().toString());
@@ -296,7 +264,6 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
                         mElement.setTemporalitat(finalEditTextTemporalitat.getText().toString());
                         JSONObject elementModificat = new JSONObject();
                         try {
-                            // TODO falta poder afegir i esborrar imatges
                             elementModificat.put("titol", mElement.getTitol());
                             elementModificat.put("descripcio", mElement.getDescripcio());
                             JSONObject esTemp = new JSONObject();
@@ -327,40 +294,19 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
             case R.id.previousButton:
                 if (imatgeActual > 0){
                     imatgeActual--;
-                    //noinspection deprecation
-                    Drawable drawable = new BitmapDrawable(imatges.get(imatgeActual));
-                    imageSwitcher.setImageDrawable(drawable);
+                    Picasso picasso = new Picasso.Builder(myActivity)
+                            .downloader(new OkHttp3Downloader(client))
+                            .build();
+                    picasso.load(imatges.get(imatgeActual)).into(imageViewFoto);
                 }
                 break;
             case R.id.nextButton:
                 if (imatgeActual < (imatges.size()-1)){
                     imatgeActual++;
-                    //noinspection deprecation
-                    Drawable drawable = new BitmapDrawable(imatges.get(imatgeActual));
-                    imageSwitcher.setImageDrawable(drawable);
-                }
-                break;
-            case R.id.afegirImatge:
-                // TODO possibilitat d'afegir una imatge
-                Toast.makeText(myActivity,"boto afegir",Toast.LENGTH_LONG).show();
-                break;
-            case R.id.esborrarImatge:
-                //TODO possibilitat d'esborra una imatge
-                if (imatgeActual > 0){
-                    imatges.remove(imatges.get(imatgeActual));
-                    imatgeActual--;
-                    //noinspection deprecation
-                    Drawable drawable = new BitmapDrawable(imatges.get(imatgeActual));
-                    imageSwitcher.setImageDrawable(drawable);
-                }else if (imatgeActual <= (imatges.size()-1)) {
-                    imatges.remove(imatges.get(imatgeActual));
-                    if (imatges.size() > 0){
-                        //noinspection deprecation
-                        Drawable drawable = new BitmapDrawable(imatges.get(imatgeActual));
-                        imageSwitcher.setImageDrawable(drawable);
-                    }else {
-                        imageSwitcher.setImageResource(R.drawable.empty_picture);
-                    }
+                    Picasso picasso = new Picasso.Builder(myActivity)
+                            .downloader(new OkHttp3Downloader(client))
+                            .build();
+                    picasso.load(imatges.get(imatgeActual)).into(imageViewFoto);
                 }
                 break;
             case R.id.botoAfegirCategoria:
@@ -470,6 +416,42 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         }else{
             TextView textViewDurada = (TextView) fragmentViewElementView.findViewById(R.id.textViewDurada);
             textViewDurada.setVisibility(View.GONE);
+        }
+
+
+        /*
+        for (int i = 0; i < mElement.getFotografies().size(); ++i){
+
+        }*/
+
+
+        client = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public okhttp3.Response intercept(Chain chain) throws IOException {
+                        Request newRequest = chain.request().newBuilder()
+                                .addHeader("x-access-token", us.getToken())
+                                .build();
+                        return chain.proceed(newRequest);
+                    }
+                })
+                .build();
+
+
+
+
+        if (mElement.getFotografies().size()> 0) {
+            for (int i = 0; i < mElement.getFotografies().size(); i++) {
+                Uri uri = Uri.parse(BASE_URL + "/static/elements/" + mElement.getFotografies().get(i).toString().replace("uploads/elements/", ""));
+                imatges.add(uri);
+            }
+        }
+
+        if (imatges.size()> 0) {
+            Picasso picasso = new Picasso.Builder(myActivity)
+                    .downloader(new OkHttp3Downloader(client))
+                    .build();
+            picasso.load(imatges.get(imatgeActual)).into(imageViewFoto);
         }
 
     }
