@@ -216,9 +216,12 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                         //TODO: LOAD imagenes
                         try {
                             String id = response.getString("id");
-                            myActivity.changeToItem(id);
                             uploadImages(id);
+                            Thread.sleep(1500);
+                            myActivity.changeToItem(id);
                         } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }

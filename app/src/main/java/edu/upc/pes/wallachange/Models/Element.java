@@ -197,7 +197,7 @@ public class Element {
             int len = tagsArray.length();
             for (int i = 0; i < len; i++) {
                 try {
-                    Uri uri = Uri.parse(tagsArray.get(i).toString());
+                    Uri uri = Uri.parse("api/element/" + this.id + "/imatge/" + tagsArray.getJSONObject(i).getString("id"));
                     list.add(uri);
 
                 } catch (JSONException e) {
