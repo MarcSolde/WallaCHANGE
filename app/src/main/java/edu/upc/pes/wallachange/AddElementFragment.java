@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,10 +43,12 @@ import java.util.Map;
 import java.util.Objects;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.APILayer.ServiceGenerator;
 import edu.upc.pes.wallachange.Adapters.CategoriesAdapter;
 import edu.upc.pes.wallachange.Adapters.ImatgesMiniaturaListViewAdapter;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Others.ExpandableHeightGridView;
+import edu.upc.pes.wallachange.Others.FileUtils;
 
 import static com.android.volley.VolleyLog.TAG;
 
@@ -137,6 +140,38 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                 }
             }
         });
+
+        editTextTitol.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (i) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            myActivity.hideKeyboard();
+                            return true;
+                        default: break;
+                    }
+                }
+                return false;
+            }
+        });
+
+        editTextCategoria.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (i) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            myActivity.hideKeyboard();
+                            return true;
+                        default: break;
+                    }
+                }
+                return false;
+            }
+        });
         return fragmentAddElementView;
     }
 
@@ -180,7 +215,9 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                     public void onResponse(JSONObject response) {
                         //TODO: LOAD imagenes
                         try {
-                            myActivity.changeToItem(response.getString("id"));
+                            String id = response.getString("id");
+                            myActivity.changeToItem(id);
+                            uploadImages(id);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -194,7 +231,13 @@ public class AddElementFragment extends Fragment implements View.OnClickListener
                 }, nouElement, headers);
     }
 
-    private JSONArray obtenirJSONarrayTags(ArrayList<String> tags) {
+
+    void uploadImages(String id){
+        FileUtils fileUtils = new FileUtils(myActivity);
+        ServiceGenerator.uploadFile(fileUtils.getPath(imatgesMiniatura), id, currentUser.getToken());
+    }
+
+    private JSONArray obtenirJSONarrayTags(ArrayList<String> tags){
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < tags.size(); ++i) {
             jsonArray.put(tags.get(i));

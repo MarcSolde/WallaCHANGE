@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -85,6 +86,8 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     private EditText editTextTemporalitat;
     private boolean esTemporal;
     private ImageButton addImageButton;
+    private boolean esOffer;
+    private MenuItem deleteElementItem;
 
     public ViewElementFragment() {}
 
@@ -130,6 +133,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
         headers.put("x-access-token", us.getToken());
         headers.put("Content-Type", "application/json");
         idElement = getArguments().getString("id");
+        esOffer = getArguments().getBoolean("chat",false);
         if (idElement != null) {
             //adapterAPIRequest.GETRequestAPI("http://104.236.98.100:3000/element/".concat(id),
             adapterAPIRequest.GETRequestAPI("/api/element/".concat(idElement),
@@ -183,6 +187,23 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
         setHasOptionsMenu(true);
 
+
+        editTextCategoria.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (i) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            myActivity.hideKeyboard();
+                            return true;
+                        default: break;
+                    }
+                }
+                return false;
+            }
+        });
+
         return fragmentViewElementView;
     }
 
@@ -190,6 +211,11 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
         myActivity.getMenuInflater().inflate(R.menu.menu_fragment_view_element, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        deleteElementItem = menu.findItem(R.id.menu_delete);
     }
 
     private void habilitarCamps(){
@@ -390,10 +416,15 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
     private void loadElement(Element e){
 
-        if (Objects.equals(idUsuariAnunci, us.getId())) {
+        if (Objects.equals(idUsuariAnunci, us.getId()) && !esOffer) {
             editButton.setEnabled(true);
             tradeButton.setEnabled(false);
             tradeButton.setVisibility(View.GONE);
+            if (deleteElementItem!=null){
+                deleteElementItem.setEnabled(true);
+                deleteElementItem.setVisible(true);
+            }
+
         }else {
             editButton.setEnabled(false);
             editButton.setVisibility(View.GONE);
@@ -429,7 +460,7 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
             if (!Objects.equals(e.getTemporalitat(), "")){
                 editTextTemporalitat.setText(e.getTemporalitat());
             }else{
-                editTextTemporalitat.setText(getResources().getString(R.string.edit_temporality_here_eng));
+                editTextTemporalitat.setText(R.string.edit_temporality_here_eng);
             }
         }else{
             TextView textViewDurada = (TextView) fragmentViewElementView.findViewById(R.id.textViewDurada);
@@ -480,11 +511,9 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
 
     private void setUsuariAnunci(User u) {
         TextView textViewCreatedBy = (TextView) fragmentViewElementView.findViewById(R.id.createdByTextView);
-        String createdBy =  getResources().getString(R.string.created_by_eng) + " " + u.getUsername();
         DateFormat df1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String dia = df1.format(mElement.getDataPublicacio());
-        dia = dia.replace(" "," " + getResources().getString(R.string.at_eng) + " ");
-        textViewCreatedBy.setText(createdBy +"\n" + dia);
+        textViewCreatedBy.append(" " + u.getUsername() + "\n" +dia.replace(" "," - ") );
     }
 
     private void actualitzarElement(JSONObject elementModificat){
@@ -552,6 +581,40 @@ public class ViewElementFragment extends Fragment implements View.OnClickListene
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case R.id.menu_delete:
+                AlertDialog.Builder deleteBuilder = new AlertDialog.Builder(myActivity);
+                deleteBuilder.setTitle(R.string.delete_item_eng);
+                deleteBuilder.setIcon(R.drawable.ic_warning);
+                deleteBuilder.setMessage(R.string.are_you_sure_you_want_delete_this_item_eng);
+                deleteBuilder.setPositiveButton(R.string.ok_eng, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        AdapterAPIRequest adapterAPIRequest = new AdapterAPIRequest();
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("Content-Type", "application/json");
+                        headers.put("x-access-token",us.getToken());
+                        String url = "/api/element/".concat(idElement);
+                        //adapter.POSTRequestAPI("http://104.236.98.100:3000/loginFB"
+                        adapterAPIRequest.DELETERequestAPI(url,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        myActivity.changeToYourItems();
+                                    }
+                                },new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        VolleyLog.d(TAG,error.getMessage());
+                                    }
+                                }, headers);
+                    }
+                });
+                deleteBuilder.setNegativeButton(R.string.cancelProfile_eng, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                });
+                deleteBuilder.show();
+                break;
             case R.id.menu_report:
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 LayoutInflater inflater = getActivity().getLayoutInflater();

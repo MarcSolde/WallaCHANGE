@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -148,6 +149,9 @@ public class SeeProfileFragment extends Fragment {
     }
 
     private void loadList (ArrayList<Element> e) {
+        if (e.isEmpty()) {
+            Toast.makeText(myActivity,R.string.viewOtherProfileNoResult,Toast.LENGTH_SHORT).show();
+        }
         elements = new ArrayList<>();
         elements = e;
         ElementListAdapter adapter = new ElementListAdapter(myActivity,R.layout.item_default,elements);

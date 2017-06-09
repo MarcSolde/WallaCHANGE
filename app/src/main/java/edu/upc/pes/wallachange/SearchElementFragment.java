@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -34,6 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
+import edu.upc.pes.wallachange.Adapters.ElementListAdapter;
 import edu.upc.pes.wallachange.Adapters.ListElementsAdapter;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
@@ -60,6 +62,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
 
     private FilterElement filterElement = new FilterElement();
 
+    private ListView listElemsView;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -72,7 +75,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
         Uri imgProva=Uri.parse("android.resource://edu.upc.pes.wallachange/"+R.drawable.empty_picture);
         list.add(imgProva);
 
-        ListView listElemsView = (ListView) view.findViewById(R.id.listElements);
+        listElemsView = (ListView) view.findViewById(R.id.listElements);
 
         finder = (EditText) view.findViewById(R.id.finder);
         finder.setOnKeyListener(new View.OnKeyListener() {
@@ -90,10 +93,6 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                 return false;
             }
         });
-        elements = new ArrayList<>();
-        listElementsAdapter = new ListElementsAdapter(myActivity, R.layout.product_on_list, elements, this);
-        listElemsView.setAdapter(listElementsAdapter);
-        listElementsAdapter.notifyDataSetChanged();
 
         ImageView clearField = (ImageView) view.findViewById(R.id.cleanFieldSearch);
         clearField.setOnClickListener(this);
@@ -132,48 +131,33 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                 headers.put("temporalitat", filterElement.getTemporalitat());
 
                 adapter.GETJsonArrayRequestAPI("/api/element", new Response.Listener<JSONArray>() {
+
                             @Override
                             public void onResponse(JSONArray response) {
-                                JSONArray ja = response;
                                 try {
-                                    if (ja != null) {
-                                        int len = ja.length();
-                                        elements.clear();
-                                        for (int i = 0; i < len; i++) {
-                                            Element elem = new Element();
-                                            elem.setTitol(ja.getJSONObject(i).getString("titol"));
-                                            elem.setDescripcio(ja.getJSONObject(i).getString("descripcio"));
-                                            elem.setTipusProducte(ja.getJSONObject(i).getBoolean("tipus_element"));
-                                            elem.setId(ja.getJSONObject(i).getString("id"));
-                                            elem.setTagsArray(ja.getJSONObject(i).getJSONArray("tags"));
-//                                            elem.setFotografiesArray(ja.getJSONObject(i).getJSONArray("imatges"));
-                                            elem.setUser(ja.getJSONObject(i).getString("user_id"));
-//                                            JSONArray es_temporal = ja.getJSONObject(i).getJSONArray("es_temporal");
-//                                            if (es_temporal.getJSONObject(0).getBoolean("temporalitat")) {
-//                                                elem.setEsTemporal(true);
-//                                                elem.setTemporalitat(es_temporal.getJSONObject(1).getString("periode"));
-//                                            }
-//                                            else elem.setEsTemporal(false);
-//                                            //elem.setComentarisArray(ja.getJSONObject(i).getJSONArray("comentaris"));
-                                            //elem.setCoordenadesArray(ja.getJSONObject(i).getJSONArray("coordenades"));
-                                            elements.add(elem);
-
-                                        }
-                                        listElementsAdapter.notifyDataSetChanged();
-
+                                    Log.i("JSON: ",response.toString());
+                                    ArrayList<Element> aux = new ArrayList<> ();
+                                    for (int i = 0;i < response.length();++i) {
+                                        JSONObject var = response.getJSONObject(i);
+                                        Element aux2 = new Element(var);
+                                        aux.add(aux2);
                                     }
-                                } catch(JSONException e){
+                                    loadList(aux);
+                                }
+                                catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-
-                            }},
+                            }
+                        },
                         new Response.ErrorListener() {
+
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                VolleyLog.d(TAG, "Error: " + error.getMessage());
-
+                                Log.i("JSONerror: ",error.getMessage());
                             }
-                        },headers);
+                        },
+                        headers
+                );
 
                 break;
         }
@@ -183,5 +167,16 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
         filterElement.setTags(tags);
         filterElement.setEs_producte(es_producte);
         filterElement.setTemporalitat(temporalitat);
+    }
+
+    private void loadList (ArrayList<Element> e) {
+        if (e.isEmpty()) {
+            Toast.makeText(myActivity,R.string.search_no_result,Toast.LENGTH_SHORT).show();
+        }
+        elements = new ArrayList<>();
+        elements = e;
+        ElementListAdapter adapter = new ElementListAdapter(myActivity,R.layout.item_default,elements);
+        listElemsView.setAdapter(adapter);
+        listElemsView.deferNotifyDataSetChanged();
     }
 }

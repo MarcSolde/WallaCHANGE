@@ -102,7 +102,6 @@ public class MakeOfferFragment extends Fragment {
                 //TODO:make offer
             }
         });
-        String aux = user.getId();
         adapterAPI.GETJsonArrayRequestAPI("/api/element/user/" + user.getId(),
                 new Response.Listener<JSONArray>() {
 
