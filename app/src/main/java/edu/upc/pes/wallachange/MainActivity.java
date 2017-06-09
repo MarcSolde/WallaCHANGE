@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.setNavigationItemSelectedListener(this);
 
-        changeToHomeAndSetFilter("", "", "");
+        changeToHomeAndSetFilter("fin", "", "");
 
         TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
 

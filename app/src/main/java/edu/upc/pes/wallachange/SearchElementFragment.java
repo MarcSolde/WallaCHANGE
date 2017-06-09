@@ -143,15 +143,17 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                                             Element elem = new Element();
                                             elem.setTitol(ja.getJSONObject(i).getString("titol"));
                                             elem.setDescripcio(ja.getJSONObject(i).getString("descripcio"));
-//                                            elem.setTipusProducte(ja.getJSONObject(i).getString("tipus_element"));
+                                            elem.setTipusProducte(ja.getJSONObject(i).getBoolean("tipus_element"));
                                             elem.setId(ja.getJSONObject(i).getString("id"));
-//                                            elem.setTagsArray(ja.getJSONObject(i).getJSONArray("tags"));
+                                            elem.setTagsArray(ja.getJSONObject(i).getJSONArray("tags"));
 //                                            elem.setFotografiesArray(ja.getJSONObject(i).getJSONArray("imatges"));
                                             elem.setUser(ja.getJSONObject(i).getString("user_id"));
-//                                            if (ja.getJSONObject(i).getBoolean("es_temporal"))
-//                                                elem.setTipusIntercanvi("Temporal");
-//                                            else
-//                                                elem.setTipusIntercanvi("Permanent");
+//                                            JSONArray es_temporal = ja.getJSONObject(i).getJSONArray("es_temporal");
+//                                            if (es_temporal.getJSONObject(0).getBoolean("temporalitat")) {
+//                                                elem.setEsTemporal(true);
+//                                                elem.setTemporalitat(es_temporal.getJSONObject(1).getString("periode"));
+//                                            }
+//                                            else elem.setEsTemporal(false);
 //                                            //elem.setComentarisArray(ja.getJSONObject(i).getJSONArray("comentaris"));
                                             //elem.setCoordenadesArray(ja.getJSONObject(i).getJSONArray("coordenades"));
                                             elements.add(elem);
