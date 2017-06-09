@@ -56,7 +56,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
-                    app:srcCompat="@android:drawable/ic_menu_save"
+                    app:srcCompat="@drawable/ic_action_save"
                     android:background="@null"
                     android:visibility="gone"
                     android:contentDescription="@string/save_button_eng"/>
@@ -144,21 +144,21 @@
                     android:id="@+id/afegirImatge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/tw__transparent"
+                    android:background="@null"
                     android:contentDescription="@string/add_image_button_eng"
                     android:padding="5pt"
                     android:scaleType="fitXY"
-                    android:src="@drawable/ic_photo_camera_black_24dp" />
+                    android:src="@drawable/ic_action_camera" />
 
                 <ImageButton
                     android:id="@+id/esborrarImatge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/tw__transparent"
+                    android:background="@null"
                     android:contentDescription="@string/boto_per_esborrar_la_imatge_actual"
                     android:padding="5pt"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/clear_picture"
+                    app:srcCompat="@drawable/ic_action_delete3"
                     />
 
             </LinearLayout>
@@ -209,7 +209,7 @@
                     android:layout_height="15pt"
                     android:layout_gravity="center_vertical"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/add" />
+                    app:srcCompat="@drawable/ic_action_add" />
             </LinearLayout>
 
             <edu.upc.pes.wallachange.Others.ExpandableHeightGridView
@@ -227,7 +227,9 @@
                 android:id="@+id/botons_cancel_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
                 android:weightSum="1">
 
@@ -235,7 +237,6 @@
                     android:id="@+id/tradeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="@string/trade_eng" />
             </LinearLayout>
 

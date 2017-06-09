@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_horizontal"
         android:weightSum="1">
 
         <TextView
@@ -25,7 +26,7 @@
             android:layout_weight="0.3"
             android:background="@null"
             android:contentDescription="@string/contentDeleteImage"
-            app:srcCompat="@drawable/smaller_delete" />
+            app:srcCompat="@drawable/ic_action_delete2" />
     </LinearLayout>
 
 </GridLayout>
