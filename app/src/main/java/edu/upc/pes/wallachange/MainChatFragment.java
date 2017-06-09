@@ -59,7 +59,7 @@ public class MainChatFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main_chat, container, false);
         myActivity = (MainActivity) getActivity();
-        myActivity.setTitle(R.string.navigationProfile_eng);
+        myActivity.setTitle(R.string.navigationChat_eng);
         currentUser = CurrentUser.getInstance();
 
 

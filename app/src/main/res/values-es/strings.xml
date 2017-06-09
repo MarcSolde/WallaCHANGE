@@ -119,4 +119,6 @@
         <string name="viewElementReport_eng">Denunciar</string>
         <string name="are_you_sure_you_want_to_save_the_changes_eng">Seguro que quieres guardar los cambios"?"</string>
 
+        <string name="type_of_element">Tipo de elemento:</string>
+
 </resources>

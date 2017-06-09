@@ -126,4 +126,6 @@
         <string name="viewElementReport_eng">Denunciar</string>
         <string name="are_you_sure_you_want_to_save_the_changes_eng">Segur que vols guardar els canvis"?"</string>
 
+        <string name="type_of_element">Tipus d"'"element:</string>
+
 </resources>
