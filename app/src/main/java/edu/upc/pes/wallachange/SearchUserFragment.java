@@ -113,7 +113,7 @@ public class SearchUserFragment extends Fragment implements View.OnClickListener
                                         aux2.add(pref);
                                         if (hashSet.add(pref)) arrayPreferencies.add(pref);
                                     }
-                                    if (aux2.size() == 0) aux2.add("No preference recorded");
+                                    //if (aux2.size() == 0) aux2.add("No preference recorded");
                                     User u = new User(var.getString("id"),
                                             var.getString("nom"),
                                             null,

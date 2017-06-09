@@ -11,10 +11,10 @@
             android:id="@+id/navigationSearchUser"
             android:title="@string/navigationSearchUser_eng"
             android:icon="@drawable/ic_nav_search_user"/>
-        <!--<item
+        <item
             android:id="@+id/navigationChat"
-            android:title="@string/navigationChat_eng"
-            android:icon="@drawable/ic_nav_chat"/>-->
+            android:title="CHAT_CHAT"
+            android:icon="@drawable/ic_nav_chat"/>
         <item
             android:id="@+id/navigationProfile"
             android:title="@string/navigationProfile_eng"
@@ -31,8 +31,5 @@
             android:id="@+id/navigationLogout"
             android:title="@string/navigationLogout_eng"
             android:icon="@drawable/ic_nav_exit"/>
-        <item
-            android:id="@+id/navigationFilters"
-            android:title="juajuajua" />
     </group>
 </menu>

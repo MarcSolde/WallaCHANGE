@@ -44,7 +44,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SeeProfileFragment mySeeProfileFragment;        //id:6
     private MakeOfferFragment myMakeOfferFragment;          //id:7
     private SearchElementFragment mySearchElementFragment;  //id:8
-    private CloseOfferFragment myCloseOfferFragment;        //id: 9
+    private CloseOfferFragment myCloseOfferFragment;        //id:9
+    //private CHAT                                          //id:10
+    //private CHAT2                                         //id:11
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,10 +193,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 myProfileFragment = new ProfileFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myProfileFragment).commit();
                 break;
-            //TODO:quitar
-            case R.id.navigationFilters:
-                FiltersFragment FiltersFragment = new FiltersFragment();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, FiltersFragment).commit();
+            case R.id.navigationChat:
+                //resetOnBackFlow(10);
+                //TODO:
                 break;
             default:
                 break;
@@ -326,6 +327,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case 8:
                         backFlow.remove(aux+1);
                         myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
+                        break;
+                    case 9:
+                        resetOnBackFlow(aux+1); //CloseOffer
                         break;
                     default:
                         break;

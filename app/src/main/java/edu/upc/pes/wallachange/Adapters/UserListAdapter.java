@@ -44,7 +44,8 @@ public class UserListAdapter extends ArrayAdapter<User>{
         TextView preference = (TextView) convertView.findViewById(R.id.item_text2);
         ArrayList<String> aux2 = var.getPreferences();
         String pref = myContext.getString(R.string.preferences_eng) + ": ";
-        if (aux2.size() <= 2) {
+        if (aux2.size() == 0) pref = pref + "[...]";
+        else if (aux2.size() <= 2) {
             pref = pref + aux2.toString();
         }
         else {
