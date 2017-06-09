@@ -49,7 +49,7 @@ public class ElementListAdapter extends ArrayAdapter<Element> {
             aux.setText(var.getTags().toString());
         }
         else {
-            aux.setText("[" + var.getTags().get(0) + ", " + var.getTags().get(0) + ", ...]");
+            aux.setText("[" + var.getTags().get(0) + ", " + var.getTags().get(1) + ", ...]");
         }
 
         aux = (TextView) convertView.findViewById(R.id.item_text3);
