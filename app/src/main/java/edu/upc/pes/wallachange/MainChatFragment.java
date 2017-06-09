@@ -81,47 +81,47 @@ public class MainChatFragment extends Fragment {
             }
         });
 
-//        listconvs.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-//                    final int pos, long id) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//
-//                builder.setTitle(getResources().getString(R.string.wanna_delete));
-//
-//                builder.setPositiveButton(R.string.yes,  new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//
-//                        Conversa c = convs.get(pos);
-//                        String conv_id = c.getConv_id();
-//                        Map<String,String> headers2 = new HashMap<String, String>();
-//                        headers2.put("x-access-token", currentUser.getToken());
-//                        adapterAPI.DELETERequestAPI("/chat/" + conv_id,
-//                            new Response.Listener<JSONObject>() {
-//                                @Override
-//                                public void onResponse(JSONObject response) {
-//                                    convs.remove(pos);
-//                                    conversesAdapter.notifyDataSetChanged();
-//                                 }
-//                            },new Response.ErrorListener() {
-//                                @Override
-//                                public void onErrorResponse(VolleyError error) {
-//                                    VolleyLog.d(TAG,error.getMessage());
-//                                }
-//                            }, headers2);
-//                    }
-//                });
-//                builder.setNegativeButton(R.string.no,  new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//                AlertDialog dialog2 = builder.create();
-//                dialog2.show();
-//
-//                return true;
-//            }
-//        });
+        listconvs.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                    final int pos, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                builder.setTitle(getResources().getString(R.string.wanna_delete));
+
+                builder.setPositiveButton(R.string.yes,  new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        Conversa c = convs.get(pos);
+                        String conv_id = c.getConv_id();
+                        Map<String,String> headers2 = new HashMap<String, String>();
+                        headers2.put("x-access-token", currentUser.getToken());
+                        adapterAPI.DELETERequestAPI("/chat/" + conv_id,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    convs.remove(pos);
+                                    conversesAdapter.notifyDataSetChanged();
+                                 }
+                            },new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    VolleyLog.d(TAG,error.getMessage());
+                                }
+                            }, headers2);
+                    }
+                });
+                builder.setNegativeButton(R.string.no,  new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog2 = builder.create();
+                dialog2.show();
+
+                return true;
+            }
+        });
 
 
 

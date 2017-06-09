@@ -247,6 +247,9 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                                             @Override
                                             public void onResponse(JSONObject response) {
                                                 JSONObject js = response;
+                                                cancelat = false;
+                                                confirmat = true;
+                                                canviaFons(cancelat, confirmat);
                                             }
                                         },
                                         new Response.ErrorListener() {
@@ -257,9 +260,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                                         }, body, headers5);
                             }
                         });
-                cancelat = false;
-                confirmat = true;
-                canviaFons(cancelat, confirmat);
+
                 AlertDialog dialog = alert.create();
                 dialog.show();
                 return true;

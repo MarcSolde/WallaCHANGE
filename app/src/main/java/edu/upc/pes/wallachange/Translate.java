@@ -30,7 +30,7 @@ public class Translate extends Activity{
         Configuration config;
         config = new Configuration(res.getConfiguration());
         switch (locale) {
-            case "en":
+            case "en_US":
                 config.locale = new Locale("en");
                 break;
             case "es":
