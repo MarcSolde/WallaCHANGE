@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.R;
-import edu.upc.pes.wallachange.SeeProfileFragment;
 
 
 
@@ -46,7 +45,12 @@ public class ElementListAdapter extends ArrayAdapter<Element> {
         aux = (TextView) convertView.findViewById(R.id.item_text2);
         ArrayList<String> aux2 = var.getTags();
         if (aux2.size() == 0) aux.setText("[...]");
-        else aux.setText(var.getTags().toString());
+        else if (aux2.size() <= 2) {
+            aux.setText(var.getTags().toString());
+        }
+        else {
+            aux.setText("[" + var.getTags().get(0) + ", " + var.getTags().get(0) + ", ...]");
+        }
 
         aux = (TextView) convertView.findViewById(R.id.item_text3);
         String aux3;

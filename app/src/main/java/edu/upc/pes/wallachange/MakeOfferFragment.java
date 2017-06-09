@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -53,6 +54,8 @@ public class MakeOfferFragment extends Fragment {
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         myActivity.setTitle(R.string.navigationOffer_eng);
 
+        element1 = element2 = null;
+
         CurrentUser user = CurrentUser.getInstance();
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
@@ -60,7 +63,6 @@ public class MakeOfferFragment extends Fragment {
 
         String id = getArguments().getString("id");
 
-        //TODO: get element 1
         adapterAPI.GETRequestAPI("/api/element/"+id,
                 new Response.Listener<JSONObject>() {
 
@@ -99,7 +101,49 @@ public class MakeOfferFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                //TODO:make offer
+                if (element2 == null) {
+                    Toast.makeText(myActivity,R.string.offerExchangeError_eng,Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    //TODO:make offer
+                    CurrentUser user = CurrentUser.getInstance();
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("x-access-token",user.getToken());
+                    JSONObject body = new JSONObject();
+                    try {
+                        body.put("id1", element1.getUser());
+                        body.put("id2", element2.getUser());
+                        body.put("idProd1", element1.getId());
+                        body.put("idProd2", element2.getId());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    adapterAPI.POSTRequestAPI("/intercanvi/",
+                            new Response.Listener<JSONObject>() {
+
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        Log.i("JSON: ",response.toString());
+                                        myActivity.changeToCloseOffer(response.getString("idIntercanvi"));
+                                    }
+                                    catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            },
+                            new Response.ErrorListener() {
+
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.i("JSONerror: ","");
+                                }
+                            },
+                            body,headers
+                    );
+                    //TODO:eliminar lo de arriba
+                }
             }
         });
         adapterAPI.GETJsonArrayRequestAPI("/api/element/user/" + user.getId(),
