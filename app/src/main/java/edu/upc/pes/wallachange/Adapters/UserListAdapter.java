@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import edu.upc.pes.wallachange.Models.Element;
 import edu.upc.pes.wallachange.R;
-import edu.upc.pes.wallachange.SearchUserFragment;
+
 import edu.upc.pes.wallachange.Models.User;
 
 public class UserListAdapter extends ArrayAdapter<User>{
