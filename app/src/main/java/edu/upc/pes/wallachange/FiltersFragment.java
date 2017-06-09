@@ -125,22 +125,18 @@ public class FiltersFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cancelButton1:
-                myFragmentManager = getFragmentManager();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, searchElemFragment).commit();
+                myActivity.changeFragmentToHome();
                 break;
             case R.id.submitButton1:
-                String intermediate_text = auto.getText().toString();
-                String[] finalTags = intermediate_text.split(",");
-//                String finalTags = intermediate_text.substring(intermediate_text.lastIndexOf(",") + 1);
-                filter.setTags(finalTags);
+                String tags = auto.getText().toString().concat("fin");
 
-                if (radioTemp.isChecked()) filter.setTemporalitat(true);
-                else filter.setTemporalitat(false);
-
-                filter.setEs_producte(radioProd.isChecked());
-                for (int i = 0; i < finalTags.length; i++) Log.d("MyTagGoesHere", finalTags[i]);
-                myFragmentManager = getFragmentManager();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, searchElemFragment).commit();
+                String temporalitat = "";
+                String es_producte = "";
+                if (radioTemp.isChecked()) temporalitat = "temporal";
+                if (radioPermanent.isChecked()) temporalitat = "permanent";
+                if (radioExp.isChecked()) es_producte = "experiencia";
+                if (radioProd.isChecked()) es_producte = "producte";
+                myActivity.changeToHomeAndSetFilter(tags, temporalitat, es_producte);
                 break;
 
 

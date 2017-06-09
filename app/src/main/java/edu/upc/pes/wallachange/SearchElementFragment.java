@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
+import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -36,7 +37,7 @@ import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Adapters.ListElementsAdapter;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
-
+import edu.upc.pes.wallachange.Models.FilterElement;
 
 
 public class SearchElementFragment extends Fragment implements View.OnClickListener{
@@ -57,6 +58,7 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
     private AdapterAPIRequest adapter = new AdapterAPIRequest();
     private Map<String, String> headers = new HashMap<>();
 
+    private FilterElement filterElement = new FilterElement();
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -101,6 +103,9 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
 
         Button filterButt = (Button) view.findViewById(R.id.filterButton);
         filterButt.setOnClickListener(this);
+
+        setFilter(getArguments().getString("tags"), getArguments().getString("temporalitat"), getArguments().getString("es_producte"));
+
         findButt.performClick();
 
         return view;
@@ -122,6 +127,10 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
                 CurrentUser us = CurrentUser.getInstance();
                 headers.put("x-access-token", us.getToken());
                 headers.put("titol", title);
+                headers.put("tags", filterElement.getTags());
+                headers.put("es_producte", filterElement.getTipus_element());
+                headers.put("temporalitat", filterElement.getTemporalitat());
+
                 adapter.GETJsonArrayRequestAPI("/api/element", new Response.Listener<JSONArray>() {
                             @Override
                             public void onResponse(JSONArray response) {
@@ -166,5 +175,11 @@ public class SearchElementFragment extends Fragment implements View.OnClickListe
 
                 break;
         }
+    }
+
+    private void setFilter(String tags, String temporalitat, String es_producte){
+        filterElement.setTags(tags);
+        filterElement.setEs_producte(es_producte);
+        filterElement.setTemporalitat(temporalitat);
     }
 }

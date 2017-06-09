@@ -49,14 +49,15 @@ import java.util.Map;
 import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 import edu.upc.pes.wallachange.Models.Element;
+import edu.upc.pes.wallachange.Models.FilterElement;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private FragmentManager myFragmentManager;
     private DrawerLayout myDrawer;
+    private FilterElement filterElement = new FilterElement();
 
     private NavigationView myNavigationView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,8 +78,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.setNavigationItemSelectedListener(this);
 
-        SearchElementFragment homeFragment = new SearchElementFragment();
-        myFragmentManager.beginTransaction().replace(R.id.fragment,homeFragment).commit();
+        changeToHomeAndSetFilter("", "", "");
+
         TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
 
         CurrentUser user = CurrentUser.getInstance();
@@ -187,16 +188,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 myFragmentManager.beginTransaction().replace(R.id.fragment, searchUserFragment).commit();
                 break;
             case R.id.navigationSearchItem:
-                SearchElementFragment ElementsFragment = new SearchElementFragment();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, ElementsFragment).commit();
+                changeFragmentToHome();
                 break;
             case R.id.navigationProfile:
                 ProfileFragment ProfileFragment = new ProfileFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, ProfileFragment).commit();
-                break;
-
-            case R.id.navigationFilters:
-                changeFragmentToFilters();
                 break;
             default:
                 break;
@@ -215,10 +211,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void changeFragmentToHome () {
-        SearchElementFragment homeFragment = new SearchElementFragment();
-        myFragmentManager.beginTransaction().replace(R.id.fragment, homeFragment).commit();
-        NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
-        myNavigationView.getMenu().getItem(0).setChecked(true);
+        SearchElementFragment searchElementFragment = new SearchElementFragment();
+        Bundle args = new Bundle();
+        args.putString("tags",filterElement.getTags());
+        args.putString("temporalitat", filterElement.getTemporalitat());
+        args.putString("es_producte", filterElement.getTipus_element());
+        searchElementFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, searchElementFragment).commit();
     }
 
     public  void changeToOtherUserProfile (String id) {
@@ -241,6 +240,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void changeFragmentToFilters () {
         FiltersFragment filtersFragment = new FiltersFragment();
         myFragmentManager.beginTransaction().replace(R.id.fragment, filtersFragment).commit();
+    }
+
+    public void changeToHomeAndSetFilter (String tags, String temporalitat, String es_producte) {
+        filterElement.setTags(tags);
+        filterElement.setTemporalitat(temporalitat);
+        filterElement.setEs_producte(es_producte);
+        SearchElementFragment searchElementFragment = new SearchElementFragment();
+        Bundle args = new Bundle();
+        args.putString("tags",tags);
+        args.putString("temporalitat", temporalitat);
+        args.putString("es_producte", es_producte);
+        searchElementFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, searchElementFragment).commit();
     }
 
     public void hideKeyboard() {
