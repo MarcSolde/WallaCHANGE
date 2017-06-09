@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -64,13 +65,15 @@ public class MakeOfferFragment extends Fragment {
 
 
         user = CurrentUser.getInstance();
+
+        element1 = element2 = null;
+
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("x-access-token",user.getToken());
 
         String id = getArguments().getString("id");
 
-        //TODO: get element 1
         adapterAPI.GETRequestAPI("/api/element/"+id,
                 new Response.Listener<JSONObject>() {
 

@@ -39,12 +39,16 @@
         <string name="navigationYourItems_eng">Tus ítems</string>
         <string name="navigationLogout_eng">Salir</string>
         <string name="navigationHome_eng">Inicio</string>
+
         <string name="navigationChat_eng">Chat</string>
+
+        <string name="navigationClose_eng">Cerrar intercambio</string>
+
         <string name="logout_dialog_4">Cancelar</string>
         <string name="logout_dialog_3">Salir</string>
         <string name="logout_dialog_2">Quieres cerrar sesión?</string>
         <string name="incitement_to_hatred_eng">Incitación al odio</string>
-        <string name="if_product_at_least_one_image_eng">Mínimo una imagen</string>
+        <string name="if_product_at_least_one_image_eng">Si es un producto, mínimo una imagen</string>
         <string name="from_you_eng">de ti</string>
         <string name="filter_eng">FILTRAR</string>
         <string name="filterButton_eng">FILTRAR</string>
@@ -65,6 +69,7 @@
         <string name="category_eng">Categoria</string>
         <string name="cancelProfile_eng">Cancelar</string>
         <string name="by_eng">Por</string>
+        <string name="advertisements_view">Vista del anuncio</string>
         <string name="at_least_one_image_eng">Mínimo una imagen</string>
         <string name="advertisements_category_eng">Categoria del anuncio</string>
         <string name="advertisements_description_eng">Descripción del anuncio</string>
@@ -90,9 +95,28 @@
         <string name="seeYourItmeNoResult">No tienes ningún ítem</string>
         <string name="language_warning">Cambiar el idioma reiniciará la app</string>
 
+
         <string name="yes">SI</string>
         <string name="no">NO</string>
         <string name="wanna_cancel">Seguro que quieres cancelar el intercambio?</string>
         <string name="wanna_delete">Seguro que quieres eliminar esta conversación?</string>
+
+
+        <string name="offerExchangeQuestion_eng">Puedes puntuar el intercambio?</string>
+        <string name="offerExchangeClose_eng">Enviar puntuación</string>
+        <string name="offerExchangeError_eng">Es necesario ofrecer un ítem</string>
+        <string name="offerExchange_user">Usuario</string>
+        <string name="offerExchange_item">Ítem</string>
+        <string name="search_by_user">Buscar por nombre de usuario</string>
+        <string name="search_by_pref">Buscar por preferencias</string>
+        <string name="_2_weeks_1_day">2 semanas, 1 dia...</string>
+        <string name="are_you_sure_you_want_delete_your_comment_eng">Seguro que quieres eliminar el comentario"?"</string>
+        <string name="viewElementDelete_eng">Eliminar</string>
+        <string name="delete_item_eng">Eliminar anuncio"?"</string>
+        <string name="are_you_sure_you_want_delete_this_item_eng">Seguro que quieres eliminar este anuncio"?"</string>
+        <string name="save_changes_eng">Guardar los cambios"?"</string>
+        <string name="delete_comment_eng">Eliminar comentario"?"</string>
+        <string name="viewElementReport_eng">Denunciar</string>
+        <string name="are_you_sure_you_want_to_save_the_changes_eng">Seguro que quieres guardar los cambios"?"</string>
 
 </resources>

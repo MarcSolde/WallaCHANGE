@@ -19,6 +19,14 @@
             android:gravity="start|center_horizontal"
             android:orientation="horizontal">
 
+            <AutoCompleteTextView
+                android:id="@+id/search_user_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:lines="1"
+                android:singleLine="true" />
+    <!--
             <EditText
                 android:id="@+id/search_user_text"
                 android:layout_width="0dp"
@@ -26,7 +34,7 @@
                 android:layout_weight="0.5"
                 android:lines="1"
                 android:singleLine="true" />
-
+    -->
             <ImageButton
                 android:id="@+id/search_user_reset"
                 android:layout_width="0dp"
@@ -44,25 +52,26 @@
                 android:contentDescription="@string/searchButton_eng"
                 app:srcCompat="@drawable/ic_action_search"/>
         </LinearLayout>
-        <!--
-        <LinearLayout
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/search_user_radio_group"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <Button
-                android:id="@+id/search_user_search"
+            android:layout_gravity="center"
+            android:checkedButton="@+id/search_user_radio_user"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/search_user_radio_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/searchButton_eng"
-                android:layout_marginRight="50dp"/>
-            <Button
-                android:id="@+id/search_user_filter"
+                android:text="@string/search_by_user" />
+
+            <RadioButton
+                android:id="@+id/search_user_radio_pref"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/filterButton_eng"/>
-        </LinearLayout>
-        -->
+                android:text="@string/search_by_pref" />
+        </RadioGroup>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

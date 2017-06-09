@@ -7,44 +7,37 @@ import java.util.ArrayList;
  */
 
 public class FilterElement {
-    private String localitat;
-    private Boolean temporalitat;
-    private Boolean es_producte; //si es experiencia o producte
-    private String [] tags;
+    private String temporalitat;
+    private String es_producte; //si es experiencia o producte
+    private String tags;
 
     public FilterElement(){
-
+        this.tags = "";
+        this.temporalitat = "";
+        this.es_producte = "";
     }
 
-    public String [] getTags() {
+    public String getTags() {
         return tags;
     }
 
-    public void setTags(String [] tags) {
+    public void setTags(String tags) {
         this.tags = tags;
     }
 
-    public Boolean getTipus_element() {
+    public String getTipus_element() {
         return es_producte;
     }
 
-    public void setEs_producte(Boolean tipus_element) {
+    public void setEs_producte(String tipus_element) {
         this.es_producte = tipus_element;
     }
 
-    public Boolean getTemporalitat() {
+    public String getTemporalitat() {
         return temporalitat;
     }
 
-    public void setTemporalitat(Boolean temporalitat) {
+    public void setTemporalitat(String temporalitat) {
         this.temporalitat = temporalitat;
-    }
-
-    public String getLocalitat() {
-        return localitat;
-    }
-
-    public void setLocalitat(String localitat) {
-        this.localitat = localitat;
     }
 }

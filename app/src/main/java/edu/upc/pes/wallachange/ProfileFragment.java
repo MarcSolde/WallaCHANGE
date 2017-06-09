@@ -110,7 +110,7 @@ public class ProfileFragment extends Fragment  implements View.OnClickListener {
         fotoPerfil.setImageURI(user.getPicture());
         locationTE.setText(user.getLocation());
 
-        mRatingBar.setRating(user.getRating());
+        mRatingBar.setRating(user.getRating()/20);
         mRatingBar.setEnabled(false);
 
         prefs = new ArrayList<String>();

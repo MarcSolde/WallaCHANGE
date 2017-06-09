@@ -29,10 +29,14 @@ import edu.upc.pes.wallachange.APILayer.AdapterAPIRequest;
 import edu.upc.pes.wallachange.Models.Conversa;
 import edu.upc.pes.wallachange.Models.CurrentUser;
 
+import edu.upc.pes.wallachange.Models.Element;
+import edu.upc.pes.wallachange.Models.FilterElement;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private FragmentManager myFragmentManager;
     private DrawerLayout myDrawer;
+    private FilterElement filterElement = new FilterElement();
 
     private NavigationView myNavigationView;
 
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SeeProfileFragment mySeeProfileFragment;        //id:6
     private MakeOfferFragment myMakeOfferFragment;          //id:7
     private SearchElementFragment mySearchElementFragment;  //id:8
+    private CloseOfferFragment myCloseOfferFragment;        //id: 9
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +71,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         myNavigationView = (NavigationView) findViewById(R.id.navigationView);
         myNavigationView.setNavigationItemSelectedListener(this);
+        hideKeyboardStart();
 
-        mySearchElementFragment = new SearchElementFragment();
-        myFragmentManager.beginTransaction().replace(R.id.fragment,mySearchElementFragment).commit();
-        myNavigationView.getMenu().getItem(0).setChecked(true);
-
-        backFlow = new ArrayList<>();
-        resetOnBackFlow(8);
+        changeToHomeAndSetFilter("fin", "", "");
 
         TextView textUser = (TextView) myNavigationView.getHeaderView(0).findViewById(R.id.navigationText);
         CurrentUser user = CurrentUser.getInstance();
@@ -183,23 +184,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchUserFragment).commit();
                 break;
             case R.id.navigationSearchItem:
-                resetOnBackFlow(8);
-                mySearchElementFragment = new SearchElementFragment();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
+
+                changeFragmentToHome();
+
                 break;
             case R.id.navigationProfile:
                 resetOnBackFlow(4);
                 myProfileFragment = new ProfileFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, myProfileFragment).commit();
                 break;
-            //TODO:quitar
-            case R.id.navigationFilters:
-                FiltersFragment FiltersFragment = new FiltersFragment();
-                myFragmentManager.beginTransaction().replace(R.id.fragment, FiltersFragment).commit();
-                break;
             case R.id.navigationChat:
                 MainChatFragment mainChatFragment = new MainChatFragment();
                 myFragmentManager.beginTransaction().replace(R.id.fragment, mainChatFragment).commit();
+
             default:
                 break;
         }
@@ -229,9 +226,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void changeFragmentToHome () {
         backFlow.add(8);
         mySearchElementFragment = new SearchElementFragment();
+        Bundle args = new Bundle();
+        args.putString("tags",filterElement.getTags());
+        args.putString("temporalitat", filterElement.getTemporalitat());
+        args.putString("es_producte", filterElement.getTipus_element());
+        mySearchElementFragment.setArguments(args);
         myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
-        NavigationView myNavigationView = (NavigationView) findViewById(R.id.navigationView);
-        myNavigationView.getMenu().getItem(0).setChecked(true);
     }
 
     public  void changeToOtherUserProfile (String id) {
@@ -251,6 +251,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myMakeOfferFragment.setArguments(args);
         myFragmentManager.beginTransaction().replace(R.id.fragment, myMakeOfferFragment).commit();
     }
+
+
+    public void changeFragmentToFilters () {
+        FiltersFragment filtersFragment = new FiltersFragment();
+        myFragmentManager.beginTransaction().replace(R.id.fragment, filtersFragment).commit();
+    }
+
+    public void changeToHomeAndSetFilter (String tags, String temporalitat, String es_producte) {
+        filterElement.setTags(tags);
+        filterElement.setTemporalitat(temporalitat);
+        filterElement.setEs_producte(es_producte);
+        mySearchElementFragment = new SearchElementFragment();
+        Bundle args = new Bundle();
+        args.putString("tags",tags);
+        args.putString("temporalitat", temporalitat);
+        args.putString("es_producte", es_producte);
+        mySearchElementFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
+        myNavigationView.getMenu().getItem(0).setChecked(true);
+        backFlow = new ArrayList<>();
+        resetOnBackFlow(8);
+
+    public void changeToCloseOffer (String id) {
+        //TODO:onback
+        myCloseOfferFragment = new CloseOfferFragment();
+        Bundle args = new Bundle();
+        args.putString("id",id);
+        myCloseOfferFragment.setArguments(args);
+        myFragmentManager.beginTransaction().replace(R.id.fragment, myCloseOfferFragment).commit();
+
+    }
+
+    public void changeToYourItems(){
+        resetOnBackFlow(3);
+        myYourItemsFragment = new YourItemsFragment();
+        myFragmentManager.beginTransaction().replace(R.id.fragment, myYourItemsFragment).commit();
+    }
+
+
     public void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
