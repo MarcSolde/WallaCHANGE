@@ -29,10 +29,9 @@
             android:icon="@drawable/ic_nav_your_item"/>
         <item
             android:id="@+id/navigationLogout"
+            android:title="@string/navigationLogout_eng" />
             android:title="@string/navigationLogout_eng"
             android:icon="@drawable/ic_nav_exit"/>
-        <item
-            android:id="@+id/navigationFilters"
-            android:title="juajuajua" />
+
     </group>
 </menu>

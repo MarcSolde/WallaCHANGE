@@ -171,7 +171,7 @@ public class Element {
         return coordenades;
     }
 
-    private void setTagsArray(JSONArray tagsArray) {
+    public void setTagsArray(JSONArray tagsArray) {
         ArrayList<String> list = new ArrayList<>();
         if (tagsArray != null) {
             int len = tagsArray.length();
