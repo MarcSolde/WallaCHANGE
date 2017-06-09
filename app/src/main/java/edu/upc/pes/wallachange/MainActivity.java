@@ -264,14 +264,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         filterElement.setEs_producte(es_producte);
         mySearchElementFragment = new SearchElementFragment();
         Bundle args = new Bundle();
-        args.putString("tags",tags);
+        args.putString("tags", tags);
         args.putString("temporalitat", temporalitat);
         args.putString("es_producte", es_producte);
         mySearchElementFragment.setArguments(args);
-        myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
+        myFragmentManager.beginTransaction().replace(R.id.fragment,
+                mySearchElementFragment).commit();
         myNavigationView.getMenu().getItem(0).setChecked(true);
         backFlow = new ArrayList<>();
         resetOnBackFlow(8);
+    }
 
     public void changeToCloseOffer (String id) {
         //TODO:onback
