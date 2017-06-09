@@ -43,9 +43,14 @@ public class UserListAdapter extends ArrayAdapter<User>{
         TextView user = (TextView) convertView.findViewById(R.id.item_text1);
         user.setText(var.getUsername());
         TextView preference = (TextView) convertView.findViewById(R.id.item_text2);
-        ArrayList<String> preferences = var.getPreferences();
+        ArrayList<String> aux2 = var.getPreferences();
         String pref = myContext.getString(R.string.preferences_eng) + ": ";
-        for (int i = 0;i < preferences.size();++i) pref = pref + preferences.get(i) + " ";
+        if (aux2.size() <= 2) {
+            pref = pref + aux2.toString();
+        }
+        else {
+            pref = pref + "[" + aux2.get(0) + ", " + aux2.get(1) +  ", " + aux2.get(2) + ", ...]";
+        }
         preference.setText(pref);
         TextView rating = (TextView) convertView.findViewById(R.id.item_text3);
         String rat = myContext.getString(R.string.rating_eng) + ": " + var.getRating()/20 + "/5.0";

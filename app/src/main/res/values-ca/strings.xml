@@ -90,4 +90,7 @@
         <string name="language_warning">Canviar l"'"idioma reiniciarà l"'"app</string>
         <string name="offerExchangeQuestion_eng">Pots puntuar l"'"intercanvi?</string>
         <string name="offerExchangeClose_eng">Enviar puntuació</string>
+        <string name="offerExchangeError_eng">És necessari oferir un ítem</string>
+        <string name="offerExchange_user">Usuari</string>
+        <string name="offerExchange_item">Ítem</string>
 </resources>

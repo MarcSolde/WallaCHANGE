@@ -148,7 +148,7 @@ public class SeeProfileFragment extends Fragment {
             aux.setText(aux2.toString());
         }
         else {
-            aux.setText("[" + aux2.get(0) + ", " + aux2.get(1) + ", ...]");
+            aux.setText("[" + aux2.get(0) + ", " + aux2.get(1) +  ", " + aux2.get(2) + ", ...]");
         }
         aux = (TextView) myView.findViewById(R.id.see_user_rating);
         aux.setText(u.getRating()/20 +"/5.0");

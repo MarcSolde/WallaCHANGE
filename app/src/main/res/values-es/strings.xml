@@ -83,4 +83,7 @@
         <string name="language_warning">Cambiar el idioma reiniciará la app</string>
         <string name="offerExchangeQuestion_eng">Puedes puntuar el intercambio?</string>
         <string name="offerExchangeClose_eng">Enviar puntuación</string>
+        <string name="offerExchangeError_eng">Es necesario ofrecer un ítem</string>
+        <string name="offerExchange_user">Usuario</string>
+        <string name="offerExchange_item">Ítem</string>
 </resources>

@@ -71,6 +71,9 @@
     <string name="offerExchangeSend_eng">Send offer</string>
     <string name="offerExchangeQuestion_eng">Can you rate the exchange?</string>
     <string name="offerExchangeClose_eng">Send score</string>
+    <string name="offerExchangeError_eng">You need to offer one item</string>
+    <string name="offerExchange_user">User</string>
+    <string name="offerExchange_item">Item</string>
 
     <!-- YOUR ITEMS -->
     <string name="seeYourItmeNoResult">Yo don"'"t have any items</string>

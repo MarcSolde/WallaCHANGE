@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -40,7 +41,7 @@ public class CloseOfferFragment extends Fragment {
     private static AdapterAPIRequest adapterAPI = new AdapterAPIRequest();
 
     private String id_offer, id_user1, id_user2,id_element1, id_element2;
-    private User user1;
+    private boolean ableToClose;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +53,7 @@ public class CloseOfferFragment extends Fragment {
         myView = view;
 
         String id = getArguments().getString("id");
+        ableToClose = false;
 
         CurrentUser user = CurrentUser.getInstance();
         Map<String, String> headers = new HashMap<>();
@@ -65,13 +67,18 @@ public class CloseOfferFragment extends Fragment {
                         try {
                             CurrentUser user = CurrentUser.getInstance();
                             Log.i("JSON: ",response.toString());
+                            //TODO: bool puede petar hasta cambio backend
                             if (response.getString("id1").equals(user.getId())) {
+                                //loadOffer(response.getString("idIntercanvi"),response.getString("id2"),response.getString("idProd2"),
+                                //        response.getString("id1"),response.getString("idProd1"),response.getBoolean("confirmat2"));
                                 loadOffer(response.getString("idIntercanvi"),response.getString("id2"),response.getString("idProd2"),
-                                        response.getString("id1"),response.getString("idProd1"));
+                                        response.getString("id1"),response.getString("idProd1"),true);
                             }
                             else {
+                                //loadOffer(response.getString("idIntercanvi"),response.getString("id1"),response.getString("idProd1"),
+                                //        response.getString("id2"),response.getString("idProd2"),response.getBoolean("confirmat1"));
                                 loadOffer(response.getString("idIntercanvi"),response.getString("id1"),response.getString("idProd1"),
-                                        response.getString("id2"),response.getString("idProd2"));
+                                        response.getString("id2"),response.getString("idProd2"),true);
                             }
                         }
                         catch (JSONException e) {
@@ -94,7 +101,6 @@ public class CloseOfferFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                //TODO:close
                 JSONObject body = new JSONObject();
                 try {
                     RatingBar aux = (RatingBar) myView.findViewById(R.id.close_trade_ratingBar);
@@ -106,8 +112,7 @@ public class CloseOfferFragment extends Fragment {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 headers.put("x-access-token",user.getToken());
-                String aaa = user1.getId();
-                adapterAPI.PUTRequestAPI("/user/"+user1.getId(),
+                adapterAPI.PUTRequestAPI("/user/"+id_user1,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -120,6 +125,12 @@ public class CloseOfferFragment extends Fragment {
                                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                             }
                         }, body, headers);
+
+                //TODO:close
+                if (ableToClose) {
+                    Toast.makeText(myActivity,"BORRARRRRRRR",Toast.LENGTH_SHORT).show();
+                }
+                //TODO:changeTo
             }
         });
 
@@ -127,12 +138,13 @@ public class CloseOfferFragment extends Fragment {
         return view;
     }
 
-    private void loadOffer (String id_offer, String id_user1, String id_element1, String id_user2, String id_element2) {
+    private void loadOffer (String id_offer, String id_user1, String id_element1, String id_user2, String id_element2, boolean ableToClose) {
         this.id_offer = id_offer;
         this.id_user1 = id_user1;
         this.id_user2 = id_user2;
         this.id_element2 = id_element2;
         this.id_element1 = id_element1;
+        this.ableToClose = ableToClose;
 
         CurrentUser user = CurrentUser.getInstance();
         Map<String, String> headers = new HashMap<>();
@@ -201,8 +213,6 @@ public class CloseOfferFragment extends Fragment {
     }
 
     private void loadUser (User e) {
-        user1 = new User();
-        user1 = e;
         //TODo:img
         TextView aux = (TextView) myView.findViewById(R.id.close_trade_title_1);
         aux.setText(e.getUsername());
