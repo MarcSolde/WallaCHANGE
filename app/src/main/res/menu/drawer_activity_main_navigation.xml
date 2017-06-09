@@ -11,10 +11,10 @@
             android:id="@+id/navigationSearchUser"
             android:title="@string/navigationSearchUser_eng"
             android:icon="@drawable/ic_nav_search_user"/>
-        <!--<item
+        <item
             android:id="@+id/navigationChat"
             android:title="@string/navigationChat_eng"
-            android:icon="@drawable/ic_nav_chat"/>-->
+            android:icon="@drawable/ic_nav_chat"/>
         <item
             android:id="@+id/navigationProfile"
             android:title="@string/navigationProfile_eng"
@@ -27,12 +27,11 @@
             android:id="@+id/navigationYourItems"
             android:title="@string/navigationYourItems_eng"
             android:icon="@drawable/ic_nav_your_item"/>
-        <item
-            android:id="@+id/navigationChat"
-            android:title="@string/navigationChat_eng" />
+        <!--<item-->
+            <!--android:id="@+id/navigationChat"-->
+            <!--android:title="@string/navigationChat_eng" />-->
         <item
             android:id="@+id/navigationLogout"
-            android:title="@string/navigationLogout_eng" />
             android:title="@string/navigationLogout_eng"
             android:icon="@drawable/ic_nav_exit"/>
 
