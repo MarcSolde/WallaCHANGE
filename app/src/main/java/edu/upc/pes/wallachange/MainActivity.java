@@ -271,7 +271,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         args.putString("temporalitat", temporalitat);
         args.putString("es_producte", es_producte);
         mySearchElementFragment.setArguments(args);
-        myFragmentManager.beginTransaction().replace(R.id.fragment, mySearchElementFragment).commit();
+        myFragmentManager.beginTransaction().replace(R.id.fragment,
+                mySearchElementFragment).commit();
         myNavigationView.getMenu().getItem(0).setChecked(true);
         backFlow = new ArrayList<>();
         resetOnBackFlow(8);

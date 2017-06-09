@@ -109,6 +109,20 @@ public class MainChatFragment extends Fragment {
                                     VolleyLog.d(TAG,error.getMessage());
                                 }
                             }, headers2);
+
+                        Map<String, String> headers3 = new HashMap<String, String>();
+                        headers3.put("x-access-token", currentUser.getToken());
+                        adapterAPI.DELETERequestAPI("/intercanvi/"+ conv_id,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                    }
+                                },new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        VolleyLog.d(TAG,error.getMessage());
+                                    }
+                                }, headers3);
                     }
                 });
                 builder.setNegativeButton(R.string.no,  new DialogInterface.OnClickListener() {
